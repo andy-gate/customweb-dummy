@@ -2,6 +2,18 @@
 
 ## 1. DASHBOARD
 
+**Aktor:** User (Admin, Staf Eselon I KL, Echelon IV DJA)
+
+**Tujuan:** Melihat ringkasan statistik dan informasi keseluruhan sistem CustomWeb SPAN
+
+**Pra Kondisi:**
+- Pengguna sudah login ke sistem
+- Sistem sudah memiliki data transaksi dan aktivitas
+
+**Pasca Kondisi:**
+- Dashboard berhasil ditampilkan dengan semua statistik dan grafik
+- User dapat melihat informasi real-time tentang status sistem
+
 **Skenario normal:**
 
 | Aktor | Sistem |
@@ -14,6 +26,19 @@
 ---
 
 ## 2. MONITORING STATUS ADK (Monitor Upload)
+
+**Aktor:** User (Admin, Staf Eselon I KL, Echelon IV DJA)
+
+**Tujuan:** Memantau status pengunggahan dan validasi data ADK dari SATKER
+
+**Pra Kondisi:**
+- Pengguna sudah login ke sistem
+- Data ADK sudah ada di sistem (sudah di-upload atau diterima dari SAKTI)
+
+**Pasca Kondisi:**
+- Status monitoring ADK berhasil ditampilkan sesuai filter
+- User dapat melihat detail validasi dan error jika ada
+- Laporan monitoring dapat diekspor atau dicetak
 
 **Skenario normal:**
 
@@ -32,6 +57,20 @@
 
 ## 3. PENERIMAAN ADK DARI SAKTI
 
+**Aktor:** User (Admin, Staf Eselon I KL)
+
+**Tujuan:** Menerima data ADK dari sistem SAKTI melalui integrasi API
+
+**Pra Kondisi:**
+- Pengguna sudah login ke sistem
+- Koneksi ke SAKTI API sudah dikonfigurasi
+- User memiliki akses untuk request data dari SAKTI
+
+**Pasca Kondisi:**
+- Data ADK berhasil diterima dari SAKTI
+- Data ADK tersimpan di sistem CustomWeb SPAN
+- Status koneksi SAKTI dapat dilihat dan diuji
+
 **Skenario normal:**
 
 | Aktor | Sistem |
@@ -43,7 +82,7 @@
 | 9. Memilih Kementerian/Lembaga, Unit, dan SATKER | 10. Menampilkan dropdown yang sudah terisi |
 | 11. Mengklik tombol "Request Data" | 12. Mengirim request ke SAKTI API untuk mengambil data ADK |
 | 13. Menunggu proses request | 14. Menampilkan progress bar dan status proses request |
-| 15. Melihat hasil request | 16. Menampilkan notifikasi sukses/gagal dan data ADK yang diterima |
+| 15. Melihat hasil request | 15. Menampilkan notifikasi sukses/gagal dan data ADK yang diterima |
 | 17. Melihat daftar data ADK yang sudah diterima | 18. Menampilkan tabel list data ADK dengan informasi: No, SATKER, Tipe Data, Tanggal Terima, Status, Aksi |
 | 19. Mengklik tombol "Sync Manual" | 20. Melakukan sinkronisasi manual dengan SAKTI dan menampilkan data terbaru |
 
@@ -51,21 +90,48 @@
 
 ## 4. MONITORING
 
+**Aktor:** User (Admin, Staf Eselon I KL, Echelon IV DJA)
+
+**Tujuan:** Memantau berbagai aspek sistem (upload, validasi, posting, dll) secara real-time
+
+**Pra Kondisi:**
+- Pengguna sudah login ke sistem
+- Data transaksi sudah ada di sistem
+
+**Pasca Kondisi:**
+- Data monitoring berhasil ditampilkan sesuai filter
+- User dapat melihat status berbagai proses di sistem
+- Data monitoring dapat diekspor atau di-refresh
+
 **Skenario normal:**
 
 | Aktor | Sistem |
 |-------|--------|
 | 1. Mengklik menu "Monitoring" | 2. Menampilkan halaman monitoring dengan berbagai tab dan filter |
 | 3. Memilih tab monitoring (Upload, Validasi, Posting, dll) | 4. Menampilkan konten sesuai tab yang dipilih |
-| 5. Mengatur filter pencarian | 5. Menampilkan form filter yang sudah diisi |
-| 6. Mengklik tombol "Search" | 7. Mengambil data sesuai filter dari database |
-| 8. Melihat hasil monitoring | 9. Menampilkan data dalam bentuk grid/tabel sesuai tab yang dipilih |
-| 10. Mengklik tombol "Export" | 11. Mengekspor data monitoring ke file Excel |
-| 12. Mengklik tombol "Refresh" | 13. Memperbarui data monitoring dengan data terbaru |
+| 5. Mengatur filter pencarian | 6. Menampilkan form filter yang sudah diisi |
+| 7. Mengklik tombol "Search" | 8. Mengambil data sesuai filter dari database |
+| 9. Melihat hasil monitoring | 10. Menampilkan data dalam bentuk grid/tabel sesuai tab yang dipilih |
+| 11. Mengklik tombol "Export" | 12. Mengekspor data monitoring ke file Excel |
+| 13. Mengklik tombol "Refresh" | 14. Memperbarui data monitoring dengan data terbaru |
 
 ---
 
 ## 5. CREATE DIPA INDUK
+
+**Aktor:** User (Admin, Echelon IV DJA)
+
+**Tujuan:** Membuat DIPA Induk untuk SATKER tertentu
+
+**Pra Kondisi:**
+- Pengguna sudah login ke sistem
+- Data RKAKL sudah ada dan tervalidasi untuk SATKER yang akan dibuat DIPA-nya
+- User memiliki akses untuk membuat DIPA
+
+**Pasca Kondisi:**
+- DIPA Induk berhasil dibuat dan tersimpan di database
+- DIPA Induk dapat di-preview dan dicetak
+- DIPA Induk siap digunakan untuk proses selanjutnya
 
 **Skenario normal:**
 
@@ -74,16 +140,30 @@
 | 1. Mengklik menu "Monitoring Admin" -> "Create DIPA Induk" | 2. Menampilkan halaman Create DIPA Induk dengan form input |
 | 3. Memilih Tahun Anggaran | 4. Menampilkan dropdown tahun anggaran |
 | 5. Memilih Kementerian/Lembaga | 6. Menampilkan dropdown kementerian |
-| 6. Memilih Unit dan SATKER | 7. Menampilkan dropdown unit dan SATKER sesuai pilihan sebelumnya |
-| 8. Mengisi data DIPA Induk (nomor DIPA, tanggal, dll) | 9. Menampilkan form yang sudah terisi |
-| 10. Mengklik tombol "Generate DIPA" | 11. Memproses pembuatan DIPA Induk berdasarkan data yang diinput |
-| 12. Melihat preview DIPA Induk | 13. Menampilkan preview DIPA Induk yang akan dibuat |
-| 14. Mengklik tombol "Simpan" | 15. Menyimpan DIPA Induk ke database dan menampilkan notifikasi sukses |
-| 16. Mengklik tombol "Print" | 17. Mencetak DIPA Induk yang sudah dibuat |
+| 7. Memilih Unit dan SATKER | 8. Menampilkan dropdown unit dan SATKER sesuai pilihan sebelumnya |
+| 9. Mengisi data DIPA Induk (nomor DIPA, tanggal, dll) | 10. Menampilkan form yang sudah terisi |
+| 11. Mengklik tombol "Generate DIPA" | 12. Memproses pembuatan DIPA Induk berdasarkan data yang diinput |
+| 13. Melihat preview DIPA Induk | 14. Menampilkan preview DIPA Induk yang akan dibuat |
+| 15. Mengklik tombol "Simpan" | 16. Menyimpan DIPA Induk ke database dan menampilkan notifikasi sukses |
+| 17. Mengklik tombol "Print" | 18. Mencetak DIPA Induk yang sudah dibuat |
 
 ---
 
 ## 6. CREATE DIPA PETIKAN
+
+**Aktor:** User (Admin, Echelon IV DJA)
+
+**Tujuan:** Membuat DIPA Petikan dari DIPA Induk untuk program/kegiatan tertentu
+
+**Pra Kondisi:**
+- Pengguna sudah login ke sistem
+- DIPA Induk sudah ada di sistem
+- Program/kegiatan sudah terdaftar di DIPA Induk
+
+**Pasca Kondisi:**
+- DIPA Petikan berhasil dibuat dan tersimpan di database
+- DIPA Petikan dapat di-preview dan dicetak
+- DIPA Petikan siap digunakan
 
 **Skenario normal:**
 
@@ -102,6 +182,20 @@
 
 ## 7. POSTING INTERFACE
 
+**Aktor:** User (Admin, Echelon IV DJA)
+
+**Tujuan:** Melakukan posting data yang sudah tervalidasi ke sistem EBS
+
+**Pra Kondisi:**
+- Pengguna sudah login ke sistem
+- Data sudah tervalidasi dan siap untuk diposting
+- Koneksi ke sistem EBS sudah tersedia
+
+**Pasca Kondisi:**
+- Data berhasil diposting ke sistem EBS
+- Status posting tersimpan di database
+- Data yang sudah diposting tidak dapat diubah lagi
+
 **Skenario normal:**
 
 | Aktor | Sistem |
@@ -118,23 +212,48 @@
 
 ## 8. EMAIL NOTIFICATION
 
+**Aktor:** User (Admin)
+
+**Tujuan:** Mengelola template email notifikasi yang digunakan sistem
+
+**Pra Kondisi:**
+- Pengguna sudah login ke sistem
+- User memiliki akses admin untuk mengelola notifikasi
+
+**Pasca Kondisi:**
+- Template notifikasi berhasil dibuat/diubah dan tersimpan di database
+- Template dapat digunakan untuk mengirim notifikasi
+- Template dapat diuji dengan test send
+
 **Skenario normal:**
 
 | Aktor | Sistem |
 |-------|--------|
 | 1. Mengklik menu "Monitoring Admin" -> "Email Notification" | 2. Menampilkan halaman Email Notification dengan daftar template notifikasi |
 | 3. Melihat daftar template notifikasi | 4. Menampilkan tabel dengan kolom: No, Jenis Notifikasi, Subject, Status, Aksi |
-| 4. Mengklik tombol "Tambah Template" | 5. Menampilkan form untuk membuat template notifikasi baru |
-| 6. Mengisi data template (jenis, subject, body email) | 7. Menampilkan form yang sudah terisi |
-| 8. Mengklik tombol "Simpan" | 9. Menyimpan template notifikasi ke database |
-| 10. Mengklik tombol "Edit" pada salah satu template | 11. Menampilkan form edit dengan data template yang sudah ada |
-| 12. Mengubah isi template | 13. Menampilkan form yang sudah diubah |
-| 14. Mengklik tombol "Simpan" | 15. Menyimpan perubahan template ke database |
-| 16. Mengklik tombol "Test Send" | 17. Mengirim email test dengan template yang dipilih |
+| 5. Mengklik tombol "Tambah Template" | 6. Menampilkan form untuk membuat template notifikasi baru |
+| 7. Mengisi data template (jenis, subject, body email) | 8. Menampilkan form yang sudah terisi |
+| 9. Mengklik tombol "Simpan" | 10. Menyimpan template notifikasi ke database |
+| 11. Mengklik tombol "Edit" pada salah satu template | 12. Menampilkan form edit dengan data template yang sudah ada |
+| 13. Mengubah isi template | 14. Menampilkan form yang sudah diubah |
+| 15. Mengklik tombol "Simpan" | 16. Menyimpan perubahan template ke database |
+| 17. Mengklik tombol "Test Send" | 18. Mengirim email test dengan template yang dipilih |
 
 ---
 
 ## 9. RKA SATKER
+
+**Aktor:** User (Admin, Staf Eselon I KL, Echelon IV DJA)
+
+**Tujuan:** Mencetak atau mengekspor laporan RKA SATKER
+
+**Pra Kondisi:**
+- Pengguna sudah login ke sistem
+- Data RKAKL sudah ada di sistem untuk SATKER yang akan dicetak
+
+**Pasca Kondisi:**
+- Laporan RKA SATKER berhasil di-generate dalam format yang dipilih (Excel/PDF)
+- Laporan dapat dicetak atau disimpan
 
 **Skenario normal:**
 
@@ -151,6 +270,18 @@
 
 ## 10. LAMPIRAN KERTAS KERJA
 
+**Aktor:** User (Admin, Staf Eselon I KL, Echelon IV DJA)
+
+**Tujuan:** Mencetak atau mengekspor laporan Lampiran Kertas Kerja
+
+**Pra Kondisi:**
+- Pengguna sudah login ke sistem
+- Data RKAKL sudah ada di sistem untuk SATKER yang akan dicetak
+
+**Pasca Kondisi:**
+- Laporan Lampiran Kertas Kerja berhasil di-generate dalam format yang dipilih (Excel/PDF)
+- Laporan dapat dicetak atau disimpan
+
 **Skenario normal:**
 
 | Aktor | Sistem |
@@ -166,6 +297,18 @@
 
 ## 11. DHP
 
+**Aktor:** User (Admin, Staf Eselon I KL, Echelon IV DJA)
+
+**Tujuan:** Mencetak atau mengekspor laporan DHP (Daftar Harga Pokok)
+
+**Pra Kondisi:**
+- Pengguna sudah login ke sistem
+- Data RKAKL sudah ada di sistem untuk SATKER yang akan dicetak
+
+**Pasca Kondisi:**
+- Laporan DHP berhasil di-generate dalam format yang dipilih (Excel/PDF)
+- Laporan dapat dicetak atau disimpan
+
 **Skenario normal:**
 
 | Aktor | Sistem |
@@ -175,11 +318,23 @@
 | 5. Mengklik tombol "Search" | 6. Mengambil data DHP sesuai filter dari database |
 | 7. Melihat hasil pencarian | 8. Menampilkan data DHP dalam bentuk tabel |
 | 9. Mengklik tombol "Export Excel" | 10. Mengekspor data DHP ke file Excel |
-| 10. Mengklik tombol "Print" | 11. Mencetak laporan DHP |
+| 11. Mengklik tombol "Print" | 12. Mencetak laporan DHP |
 
 ---
 
 ## 12. LAPORAN HIMPUNAN
+
+**Aktor:** User (Admin, Staf Eselon I KL, Echelon IV DJA)
+
+**Tujuan:** Mencetak atau mengekspor laporan Himpunan
+
+**Pra Kondisi:**
+- Pengguna sudah login ke sistem
+- Data RKAKL sudah ada di sistem untuk SATKER yang akan dicetak
+
+**Pasca Kondisi:**
+- Laporan Himpunan berhasil di-generate dalam format yang dipilih (Excel/PDF)
+- Laporan dapat dicetak atau disimpan
 
 **Skenario normal:**
 
@@ -196,6 +351,18 @@
 
 ## 13. LAPORAN KEPPRES
 
+**Aktor:** User (Admin, Staf Eselon I KL, Echelon IV DJA)
+
+**Tujuan:** Mencetak atau mengekspor laporan Keppres
+
+**Pra Kondisi:**
+- Pengguna sudah login ke sistem
+- Data RKAKL sudah ada di sistem untuk SATKER yang akan dicetak
+
+**Pasca Kondisi:**
+- Laporan Keppres berhasil di-generate dalam format yang dipilih (Excel/PDF)
+- Laporan dapat dicetak atau disimpan
+
 **Skenario normal:**
 
 | Aktor | Sistem |
@@ -211,6 +378,18 @@
 
 ## 14. PRINTING DIPA INDUK
 
+**Aktor:** User (Admin, Staf Eselon I KL, Echelon IV DJA)
+
+**Tujuan:** Mencetak DIPA Induk yang sudah dibuat
+
+**Pra Kondisi:**
+- Pengguna sudah login ke sistem
+- DIPA Induk sudah ada di sistem untuk SATKER yang akan dicetak
+
+**Pasca Kondisi:**
+- DIPA Induk berhasil di-generate dalam format PDF
+- DIPA Induk dapat dicetak atau disimpan
+
 **Skenario normal:**
 
 | Aktor | Sistem |
@@ -220,12 +399,24 @@
 | 5. Mengklik tombol "Search" | 6. Mengambil data DIPA Induk sesuai filter dari database |
 | 7. Melihat hasil pencarian | 8. Menampilkan list DIPA Induk yang sesuai dengan filter |
 | 9. Memilih DIPA Induk yang akan dicetak | 10. Menandai DIPA Induk yang dipilih |
-| 11. Mengklik tombol "Print" | 12. Mencetak DIPA Induk yang dipilih |
-| 13. Mengklik tombol "Preview" | 14. Menampilkan preview DIPA Induk sebelum dicetak |
+| 11. Mengklik tombol "Preview" | 12. Menampilkan preview DIPA Induk sebelum dicetak |
+| 13. Mengklik tombol "Print" | 14. Mencetak DIPA Induk yang dipilih |
 
 ---
 
 ## 15. PRINTING DIPA PETIKAN
+
+**Aktor:** User (Admin, Staf Eselon I KL, Echelon IV DJA)
+
+**Tujuan:** Mencetak DIPA Petikan yang sudah dibuat
+
+**Pra Kondisi:**
+- Pengguna sudah login ke sistem
+- DIPA Petikan sudah ada di sistem untuk SATKER yang akan dicetak
+
+**Pasca Kondisi:**
+- DIPA Petikan berhasil di-generate dalam format PDF
+- DIPA Petikan dapat dicetak atau disimpan
 
 **Skenario normal:**
 
@@ -236,12 +427,25 @@
 | 5. Mengklik tombol "Search" | 6. Mengambil data DIPA Petikan sesuai filter dari database |
 | 7. Melihat hasil pencarian | 8. Menampilkan list DIPA Petikan yang sesuai dengan filter |
 | 9. Memilih DIPA Petikan yang akan dicetak | 10. Menandai DIPA Petikan yang dipilih |
-| 11. Mengklik tombol "Print" | 12. Mencetak DIPA Petikan yang dipilih |
-| 12. Mengklik tombol "Preview" | 13. Menampilkan preview DIPA Petikan sebelum dicetak |
+| 11. Mengklik tombol "Preview" | 12. Menampilkan preview DIPA Petikan sebelum dicetak |
+| 13. Mengklik tombol "Print" | 14. Mencetak DIPA Petikan yang dipilih |
 
 ---
 
 ## 16. MONITORING PAGU
+
+**Aktor:** User (Admin, Staf Eselon I KL, Echelon IV DJA)
+
+**Tujuan:** Memantau penggunaan PAGU anggaran per SATKER
+
+**Pra Kondisi:**
+- Pengguna sudah login ke sistem
+- Data anggaran dan penggunaan PAGU sudah ada di sistem
+
+**Pasca Kondisi:**
+- Data monitoring PAGU berhasil ditampilkan sesuai filter
+- User dapat melihat distribusi dan penggunaan PAGU
+- Laporan monitoring PAGU dapat diekspor
 
 **Skenario normal:**
 
@@ -258,6 +462,19 @@
 
 ## 17. MATRIKS PERUBAHAN
 
+**Aktor:** User (Admin, Staf Eselon I KL, Echelon IV DJA)
+
+**Tujuan:** Melihat perbandingan perubahan anggaran sebelum dan sesudah revisi
+
+**Pra Kondisi:**
+- Pengguna sudah login ke sistem
+- Data revisi anggaran sudah ada di sistem
+
+**Pasca Kondisi:**
+- Matriks perubahan berhasil ditampilkan sesuai filter
+- User dapat melihat perbandingan sebelum dan sesudah perubahan
+- Laporan matriks perubahan dapat dicetak atau diekspor
+
 **Skenario normal:**
 
 | Aktor | Sistem |
@@ -273,6 +490,18 @@
 
 ## 18. LAPORAN REVISI
 
+**Aktor:** User (Admin, Staf Eselon I KL, Echelon IV DJA)
+
+**Tujuan:** Mencetak laporan Revisi
+
+**Pra Kondisi:**
+- Pengguna sudah login ke sistem
+- Data RKAKL DIPA sudah ada di sistem untuk Satker yang akan dicetak
+
+**Pasca Kondisi:**
+- Laporan Revisi berhasil di-generate dalam format PDF
+- Laporan dapat dicetak atau disimpan
+
 **Skenario normal:**
 
 | Aktor | Sistem |
@@ -283,11 +512,26 @@
 | 7. Melihat hasil pencarian | 8. Menampilkan data laporan revisi dalam bentuk tabel dengan informasi: No Revisi, SATKER, Jenis Revisi, Tanggal, Status, Aksi |
 | 9. Mengklik tombol "Detail" pada salah satu revisi | 10. Menampilkan detail lengkap revisi tersebut |
 | 11. Mengklik tombol "Export Excel" | 12. Mengekspor data laporan revisi ke file Excel |
-| 12. Mengklik tombol "Print" | 13. Mencetak laporan revisi |
+| 13. Mengklik tombol "Print" | 14. Mencetak laporan revisi |
 
 ---
 
 ## 19. COPY DATA TAHUN DEPAN
+
+**Aktor:** User (Admin)
+
+**Tujuan:** Menyalin data dari tahun anggaran tertentu ke tahun anggaran berikutnya
+
+**Pra Kondisi:**
+- Pengguna sudah login ke sistem
+- User memiliki akses admin
+- Data tahun sumber sudah ada di sistem
+- Tahun tujuan sudah dibuat di sistem
+
+**Pasca Kondisi:**
+- Data berhasil di-copy dari tahun sumber ke tahun tujuan
+- Data yang di-copy tersimpan di database tahun tujuan
+- Summary hasil copy ditampilkan
 
 **Skenario normal:**
 
@@ -295,16 +539,29 @@
 |-------|--------|
 | 1. Mengklik menu "Manage Basic Information" -> "Copy Data ke Tahun Depan" | 2. Menampilkan halaman Copy Data ke Tahun Depan dengan form input |
 | 3. Memilih Tahun Sumber | 4. Menampilkan dropdown tahun sumber |
-| 4. Memilih Tahun Tujuan | 5. Menampilkan dropdown tahun tujuan |
-| 6. Memilih jenis data yang akan di-copy (SATKER, Program, Kegiatan, dll) | 7. Menampilkan checkbox untuk memilih jenis data |
-| 8. Mengklik tombol "Preview" | 9. Menampilkan preview data yang akan di-copy |
-| 10. Mengklik tombol "Copy Data" | 11. Memproses copy data dari tahun sumber ke tahun tujuan |
-| 12. Melihat progress copy data | 13. Menampilkan progress bar dan status copy untuk setiap jenis data |
-| 14. Melihat hasil copy data | 15. Menampilkan notifikasi sukses/gagal dan summary data yang berhasil di-copy |
+| 5. Memilih Tahun Tujuan | 6. Menampilkan dropdown tahun tujuan |
+| 7. Memilih jenis data yang akan di-copy (SATKER, Program, Kegiatan, dll) | 8. Menampilkan checkbox untuk memilih jenis data |
+| 9. Mengklik tombol "Preview" | 10. Menampilkan preview data yang akan di-copy |
+| 11. Mengklik tombol "Copy Data" | 12. Memproses copy data dari tahun sumber ke tahun tujuan |
+| 13. Melihat progress copy data | 14. Menampilkan progress bar dan status copy untuk setiap jenis data |
+| 15. Melihat hasil copy data | 16. Menampilkan notifikasi sukses/gagal dan summary data yang berhasil di-copy |
 
 ---
 
 ## 20. MANAGE BUDGETING PERIOD
+
+**Aktor:** User (Admin)
+
+**Tujuan:** Mengelola periode budgeting (Tahun Anggaran) di sistem
+
+**Pra Kondisi:**
+- Pengguna sudah login ke sistem
+- User memiliki akses admin
+
+**Pasca Kondisi:**
+- Period budgeting berhasil dibuat/diubah dan tersimpan di database
+- Period dapat diaktifkan atau ditutup
+- Hanya satu period yang dapat aktif dalam satu waktu
 
 **Skenario normal:**
 
@@ -324,6 +581,19 @@
 ---
 
 ## 21. MANAGE BUDGET SATKER LIST
+
+**Aktor:** User (Admin)
+
+**Tujuan:** Mengelola daftar SATKER yang akan digunakan dalam proses budgeting
+
+**Pra Kondisi:**
+- Pengguna sudah login ke sistem
+- User memiliki akses admin
+
+**Pasca Kondisi:**
+- Data SATKER berhasil ditambah/diubah dan tersimpan di database
+- Data SATKER dapat di-import dari Excel atau di-sync dari SPAN
+- Daftar SATKER dapat diekspor ke Excel
 
 **Skenario normal:**
 
@@ -347,6 +617,19 @@
 
 ## 22. MANAGING NOTIFICATION CONTENTS
 
+**Aktor:** User (Admin)
+
+**Tujuan:** Mengelola template konten notifikasi email yang digunakan sistem
+
+**Pra Kondisi:**
+- Pengguna sudah login ke sistem
+- User memiliki akses admin
+
+**Pasca Kondisi:**
+- Template notifikasi berhasil dibuat/diubah dan tersimpan di database
+- Template dapat diuji dengan test send
+- Template dapat digunakan untuk mengirim notifikasi
+
 **Skenario normal:**
 
 | Aktor | Sistem |
@@ -354,17 +637,30 @@
 | 1. Mengklik menu "Manage Basic Information" -> "Managing Notification contents" | 2. Menampilkan halaman Managing Notification Contents dengan daftar template notifikasi |
 | 3. Melihat daftar template notifikasi | 4. Menampilkan tabel dengan kolom: No, Jenis Notifikasi, Subject, Status, Aksi |
 | 5. Mengklik tombol "Tambah Template" | 6. Menampilkan form untuk membuat template notifikasi baru |
-| 6. Mengisi data template (Jenis, Subject, Body Email) | 7. Menampilkan form yang sudah terisi |
-| 8. Mengklik tombol "Simpan" | 9. Menyimpan template notifikasi ke database |
-| 10. Mengklik tombol "Edit" pada salah satu template | 11. Menampilkan form edit dengan data template yang sudah ada |
-| 12. Mengubah isi template | 13. Menampilkan form yang sudah diubah |
-| 14. Mengklik tombol "Simpan" | 15. Menyimpan perubahan template ke database |
-| 16. Mengklik tombol "Preview" | 17. Menampilkan preview email dengan template yang dipilih |
-| 18. Mengklik tombol "Test Send" | 19. Mengirim email test dengan template yang dipilih |
+| 7. Mengisi data template (Jenis, Subject, Body Email) | 8. Menampilkan form yang sudah terisi |
+| 9. Mengklik tombol "Simpan" | 10. Menyimpan template notifikasi ke database |
+| 11. Mengklik tombol "Edit" pada salah satu template | 12. Menampilkan form edit dengan data template yang sudah ada |
+| 13. Mengubah isi template | 14. Menampilkan form yang sudah diubah |
+| 15. Mengklik tombol "Simpan" | 16. Menyimpan perubahan template ke database |
+| 17. Mengklik tombol "Preview" | 18. Menampilkan preview email dengan template yang dipilih |
+| 19. Mengklik tombol "Test Send" | 20. Mengirim email test dengan template yang dipilih |
 
 ---
 
 ## 23. MANAGING DISCLAIMER
+
+**Aktor:** User (Admin)
+
+**Tujuan:** Mengelola disclaimer yang ditampilkan di sistem
+
+**Pra Kondisi:**
+- Pengguna sudah login ke sistem
+- User memiliki akses admin
+
+**Pasca Kondisi:**
+- Disclaimer berhasil dibuat/diubah dan tersimpan di database
+- Disclaimer dapat diaktifkan atau dinonaktifkan
+- Disclaimer dapat di-preview
 
 **Skenario normal:**
 
@@ -384,6 +680,18 @@
 
 ## 24. MANAGING JENIS REVISI
 
+**Aktor:** User (Admin)
+
+**Tujuan:** Mengelola jenis-jenis revisi yang dapat dilakukan di sistem
+
+**Pra Kondisi:**
+- Pengguna sudah login ke sistem
+- User memiliki akses admin
+
+**Pasca Kondisi:**
+- Jenis revisi berhasil ditambah/diubah dan tersimpan di database
+- Jenis revisi dapat digunakan dalam proses revisi anggaran
+
 **Skenario normal:**
 
 | Aktor | Sistem |
@@ -400,6 +708,20 @@
 ---
 
 ## 25. UPLOAD BAPPENAS DATA
+
+**Aktor:** User (Admin)
+
+**Tujuan:** Mengunggah data referensi dari BAPPENAS ke sistem
+
+**Pra Kondisi:**
+- Pengguna sudah login ke sistem
+- User memiliki akses admin
+- File Excel data BAPPENAS sudah disiapkan sesuai format
+
+**Pasca Kondisi:**
+- Data BAPPENAS berhasil di-upload dan tersimpan di database
+- Data yang error ditampilkan untuk diperbaiki
+- Data yang valid dapat digunakan sebagai referensi
 
 **Skenario normal:**
 
@@ -418,6 +740,19 @@
 ---
 
 ## 26. JENIS BELANJA/AKUN
+
+**Aktor:** User (Admin)
+
+**Tujuan:** Mengelola data referensi jenis belanja dan akun
+
+**Pra Kondisi:**
+- Pengguna sudah login ke sistem
+- User memiliki akses admin
+
+**Pasca Kondisi:**
+- Data jenis belanja/akun berhasil ditambah/diubah dan tersimpan di database
+- Data dapat di-import dari Excel atau diekspor ke Excel
+- Data dapat digunakan sebagai referensi dalam proses budgeting
 
 **Skenario normal:**
 
@@ -440,6 +775,18 @@
 
 ## 27. BEBAN/SUMBER DANA
 
+**Aktor:** User (Admin)
+
+**Tujuan:** Mengelola data referensi beban dan sumber dana
+
+**Pra Kondisi:**
+- Pengguna sudah login ke sistem
+- User memiliki akses admin
+
+**Pasca Kondisi:**
+- Data beban/sumber dana berhasil ditambah/diubah dan tersimpan di database
+- Data dapat digunakan sebagai referensi dalam proses budgeting
+
 **Skenario normal:**
 
 | Aktor | Sistem |
@@ -451,13 +798,25 @@
 | 9. Mengklik tombol "Tambah Data" | 10. Menampilkan form untuk menambah data baru |
 | 11. Mengisi data (Kode, Nama, Jenis) | 12. Menampilkan form yang sudah terisi |
 | 13. Mengklik tombol "Simpan" | 14. Menyimpan data ke database |
-| 14. Mengklik tombol "Edit" pada salah satu data | 15. Menampilkan form edit dengan data yang sudah ada |
-| 16. Mengubah data | 17. Menampilkan form yang sudah diubah |
-| 17. Mengklik tombol "Simpan" | 18. Menyimpan perubahan data ke database |
+| 15. Mengklik tombol "Edit" pada salah satu data | 16. Menampilkan form edit dengan data yang sudah ada |
+| 17. Mengubah data | 18. Menampilkan form yang sudah diubah |
+| 19. Mengklik tombol "Simpan" | 20. Menyimpan perubahan data ke database |
 
 ---
 
 ## 28. FUNGSI
+
+**Aktor:** User (Admin)
+
+**Tujuan:** Mengelola data referensi fungsi anggaran
+
+**Pra Kondisi:**
+- Pengguna sudah login ke sistem
+- User memiliki akses admin
+
+**Pasca Kondisi:**
+- Data fungsi berhasil ditambah/diubah dan tersimpan di database
+- Data dapat digunakan sebagai referensi dalam proses budgeting
 
 **Skenario normal:**
 
@@ -478,6 +837,18 @@
 
 ## 29. PROGRAM/KEGIATAN
 
+**Aktor:** User (Admin)
+
+**Tujuan:** Mengelola data referensi program dan kegiatan
+
+**Pra Kondisi:**
+- Pengguna sudah login ke sistem
+- User memiliki akses admin
+
+**Pasca Kondisi:**
+- Data program/kegiatan berhasil ditambah/diubah dan tersimpan di database
+- Data dapat digunakan sebagai referensi dalam proses budgeting
+
 **Skenario normal:**
 
 | Aktor | Sistem |
@@ -496,6 +867,18 @@
 ---
 
 ## 30. ATRIBUT ANGGARAN LAIN-LAIN
+
+**Aktor:** User (Admin)
+
+**Tujuan:** Mengelola data referensi atribut anggaran lainnya
+
+**Pra Kondisi:**
+- Pengguna sudah login ke sistem
+- User memiliki akses admin
+
+**Pasca Kondisi:**
+- Data atribut anggaran berhasil ditambah/diubah dan tersimpan di database
+- Data dapat digunakan sebagai referensi dalam proses budgeting
 
 **Skenario normal:**
 
@@ -516,6 +899,18 @@
 
 ## 31. KL/UNIT
 
+**Aktor:** User (Admin)
+
+**Tujuan:** Mengelola data referensi Kementerian/Lembaga dan Unit
+
+**Pra Kondisi:**
+- Pengguna sudah login ke sistem
+- User memiliki akses admin
+
+**Pasca Kondisi:**
+- Data KL/Unit berhasil ditambah/diubah dan tersimpan di database
+- Data dapat digunakan sebagai referensi dalam proses budgeting
+
 **Skenario normal:**
 
 | Aktor | Sistem |
@@ -534,6 +929,18 @@
 ---
 
 ## 32. LOKASI/KPPN
+
+**Aktor:** User (Admin)
+
+**Tujuan:** Mengelola data referensi lokasi dan KPPN
+
+**Pra Kondisi:**
+- Pengguna sudah login ke sistem
+- User memiliki akses admin
+
+**Pasca Kondisi:**
+- Data lokasi/KPPN berhasil ditambah/diubah dan tersimpan di database
+- Data dapat digunakan sebagai referensi dalam proses budgeting
 
 **Skenario normal:**
 
@@ -554,6 +961,18 @@
 
 ## 33. PENANGGUNG JAWAB KEGIATAN
 
+**Aktor:** User (Admin)
+
+**Tujuan:** Mengelola data penanggung jawab kegiatan
+
+**Pra Kondisi:**
+- Pengguna sudah login ke sistem
+- User memiliki akses admin
+
+**Pasca Kondisi:**
+- Data penanggung jawab kegiatan berhasil ditambah/diubah dan tersimpan di database
+- Data dapat digunakan sebagai referensi dalam proses budgeting
+
 **Skenario normal:**
 
 | Aktor | Sistem |
@@ -572,6 +991,18 @@
 ---
 
 ## 34. PENANDA TANGAN
+
+**Aktor:** User (Admin)
+
+**Tujuan:** Mengelola data penanda tangan dokumen
+
+**Pra Kondisi:**
+- Pengguna sudah login ke sistem
+- User memiliki akses admin
+
+**Pasca Kondisi:**
+- Data penanda tangan berhasil ditambah/diubah dan tersimpan di database
+- Data dapat digunakan sebagai referensi dalam proses pembuatan dokumen
 
 **Skenario normal:**
 
@@ -592,6 +1023,18 @@
 
 ## 35. XML DOWNLOAD
 
+**Aktor:** User (Admin, Staf Eselon I KL, Echelon IV DJA)
+
+**Tujuan:** Mengunduh data dalam format XML
+
+**Pra Kondisi:**
+- Pengguna sudah login ke sistem
+- Data yang akan di-download sudah ada di sistem
+
+**Pasca Kondisi:**
+- File XML berhasil di-generate dan diunduh
+- File XML dapat digunakan untuk keperluan integrasi atau backup
+
 **Skenario normal:**
 
 | Aktor | Sistem |
@@ -607,6 +1050,18 @@
 ---
 
 ## 36. MANAGE COMMON CODE
+
+**Aktor:** User (Admin)
+
+**Tujuan:** Mengelola common code yang digunakan di sistem
+
+**Pra Kondisi:**
+- Pengguna sudah login ke sistem
+- User memiliki akses admin
+
+**Pasca Kondisi:**
+- Common code berhasil ditambah/diubah dan tersimpan di database
+- Common code dapat digunakan di seluruh sistem
 
 **Skenario normal:**
 
@@ -627,6 +1082,18 @@
 
 ## 37. MANAGE PROGRAM
 
+**Aktor:** User (Admin)
+
+**Tujuan:** Mengelola program aplikasi di sistem
+
+**Pra Kondisi:**
+- Pengguna sudah login ke sistem
+- User memiliki akses admin
+
+**Pasca Kondisi:**
+- Program berhasil ditambah/diubah dan tersimpan di database
+- Program dapat digunakan untuk mengatur akses dan menu
+
 **Skenario normal:**
 
 | Aktor | Sistem |
@@ -645,6 +1112,18 @@
 ---
 
 ## 38. MANAGE MENU
+
+**Aktor:** User (Admin)
+
+**Tujuan:** Mengelola menu aplikasi di sistem
+
+**Pra Kondisi:**
+- Pengguna sudah login ke sistem
+- User memiliki akses admin
+
+**Pasca Kondisi:**
+- Menu berhasil ditambah/diubah dan tersimpan di database
+- Menu dapat digunakan untuk navigasi dan pengaturan akses
 
 **Skenario normal:**
 
@@ -665,6 +1144,19 @@
 
 ## 39. BATCH MONITORING
 
+**Aktor:** User (Admin)
+
+**Tujuan:** Memantau status batch job yang berjalan di sistem
+
+**Pra Kondisi:**
+- Pengguna sudah login ke sistem
+- User memiliki akses admin
+- Batch job sudah ada atau sedang berjalan di sistem
+
+**Pasca Kondisi:**
+- Status batch job berhasil ditampilkan
+- Batch job dapat di-rerun atau dihentikan jika diperlukan
+
 **Skenario normal:**
 
 | Aktor | Sistem |
@@ -680,6 +1172,18 @@
 ---
 
 ## 40. MANAGE JOB POSITION
+
+**Aktor:** User (Admin)
+
+**Tujuan:** Mengelola data jabatan yang digunakan untuk otorisasi
+
+**Pra Kondisi:**
+- Pengguna sudah login ke sistem
+- User memiliki akses admin
+
+**Pasca Kondisi:**
+- Data jabatan berhasil ditambah/diubah dan tersimpan di database
+- Jabatan dapat digunakan untuk mengatur akses user
 
 **Skenario normal:**
 
@@ -700,6 +1204,18 @@
 
 ## 41. MANAGE AUTHORITY CODE
 
+**Aktor:** User (Admin)
+
+**Tujuan:** Mengelola kode otorisasi yang digunakan untuk mengatur akses
+
+**Pra Kondisi:**
+- Pengguna sudah login ke sistem
+- User memiliki akses admin
+
+**Pasca Kondisi:**
+- Authority code berhasil ditambah/diubah dan tersimpan di database
+- Authority code dapat digunakan untuk mengatur akses user ke menu
+
 **Skenario normal:**
 
 | Aktor | Sistem |
@@ -719,6 +1235,19 @@
 
 ## 42. MANAGE AUTHORITY OVER MENU
 
+**Aktor:** User (Admin)
+
+**Tujuan:** Mengatur otorisasi akses menu berdasarkan authority code
+
+**Pra Kondisi:**
+- Pengguna sudah login ke sistem
+- User memiliki akses admin
+- Authority code dan menu sudah ada di sistem
+
+**Pasca Kondisi:**
+- Authority menu berhasil ditambah/diubah dan tersimpan di database
+- User dengan authority code tertentu dapat mengakses menu yang diizinkan
+
 **Skenario normal:**
 
 | Aktor | Sistem |
@@ -737,6 +1266,19 @@
 ---
 
 ## 43. MANAGE USER INFORMATION
+
+**Aktor:** User (Admin)
+
+**Tujuan:** Mengelola informasi user dan akses mereka ke sistem
+
+**Pra Kondisi:**
+- Pengguna sudah login ke sistem
+- User memiliki akses admin
+
+**Pasca Kondisi:**
+- Data user berhasil ditambah/diubah dan tersimpan di database
+- User dapat login dengan kredensial yang sudah dibuat
+- Password user dapat direset jika diperlukan
 
 **Skenario normal:**
 
@@ -758,6 +1300,20 @@
 
 ## 44. AUDIT TRAIL
 
+**Aktor:** User (Admin)
+
+**Tujuan:** Melihat log aktivitas dan perubahan data di sistem
+
+**Pra Kondisi:**
+- Pengguna sudah login ke sistem
+- User memiliki akses admin
+- Sistem sudah mencatat aktivitas user
+
+**Pasca Kondisi:**
+- Data audit trail berhasil ditampilkan sesuai filter
+- User dapat melihat detail aktivitas dan perubahan data
+- Laporan audit trail dapat dicetak atau diekspor
+
 **Skenario normal:**
 
 | Aktor | Sistem |
@@ -774,5 +1330,11 @@
 
 ## CATATAN
 
-Dokumen ini berisi skenario use case untuk semua halaman di CustomWeb SPAN. Format tabel dua kolom (Aktor | Sistem) memudahkan untuk di-copy paste ke Microsoft Word. Setiap skenario mencakup langkah-langkah normal yang dilakukan oleh aktor dan respons yang diberikan oleh sistem.
+Dokumen ini berisi skenario use case lengkap untuk semua halaman di CustomWeb SPAN. Setiap skenario mencakup:
+- **Aktor:** Siapa yang menggunakan fitur ini
+- **Tujuan:** Tujuan dari use case
+- **Pra Kondisi:** Kondisi yang harus dipenuhi sebelum use case dijalankan
+- **Pasca Kondisi:** Kondisi setelah use case selesai dijalankan
+- **Skenario normal:** Langkah-langkah interaksi antara aktor dan sistem dalam format tabel dua kolom
 
+Format ini memudahkan untuk di-copy paste ke Microsoft Word dan digunakan dalam dokumentasi SRS (Software Requirements Specification).
