@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RKA SATKER - CustomWeb SPAN</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/sidebar.js"></script>
+    <script src="js/components.js"></script>
+</head>
+<body>
+    <!-- Header Placeholder -->
+    <div id="header-placeholder"></div>
+
+    <!-- Sidebar Placeholder -->
+    <div id="sidebar-placeholder"></div>
+
+    <!-- Main Content Wrapper -->
+    <div class="main-wrapper" id="mainWrapper">
+        <div class="container">
+            <h2 style="margin-bottom: 1.5rem;">LAPORAN RENCANA KERJA ANGGARAN</h2>
+
+            <div class="card">
+                <!-- Filter Section -->
+                <div style="max-width: 800px; margin-bottom: 2rem;">
+                    <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                        <label class="form-label" style="min-width: 120px; margin: 0;">Kementerian <span style="color: red;">*</span></label>
+                        <div style="position: relative; flex: 1;">
+                            <select class="form-control" data-autocomplete="kementerian" id="kementerian" required></select>
+                            <span style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); pointer-events: none;">🔍</span>
+                        </div>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                        <label class="form-label" style="min-width: 120px; margin: 0;">Unit <span style="color: red;">*</span></label>
+                        <div style="position: relative; flex: 1;">
+                            <select class="form-control" data-autocomplete="unit" id="unit" required></select>
+                            <span style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); pointer-events: none;">🔍</span>
+                        </div>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                        <label class="form-label" style="min-width: 120px; margin: 0;">Satker</label>
+                        <div style="position: relative; flex: 1;">
+                            <select class="form-control" data-autocomplete="satker" id="satker"></select>
+                            <span style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); pointer-events: none;">🔍</span>
+                        </div>
+                    </div>
+
+                    <!-- Search Button -->
+                    <div style="margin-top: 1.5rem;">
+                        <button class="btn btn-primary" onclick="searchData()" style="padding: 0.75rem 2rem;">
+                            Cari
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Data Section -->
+                <div style="margin-bottom: 2rem;">
+                    <!-- Expand All Dropdown -->
+                    <div style="margin-bottom: 1rem;">
+                        <select class="form-control" style="width: 200px;" id="expandDropdown" onchange="toggleExpandAll(this.value)">
+                            <option value="expand" selected>Memperluas Semua</option>
+                            <option value="collapse">Perkecil Semua</option>
+                        </select>
+                    </div>
+
+                    <!-- Data Table -->
+                    <div style="overflow-x: auto;">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th style="width: 150px;">Kode</th>
+                                    <th>Uraian</th>
+                                    <th style="width: 100px;">Rev No</th>
+                                    <th style="width: 50px;"><input type="checkbox" id="checkAll" onchange="toggleAllChecks(this)"></th>
+                                </tr>
+                            </thead>
+                            <tbody id="dataTable">
+                                <tr>
+                                    <td colspan="4" style="text-align: center; color: var(--text-secondary); padding: 2rem;">
+                                        Tidak ada data.
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Report Type Section -->
+                <div style="border: 1px solid #dee2e6; border-radius: 4px; padding: 1.5rem; margin-bottom: 2rem;">
+                    <h3 style="font-size: 1rem; margin: 0 0 1rem 0; font-weight: 600; text-align: center;">Jenis Laporan</h3>
+                    <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+                        <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                            <input type="checkbox" name="reportType" value="bagian-a" style="width: 18px; height: 18px;">
+                            <span>Bagian A - Rencana Kinerja Satker</span>
+                        </label>
+                        <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                            <input type="checkbox" name="reportType" value="bagian-b" style="width: 18px; height: 18px;">
+                            <span>Bagian B - Rincian Belanja Satker</span>
+                        </label>
+                        <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                            <input type="checkbox" name="reportType" value="bagian-c" style="width: 18px; height: 18px;">
+                            <span>Bagian C - Target Pendapatan Satker</span>
+                        </label>
+                        <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                            <input type="checkbox" name="reportType" value="bagian-d" style="width: 18px; height: 18px;">
+                            <span>Bagian D - Prakiraan maju belanja dan target pendapatan</span>
+                        </label>
+                        <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                            <input type="checkbox" name="reportType" value="bagian-blokir" style="width: 18px; height: 18px;">
+                            <span>Bagian Blokir</span>
+                        </label>
+                        <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                            <input type="checkbox" name="reportType" value="rincian-belanja" style="width: 18px; height: 18px;">
+                            <span>Rincian Belanja/Kertas Kerja Satker</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Print Button -->
+                <div style="display: flex; justify-content: flex-end;">
+                    <button class="btn btn-primary" onclick="printReport()" style="padding: 0.75rem 2rem;">
+                        🖨️ Cetak
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer Placeholder -->
+    <div id="footer-placeholder"></div>
+
+    <script>
+        // Initialize page components
+        initPageComponents({
+            activePage: 'rkakl-reports',
+            userData: {
+                avatar: 'DJA',
+                role: 'Echelon IV DJA',
+                tahun: '2025',
+                jenisDok: 'RKAKL'
+            }
+        });
+
+        // Initialize autocomplete after page components
+        setTimeout(() => {
+            convertToAutocomplete();
+        }, 200);
+
+        function logout() {
+            if (confirm('Apakah Anda yakin ingin logout?')) {
+                sessionStorage.clear();
+                window.location.href = 'index.html';
+            }
+        }
+
+        // Sample data for demonstration - Hierarchical structure
+        const sampleData = {
+            kementerian: {
+                kode: '011',
+                nama: 'KEMENTERIAN LUAR NEGERI',
+                revNo: '-'
+            },
+            units: [
+                {
+                    kode: '011.01',
+                    nama: 'Sekretariat Jenderal',
+                    revNo: '-',
+                    satkers: [
+                        { kode: '531125', nama: 'SEKRETARIAT JENDERAL', revNo: '0' },
+                        { kode: '531126', nama: 'BIRO PERENCANAAN', revNo: '0' },
+                        { kode: '531127', nama: 'BIRO KEUANGAN', revNo: '1' }
+                    ]
+                },
+                {
+                    kode: '011.07',
+                    nama: 'Ditjen Hukum dan Perjanjian Internasional',
+                    revNo: '-',
+                    satkers: [
+                        { kode: '667829', nama: 'DITJEN HUKUM DAN PERJANJIAN INTERNASIONAL', revNo: '0' },
+                        { kode: '667830', nama: 'DIREKTORAT PERJANJIAN INTERNASIONAL', revNo: '1' },
+                        { kode: '667831', nama: 'DIREKTORAT HUKUM DAN HAM', revNo: '0' }
+                    ]
+                }
+            ]
+        };
+
+        function searchData() {
+            // Note: After autocomplete conversion, the select becomes input
+            // So we just proceed to show data (validation can be added later with autocomplete API)
+            
+            // For demo purposes, we'll just show the sample data
+            const selectedKementerian = sampleData.kementerian.nama;
+            const selectedUnit = '';
+            const selectedSatker = '';
+
+            // Populate table with sample data
+            const tableBody = document.getElementById('dataTable');
+            tableBody.innerHTML = '';
+
+            // Kementerian row
+            const kemRow = document.createElement('tr');
+            kemRow.className = 'hierarchy-kementerian';
+            kemRow.innerHTML = `
+                <td>
+                    <span class="expand-icon" onclick="toggleLevel(this, 'unit')">▼</span>
+                    <strong>${sampleData.kementerian.kode}</strong>
+                </td>
+                <td><strong>${sampleData.kementerian.nama}</strong></td>
+                <td><span class="badge badge-info">${sampleData.kementerian.revNo}</span></td>
+                <td><input type="checkbox" class="data-checkbox"></td>
+            `;
+            tableBody.appendChild(kemRow);
+
+            // Filter units based on selection
+            let unitsToShow = sampleData.units;
+            
+            // If specific satker is selected, filter to only show that satker's unit
+            if (selectedSatker) {
+                unitsToShow = sampleData.units.filter(unit => 
+                    unit.satkers.some(s => s.nama.includes(selectedSatker) || s.kode === selectedSatker)
+                );
+            }
+
+            // Units
+            unitsToShow.forEach(unit => {
+                // Unit row
+                const unitRow = document.createElement('tr');
+                unitRow.className = 'hierarchy-unit';
+                unitRow.dataset.parentKem = sampleData.kementerian.kode;
+                unitRow.innerHTML = `
+                    <td style="padding-left: 2rem;">
+                        <span class="expand-icon" onclick="toggleLevel(this, 'satker')">▼</span>
+                        <strong>${unit.kode}</strong>
+                    </td>
+                    <td style="padding-left: 2rem;"><strong>${unit.nama}</strong></td>
+                    <td><span class="badge badge-info">${unit.revNo}</span></td>
+                    <td><input type="checkbox" class="data-checkbox"></td>
+                `;
+                tableBody.appendChild(unitRow);
+
+                // Filter satkers if specific satker is selected
+                let satkersToShow = unit.satkers;
+                if (selectedSatker) {
+                    satkersToShow = unit.satkers.filter(s => 
+                        s.nama.includes(selectedSatker) || s.kode === selectedSatker
+                    );
+                }
+
+                // Satkers
+                satkersToShow.forEach(satker => {
+                    const satkerRow = document.createElement('tr');
+                    satkerRow.className = 'hierarchy-satker';
+                    satkerRow.dataset.parentUnit = unit.kode;
+                    satkerRow.innerHTML = `
+                        <td style="padding-left: 4rem;">${satker.kode}</td>
+                        <td style="padding-left: 4rem;">${satker.nama}</td>
+                        <td><span class="badge badge-${satker.revNo === '0' ? 'success' : 'warning'}">${satker.revNo}</span></td>
+                        <td><input type="checkbox" class="data-checkbox"></td>
+                    `;
+                    tableBody.appendChild(satkerRow);
+                });
+            });
+
+            // Reset expand dropdown to default (expand)
+            document.getElementById('expandDropdown').value = 'expand';
+        }
+
+        function toggleLevel(icon, level) {
+            const row = icon.closest('tr');
+            const isExpanded = icon.textContent === '▼';
+            
+            // Toggle icon
+            icon.textContent = isExpanded ? '▶' : '▼';
+
+            if (level === 'unit') {
+                // Toggle all units under this kementerian
+                const kemKode = sampleData.kementerian.kode;
+                const units = document.querySelectorAll(`.hierarchy-unit[data-parent-kem="${kemKode}"]`);
+                
+                units.forEach(unitRow => {
+                    unitRow.style.display = isExpanded ? 'none' : 'table-row';
+                    
+                    // If hiding, also hide all satkers under this unit
+                    if (isExpanded) {
+                        const unitKode = unitRow.querySelector('strong').textContent.trim();
+                        const satkers = document.querySelectorAll(`.hierarchy-satker[data-parent-unit="${unitKode}"]`);
+                        satkers.forEach(s => s.style.display = 'none');
+                        
+                        // Reset unit expand icon
+                        const unitIcon = unitRow.querySelector('.expand-icon');
+                        if (unitIcon) unitIcon.textContent = '▶';
+                    }
+                });
+            } else if (level === 'satker') {
+                // Toggle satkers under this unit
+                const unitKode = row.querySelector('strong').textContent.trim();
+                const satkers = document.querySelectorAll(`.hierarchy-satker[data-parent-unit="${unitKode}"]`);
+                
+                satkers.forEach(satkerRow => {
+                    satkerRow.style.display = isExpanded ? 'none' : 'table-row';
+                });
+            }
+        }
+
+        function toggleExpandAll(action) {
+            const kemIcon = document.querySelector('.hierarchy-kementerian .expand-icon');
+            const unitIcons = document.querySelectorAll('.hierarchy-unit .expand-icon');
+            const units = document.querySelectorAll('.hierarchy-unit');
+            const satkers = document.querySelectorAll('.hierarchy-satker');
+
+            if (action === 'expand') {
+                // Expand all
+                if (kemIcon) kemIcon.textContent = '▼';
+                unitIcons.forEach(icon => icon.textContent = '▼');
+                units.forEach(u => u.style.display = 'table-row');
+                satkers.forEach(s => s.style.display = 'table-row');
+            } else if (action === 'collapse') {
+                // Collapse all
+                if (kemIcon) kemIcon.textContent = '▶';
+                unitIcons.forEach(icon => icon.textContent = '▶');
+                units.forEach(u => u.style.display = 'none');
+                satkers.forEach(s => s.style.display = 'none');
+            }
+        }
+
+        function toggleAllChecks(checkbox) {
+            const checkboxes = document.querySelectorAll('.data-checkbox');
+            checkboxes.forEach(cb => {
+                cb.checked = checkbox.checked;
+            });
+        }
+
+        function printReport() {
+            const selectedTypes = [];
+            document.querySelectorAll('input[name="reportType"]:checked').forEach(cb => {
+                selectedTypes.push(cb.nextElementSibling.textContent);
+            });
+
+            const selectedData = [];
+            document.querySelectorAll('.data-checkbox:checked').forEach(cb => {
+                const row = cb.closest('tr');
+                const kode = row.cells[0].textContent.trim();
+                const uraian = row.cells[1].textContent.trim();
+                selectedData.push({ kode, uraian });
+            });
+
+            if (selectedTypes.length === 0) {
+                alert('Mohon pilih minimal satu jenis laporan!');
+                return;
+            }
+
+            if (selectedData.length === 0) {
+                alert('Mohon pilih minimal satu data dari tabel!');
+                return;
+            }
+
+            alert(`Mencetak laporan:\n\nJenis Laporan:\n${selectedTypes.join('\n')}\n\nData terpilih: ${selectedData.length} item`);
+            
+            // In real implementation, this would generate PDF or print dialog
+            console.log('Print Report:', { selectedTypes, selectedData });
+        }
+    </script>
+
+    <style>
+        .expand-icon {
+            cursor: pointer;
+            display: inline-block;
+            width: 20px;
+            transition: transform 0.3s;
+            user-select: none;
+            margin-right: 0.5rem;
+            font-size: 0.875rem;
+        }
+
+        .hierarchy-kementerian {
+            background-color: #e0e7ff;
+            font-weight: 600;
+        }
+
+        .hierarchy-kementerian:hover {
+            background-color: #c7d2fe;
+        }
+
+        .hierarchy-unit {
+            background-color: #f3f4f6;
+            font-weight: 600;
+        }
+
+        .hierarchy-unit:hover {
+            background-color: #e5e7eb;
+        }
+
+        .hierarchy-satker {
+            background-color: white;
+        }
+
+        .hierarchy-satker:hover {
+            background-color: #f9fafb;
+        }
+
+        input[type="checkbox"] {
+            cursor: pointer;
+            accent-color: var(--primary-color);
+        }
+
+        .table {
+            border-collapse: collapse;
+        }
+
+        .table td, .table th {
+            border: 1px solid #dee2e6;
+        }
+
+    </style>
+</body>
+</html>
+

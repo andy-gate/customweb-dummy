@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beban/Sumber Dana - CustomWeb SPAN</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/sidebar.js"></script>
+    <script src="js/components.js"></script>
+</head>
+<body>
+    <!-- Header Placeholder -->
+    <div id="header-placeholder"></div>
+
+    <!-- Sidebar Placeholder -->
+    <div id="sidebar-placeholder"></div>
+
+    <!-- Main Content Wrapper -->
+    <div class="main-wrapper" id="mainWrapper">
+        <div class="container">
+            <h2 style="margin-bottom: 1.5rem;">💵 Beban/Sumber Dana</h2>
+
+            <div class="alert alert-info">
+                <strong>ℹ️ Informasi:</strong> Halaman ini digunakan untuk mengelola data referensi Beban dan Sumber Dana dalam sistem.
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">⚡ Aksi</h3>
+                </div>
+                <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                    <button class="btn btn-primary" onclick="showAddModal()">
+                        ➕ Tambah Data Baru
+                    </button>
+                    <button class="btn btn-success" onclick="importData()">
+                        📥 Import dari Excel
+                    </button>
+                    <button class="btn btn-info" onclick="exportData()">
+                        📤 Export ke Excel
+                    </button>
+                    <button class="btn btn-warning" onclick="syncFromBAPPENAS()">
+                        🔄 Sync dari BAPPENAS
+                    </button>
+                </div>
+            </div>
+
+            <!-- Filter Card -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">🔍 Filter Pencarian</h3>
+                    <div style="display: flex; gap: 0.5rem;">
+                        <button class="btn btn-primary" onclick="searchData()">
+                            🔍 Search
+                        </button>
+                        <button class="btn btn-secondary" onclick="resetFilter()">
+                            🔄 Reset
+                        </button>
+                    </div>
+                </div>
+
+                <div class="grid grid-3">
+                    <div class="form-group">
+                        <label class="form-label">Kode</label>
+                        <input type="text" class="form-control" placeholder="Cari berdasarkan kode">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Nama</label>
+                        <input type="text" class="form-control" placeholder="Cari berdasarkan nama">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Jenis</label>
+                        <select class="form-control">
+                            <option value="">-- Semua Jenis --</option>
+                            <option>Beban</option>
+                            <option>Sumber Dana</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Data Table -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">📊 Daftar Beban/Sumber Dana</h3>
+                </div>
+
+                <div style="overflow-x: auto;">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th style="width: 50px;">No</th>
+                                <th style="width: 120px;">Kode</th>
+                                <th style="min-width: 300px;">Nama</th>
+                                <th style="width: 150px;">Jenis</th>
+                                <th style="width: 150px;">Keterangan</th>
+                                <th style="width: 120px;">Status</th>
+                                <th style="width: 200px;">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td><strong>001</strong></td>
+                                <td>APBN</td>
+                                <td>Sumber Dana</td>
+                                <td>Anggaran Pendapatan dan Belanja Negara</td>
+                                <td><span class="badge badge-success">Active</span></td>
+                                <td>
+                                    <button class="btn btn-outline" style="padding: 0.25rem 0.5rem; font-size: 0.75rem; margin-right: 0.25rem;" onclick="editData(1)">
+                                        ✏️ Edit
+                                    </button>
+                                    <button class="btn btn-danger" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="deleteData(1)">
+                                        🗑️ Hapus
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td><strong>002</strong></td>
+                                <td>APBD</td>
+                                <td>Sumber Dana</td>
+                                <td>Anggaran Pendapatan dan Belanja Daerah</td>
+                                <td><span class="badge badge-success">Active</span></td>
+                                <td>
+                                    <button class="btn btn-outline" style="padding: 0.25rem 0.5rem; font-size: 0.75rem; margin-right: 0.25rem;" onclick="editData(2)">
+                                        ✏️ Edit
+                                    </button>
+                                    <button class="btn btn-danger" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="deleteData(2)">
+                                        🗑️ Hapus
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td><strong>003</strong></td>
+                                <td>Beban Langsung</td>
+                                <td>Beban</td>
+                                <td>Beban yang langsung terkait dengan kegiatan</td>
+                                <td><span class="badge badge-success">Active</span></td>
+                                <td>
+                                    <button class="btn btn-outline" style="padding: 0.25rem 0.5rem; font-size: 0.75rem; margin-right: 0.25rem;" onclick="editData(3)">
+                                        ✏️ Edit
+                                    </button>
+                                    <button class="btn btn-danger" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="deleteData(3)">
+                                        🗑️ Hapus
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Pagination -->
+                <div style="display: flex; justify-content: space-between; align-items: center; padding: 1rem 0; border-top: 1px solid var(--border-color);">
+                    <div>
+                        Showing 1-3 of 25 records
+                    </div>
+                    <div style="display: flex; gap: 0.5rem;">
+                        <button class="btn btn-outline" style="padding: 0.5rem 1rem;" disabled>← Previous</button>
+                        <button class="btn btn-outline active" style="padding: 0.5rem 1rem;">1</button>
+                        <button class="btn btn-outline" style="padding: 0.5rem 1rem;">2</button>
+                        <button class="btn btn-outline" style="padding: 0.5rem 1rem;">3</button>
+                        <button class="btn btn-outline" style="padding: 0.5rem 1rem;">Next →</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer Placeholder -->
+    <div id="footer-placeholder"></div>
+
+    <script>
+        // Initialize page components
+        initPageComponents({
+            activePage: 'manage-reference-data',
+            userData: {
+                avatar: 'DJA',
+                role: 'Echelon IV DJA',
+                tahun: '2025',
+                jenisDok: 'RKAKL'
+            }
+        });
+
+        function logout() {
+            if (confirm('Apakah Anda yakin ingin logout?')) {
+                sessionStorage.clear();
+                window.location.href = 'index.html';
+            }
+        }
+
+        function showAddModal() {
+            alert('Tambah data Beban/Sumber Dana baru...');
+        }
+
+        function editData(no) {
+            alert('Edit data nomor ' + no);
+        }
+
+        function deleteData(no) {
+            if (confirm(`Apakah Anda yakin ingin menghapus data nomor ${no}?\n\nPeringatan: Data yang sudah dihapus tidak dapat dikembalikan!`)) {
+                alert(`Menghapus data nomor ${no}...`);
+            }
+        }
+
+        function importData() {
+            alert('Membuka dialog untuk import data dari Excel...');
+        }
+
+        function exportData() {
+            alert('Exporting data ke Excel...');
+        }
+
+        function syncFromBAPPENAS() {
+            if (confirm('Apakah Anda yakin ingin melakukan sinkronisasi data dari BAPPENAS?')) {
+                alert('Memulai sinkronisasi data dari BAPPENAS...');
+            }
+        }
+
+        function searchData() {
+            alert('Mencari data dengan filter yang dipilih...');
+        }
+
+        function resetFilter() {
+            document.querySelectorAll('.form-control').forEach(el => {
+                if (el.tagName === 'INPUT') {
+                    el.value = '';
+                } else if (el.tagName === 'SELECT') {
+                    el.selectedIndex = 0;
+                }
+            });
+        }
+    </script>
+</body>
+</html>

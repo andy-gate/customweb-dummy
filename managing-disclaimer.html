@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Managing Disclaimer - CustomWeb SPAN</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/sidebar.js"></script>
+    <script src="js/components.js"></script>
+</head>
+<body>
+    <!-- Header Placeholder -->
+    <div id="header-placeholder"></div>
+
+    <!-- Sidebar Placeholder -->
+    <div id="sidebar-placeholder"></div>
+
+    <!-- Main Content Wrapper -->
+    <div class="main-wrapper" id="mainWrapper">
+        <div class="container">
+            <h2 style="margin-bottom: 1.5rem;">⚠️ Managing Disclaimer</h2>
+
+            <div class="alert alert-info">
+                <strong>ℹ️ Informasi:</strong> Halaman ini digunakan untuk mengelola teks disclaimer yang akan ditampilkan di berbagai halaman aplikasi.
+            </div>
+
+            <!-- Disclaimer List -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">📋 Daftar Disclaimer</h3>
+                    <button class="btn btn-primary" onclick="showAddModal()">
+                        ➕ Tambah Disclaimer Baru
+                    </button>
+                </div>
+
+                <div style="overflow-x: auto;">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th style="width: 50px;">No</th>
+                                <th style="width: 150px;">Kode Disclaimer</th>
+                                <th style="min-width: 250px;">Nama Disclaimer</th>
+                                <th style="width: 150px;">Lokasi Tampil</th>
+                                <th style="width: 120px;">Status</th>
+                                <th style="width: 200px;">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td><strong>DISC-001</strong></td>
+                                <td>Disclaimer Upload ADK</td>
+                                <td><span class="badge badge-info">Halaman Upload</span></td>
+                                <td><span class="badge badge-success">Active</span></td>
+                                <td>
+                                    <button class="btn btn-outline" style="padding: 0.25rem 0.5rem; font-size: 0.75rem; margin-right: 0.25rem;" onclick="editDisclaimer(1)">
+                                        ✏️ Edit
+                                    </button>
+                                    <button class="btn btn-primary" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="previewDisclaimer(1)">
+                                        👁️ Preview
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td><strong>DISC-002</strong></td>
+                                <td>Disclaimer Approval</td>
+                                <td><span class="badge badge-success">Halaman Approval</span></td>
+                                <td><span class="badge badge-success">Active</span></td>
+                                <td>
+                                    <button class="btn btn-outline" style="padding: 0.25rem 0.5rem; font-size: 0.75rem; margin-right: 0.25rem;" onclick="editDisclaimer(2)">
+                                        ✏️ Edit
+                                    </button>
+                                    <button class="btn btn-primary" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="previewDisclaimer(2)">
+                                        👁️ Preview
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td><strong>DISC-003</strong></td>
+                                <td>Disclaimer DIPA</td>
+                                <td><span class="badge badge-primary">Halaman DIPA</span></td>
+                                <td><span class="badge badge-success">Active</span></td>
+                                <td>
+                                    <button class="btn btn-outline" style="padding: 0.25rem 0.5rem; font-size: 0.75rem; margin-right: 0.25rem;" onclick="editDisclaimer(3)">
+                                        ✏️ Edit
+                                    </button>
+                                    <button class="btn btn-primary" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="previewDisclaimer(3)">
+                                        👁️ Preview
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td><strong>DISC-004</strong></td>
+                                <td>Disclaimer Locking</td>
+                                <td><span class="badge badge-warning">Halaman Locking</span></td>
+                                <td><span class="badge badge-success">Active</span></td>
+                                <td>
+                                    <button class="btn btn-outline" style="padding: 0.25rem 0.5rem; font-size: 0.75rem; margin-right: 0.25rem;" onclick="editDisclaimer(4)">
+                                        ✏️ Edit
+                                    </button>
+                                    <button class="btn btn-primary" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="previewDisclaimer(4)">
+                                        👁️ Preview
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>5</td>
+                                <td><strong>DISC-005</strong></td>
+                                <td>Disclaimer Umum</td>
+                                <td><span class="badge badge-secondary">Footer</span></td>
+                                <td><span class="badge badge-success">Active</span></td>
+                                <td>
+                                    <button class="btn btn-outline" style="padding: 0.25rem 0.5rem; font-size: 0.75rem; margin-right: 0.25rem;" onclick="editDisclaimer(5)">
+                                        ✏️ Edit
+                                    </button>
+                                    <button class="btn btn-primary" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="previewDisclaimer(5)">
+                                        👁️ Preview
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add/Edit Modal -->
+    <div id="disclaimerModal" class="modal">
+        <div class="modal-content" style="max-width: 900px;">
+            <div class="modal-header">
+                <h3 id="modalTitle">➕ Tambah Disclaimer Baru</h3>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+
+            <div>
+                <div class="grid grid-2">
+                    <div class="form-group">
+                        <label class="form-label">Kode Disclaimer <span style="color: red;">*</span></label>
+                        <input type="text" class="form-control" id="kodeDisclaimer" placeholder="Contoh: DISC-001" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Nama Disclaimer <span style="color: red;">*</span></label>
+                        <input type="text" class="form-control" id="namaDisclaimer" placeholder="Masukkan nama disclaimer" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Lokasi Tampil <span style="color: red;">*</span></label>
+                    <select class="form-control" id="lokasiTampil" required>
+                        <option value="">-- Pilih Lokasi --</option>
+                        <option value="upload">Halaman Upload</option>
+                        <option value="approval">Halaman Approval</option>
+                        <option value="dipa">Halaman DIPA</option>
+                        <option value="locking">Halaman Locking</option>
+                        <option value="footer">Footer</option>
+                        <option value="header">Header</option>
+                        <option value="dashboard">Dashboard</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Tipe Tampilan</label>
+                    <select class="form-control" id="tipeTampilan">
+                        <option value="alert">Alert Box</option>
+                        <option value="modal">Modal Dialog</option>
+                        <option value="inline">Inline Text</option>
+                        <option value="tooltip">Tooltip</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Konten Disclaimer <span style="color: red;">*</span></label>
+                    <textarea class="form-control" id="kontenDisclaimer" rows="10" placeholder="Masukkan konten disclaimer..." required></textarea>
+                    <small style="color: var(--text-secondary); margin-top: 0.5rem; display: block;">
+                        HTML tags dapat digunakan untuk formatting (contoh: &lt;strong&gt;, &lt;em&gt;, &lt;br&gt;, dll.)
+                    </small>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Status</label>
+                    <select class="form-control" id="statusDisclaimer">
+                        <option value="active" selected>Active</option>
+                        <option value="inactive">Inactive</option>
+                    </select>
+                </div>
+
+                <div style="display: flex; gap: 0.5rem; justify-content: flex-end; margin-top: 1.5rem;">
+                    <button class="btn btn-secondary" onclick="closeModal()">Batal</button>
+                    <button class="btn btn-info" onclick="previewDisclaimerModal()">
+                        👁️ Preview
+                    </button>
+                    <button class="btn btn-primary" onclick="saveDisclaimer()">💾 Simpan</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Preview Modal -->
+    <div id="previewModal" class="modal">
+        <div class="modal-content" style="max-width: 800px;">
+            <div class="modal-header">
+                <h3>👁️ Preview Disclaimer</h3>
+                <button class="modal-close" onclick="closePreviewModal()">&times;</button>
+            </div>
+            <div style="padding: 1.5rem;">
+                <div style="border: 1px solid var(--border-color); padding: 1.5rem; border-radius: 4px; background-color: #fff3cd;">
+                    <div style="margin-bottom: 0.5rem;">
+                        <strong>⚠️ Disclaimer:</strong>
+                    </div>
+                    <div id="previewContent" style="line-height: 1.6;">
+                        Data yang di-upload akan diverifikasi oleh sistem. Pastikan data yang di-upload sudah benar dan lengkap. Data yang sudah di-upload tidak dapat diubah tanpa persetujuan administrator.
+                    </div>
+                </div>
+                <div style="display: flex; justify-content: flex-end; margin-top: 1rem;">
+                    <button class="btn btn-secondary" onclick="closePreviewModal()">Tutup</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer Placeholder -->
+    <div id="footer-placeholder"></div>
+
+    <script>
+        // Initialize page components
+        initPageComponents({
+            activePage: 'manage-basic-info',
+            userData: {
+                avatar: 'DJA',
+                role: 'Echelon IV DJA',
+                tahun: '2025',
+                jenisDok: 'RKAKL'
+            }
+        });
+
+        function logout() {
+            if (confirm('Apakah Anda yakin ingin logout?')) {
+                sessionStorage.clear();
+                window.location.href = 'index.html';
+            }
+        }
+
+        function showAddModal() {
+            document.getElementById('modalTitle').textContent = '➕ Tambah Disclaimer Baru';
+            document.getElementById('kodeDisclaimer').value = '';
+            document.getElementById('namaDisclaimer').value = '';
+            document.getElementById('lokasiTampil').value = '';
+            document.getElementById('tipeTampilan').value = 'alert';
+            document.getElementById('kontenDisclaimer').value = '';
+            document.getElementById('statusDisclaimer').value = 'active';
+            document.getElementById('disclaimerModal').classList.add('active');
+        }
+
+        function editDisclaimer(no) {
+            document.getElementById('modalTitle').textContent = '✏️ Edit Disclaimer';
+            // Load data for disclaimer no
+            document.getElementById('kodeDisclaimer').value = 'DISC-001';
+            document.getElementById('namaDisclaimer').value = 'Disclaimer Upload ADK';
+            document.getElementById('lokasiTampil').value = 'upload';
+            document.getElementById('tipeTampilan').value = 'alert';
+            document.getElementById('kontenDisclaimer').value = 'Data yang di-upload akan diverifikasi oleh sistem. Pastikan data yang di-upload sudah benar dan lengkap. Data yang sudah di-upload tidak dapat diubah tanpa persetujuan administrator.';
+            document.getElementById('statusDisclaimer').value = 'active';
+            document.getElementById('disclaimerModal').classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('disclaimerModal').classList.remove('active');
+        }
+
+        function closePreviewModal() {
+            document.getElementById('previewModal').classList.remove('active');
+        }
+
+        function previewDisclaimer(no) {
+            document.getElementById('previewContent').innerHTML = 'Data yang di-upload akan diverifikasi oleh sistem. Pastikan data yang di-upload sudah benar dan lengkap. Data yang sudah di-upload tidak dapat diubah tanpa persetujuan administrator.';
+            document.getElementById('previewModal').classList.add('active');
+        }
+
+        function previewDisclaimerModal() {
+            const konten = document.getElementById('kontenDisclaimer').value;
+
+            if (!konten) {
+                alert('Mohon isi Konten Disclaimer terlebih dahulu!');
+                return;
+            }
+
+            document.getElementById('previewContent').innerHTML = konten;
+            document.getElementById('previewModal').classList.add('active');
+        }
+
+        function saveDisclaimer() {
+            const kodeDisclaimer = document.getElementById('kodeDisclaimer').value;
+            const namaDisclaimer = document.getElementById('namaDisclaimer').value;
+            const lokasiTampil = document.getElementById('lokasiTampil').value;
+            const kontenDisclaimer = document.getElementById('kontenDisclaimer').value;
+
+            if (!kodeDisclaimer || !namaDisclaimer || !lokasiTampil || !kontenDisclaimer) {
+                alert('Mohon lengkapi semua field yang wajib diisi!');
+                return;
+            }
+
+            alert('Disclaimer berhasil disimpan!');
+            closeModal();
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const disclaimerModal = document.getElementById('disclaimerModal');
+            const previewModal = document.getElementById('previewModal');
+            if (event.target === disclaimerModal) {
+                disclaimerModal.classList.remove('active');
+            }
+            if (event.target === previewModal) {
+                previewModal.classList.remove('active');
+            }
+        }
+    </script>
+</body>
+</html>
+
+
+

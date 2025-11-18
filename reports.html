@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laporan - CustomWeb SPAN</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/sidebar.js"></script>
+    <script src="js/components.js"></script>
+</head>
+<body>
+    <!-- Header Placeholder -->
+    <div id="header-placeholder"></div>
+
+    <!-- Sidebar Placeholder -->
+    <div id="sidebar-placeholder"></div>
+
+    <!-- Main Content Wrapper -->
+    <div class="main-wrapper" id="mainWrapper">
+        <div class="container">
+        <h2 style="margin-bottom: 1.5rem;">📊 Laporan RKAKL & DIPA</h2>
+
+        <div class="alert alert-info">
+            <strong>ℹ️ Informasi:</strong> Sistem menyediakan 40+ jenis laporan untuk RKAKL, DIPA, dan laporan pendukung lainnya.
+        </div>
+
+        <!-- Report Categories -->
+        <div class="grid grid-3">
+            <!-- RKAKL Reports -->
+            <div class="card" style="cursor: pointer;" onclick="showCategory('rkakl')">
+                <div style="text-align: center; padding: 1rem;">
+                    <div style="font-size: 3rem; margin-bottom: 1rem;">📄</div>
+                    <h3 style="color: var(--primary-color);">Laporan RKAKL</h3>
+                    <p style="color: var(--text-secondary); margin-top: 0.5rem;">9 Jenis Laporan</p>
+                </div>
+            </div>
+
+            <!-- DIPA Reports -->
+            <div class="card" style="cursor: pointer;" onclick="showCategory('dipa')">
+                <div style="text-align: center; padding: 1rem;">
+                    <div style="font-size: 3rem; margin-bottom: 1rem;">📋</div>
+                    <h3 style="color: var(--success-color);">Laporan DIPA</h3>
+                    <p style="color: var(--text-secondary); margin-top: 0.5rem;">2 Jenis Laporan</p>
+                </div>
+            </div>
+
+            <!-- Other Reports -->
+            <div class="card" style="cursor: pointer;" onclick="showCategory('other')">
+                <div style="text-align: center; padding: 1rem;">
+                    <div style="font-size: 3rem; margin-bottom: 1rem;">📊</div>
+                    <h3 style="color: var(--warning-color);">Laporan Lainnya</h3>
+                    <p style="color: var(--text-secondary); margin-top: 0.5rem;">3 Jenis Laporan</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- RKAKL Reports Section -->
+        <div id="rkakl-section" class="card" style="display: none;">
+            <div class="card-header">
+                <h3 class="card-title">📄 Laporan RKAKL</h3>
+            </div>
+
+            <div class="grid grid-2" style="gap: 1rem;">
+                <!-- RKA SATKER Report -->
+                <div class="report-item" onclick="openReport('rka-satker')">
+                    <h4>1. RKA SATKER Report</h4>
+                    <p style="font-size: 0.875rem; color: var(--text-secondary);">
+                        6 Bagian: A (Rencana Kinerja), B (Rincian Belanja), C (Target Pendapatan), D (Prakiraan Maju), Blokir, Kertas Kerja
+                    </p>
+                    <span class="badge badge-info">BAB 7</span>
+                </div>
+
+                <!-- Lampiran Kertas Kerja -->
+                <div class="report-item" onclick="openReport('lampiran-kerja')">
+                    <h4>2. Lampiran Kertas Kerja</h4>
+                    <p style="font-size: 0.875rem; color: var(--text-secondary);">
+                        4 Lampiran: IV.A (Rincian Belanja), IV.B (Blokir), IV.C (Pendapatan), IV.D (Prakiraan Maju)
+                    </p>
+                    <span class="badge badge-info">BAB 8</span>
+                </div>
+
+                <!-- Catatan Penelaahan -->
+                <div class="report-item" onclick="openReport('catatan-penelaahan')">
+                    <h4>3. Catatan Penelaahan</h4>
+                    <p style="font-size: 0.875rem; color: var(--text-secondary);">
+                        Laporan hasil penelaahan per Unit dengan PIC dan endorser information
+                    </p>
+                    <span class="badge badge-info">BAB 9</span>
+                </div>
+
+                <!-- Laporan Himpunan -->
+                <div class="report-item" onclick="openReport('himpunan')">
+                    <h4>4. Laporan Himpunan</h4>
+                    <p style="font-size: 0.875rem; color: var(--text-secondary);">
+                        7 Jenis laporan konsolidasi per Departemen (Fungsi, Program, Kegiatan, dll)
+                    </p>
+                    <span class="badge badge-info">BAB 10</span>
+                </div>
+
+                <!-- Laporan DHP -->
+                <div class="report-item" onclick="openReport('dhp')">
+                    <h4>5. Laporan DHP</h4>
+                    <p style="font-size: 0.875rem; color: var(--text-secondary);">
+                        Daftar Hasil Penelaahan per Unit (special handling untuk Kementerian 999)
+                    </p>
+                    <span class="badge badge-info">BAB 11</span>
+                </div>
+
+                <!-- Laporan Keppres -->
+                <div class="report-item" onclick="openReport('keppres')">
+                    <h4>6. Laporan Keppres</h4>
+                    <p style="font-size: 0.875rem; color: var(--text-secondary);">
+                        Keputusan Presiden per Unit Eselon I dengan 4 lampiran (Pre-printed/Blank paper)
+                    </p>
+                    <span class="badge badge-info">BAB 12</span>
+                </div>
+
+                <!-- Monitoring PAGU -->
+                <div class="report-item" onclick="openReport('pagu')">
+                    <h4>7. Monitoring PAGU</h4>
+                    <p style="font-size: 0.875rem; color: var(--text-secondary);">
+                        Monitor Plafon Anggaran per Kementerian/Unit
+                    </p>
+                    <span class="badge badge-info">BAB 15</span>
+                </div>
+
+                <!-- Laporan Revisi -->
+                <div class="report-item" onclick="openReport('revisi')">
+                    <h4>8. Laporan Revisi</h4>
+                    <p style="font-size: 0.875rem; color: var(--text-secondary);">
+                        Laporan revisi per SATKER dengan nomor revisi spesifik
+                    </p>
+                    <span class="badge badge-info">BAB 16</span>
+                </div>
+
+                <!-- Matriks Perubahan -->
+                <div class="report-item" onclick="openReport('matriks')">
+                    <h4>9. Matriks Perubahan</h4>
+                    <p style="font-size: 0.875rem; color: var(--text-secondary);">
+                        Before/After comparison untuk Revision (Semula vs Menjadi)
+                    </p>
+                    <span class="badge badge-info">BAB 17</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- DIPA Reports Section -->
+        <div id="dipa-section" class="card" style="display: none;">
+            <div class="card-header">
+                <h3 class="card-title">📋 Laporan DIPA</h3>
+            </div>
+
+            <div class="grid grid-2" style="gap: 1rem;">
+                <!-- DIPA Induk -->
+                <div class="report-item" onclick="openReport('dipa-induk')">
+                    <h4>1. DIPA Induk</h4>
+                    <p style="font-size: 0.875rem; color: var(--text-secondary);">
+                        Laporan DIPA Induk per Unit Eselon I dengan informasi penandatangan
+                    </p>
+                    <span class="badge badge-success">BAB 13</span>
+                </div>
+
+                <!-- DIPA Petikan -->
+                <div class="report-item" onclick="openReport('dipa-petikan')">
+                    <h4>2. DIPA Petikan</h4>
+                    <p style="font-size: 0.875rem; color: var(--text-secondary);">
+                        Laporan DIPA Petikan per SATKER (Halaman I, II, III + Lampiran)
+                    </p>
+                    <span class="badge badge-success">BAB 14</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Other Reports Section -->
+        <div id="other-section" class="card" style="display: none;">
+            <div class="card-header">
+                <h3 class="card-title">📊 Laporan Lainnya</h3>
+            </div>
+
+            <div class="grid grid-2" style="gap: 1rem;">
+                <!-- Report Generator -->
+                <div class="report-item" onclick="openReport('generator')">
+                    <h4>1. Report Generator</h4>
+                    <p style="font-size: 0.875rem; color: var(--text-secondary);">
+                        Generate custom reports dengan flexible parameters dan templates
+                    </p>
+                    <span class="badge badge-warning">BAB 18</span>
+                </div>
+
+                <!-- Audit Trail Report -->
+                <div class="report-item" onclick="openReport('audit-report')">
+                    <h4>2. Audit Trail Report</h4>
+                    <p style="font-size: 0.875rem; color: var(--text-secondary);">
+                        Laporan aktivitas user dan perubahan data (compliance & security)
+                    </p>
+                    <span class="badge badge-warning">BAB 19</span>
+                </div>
+
+                <!-- Validation Error Report -->
+                <div class="report-item" onclick="openReport('validation-report')">
+                    <h4>3. Validation Error Report</h4>
+                    <p style="font-size: 0.875rem; color: var(--text-secondary);">
+                        Internal & COA Validation Error Reports (from Monitor Upload)
+                    </p>
+                    <span class="badge badge-warning">BAB 2</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Report Form (Generic) -->
+        <div id="report-form" class="card" style="display: none;">
+            <div class="card-header">
+                <div>
+                    <h3 class="card-title" id="report-title">Generate Laporan</h3>
+                    <p style="color: var(--text-secondary); margin-top: 0.5rem;" id="report-description"></p>
+                </div>
+                <button class="btn btn-secondary" onclick="closeReportForm()">✕ Tutup</button>
+            </div>
+
+            <div class="card-body">
+                <!-- Common Parameters -->
+                <div class="grid grid-3">
+                    <div class="form-group">
+                        <label class="form-label required">Tahun Anggaran</label>
+                        <select class="form-control">
+                            <option>2025</option>
+                            <option>2024</option>
+                            <option>2026</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label required">Kementerian/Lembaga</label>
+                        <select class="form-control" data-autocomplete="kementerian"></select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Unit Eselon I (Opsional)</label>
+                        <select class="form-control" data-autocomplete="unit"></select>
+                    </div>
+                </div>
+
+                <div class="grid grid-2">
+                    <div class="form-group">
+                        <label class="form-label">SATKER (Opsional)</label>
+                        <select class="form-control" data-autocomplete="satker"></select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Jenis Data</label>
+                        <select class="form-control">
+                            <option>Data yang Sudah Disetujui</option>
+                            <option>Data Upload (Semua)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Revision Specific -->
+                <div id="revision-params" style="display: none;">
+                    <div class="form-group">
+                        <label class="form-label">Nomor Revisi</label>
+                        <select class="form-control">
+                            <option>-- Pilih Nomor Revisi --</option>
+                            <option>Revisi 1</option>
+                            <option>Revisi 2</option>
+                            <option>Revisi 3</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Output Options -->
+                <div class="form-group">
+                    <label class="form-label required">Format Output</label>
+                    <div style="display: flex; gap: 1rem;">
+                        <label style="display: flex; align-items: center; gap: 0.5rem;">
+                            <input type="radio" name="format" value="pdf" checked>
+                            <span>📄 PDF</span>
+                        </label>
+                        <label style="display: flex; align-items: center; gap: 0.5rem;">
+                            <input type="radio" name="format" value="excel">
+                            <span>📊 Excel</span>
+                        </label>
+                        <label style="display: flex; align-items: center; gap: 0.5rem;">
+                            <input type="radio" name="format" value="preview">
+                            <span>👁️ Preview (Screen)</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Paper Type (for DIPA) -->
+                <div id="paper-type" style="display: none;">
+                    <div class="form-group">
+                        <label class="form-label">Jenis Kertas</label>
+                        <div style="display: flex; gap: 1rem;">
+                            <label style="display: flex; align-items: center; gap: 0.5rem;">
+                                <input type="radio" name="paper" value="blank" checked>
+                                <span>Blank Paper</span>
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 0.5rem;">
+                                <input type="radio" name="paper" value="preprinted">
+                                <span>Pre-printed (dengan logo SEKNEG)</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div style="display: flex; gap: 1rem; justify-content: flex-end; margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--border-color);">
+                    <button class="btn btn-secondary" onclick="resetReportForm()">🔄 Reset</button>
+                    <button class="btn btn-warning" onclick="previewReport()">👁️ Preview</button>
+                    <button class="btn btn-primary" onclick="generateReport()">📥 Generate & Download</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Stats -->
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">📈 Statistik Laporan Hari Ini</h3>
+            </div>
+
+            <div class="grid grid-4">
+                <div class="stat-card">
+                    <div class="stat-label">Total Laporan Digenerate</div>
+                    <div class="stat-value">247</div>
+                </div>
+                <div class="stat-card success">
+                    <div class="stat-label">RKA SATKER</div>
+                    <div class="stat-value">89</div>
+                </div>
+                <div class="stat-card success">
+                    <div class="stat-label">DIPA Induk/Petikan</div>
+                    <div class="stat-value">67</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Laporan Lainnya</div>
+                    <div class="stat-value">91</div>
+                </div>
+            </div>
+        </div>
+        </div>
+        </div>
+    </div>
+
+    <!-- Footer Placeholder -->
+    <div id="footer-placeholder"></div>
+
+    <script>
+        // Initialize page components
+        initPageComponents({
+            activePage: 'reports',
+            userData: {
+                avatar: 'DJA',
+                role: 'Echelon IV DJA',
+                tahun: '2025',
+                jenisDok: 'RKAKL'
+            }
+        });
+
+        // Initialize autocomplete after page components
+        setTimeout(() => {
+            convertToAutocomplete();
+        }, 200);
+
+        function logout() {
+            if (confirm('Apakah Anda yakin ingin logout?')) {
+                sessionStorage.clear();
+                window.location.href = 'index.html';
+            }
+        }
+
+        function showCategory(category) {
+            // Hide all sections
+            document.getElementById('rkakl-section').style.display = 'none';
+            document.getElementById('dipa-section').style.display = 'none';
+            document.getElementById('other-section').style.display = 'none';
+
+            // Show selected section
+            document.getElementById(category + '-section').style.display = 'block';
+            document.getElementById(category + '-section').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function openReport(reportType) {
+            const reportTitles = {
+                'rka-satker': 'Laporan RKA SATKER',
+                'lampiran-kerja': 'Lampiran Kertas Kerja',
+                'catatan-penelaahan': 'Catatan Penelaahan',
+                'himpunan': 'Laporan Himpunan',
+                'dhp': 'Laporan DHP (Daftar Hasil Penelaahan)',
+                'keppres': 'Laporan Keppres',
+                'pagu': 'Monitoring PAGU',
+                'revisi': 'Laporan Revisi',
+                'matriks': 'Matriks Perubahan',
+                'dipa-induk': 'DIPA Induk',
+                'dipa-petikan': 'DIPA Petikan',
+                'generator': 'Report Generator',
+                'audit-report': 'Audit Trail Report',
+                'validation-report': 'Validation Error Report'
+            };
+
+            document.getElementById('report-title').textContent = reportTitles[reportType] || 'Generate Laporan';
+            document.getElementById('report-form').style.display = 'block';
+            document.getElementById('report-form').scrollIntoView({ behavior: 'smooth' });
+
+            // Show/hide specific parameters
+            if (reportType === 'revisi' || reportType === 'matriks') {
+                document.getElementById('revision-params').style.display = 'block';
+            } else {
+                document.getElementById('revision-params').style.display = 'none';
+            }
+
+            if (reportType === 'dipa-induk' || reportType === 'dipa-petikan' || reportType === 'keppres') {
+                document.getElementById('paper-type').style.display = 'block';
+            } else {
+                document.getElementById('paper-type').style.display = 'none';
+            }
+        }
+
+        function closeReportForm() {
+            document.getElementById('report-form').style.display = 'none';
+        }
+
+        function resetReportForm() {
+            document.querySelectorAll('#report-form input, #report-form select').forEach(el => {
+                if (el.type === 'radio' && el.value === 'pdf') {
+                    el.checked = true;
+                } else if (el.type !== 'radio') {
+                    el.value = '';
+                }
+            });
+        }
+
+        function previewReport() {
+            alert('Membuka preview laporan di tab baru...');
+            window.open('about:blank', '_blank');
+        }
+
+        function generateReport() {
+            alert('Generating laporan...\n\nLaporan akan di-download dalam format yang dipilih.');
+            setTimeout(() => {
+                alert('Laporan berhasil di-generate!\n\nFile: laporan_rkakl_2025.pdf (2.5 MB)');
+            }, 1500);
+        }
+    </script>
+
+    <style>
+        .report-item {
+            padding: 1.5rem;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            background-color: var(--white);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .report-item:hover {
+            border-color: var(--secondary-color);
+            background-color: #eff6ff;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .report-item h4 {
+            margin: 0 0 0.5rem 0;
+            color: var(--text-primary);
+        }
+
+        .report-item p {
+            margin: 0.5rem 0;
+        }
+    </style>
+</body>
+</html>
+

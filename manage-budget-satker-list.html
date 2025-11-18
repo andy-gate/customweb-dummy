@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Budget Satker List - CustomWeb SPAN</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/sidebar.js"></script>
+    <script src="js/components.js"></script>
+</head>
+<body>
+    <!-- Header Placeholder -->
+    <div id="header-placeholder"></div>
+
+    <!-- Sidebar Placeholder -->
+    <div id="sidebar-placeholder"></div>
+
+    <!-- Main Content Wrapper -->
+    <div class="main-wrapper" id="mainWrapper">
+        <div class="container">
+            <h2 style="margin-bottom: 1.5rem;">📊 Manage Budget Satker List</h2>
+
+            <div class="alert alert-info">
+                <strong>ℹ️ Informasi:</strong> Halaman ini digunakan untuk mengelola daftar SATKER (Satuan Kerja) yang akan digunakan dalam proses budgeting.
+            </div>
+
+            <!-- Statistics -->
+            <div class="grid grid-4">
+                <div class="stat-card">
+                    <div class="stat-label">📊 Total SATKER</div>
+                    <div class="stat-value">342</div>
+                </div>
+                <div class="stat-card success">
+                    <div class="stat-label">✅ Aktif</div>
+                    <div class="stat-value">312</div>
+                </div>
+                <div class="stat-card warning">
+                    <div class="stat-label">⏸️ Nonaktif</div>
+                    <div class="stat-value">28</div>
+                </div>
+                <div class="stat-card info">
+                    <div class="stat-label">🆕 Baru</div>
+                    <div class="stat-value">2</div>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">⚡ Aksi</h3>
+                </div>
+                <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                    <button class="btn btn-primary" onclick="showAddModal()">
+                        ➕ Tambah SATKER Baru
+                    </button>
+                    <button class="btn btn-success" onclick="importSatker()">
+                        📥 Import dari Excel
+                    </button>
+                    <button class="btn btn-info" onclick="exportSatker()">
+                        📤 Export ke Excel
+                    </button>
+                    <button class="btn btn-warning" onclick="syncSatker()">
+                        🔄 Sync dari SPAN
+                    </button>
+                </div>
+            </div>
+
+            <!-- Filter Card -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">🔍 Filter Pencarian</h3>
+                    <div style="display: flex; gap: 0.5rem;">
+                        <button class="btn btn-primary" onclick="searchSatker()">
+                            🔍 Search
+                        </button>
+                        <button class="btn btn-secondary" onclick="resetFilter()">
+                            🔄 Reset
+                        </button>
+                    </div>
+                </div>
+
+                <div class="grid grid-4">
+                    <div class="form-group">
+                        <label class="form-label">Kementerian</label>
+                        <div style="position: relative;">
+                            <select class="form-control" data-autocomplete="kementerian" id="kementerian"></select>
+                            <span style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); pointer-events: none;">🔍</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Unit</label>
+                        <div style="position: relative;">
+                            <select class="form-control" data-autocomplete="unit" id="unit"></select>
+                            <span style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); pointer-events: none;">🔍</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Kode SATKER</label>
+                        <input type="text" class="form-control" placeholder="Cari berdasarkan kode">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Status</label>
+                        <select class="form-control">
+                            <option value="">-- Semua Status --</option>
+                            <option>Active</option>
+                            <option>Inactive</option>
+                            <option>New</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SATKER List Table -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">📊 Daftar SATKER</h3>
+                </div>
+
+                <div style="overflow-x: auto;">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th style="width: 50px;"><input type="checkbox" id="checkAll" onchange="toggleAllChecks(this)"></th>
+                                <th style="width: 50px;">No</th>
+                                <th style="width: 150px;">Kode SATKER</th>
+                                <th style="min-width: 300px;">Nama SATKER</th>
+                                <th style="width: 150px;">Kementerian</th>
+                                <th style="width: 150px;">Unit</th>
+                                <th style="width: 120px;">Status</th>
+                                <th style="width: 200px;">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><input type="checkbox" class="data-checkbox"></td>
+                                <td>1</td>
+                                <td><strong>412345</strong></td>
+                                <td>Kantor Pusat DJA</td>
+                                <td>Kementerian Keuangan</td>
+                                <td>Direktorat Jenderal Anggaran</td>
+                                <td><span class="badge badge-success">Active</span></td>
+                                <td>
+                                    <button class="btn btn-outline" style="padding: 0.25rem 0.5rem; font-size: 0.75rem; margin-right: 0.25rem;" onclick="editSatker(1)">
+                                        ✏️ Edit
+                                    </button>
+                                    <button class="btn btn-warning" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="toggleStatus(1)">
+                                        ⏸️ Nonaktifkan
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox" class="data-checkbox"></td>
+                                <td>2</td>
+                                <td><strong>412346</strong></td>
+                                <td>Kantor Wilayah Jakarta DJA</td>
+                                <td>Kementerian Keuangan</td>
+                                <td>Direktorat Jenderal Anggaran</td>
+                                <td><span class="badge badge-success">Active</span></td>
+                                <td>
+                                    <button class="btn btn-outline" style="padding: 0.25rem 0.5rem; font-size: 0.75rem; margin-right: 0.25rem;" onclick="editSatker(2)">
+                                        ✏️ Edit
+                                    </button>
+                                    <button class="btn btn-warning" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="toggleStatus(2)">
+                                        ⏸️ Nonaktifkan
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr style="background-color: #fff3cd;">
+                                <td><input type="checkbox" class="data-checkbox"></td>
+                                <td>3</td>
+                                <td><strong>412347</strong> <span class="badge badge-info">NEW</span></td>
+                                <td>Kantor Wilayah Surabaya DJA</td>
+                                <td>Kementerian Keuangan</td>
+                                <td>Direktorat Jenderal Anggaran</td>
+                                <td><span class="badge badge-warning">New</span></td>
+                                <td>
+                                    <button class="btn btn-outline" style="padding: 0.25rem 0.5rem; font-size: 0.75rem; margin-right: 0.25rem;" onclick="editSatker(3)">
+                                        ✏️ Edit
+                                    </button>
+                                    <button class="btn btn-success" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="activateSatker(3)">
+                                        ✅ Aktifkan
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox" class="data-checkbox"></td>
+                                <td>4</td>
+                                <td><strong>413001</strong></td>
+                                <td>Kantor Pusat DJPB</td>
+                                <td>Kementerian Keuangan</td>
+                                <td>Direktorat Jenderal Perbendaharaan</td>
+                                <td><span class="badge badge-secondary">Inactive</span></td>
+                                <td>
+                                    <button class="btn btn-outline" style="padding: 0.25rem 0.5rem; font-size: 0.75rem; margin-right: 0.25rem;" onclick="editSatker(4)">
+                                        ✏️ Edit
+                                    </button>
+                                    <button class="btn btn-success" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="activateSatker(4)">
+                                        ✅ Aktifkan
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Pagination -->
+                <div style="display: flex; justify-content: space-between; align-items: center; padding: 1rem 0; border-top: 1px solid var(--border-color);">
+                    <div>
+                        Showing 1-4 of 342 records
+                    </div>
+                    <div style="display: flex; gap: 0.5rem;">
+                        <button class="btn btn-outline" style="padding: 0.5rem 1rem;" disabled>← Previous</button>
+                        <button class="btn btn-outline active" style="padding: 0.5rem 1rem;">1</button>
+                        <button class="btn btn-outline" style="padding: 0.5rem 1rem;">2</button>
+                        <button class="btn btn-outline" style="padding: 0.5rem 1rem;">3</button>
+                        <button class="btn btn-outline" style="padding: 0.5rem 1rem;">...</button>
+                        <button class="btn btn-outline" style="padding: 0.5rem 1rem;">86</button>
+                        <button class="btn btn-outline" style="padding: 0.5rem 1rem;">Next →</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add/Edit Modal -->
+    <div id="satkerModal" class="modal">
+        <div class="modal-content" style="max-width: 700px;">
+            <div class="modal-header">
+                <h3 id="modalTitle">➕ Tambah SATKER Baru</h3>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+
+            <div>
+                <div class="grid grid-2">
+                    <div class="form-group">
+                        <label class="form-label">Kode SATKER <span style="color: red;">*</span></label>
+                        <input type="text" class="form-control" id="kodeSatker" placeholder="Contoh: 412345" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Nama SATKER <span style="color: red;">*</span></label>
+                        <input type="text" class="form-control" id="namaSatker" placeholder="Masukkan nama SATKER" required>
+                    </div>
+                </div>
+
+                <div class="grid grid-2">
+                    <div class="form-group">
+                        <label class="form-label">Kementerian <span style="color: red;">*</span></label>
+                        <div style="position: relative;">
+                            <select class="form-control" data-autocomplete="kementerian" id="kementerianModal" required></select>
+                            <span style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); pointer-events: none;">🔍</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Unit <span style="color: red;">*</span></label>
+                        <div style="position: relative;">
+                            <select class="form-control" data-autocomplete="unit" id="unitModal" required></select>
+                            <span style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); pointer-events: none;">🔍</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Alamat</label>
+                    <textarea class="form-control" id="alamat" rows="2" placeholder="Masukkan alamat SATKER"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Status</label>
+                    <select class="form-control" id="statusSatker">
+                        <option value="active" selected>Active</option>
+                        <option value="inactive">Inactive</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Keterangan</label>
+                    <textarea class="form-control" id="keterangan" rows="3" placeholder="Masukkan keterangan (opsional)"></textarea>
+                </div>
+
+                <div style="display: flex; gap: 0.5rem; justify-content: flex-end; margin-top: 1.5rem;">
+                    <button class="btn btn-secondary" onclick="closeModal()">Batal</button>
+                    <button class="btn btn-primary" onclick="saveSatker()">💾 Simpan</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer Placeholder -->
+    <div id="footer-placeholder"></div>
+
+    <script>
+        // Initialize page components
+        initPageComponents({
+            activePage: 'manage-basic-info',
+            userData: {
+                avatar: 'DJA',
+                role: 'Echelon IV DJA',
+                tahun: '2025',
+                jenisDok: 'RKAKL'
+            }
+        });
+
+        // Initialize autocomplete after page components
+        setTimeout(() => {
+            convertToAutocomplete();
+            // Initialize autocomplete for modal
+            setTimeout(() => {
+                const kementerianModal = document.getElementById('kementerianModal');
+                const unitModal = document.getElementById('unitModal');
+                if (kementerianModal && kementerianModal.tagName === 'SELECT') {
+                    initAutocomplete(kementerianModal, {
+                        dataType: 'kementerian',
+                        placeholder: '🔍 Ketik kode atau nama kementerian...'
+                    });
+                }
+                if (unitModal && unitModal.tagName === 'SELECT') {
+                    initAutocomplete(unitModal, {
+                        dataType: 'unit',
+                        placeholder: '🔍 Ketik kode atau nama unit...'
+                    });
+                }
+            }, 100);
+        }, 200);
+
+        function logout() {
+            if (confirm('Apakah Anda yakin ingin logout?')) {
+                sessionStorage.clear();
+                window.location.href = 'index.html';
+            }
+        }
+
+        function toggleAllChecks(checkbox) {
+            const checkboxes = document.querySelectorAll('.data-checkbox');
+            checkboxes.forEach(cb => {
+                cb.checked = checkbox.checked;
+            });
+        }
+
+        function showAddModal() {
+            document.getElementById('modalTitle').textContent = '➕ Tambah SATKER Baru';
+            document.getElementById('kodeSatker').value = '';
+            document.getElementById('namaSatker').value = '';
+            document.getElementById('kementerianModal').value = '';
+            document.getElementById('unitModal').value = '';
+            document.getElementById('alamat').value = '';
+            document.getElementById('statusSatker').value = 'active';
+            document.getElementById('keterangan').value = '';
+            document.getElementById('satkerModal').classList.add('active');
+        }
+
+        function editSatker(no) {
+            document.getElementById('modalTitle').textContent = '✏️ Edit SATKER';
+            // Load data for satker no
+            document.getElementById('kodeSatker').value = '412345';
+            document.getElementById('namaSatker').value = 'Kantor Pusat DJA';
+            document.getElementById('kementerianModal').value = '';
+            document.getElementById('unitModal').value = '';
+            document.getElementById('alamat').value = 'Jl. Lapangan Banteng Timur No. 2-4, Jakarta Pusat';
+            document.getElementById('statusSatker').value = 'active';
+            document.getElementById('keterangan').value = '';
+            document.getElementById('satkerModal').classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('satkerModal').classList.remove('active');
+        }
+
+        function saveSatker() {
+            const kodeSatker = document.getElementById('kodeSatker').value;
+            const namaSatker = document.getElementById('namaSatker').value;
+            const kementerian = document.getElementById('kementerianModal').value;
+            const unit = document.getElementById('unitModal').value;
+
+            if (!kodeSatker || !namaSatker || !kementerian || !unit) {
+                alert('Mohon lengkapi semua field yang wajib diisi!');
+                return;
+            }
+
+            alert('Data SATKER berhasil disimpan!');
+            closeModal();
+        }
+
+        function importSatker() {
+            alert('Membuka dialog untuk import SATKER dari Excel...');
+        }
+
+        function exportSatker() {
+            alert('Exporting daftar SATKER ke Excel...');
+        }
+
+        function syncSatker() {
+            if (confirm('Apakah Anda yakin ingin melakukan sinkronisasi data SATKER dari SPAN?\n\nProses ini mungkin memakan waktu beberapa menit.')) {
+                alert('Memulai sinkronisasi data SATKER dari SPAN...');
+            }
+        }
+
+        function searchSatker() {
+            alert('Mencari SATKER dengan filter yang dipilih...');
+        }
+
+        function resetFilter() {
+            document.getElementById('kementerian').value = '';
+            document.getElementById('unit').value = '';
+            document.querySelectorAll('.form-control').forEach(el => {
+                if (el.tagName === 'INPUT' && el.type === 'text') {
+                    el.value = '';
+                } else if (el.tagName === 'SELECT') {
+                    el.selectedIndex = 0;
+                }
+            });
+        }
+
+        function toggleStatus(no) {
+            if (confirm(`Apakah Anda yakin ingin menonaktifkan SATKER nomor ${no}?`)) {
+                alert(`Menonaktifkan SATKER nomor ${no}...`);
+            }
+        }
+
+        function activateSatker(no) {
+            if (confirm(`Apakah Anda yakin ingin mengaktifkan SATKER nomor ${no}?`)) {
+                alert(`Mengaktifkan SATKER nomor ${no}...`);
+            }
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('satkerModal');
+            if (event.target === modal) {
+                modal.classList.remove('active');
+            }
+        }
+    </script>
+</body>
+</html>
+
+
+

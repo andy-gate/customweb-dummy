@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Authority over menu - CustomWeb SPAN</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/sidebar.js"></script>
+    <script src="js/components.js"></script>
+</head>
+<body>
+    <div id="header-placeholder"></div>
+    <div id="sidebar-placeholder"></div>
+    <div class="main-wrapper" id="mainWrapper">
+        <div class="container">
+            <h2 style="margin-bottom: 1.5rem;">🎯 Manage Authority over menu</h2>
+            <div class="alert alert-info"><strong>ℹ️ Informasi:</strong> Halaman ini digunakan untuk mengelola otoritas akses menu berdasarkan authority code.</div>
+            <div class="card">
+                <div class="card-header"><h3 class="card-title">⚡ Aksi</h3></div>
+                <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                    <button class="btn btn-primary" onclick="showAddModal()">➕ Tambah Authority Menu</button>
+                    <button class="btn btn-success" onclick="assignBulk()">📋 Assign Bulk</button>
+                    <button class="btn btn-info" onclick="exportData()">📤 Export Excel</button>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header"><h3 class="card-title">🔍 Filter</h3></div>
+                <div class="grid grid-2">
+                    <div class="form-group">
+                        <label class="form-label">Authority Code</label>
+                        <select class="form-control">
+                            <option value="">-- Pilih Authority Code --</option>
+                            <option>AUTH-001 - Full Access</option>
+                            <option>AUTH-002 - Read Only</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Program</label>
+                        <select class="form-control">
+                            <option value="">-- Pilih Program --</option>
+                            <option>CustomWeb SPAN</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header"><h3 class="card-title">📊 Daftar Authority over Menu</h3></div>
+                <div style="overflow-x: auto;">
+                    <table class="table">
+                        <thead>
+                            <tr><th>No</th><th>Authority Code</th><th>Program</th><th>Menu</th><th>Access Type</th><th>Status</th><th>Aksi</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td><td><strong>AUTH-001</strong></td><td>CustomWeb SPAN</td><td>Dashboard</td><td>Full Access</td>
+                                <td><span class="badge badge-success">Active</span></td>
+                                <td><button class="btn btn-outline" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="editData(1)">✏️ Edit</button></td>
+                            </tr>
+                            <tr>
+                                <td>2</td><td><strong>AUTH-001</strong></td><td>CustomWeb SPAN</td><td>Monitoring</td><td>Full Access</td>
+                                <td><span class="badge badge-success">Active</span></td>
+                                <td><button class="btn btn-outline" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="editData(2)">✏️ Edit</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="footer-placeholder"></div>
+    <script>
+        initPageComponents({activePage: 'manage-authority', userData: {avatar: 'DJA', role: 'Echelon IV DJA', tahun: '2025', jenisDok: 'RKAKL'}});
+        function logout() {if (confirm('Apakah Anda yakin ingin logout?')) {sessionStorage.clear(); window.location.href = 'index.html';}}
+        function showAddModal() {alert('Tambah authority menu baru...');}
+        function editData(no) {alert('Edit authority menu ' + no);}
+        function assignBulk() {alert('Assign bulk authority...');}
+        function exportData() {alert('Export data...');}
+    </script>
+</body>
+</html>
+
+
+

@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload BAPPENAS Data - CustomWeb SPAN</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/sidebar.js"></script>
+    <script src="js/components.js"></script>
+</head>
+<body>
+    <!-- Header Placeholder -->
+    <div id="header-placeholder"></div>
+
+    <!-- Sidebar Placeholder -->
+    <div id="sidebar-placeholder"></div>
+
+    <!-- Main Content Wrapper -->
+    <div class="main-wrapper" id="mainWrapper">
+        <div class="container">
+            <h2 style="margin-bottom: 1.5rem;">📤 Upload BAPPENAS Data</h2>
+
+            <div class="alert alert-info">
+                <strong>ℹ️ Informasi:</strong> Halaman ini digunakan untuk mengunggah data referensi dari BAPPENAS ke dalam sistem.
+            </div>
+
+            <!-- Upload Section -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">📤 Upload File BAPPENAS</h3>
+                </div>
+
+                <div class="grid grid-2">
+                    <div class="form-group">
+                        <label class="form-label">Tahun Anggaran <span style="color: red;">*</span></label>
+                        <select class="form-control" id="tahunAnggaran" required>
+                            <option value="">-- Pilih Tahun --</option>
+                            <option value="2025" selected>2025</option>
+                            <option value="2024">2024</option>
+                            <option value="2026">2026</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Jenis Data <span style="color: red;">*</span></label>
+                        <select class="form-control" id="jenisData" required>
+                            <option value="">-- Pilih Jenis Data --</option>
+                            <option value="program">Program/Kegiatan</option>
+                            <option value="fungsi">Fungsi</option>
+                            <option value="akun">Akun Belanja</option>
+                            <option value="sumber-dana">Sumber Dana</option>
+                            <option value="organisasi">Struktur Organisasi</option>
+                            <option value="all">Semua Data</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">File Excel <span style="color: red;">*</span></label>
+                    <div style="border: 2px dashed var(--border-color); border-radius: 4px; padding: 2rem; text-align: center; background-color: var(--light-color);">
+                        <input type="file" id="fileInput" accept=".xlsx,.xls" style="display: none;" onchange="handleFileSelect(this)">
+                        <div id="fileDropZone" style="cursor: pointer;" onclick="document.getElementById('fileInput').click()" ondrop="handleDrop(event)" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)">
+                            <div style="font-size: 3rem; margin-bottom: 1rem;">📄</div>
+                            <div style="font-weight: 600; margin-bottom: 0.5rem;">Klik atau drag & drop file Excel di sini</div>
+                            <div style="color: var(--text-secondary); font-size: 0.875rem;">Format yang didukung: .xlsx, .xls</div>
+                        </div>
+                        <div id="selectedFile" style="margin-top: 1rem; display: none;">
+                            <div style="display: flex; align-items: center; justify-content: center; gap: 0.5rem; padding: 0.5rem; background-color: white; border-radius: 4px; border: 1px solid var(--border-color);">
+                                <span>📎</span>
+                                <span id="fileName" style="font-weight: 600;"></span>
+                                <button class="btn btn-danger" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="clearFile()">×</button>
+                            </div>
+                        </div>
+                    </div>
+                    <small style="color: var(--text-secondary); margin-top: 0.5rem; display: block;">
+                        Pastikan file Excel sesuai dengan format template BAPPENAS. Maksimal ukuran file: 10 MB.
+                    </small>
+                </div>
+
+                <div class="alert alert-warning" style="margin-top: 1rem;">
+                    <strong>⚠️ Catatan:</strong>
+                    <ul style="margin: 0.5rem 0 0 1.5rem; line-height: 1.8;">
+                        <li>Pastikan file Excel sudah menggunakan template yang benar</li>
+                        <li>Data yang di-upload akan menggantikan data yang sudah ada untuk tahun yang dipilih</li>
+                        <li>Proses upload mungkin memakan waktu beberapa menit tergantung ukuran file</li>
+                        <li>Disarankan untuk melakukan backup data sebelum upload</li>
+                    </ul>
+                </div>
+
+                <div style="display: flex; gap: 0.5rem; margin-top: 1.5rem;">
+                    <button class="btn btn-primary" onclick="uploadFile()">
+                        📤 Upload File
+                    </button>
+                    <button class="btn btn-secondary" onclick="downloadTemplate()">
+                        📥 Download Template
+                    </button>
+                    <button class="btn btn-info" onclick="previewData()">
+                        👁️ Preview Data
+                    </button>
+                </div>
+            </div>
+
+            <!-- Upload History -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">📊 History Upload</h3>
+                </div>
+
+                <div style="overflow-x: auto;">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th style="width: 50px;">No</th>
+                                <th style="width: 150px;">Tanggal Upload</th>
+                                <th style="width: 150px;">Tahun Anggaran</th>
+                                <th style="width: 150px;">Jenis Data</th>
+                                <th style="min-width: 200px;">Nama File</th>
+                                <th style="width: 120px;">Status</th>
+                                <th style="width: 150px;">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>2025-01-15 10:30:00</td>
+                                <td>2025</td>
+                                <td>Program/Kegiatan</td>
+                                <td>BAPPENAS_Program_2025.xlsx</td>
+                                <td><span class="badge badge-success">Success</span></td>
+                                <td>
+                                    <button class="btn btn-outline" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="viewDetail(1)">
+                                        👁️ Detail
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>2025-01-14 14:20:00</td>
+                                <td>2025</td>
+                                <td>Fungsi</td>
+                                <td>BAPPENAS_Fungsi_2025.xlsx</td>
+                                <td><span class="badge badge-success">Success</span></td>
+                                <td>
+                                    <button class="btn btn-outline" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="viewDetail(2)">
+                                        👁️ Detail
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>2025-01-13 09:15:00</td>
+                                <td>2025</td>
+                                <td>Akun Belanja</td>
+                                <td>BAPPENAS_Akun_2025.xlsx</td>
+                                <td><span class="badge badge-danger">Failed</span></td>
+                                <td>
+                                    <button class="btn btn-warning" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="viewDetail(3)">
+                                        ⚠️ Lihat Error
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Pagination -->
+                <div style="display: flex; justify-content: space-between; align-items: center; padding: 1rem 0; border-top: 1px solid var(--border-color);">
+                    <div>
+                        Showing 1-3 of 15 records
+                    </div>
+                    <div style="display: flex; gap: 0.5rem;">
+                        <button class="btn btn-outline" style="padding: 0.5rem 1rem;" disabled>← Previous</button>
+                        <button class="btn btn-outline active" style="padding: 0.5rem 1rem;">1</button>
+                        <button class="btn btn-outline" style="padding: 0.5rem 1rem;">2</button>
+                        <button class="btn btn-outline" style="padding: 0.5rem 1rem;">Next →</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer Placeholder -->
+    <div id="footer-placeholder"></div>
+
+    <script>
+        // Initialize page components
+        initPageComponents({
+            activePage: 'manage-reference-data',
+            userData: {
+                avatar: 'DJA',
+                role: 'Echelon IV DJA',
+                tahun: '2025',
+                jenisDok: 'RKAKL'
+            }
+        });
+
+        function logout() {
+            if (confirm('Apakah Anda yakin ingin logout?')) {
+                sessionStorage.clear();
+                window.location.href = 'index.html';
+            }
+        }
+
+        function handleFileSelect(input) {
+            if (input.files && input.files[0]) {
+                const file = input.files[0];
+                document.getElementById('fileName').textContent = file.name;
+                document.getElementById('selectedFile').style.display = 'block';
+                document.getElementById('fileDropZone').style.borderColor = 'var(--success-color)';
+                document.getElementById('fileDropZone').style.backgroundColor = '#d1fae5';
+            }
+        }
+
+        function handleDragOver(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            document.getElementById('fileDropZone').style.borderColor = 'var(--primary-color)';
+            document.getElementById('fileDropZone').style.backgroundColor = '#dbeafe';
+        }
+
+        function handleDragLeave(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            document.getElementById('fileDropZone').style.borderColor = 'var(--border-color)';
+            document.getElementById('fileDropZone').style.backgroundColor = 'var(--light-color)';
+        }
+
+        function handleDrop(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            document.getElementById('fileDropZone').style.borderColor = 'var(--border-color)';
+            document.getElementById('fileDropZone').style.backgroundColor = 'var(--light-color)';
+            
+            const files = event.dataTransfer.files;
+            if (files.length > 0) {
+                const file = files[0];
+                if (file.name.endsWith('.xlsx') || file.name.endsWith('.xls')) {
+                    document.getElementById('fileInput').files = files;
+                    handleFileSelect(document.getElementById('fileInput'));
+                } else {
+                    alert('File harus dalam format Excel (.xlsx atau .xls)!');
+                }
+            }
+        }
+
+        function clearFile() {
+            document.getElementById('fileInput').value = '';
+            document.getElementById('selectedFile').style.display = 'none';
+            document.getElementById('fileDropZone').style.borderColor = 'var(--border-color)';
+            document.getElementById('fileDropZone').style.backgroundColor = 'var(--light-color)';
+        }
+
+        function uploadFile() {
+            const tahunAnggaran = document.getElementById('tahunAnggaran').value;
+            const jenisData = document.getElementById('jenisData').value;
+            const fileInput = document.getElementById('fileInput');
+
+            if (!tahunAnggaran || !jenisData) {
+                alert('Mohon pilih Tahun Anggaran dan Jenis Data terlebih dahulu!');
+                return;
+            }
+
+            if (!fileInput.files || fileInput.files.length === 0) {
+                alert('Mohon pilih file Excel terlebih dahulu!');
+                return;
+            }
+
+            if (!confirm(`Apakah Anda yakin ingin mengupload file untuk tahun ${tahunAnggaran} dengan jenis data ${jenisData}?`)) {
+                return;
+            }
+
+            alert('Mengupload file BAPPENAS...\n\nProses ini mungkin memakan waktu beberapa menit.');
+        }
+
+        function downloadTemplate() {
+            alert('Downloading template Excel BAPPENAS...');
+        }
+
+        function previewData() {
+            const fileInput = document.getElementById('fileInput');
+            if (!fileInput.files || fileInput.files.length === 0) {
+                alert('Mohon pilih file Excel terlebih dahulu!');
+                return;
+            }
+
+            alert('Membuka preview data...');
+        }
+
+        function viewDetail(no) {
+            alert(`Menampilkan detail upload nomor ${no}...`);
+        }
+    </script>
+</body>
+</html>
+
+
+

@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Notification - CustomWeb SPAN</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/sidebar.js"></script>
+    <script src="js/components.js"></script>
+</head>
+<body>
+    <!-- Header Placeholder -->
+    <div id="header-placeholder"></div>
+
+    <!-- Sidebar Placeholder -->
+    <div id="sidebar-placeholder"></div>
+
+    <!-- Main Content Wrapper -->
+    <div class="main-wrapper" id="mainWrapper">
+        <div class="container">
+            <h2 style="margin-bottom: 1.5rem;">📧 Email Notification</h2>
+
+            <div class="alert alert-info">
+                <strong>ℹ️ Informasi:</strong> Halaman ini digunakan untuk mengelola pengiriman email notifikasi kepada user terkait aktivitas dalam sistem.
+            </div>
+
+            <!-- Statistics -->
+            <div class="grid grid-4">
+                <div class="stat-card">
+                    <div class="stat-label">📊 Total Email Hari Ini</div>
+                    <div class="stat-value">342</div>
+                </div>
+                <div class="stat-card success">
+                    <div class="stat-label">✅ Berhasil Terkirim</div>
+                    <div class="stat-value">328</div>
+                </div>
+                <div class="stat-card warning">
+                    <div class="stat-label">⏳ Menunggu Kirim</div>
+                    <div class="stat-value">10</div>
+                </div>
+                <div class="stat-card danger">
+                    <div class="stat-label">❌ Gagal Terkirim</div>
+                    <div class="stat-value">4</div>
+                </div>
+            </div>
+
+            <!-- Email Configuration -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">⚙️ Konfigurasi Email Notification</h3>
+                </div>
+
+                <div class="grid grid-2">
+                    <div>
+                        <h4 style="margin-bottom: 1rem;">Jenis Notifikasi yang Aktif:</h4>
+                        <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+                            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                                <input type="checkbox" checked style="width: 18px; height: 18px;">
+                                <span>📤 Notifikasi Upload ADK Berhasil</span>
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                                <input type="checkbox" checked style="width: 18px; height: 18px;">
+                                <span>✅ Notifikasi Approval/Rejection</span>
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                                <input type="checkbox" checked style="width: 18px; height: 18px;">
+                                <span>🔒 Notifikasi Lock/Unlock</span>
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                                <input type="checkbox" checked style="width: 18px; height: 18px;">
+                                <span>📝 Notifikasi DIPA Dibuat</span>
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                                <input type="checkbox" style="width: 18px; height: 18px;">
+                                <span>🔄 Notifikasi Revisi DIPA</span>
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                                <input type="checkbox" checked style="width: 18px; height: 18px;">
+                                <span>🔄 Notifikasi Posting Interface</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h4 style="margin-bottom: 1rem;">Pengaturan Email:</h4>
+                        <div class="form-group">
+                            <label class="form-label">SMTP Server</label>
+                            <input type="text" class="form-control" value="smtp.span.go.id" placeholder="Masukkan SMTP Server">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">SMTP Port</label>
+                            <input type="number" class="form-control" value="587" placeholder="Masukkan SMTP Port">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Email Pengirim</label>
+                            <input type="email" class="form-control" value="noreply@span.go.id" placeholder="Masukkan email pengirim">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Nama Pengirim</label>
+                            <input type="text" class="form-control" value="CustomWeb SPAN" placeholder="Masukkan nama pengirim">
+                        </div>
+                    </div>
+                </div>
+
+                <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
+                    <button class="btn btn-primary" onclick="saveConfig()">
+                        💾 Simpan Konfigurasi
+                    </button>
+                    <button class="btn btn-success" onclick="testEmail()">
+                        📧 Test Email
+                    </button>
+                </div>
+            </div>
+
+            <!-- Filter Card -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">🔍 Filter Email Log</h3>
+                    <div style="display: flex; gap: 0.5rem;">
+                        <button class="btn btn-primary" onclick="searchLog()">
+                            🔍 Search
+                        </button>
+                        <button class="btn btn-secondary" onclick="resetFilter()">
+                            🔄 Reset
+                        </button>
+                    </div>
+                </div>
+
+                <div class="grid grid-4">
+                    <div class="form-group">
+                        <label class="form-label">Email Penerima</label>
+                        <input type="email" class="form-control" placeholder="Cari berdasarkan email">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Jenis Notifikasi</label>
+                        <select class="form-control">
+                            <option value="">-- Semua Jenis --</option>
+                            <option>Upload ADK Berhasil</option>
+                            <option>Approval/Rejection</option>
+                            <option>Lock/Unlock</option>
+                            <option>DIPA Dibuat</option>
+                            <option>Revisi DIPA</option>
+                            <option>Posting Interface</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Status</label>
+                        <select class="form-control">
+                            <option value="">-- Semua Status --</option>
+                            <option>Sent</option>
+                            <option>Pending</option>
+                            <option>Failed</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Tanggal</label>
+                        <input type="date" class="form-control">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Email Log Table -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">📊 Email Log</h3>
+                    <div style="display: flex; gap: 0.5rem;">
+                        <button class="btn btn-success" onclick="resendFailed()">
+                            🔄 Resend Gagal
+                        </button>
+                        <button class="btn btn-info" onclick="exportLog()">
+                            📥 Export Log
+                        </button>
+                    </div>
+                </div>
+
+                <div style="overflow-x: auto;">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th style="width: 50px;">No</th>
+                                <th style="width: 200px;">Email Penerima</th>
+                                <th style="min-width: 200px;">Subject</th>
+                                <th style="width: 150px;">Jenis Notifikasi</th>
+                                <th style="width: 150px;">Waktu Kirim</th>
+                                <th style="width: 120px;">Status</th>
+                                <th style="width: 150px;">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>user1@span.go.id</td>
+                                <td>Notifikasi: Approval DIPA Berhasil</td>
+                                <td>Approval/Rejection</td>
+                                <td>2025-01-15 14:30:00</td>
+                                <td><span class="badge badge-success">Sent</span></td>
+                                <td>
+                                    <button class="btn btn-outline" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="viewEmail(1)">
+                                        👁️ Detail
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>user2@span.go.id</td>
+                                <td>Notifikasi: Upload ADK Berhasil</td>
+                                <td>Upload ADK Berhasil</td>
+                                <td>2025-01-15 15:00:00</td>
+                                <td><span class="badge badge-success">Sent</span></td>
+                                <td>
+                                    <button class="btn btn-outline" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="viewEmail(2)">
+                                        👁️ Detail
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>user3@span.go.id</td>
+                                <td>Notifikasi: Posting Interface Berhasil</td>
+                                <td>Posting Interface</td>
+                                <td>2025-01-15 16:00:00</td>
+                                <td><span class="badge badge-warning">Pending</span></td>
+                                <td>
+                                    <button class="btn btn-warning" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="resendEmail(3)">
+                                        🔄 Resend
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td>user4@span.go.id</td>
+                                <td>Notifikasi: DIPA Dibuat</td>
+                                <td>DIPA Dibuat</td>
+                                <td>2025-01-15 17:00:00</td>
+                                <td><span class="badge badge-danger">Failed</span></td>
+                                <td>
+                                    <button class="btn btn-danger" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="resendEmail(4)">
+                                        🔄 Retry
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Pagination -->
+                <div style="display: flex; justify-content: space-between; align-items: center; padding: 1rem 0; border-top: 1px solid var(--border-color);">
+                    <div>
+                        Showing 1-4 of 342 records
+                    </div>
+                    <div style="display: flex; gap: 0.5rem;">
+                        <button class="btn btn-outline" style="padding: 0.5rem 1rem;" disabled>← Previous</button>
+                        <button class="btn btn-outline active" style="padding: 0.5rem 1rem;">1</button>
+                        <button class="btn btn-outline" style="padding: 0.5rem 1rem;">2</button>
+                        <button class="btn btn-outline" style="padding: 0.5rem 1rem;">3</button>
+                        <button class="btn btn-outline" style="padding: 0.5rem 1rem;">...</button>
+                        <button class="btn btn-outline" style="padding: 0.5rem 1rem;">86</button>
+                        <button class="btn btn-outline" style="padding: 0.5rem 1rem;">Next →</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer Placeholder -->
+    <div id="footer-placeholder"></div>
+
+    <script>
+        // Initialize page components
+        initPageComponents({
+            activePage: 'monitoring',
+            userData: {
+                avatar: 'DJA',
+                role: 'Echelon IV DJA',
+                tahun: '2025',
+                jenisDok: 'RKAKL'
+            }
+        });
+
+        function logout() {
+            if (confirm('Apakah Anda yakin ingin logout?')) {
+                sessionStorage.clear();
+                window.location.href = 'index.html';
+            }
+        }
+
+        function saveConfig() {
+            alert('Konfigurasi email berhasil disimpan!');
+        }
+
+        function testEmail() {
+            const email = prompt('Masukkan email untuk test:', '');
+            if (email) {
+                alert(`Mengirim email test ke ${email}...`);
+            }
+        }
+
+        function searchLog() {
+            alert('Mencari log email dengan filter yang dipilih...');
+        }
+
+        function resetFilter() {
+            document.querySelectorAll('.form-control').forEach(el => {
+                if (el.tagName === 'SELECT') {
+                    el.selectedIndex = 0;
+                } else {
+                    el.value = '';
+                }
+            });
+        }
+
+        function resendFailed() {
+            if (confirm('Apakah Anda yakin ingin mengirim ulang semua email yang gagal?')) {
+                alert('Mengirim ulang email yang gagal...');
+            }
+        }
+
+        function exportLog() {
+            alert('Exporting email log to Excel...');
+        }
+
+        function viewEmail(no) {
+            alert(`Menampilkan detail email nomor ${no}...`);
+        }
+
+        function resendEmail(no) {
+            if (confirm(`Apakah Anda yakin ingin mengirim ulang email nomor ${no}?`)) {
+                alert(`Mengirim ulang email nomor ${no}...`);
+            }
+        }
+    </script>
+</body>
+</html>
+
+

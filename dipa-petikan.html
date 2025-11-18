@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Printing DIPA Petikan - CustomWeb SPAN</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/sidebar.js"></script>
+    <script src="js/components.js"></script>
+</head>
+<body>
+    <!-- Header Placeholder -->
+    <div id="header-placeholder"></div>
+
+    <!-- Sidebar Placeholder -->
+    <div id="sidebar-placeholder"></div>
+
+    <!-- Main Content Wrapper -->
+    <div class="main-wrapper" id="mainWrapper">
+        <div class="container">
+            <h2 style="margin-bottom: 1.5rem;">PRINTING DIPA PETIKAN</h2>
+
+            <div class="card">
+                <!-- Filter Section -->
+                <div style="max-width: 800px; margin-bottom: 2rem;">
+                    <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                        <label class="form-label" style="min-width: 120px; margin: 0;">Kementerian <span style="color: red;">*</span></label>
+                        <div style="position: relative; flex: 1;">
+                            <select class="form-control" data-autocomplete="kementerian" id="kementerian" required></select>
+                            <span style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); pointer-events: none;">🔍</span>
+                        </div>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                        <label class="form-label" style="min-width: 120px; margin: 0;">Unit <span style="color: red;">*</span></label>
+                        <div style="position: relative; flex: 1;">
+                            <select class="form-control" data-autocomplete="unit" id="unit" required></select>
+                            <span style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); pointer-events: none;">🔍</span>
+                        </div>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                        <label class="form-label" style="min-width: 120px; margin: 0;">Satker</label>
+                        <div style="position: relative; flex: 1;">
+                            <select class="form-control" data-autocomplete="satker" id="satker"></select>
+                            <span style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); pointer-events: none;">🔍</span>
+                        </div>
+                    </div>
+
+                    <!-- Search Button -->
+                    <div style="margin-top: 1.5rem;">
+                        <button class="btn btn-primary" onclick="searchData()" style="padding: 0.75rem 2rem;">
+                            Cari
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Pagination Info -->
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                    <div style="font-weight: 600;">
+                        Total <span id="totalData">0</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                        <span>Jumlah per halaman</span>
+                        <select class="form-control" style="width: auto; padding: 0.5rem;">
+                            <option value="10">10</option>
+                            <option value="30" selected>30</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Data Table -->
+                <div style="margin-bottom: 2rem; overflow-x: auto;">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th style="width: 50px;">No</th>
+                                <th style="width: 150px;">Kode</th>
+                                <th style="min-width: 300px;">Nama</th>
+                                <th style="width: 80px;">Signee</th>
+                                <th style="width: 50px;"><input type="checkbox" id="checkAll" onchange="toggleAllChecks(this)"></th>
+                            </tr>
+                        </thead>
+                        <tbody id="dataTable">
+                            <tr>
+                                <td colspan="5" style="text-align: center; color: var(--text-secondary); padding: 2rem;">
+                                    Tidak ada data.
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Pagination -->
+                <div style="text-align: center; margin-bottom: 2rem; color: var(--text-secondary);" id="pagination">
+                    
+                </div>
+
+                <!-- Revision Date -->
+                <div style="max-width: 400px; margin-bottom: 2rem;">
+                    <div style="display: flex; align-items: center; gap: 1rem;">
+                        <label class="form-label" style="min-width: 120px; margin: 0;">Revisi tanggal</label>
+                        <input type="date" class="form-control" id="revisiTanggal">
+                    </div>
+                </div>
+
+                <!-- Signatory Section -->
+                <div style="border: 1px solid #dee2e6; border-radius: 4px; padding: 1.5rem; margin-bottom: 2rem;">
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem;">
+                        <div class="form-group">
+                            <label class="form-label">Tanggal awal</label>
+                            <input type="date" class="form-control" id="tanggalAwal">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Tempat</label>
+                            <input type="text" class="form-control" id="tempat" placeholder="Masukkan tempat">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">NIP</label>
+                            <div style="position: relative;">
+                                <input type="text" class="form-control" id="nip" placeholder="Masukkan NIP">
+                                <span style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); pointer-events: none;">🔍</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Nama</label>
+                            <input type="text" class="form-control" id="nama" placeholder="Masukkan nama">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Jabatan1</label>
+                            <input type="text" class="form-control" id="jabatan1" placeholder="Masukkan jabatan 1">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Jabatan2</label>
+                            <input type="text" class="form-control" id="jabatan2" placeholder="Masukkan jabatan 2">
+                        </div>
+                    </div>
+                    <div style="display: flex; justify-content: flex-end; margin-top: 1rem;">
+                        <button class="btn btn-primary" onclick="saveSignatory()" style="padding: 0.75rem 2rem;">
+                            💾 Simpan
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Report Type Section -->
+                <div style="border: 1px solid #dee2e6; border-radius: 4px; padding: 1.5rem; margin-bottom: 2rem;">
+                    <h3 style="font-size: 1rem; margin: 0 0 1rem 0; font-weight: 600; text-align: center;">Jenis Laporan</h3>
+                    <div style="display: flex;">
+                        <!-- Left side: Report Types -->
+                        <div style="flex: 1; display: flex; flex-direction: column; gap: 0.75rem; padding-right: 2rem;">
+                            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                                <input type="checkbox" name="reportType" value="sp-dipa" style="width: 18px; height: 18px;">
+                                <span>SP DIPA</span>
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                                <input type="checkbox" name="reportType" value="halaman-ia" style="width: 18px; height: 18px;">
+                                <span>Halaman IA</span>
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                                <input type="checkbox" name="reportType" value="halaman-ib" style="width: 18px; height: 18px;">
+                                <span>Halaman IB</span>
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                                <input type="checkbox" name="reportType" value="halaman-ii" style="width: 18px; height: 18px;">
+                                <span>Halaman II</span>
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                                <input type="checkbox" name="reportType" value="halaman-iii" style="width: 18px; height: 18px;">
+                                <span>Halaman III</span>
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                                <input type="checkbox" name="reportType" value="halaman-iv" style="width: 18px; height: 18px;">
+                                <span>Halaman IV</span>
+                            </label>
+                        </div>
+                        <!-- Border separator -->
+                        <div style="width: 1px; background-color: #dee2e6; margin: -0.5rem 0;"></div>
+                        <!-- Right side: Approval Status -->
+                        <div style="flex: 1; padding-left: 2rem;">
+                            <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+                                <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                                    <input type="radio" name="approvalStatus" value="approved" checked style="width: 18px; height: 18px;">
+                                    <span>Sudah disetujui</span>
+                                </label>
+                                <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                                    <input type="radio" name="approvalStatus" value="not-approved" style="width: 18px; height: 18px;">
+                                    <span>Belum disetujui (sudah di-upload)</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Print Button -->
+                <div style="display: flex; justify-content: flex-end;">
+                    <button class="btn btn-primary" onclick="printReport()" style="padding: 0.75rem 2rem;">
+                        🖨️ Cetak
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer Placeholder -->
+    <div id="footer-placeholder"></div>
+
+    <script>
+        // Initialize page components
+        initPageComponents({
+            activePage: 'dipa-reports',
+            userData: {
+                avatar: 'DJA',
+                role: 'Echelon IV DJA',
+                tahun: '2025',
+                jenisDok: 'RKAKL'
+            }
+        });
+
+        // Initialize autocomplete after page components
+        setTimeout(() => {
+            convertToAutocomplete();
+        }, 200);
+
+        function logout() {
+            if (confirm('Apakah Anda yakin ingin logout?')) {
+                sessionStorage.clear();
+                window.location.href = 'index.html';
+            }
+        }
+
+        // Sample data for demonstration
+        const sampleSatkers = [
+            { no: 1, kode: '700108', nama: 'RRI AMBON', isNew: true, signee: 'N' },
+            { no: 2, kode: '700109', nama: 'RRI ATAMBUA', isNew: false, signee: 'Y' }
+        ];
+
+        function searchData() {
+            // Populate table with sample data
+            const tableBody = document.querySelector('#dataTable');
+            tableBody.innerHTML = '';
+
+            sampleSatkers.forEach(satker => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${satker.no}</td>
+                    <td>${satker.kode}${satker.isNew ? ' <span class="badge badge-success">(NEW)</span>' : ''}</td>
+                    <td>${satker.nama}</td>
+                    <td>${satker.signee}</td>
+                    <td><input type="checkbox" class="data-checkbox" ${satker.signee === 'Y' ? 'checked' : ''}></td>
+                `;
+                tableBody.appendChild(row);
+            });
+
+            // Update total
+            document.getElementById('totalData').textContent = sampleSatkers.length;
+            document.getElementById('pagination').textContent = '1';
+        }
+
+        function toggleAllChecks(checkbox) {
+            const checkboxes = document.querySelectorAll('.data-checkbox');
+            checkboxes.forEach(cb => {
+                cb.checked = checkbox.checked;
+            });
+        }
+
+        function saveSignatory() {
+            const tanggalAwal = document.getElementById('tanggalAwal').value;
+            const tempat = document.getElementById('tempat').value;
+            const nip = document.getElementById('nip').value;
+            const nama = document.getElementById('nama').value;
+            const jabatan1 = document.getElementById('jabatan1').value;
+            const jabatan2 = document.getElementById('jabatan2').value;
+
+            if (!tanggalAwal || !tempat || !nip || !nama || !jabatan1 || !jabatan2) {
+                alert('Mohon lengkapi semua data penandatangan!');
+                return;
+            }
+
+            alert('Data penandatangan berhasil disimpan!');
+            console.log('Signatory saved:', { tanggalAwal, tempat, nip, nama, jabatan1, jabatan2 });
+        }
+
+        function printReport() {
+            const selectedTypes = [];
+            document.querySelectorAll('input[name="reportType"]:checked').forEach(cb => {
+                selectedTypes.push(cb.nextElementSibling.textContent);
+            });
+
+            const approvalStatus = document.querySelector('input[name="approvalStatus"]:checked');
+            const statusText = approvalStatus ? approvalStatus.nextElementSibling.textContent : 'Tidak dipilih';
+            const revisiTanggal = document.getElementById('revisiTanggal').value;
+
+            const selectedData = [];
+            document.querySelectorAll('.data-checkbox:checked').forEach(cb => {
+                const row = cb.closest('tr');
+                selectedData.push({
+                    no: row.cells[0].textContent,
+                    kode: row.cells[1].textContent,
+                    nama: row.cells[2].textContent
+                });
+            });
+
+            if (selectedTypes.length === 0) {
+                alert('Mohon pilih minimal satu jenis laporan!');
+                return;
+            }
+
+            if (selectedData.length === 0) {
+                alert('Mohon pilih minimal satu satker dari tabel!');
+                return;
+            }
+
+            let message = `Mencetak DIPA Petikan:\n\nJenis Laporan:\n${selectedTypes.join('\n')}\n\nStatus: ${statusText}`;
+            if (revisiTanggal) {
+                message += `\nRevisi Tanggal: ${revisiTanggal}`;
+            }
+            message += `\n\nSatker terpilih: ${selectedData.length} item`;
+
+            alert(message);
+            
+            console.log('Print DIPA Petikan:', { selectedTypes, approvalStatus: statusText, revisiTanggal, selectedData });
+        }
+    </script>
+
+    <style>
+        .table {
+            border-collapse: collapse;
+        }
+
+        .table td, .table th {
+            border: 1px solid #dee2e6;
+            padding: 0.75rem;
+            vertical-align: middle;
+        }
+
+        .table th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+        }
+
+        input[type="checkbox"],
+        input[type="radio"] {
+            cursor: pointer;
+            accent-color: var(--primary-color);
+        }
+
+        .table tbody tr:hover {
+            background-color: #f8f9fa;
+        }
+    </style>
+</body>
+</html>
+
+
+
+
+

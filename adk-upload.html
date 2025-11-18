@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Penerimaan ADK dari SAKTI - CustomWeb SPAN</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/sidebar.js"></script>
+    <script src="js/components.js"></script>
+</head>
+<body>
+    <!-- Header Placeholder -->
+    <div id="header-placeholder"></div>
+
+    <!-- Sidebar Placeholder -->
+    <div id="sidebar-placeholder"></div>
+
+    <!-- Main Content Wrapper -->
+    <div class="main-wrapper" id="mainWrapper">
+        <div class="container">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+            <h2>🔄 Penerimaan ADK dari SAKTI</h2>
+            <div style="display: flex; gap: 0.5rem;">
+                <button class="btn btn-outline" onclick="switchDataType('initial')">Initial</button>
+                <button class="btn btn-outline" onclick="switchDataType('revision')">Revision</button>
+            </div>
+        </div>
+
+        <div class="alert alert-info">
+            <strong>ℹ️ Re-Engineering:</strong> File ADK sekarang dikirim otomatis dari sistem SAKTI ke CustomWeb SPAN melalui API integration. Tidak perlu upload manual.
+        </div>
+
+        <!-- SAKTI Integration Status -->
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">🔗 Status Koneksi SAKTI</h3>
+                <button class="btn btn-success" onclick="testConnection()">
+                    🔄 Test Koneksi
+                </button>
+            </div>
+
+            <div class="grid grid-3">
+                <div class="stat-card success">
+                    <div class="stat-label">Status Koneksi</div>
+                    <div style="font-size: 1.5rem; font-weight: 700; color: var(--success-color); margin-top: 0.5rem;">
+                        🟢 Connected
+                    </div>
+                    <div style="font-size: 0.875rem; color: var(--text-secondary); margin-top: 0.5rem;">
+                        Last ping: 2 detik yang lalu
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-label">API Endpoint</div>
+                    <div style="font-size: 0.875rem; margin-top: 0.5rem; word-break: break-all;">
+                        https://sakti.kemenkeu.go.id/api/v2/adk-transfer
+                    </div>
+                    <div style="margin-top: 0.5rem;">
+                        <span class="badge badge-success">✓ Authenticated</span>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-label">Last Sync</div>
+                    <div style="font-size: 1.25rem; font-weight: 600; margin-top: 0.5rem;">
+                        11 Nov 2025, 14:35
+                    </div>
+                    <div style="font-size: 0.875rem; color: var(--text-secondary); margin-top: 0.5rem;">
+                        15 menit yang lalu
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-top: 1rem; padding: 1rem; background-color: #dbeafe; border-radius: 4px;">
+                <strong>ℹ️ Catatan:</strong> Sistem akan otomatis melakukan sync setiap 30 menit. Anda juga dapat melakukan manual sync kapan saja.
+            </div>
+        </div>
+
+        <!-- Request Data from SAKTI -->
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">📥 Request Data ADK dari SAKTI</h3>
+            </div>
+
+            <div class="card-body">
+                <div class="alert alert-info">
+                    <strong>💡 Cara Kerja:</strong> Pilih Unit/SATKER yang ingin di-request datanya dari SAKTI, kemudian klik tombol "Request Data". Sistem akan mengirim request ke SAKTI API dan data ADK akan diterima secara otomatis.
+                </div>
+
+                <div class="grid grid-2">
+                    <div class="form-group">
+                        <label class="form-label required">Tipe Data</label>
+                        <select class="form-control" id="dataType">
+                            <option value="initial">Initial RKAKL/DIPA</option>
+                            <option value="revision">Revision RKAKL/DIPA</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label required">Kementerian/Lembaga</label>
+                        <select class="form-control" data-autocomplete="kementerian"></select>
+                    </div>
+                </div>
+
+                <div class="grid grid-2">
+                    <div class="form-group">
+                        <label class="form-label">Unit Eselon I</label>
+                        <select class="form-control" data-autocomplete="unit"></select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">SATKER Spesifik (Opsional)</label>
+                        <select class="form-control" data-autocomplete="satker">
+                            <option>-- Semua SATKER di Unit --</option>
+                            <option>412345 - Kantor Pusat DJA</option>
+                            <option>412346 - Kantor Wilayah Jakarta</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div style="display: flex; gap: 1rem; justify-content: flex-end; margin-top: 1.5rem;">
+                    <button class="btn btn-secondary" onclick="resetRequest()">
+                        🔄 Reset
+                    </button>
+                    <button class="btn btn-primary" onclick="requestFromSAKTI()">
+                        📥 Request Data dari SAKTI
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Incoming Queue -->
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">⏳ Queue Penerimaan ADK (Incoming)</h3>
+                <button class="btn btn-outline" onclick="refreshQueue()">
+                    🔄 Refresh
+                </button>
+            </div>
+
+            <div style="overflow-x: auto;">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Waktu Request</th>
+                            <th>Kode Unit/SATKER</th>
+                            <th>Nama</th>
+                            <th>Tipe</th>
+                            <th>Status Transfer</th>
+                            <th>Progress</th>
+                            <th>File Size</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>14:50:23</td>
+                            <td>412345</td>
+                            <td>Kantor Pusat DJA</td>
+                            <td><span class="badge badge-info">Initial</span></td>
+                            <td><span class="badge badge-warning">⏳ Receiving...</span></td>
+                            <td>
+                                <div style="width: 100%; background-color: var(--light-color); border-radius: 4px; height: 20px;">
+                                    <div style="width: 65%; background-color: var(--success-color); height: 100%; border-radius: 4px; display: flex; align-items: center; justify-content: center; color: white; font-size: 0.75rem;">
+                                        65%
+                                    </div>
+                                </div>
+                            </td>
+                            <td>2.8 MB</td>
+                            <td>
+                                <button class="btn btn-outline" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;">
+                                    👁️ Monitor
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>14:48:15</td>
+                            <td>412346</td>
+                            <td>Kantor Wilayah Jakarta</td>
+                            <td><span class="badge badge-info">Initial</span></td>
+                            <td><span class="badge badge-success">✓ Received</span></td>
+                            <td>
+                                <div style="width: 100%; background-color: var(--success-color); border-radius: 4px; height: 20px; display: flex; align-items: center; justify-content: center; color: white; font-size: 0.75rem;">
+                                    100%
+                                </div>
+                            </td>
+                            <td>3.1 MB</td>
+                            <td>
+                                <button class="btn btn-success" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="processADK(412346)">
+                                    ▶️ Process
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>14:45:42</td>
+                            <td>412347</td>
+                            <td>Kantor Wilayah Surabaya</td>
+                            <td><span class="badge badge-warning">Revision</span></td>
+                            <td><span class="badge badge-info">⏸️ Queued</span></td>
+                            <td>
+                                <div style="width: 100%; background-color: var(--light-color); border-radius: 4px; height: 20px; display: flex; align-items: center; justify-content: center; font-size: 0.75rem;">
+                                    Waiting...
+                                </div>
+                            </td>
+                            <td>-</td>
+                            <td>
+                                <button class="btn btn-outline" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;">
+                                    ⏸️ Pending
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div style="margin-top: 1rem;">
+                <span class="badge badge-info">3 items in queue</span>
+                <span class="badge badge-warning" style="margin-left: 0.5rem;">1 in progress</span>
+                <span class="badge badge-success" style="margin-left: 0.5rem;">1 ready to process</span>
+            </div>
+        </div>
+
+        <!-- Sync History -->
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">📜 Riwayat Penerimaan Hari Ini</h3>
+                <button class="btn btn-outline" onclick="viewAllHistory()">
+                    🔍 Lihat Semua Riwayat
+                </button>
+            </div>
+
+            <div style="overflow-x: auto;">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Waktu Received</th>
+                            <th>Kode Unit/SATKER</th>
+                            <th>Nama</th>
+                            <th>File Size</th>
+                            <th>Tipe</th>
+                            <th>Source</th>
+                            <th>Status</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>13:45:18</td>
+                            <td>412348</td>
+                            <td>Kantor Wilayah Bandung</td>
+                            <td>3.2 MB</td>
+                            <td><span class="badge badge-info">Initial</span></td>
+                            <td>🔗 SAKTI API</td>
+                            <td><span class="badge badge-success">✓ Processed</span></td>
+                            <td>
+                                <button class="btn btn-outline" style="padding: 0.25rem 0.75rem; font-size: 0.875rem;" onclick="viewDetail('412348')">📋 Detail</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>12:30:45</td>
+                            <td>412349</td>
+                            <td>Kantor Wilayah Medan</td>
+                            <td>2.9 MB</td>
+                            <td><span class="badge badge-info">Initial</span></td>
+                            <td>🔗 SAKTI API</td>
+                            <td><span class="badge badge-success">✓ Processed</span></td>
+                            <td>
+                                <button class="btn btn-outline" style="padding: 0.25rem 0.75rem; font-size: 0.875rem;" onclick="viewDetail('412349')">📋 Detail</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>11:15:22</td>
+                            <td>412350</td>
+                            <td>Kantor Wilayah Makassar</td>
+                            <td>3.5 MB</td>
+                            <td><span class="badge badge-warning">Revision</span></td>
+                            <td>🔗 SAKTI API</td>
+                            <td><span class="badge badge-success">✓ Processed</span></td>
+                            <td>
+                                <button class="btn btn-outline" style="padding: 0.25rem 0.75rem; font-size: 0.875rem;" onclick="viewDetail('412350')">📋 Detail</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div style="margin-top: 1rem; padding: 1rem; background-color: var(--light-color); border-radius: 4px;">
+                <strong>📊 Summary Hari Ini:</strong>
+                <span style="margin-left: 1rem;">Total Diterima: <strong>47 ADK</strong></span>
+                <span style="margin-left: 1rem;">Processed: <strong>45</strong></span>
+                <span style="margin-left: 1rem;">In Queue: <strong>2</strong></span>
+            </div>
+        </div>
+        </div>
+    </div>
+
+    <!-- Footer Placeholder -->
+    <div id="footer-placeholder"></div>
+
+    <script>
+        // Initialize page components
+        initPageComponents({
+            activePage: 'adk-upload',
+            userData: {
+                avatar: 'DJA',
+                role: 'Echelon IV DJA',
+                tahun: '2025',
+                jenisDok: 'RKAKL'
+            }
+        });
+
+        // Initialize autocomplete after page components
+        setTimeout(() => {
+            convertToAutocomplete();
+        }, 200);
+
+        function logout() {
+            if (confirm('Apakah Anda yakin ingin logout?')) {
+                sessionStorage.clear();
+                window.location.href = 'index.html';
+            }
+        }
+
+        function switchDataType(type) {
+            const dataTypeSelect = document.getElementById('dataType');
+            if (dataTypeSelect) {
+                dataTypeSelect.value = type;
+            }
+            alert('Filter untuk tipe data: ' + (type === 'initial' ? 'Initial' : 'Revision'));
+        }
+
+        function testConnection() {
+            alert('🔄 Testing koneksi ke SAKTI API...');
+            
+            // Simulate connection test
+            setTimeout(() => {
+                alert('✅ Koneksi berhasil!\n\nEndpoint: https://sakti.kemenkeu.go.id/api/v2/adk-transfer\nStatus: Connected\nLatency: 45ms\nAuthentication: Valid');
+            }, 1500);
+        }
+
+        function requestFromSAKTI() {
+            const dataType = document.getElementById('dataType').value;
+            
+            if (confirm('Request data ADK dari SAKTI?\n\nData akan diterima secara otomatis melalui API dan masuk ke queue untuk diproses.')) {
+                alert('📥 Mengirim request ke SAKTI API...');
+                
+                // Simulate API request
+                setTimeout(() => {
+                    alert('✅ Request berhasil dikirim!\n\nData ADK akan segera diterima dan muncul di Queue Penerimaan.\n\nEstimasi waktu: 2-5 menit tergantung ukuran data.');
+                    refreshQueue();
+                }, 2000);
+            }
+        }
+
+        function resetRequest() {
+            document.querySelectorAll('select.form-control').forEach(select => {
+                select.selectedIndex = 0;
+            });
+            alert('Form request telah di-reset.');
+        }
+
+        function refreshQueue() {
+            alert('🔄 Refreshing queue...');
+            
+            setTimeout(() => {
+                alert('✅ Queue di-refresh!\n\n3 items in queue\n1 in progress\n1 ready to process');
+                location.reload();
+            }, 1000);
+        }
+
+        function processADK(satkerCode) {
+            if (confirm(`Process ADK untuk SATKER ${satkerCode}?\n\nData akan divalidasi dan di-submit ke sistem.`)) {
+                alert('⚙️ Processing ADK...');
+                
+                setTimeout(() => {
+                    alert('✅ ADK berhasil diproses!\n\nData telah di-submit untuk validasi.\nSilakan cek status di halaman Monitor Upload.');
+                }, 2000);
+            }
+        }
+
+        function viewDetail(satkerCode) {
+            alert(`📋 Menampilkan detail penerimaan ADK untuk SATKER: ${satkerCode}\n\nInformasi:\n- Source: SAKTI API\n- Transfer Time: 3.2 seconds\n- File Integrity: Valid\n- Digital Stamp: Verified\n- Status: Processed & Submitted`);
+        }
+
+        function viewAllHistory() {
+            alert('🔍 Membuka halaman riwayat lengkap penerimaan ADK...');
+            // In real app, navigate to history page
+        }
+
+        // Auto-refresh queue every 30 seconds (simulation)
+        let autoRefreshInterval;
+        
+        function startAutoRefresh() {
+            autoRefreshInterval = setInterval(() => {
+                console.log('Auto-refreshing queue (every 30s)...');
+                // In real app, fetch latest queue data from API
+            }, 30000); // 30 seconds
+        }
+
+        function stopAutoRefresh() {
+            if (autoRefreshInterval) {
+                clearInterval(autoRefreshInterval);
+            }
+        }
+
+        // Start auto-refresh on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            startAutoRefresh();
+            console.log('✅ Auto-refresh aktif (setiap 30 detik)');
+        });
+
+        // Stop auto-refresh when leaving page
+        window.addEventListener('beforeunload', () => {
+            stopAutoRefresh();
+        });
+
+        // Show notification about SAKTI integration
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                console.log('🔗 SAKTI Integration Active');
+                console.log('📡 Listening for incoming ADK data...');
+            }, 1000);
+        });
+    </script>
+</body>
+</html>
+

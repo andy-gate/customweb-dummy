@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Batch Monitoring - CustomWeb SPAN</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/sidebar.js"></script>
+    <script src="js/components.js"></script>
+</head>
+<body>
+    <div id="header-placeholder"></div>
+    <div id="sidebar-placeholder"></div>
+    <div class="main-wrapper" id="mainWrapper">
+        <div class="container">
+            <h2 style="margin-bottom: 1.5rem;">📊 Batch Monitoring</h2>
+            <div class="alert alert-info"><strong>ℹ️ Informasi:</strong> Halaman ini digunakan untuk memantau proses batch yang berjalan dalam sistem.</div>
+            <div class="grid grid-4">
+                <div class="stat-card">
+                    <div class="stat-label">📊 Total Batch</div>
+                    <div class="stat-value">24</div>
+                </div>
+                <div class="stat-card success">
+                    <div class="stat-label">✅ Running</div>
+                    <div class="stat-value">3</div>
+                </div>
+                <div class="stat-card warning">
+                    <div class="stat-label">⏳ Pending</div>
+                    <div class="stat-value">5</div>
+                </div>
+                <div class="stat-card danger">
+                    <div class="stat-label">❌ Failed</div>
+                    <div class="stat-value">2</div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header"><h3 class="card-title">📊 Daftar Batch Process</h3></div>
+                <div style="overflow-x: auto;">
+                    <table class="table">
+                        <thead>
+                            <tr><th>No</th><th>Nama Batch</th><th>Jadwal</th><th>Status</th><th>Waktu Mulai</th><th>Waktu Selesai</th><th>Durasi</th><th>Aksi</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td><td>Sync Data BAPPENAS</td><td>Daily 02:00</td>
+                                <td><span class="badge badge-success">Running</span></td><td>2025-01-15 02:00:00</td><td>-</td><td>15m 30s</td>
+                                <td><button class="btn btn-danger" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="stopBatch(1)">⏹️ Stop</button></td>
+                            </tr>
+                            <tr>
+                                <td>2</td><td>Generate Report</td><td>Daily 06:00</td>
+                                <td><span class="badge badge-warning">Pending</span></td><td>-</td><td>-</td><td>-</td>
+                                <td><button class="btn btn-success" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="runBatch(2)">▶️ Run</button></td>
+                            </tr>
+                            <tr>
+                                <td>3</td><td>Backup Database</td><td>Daily 00:00</td>
+                                <td><span class="badge badge-danger">Failed</span></td><td>2025-01-15 00:00:00</td><td>2025-01-15 00:05:00</td><td>5m 0s</td>
+                                <td><button class="btn btn-warning" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="retryBatch(3)">🔄 Retry</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="footer-placeholder"></div>
+    <script>
+        initPageComponents({activePage: 'manage-authority', userData: {avatar: 'DJA', role: 'Echelon IV DJA', tahun: '2025', jenisDok: 'RKAKL'}});
+        function logout() {if (confirm('Apakah Anda yakin ingin logout?')) {sessionStorage.clear(); window.location.href = 'index.html';}}
+        function stopBatch(no) {if (confirm('Stop batch ' + no + '?')) {alert('Stopping batch...');}}
+        function runBatch(no) {if (confirm('Run batch ' + no + '?')) {alert('Running batch...');}}
+        function retryBatch(no) {if (confirm('Retry batch ' + no + '?')) {alert('Retrying batch...');}}
+    </script>
+</body>
+</html>
+
+
+

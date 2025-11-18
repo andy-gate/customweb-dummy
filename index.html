@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - CustomWeb SPAN</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-card">
+            <div class="login-header">
+                <h1>🏛️ CustomWeb SPAN</h1>
+                <p>Sistem Perbendaharaan dan Anggaran Negara</p>
+                <p style="margin-top: 0.5rem; font-size: 0.75rem;">RKAKL DIPA Initial & Revision</p>
+            </div>
+
+            <form id="loginForm" onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label for="userId" class="form-label required">User ID</label>
+                    <input type="text" id="userId" class="form-control" placeholder="Masukkan User ID" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="password" class="form-label required">Password</label>
+                    <input type="password" id="password" class="form-control" placeholder="Masukkan Password" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="tahunAnggaran" class="form-label required">Tahun Anggaran</label>
+                    <select id="tahunAnggaran" class="form-control" required>
+                        <option value="">-- Pilih Tahun Anggaran --</option>
+                        <option value="2024">2024</option>
+                        <option value="2025" selected>2025</option>
+                        <option value="2026">2026</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="jenisdokumen" class="form-label required">Kode Jenis Dokumen</label>
+                    <select id="jenisdokumen" class="form-control" required>
+                        <option value="">-- Pilih Jenis Dokumen --</option>
+                        <option value="RKAKL">RKAKL (Rencana Kerja dan Anggaran K/L)</option>
+                        <option value="DIPA">DIPA (Daftar Isian Pelaksanaan Anggaran)</option>
+                        <option value="RKAKL_REV">RKAKL Revisi</option>
+                        <option value="DIPA_REV">DIPA Revisi</option>
+                    </select>
+                </div>
+
+                <div class="checkbox-group">
+                    <input type="checkbox" id="rememberMe">
+                    <label for="rememberMe">Remember Me (Ingat User ID)</label>
+                </div>
+
+                <button type="submit" class="btn btn-primary" style="width: 100%;">
+                    Login
+                </button>
+            </form>
+
+            <div style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border-color); text-align: center;">
+                <p style="font-size: 0.875rem; color: var(--text-secondary);">
+                    ⚠️ Sistem akan terkunci setelah 3x kesalahan login
+                </p>
+            </div>
+
+            <div style="margin-top: 1rem; text-align: center;">
+                <p style="font-size: 0.75rem; color: var(--text-secondary);">
+                    CustomWeb General User Manual - SPAN Project<br>
+                    Version 1.0 | SPAN-BT-CW-UG
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function handleLogin(event) {
+            event.preventDefault();
+            
+            const userId = document.getElementById('userId').value;
+            const password = document.getElementById('password').value;
+            const tahunAnggaran = document.getElementById('tahunAnggaran').value;
+            const jenisDoc = document.getElementById('jenisDoc').value;
+            const rememberMe = document.getElementById('rememberMe').checked;
+
+            // Simulasi login
+            if (userId && password && tahunAnggaran && jenisDoc) {
+                // Simpan info session
+                sessionStorage.setItem('userId', userId);
+                sessionStorage.setItem('tahunAnggaran', tahunAnggaran);
+                sessionStorage.setItem('jenisDoc', jenisDoc);
+                
+                if (rememberMe) {
+                    localStorage.setItem('rememberedUserId', userId);
+                }
+
+                // Redirect ke dashboard
+                window.location.href = 'dashboard.html';
+            }
+        }
+
+        // Load remembered user ID
+        window.addEventListener('DOMContentLoaded', () => {
+            const rememberedUserId = localStorage.getItem('rememberedUserId');
+            if (rememberedUserId) {
+                document.getElementById('userId').value = rememberedUserId;
+                document.getElementById('rememberMe').checked = true;
+            }
+        });
+    </script>
+</body>
+</html>
+
+

@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XML Download - CustomWeb SPAN</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/sidebar.js"></script>
+    <script src="js/components.js"></script>
+</head>
+<body>
+    <div id="header-placeholder"></div>
+    <div id="sidebar-placeholder"></div>
+    <div class="main-wrapper" id="mainWrapper">
+        <div class="container">
+            <h2 style="margin-bottom: 1.5rem;">📥 XML Download</h2>
+            <div class="alert alert-info">
+                <strong>ℹ️ Informasi:</strong> Halaman ini digunakan untuk mengunduh data referensi dalam format XML.
+            </div>
+
+            <!-- Download Configuration -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">⚙️ Konfigurasi Download</h3>
+                </div>
+
+                <div class="grid grid-2">
+                    <div class="form-group">
+                        <label class="form-label">Tahun Anggaran <span style="color: red;">*</span></label>
+                        <select class="form-control" id="tahunAnggaran" required>
+                            <option value="">-- Pilih Tahun --</option>
+                            <option value="2025" selected>2025</option>
+                            <option value="2024">2024</option>
+                            <option value="2026">2026</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Jenis Data <span style="color: red;">*</span></label>
+                        <select class="form-control" id="jenisData" required>
+                            <option value="">-- Pilih Jenis Data --</option>
+                            <option value="all">Semua Data</option>
+                            <option value="akun">Jenis Belanja/Akun</option>
+                            <option value="sumber-dana">Beban/Sumber Dana</option>
+                            <option value="fungsi">Fungsi</option>
+                            <option value="program">Program/Kegiatan</option>
+                            <option value="kl-unit">KL/Unit</option>
+                            <option value="lokasi-kppn">Lokasi/KPPN</option>
+                            <option value="penanggung-jawab">Penanggung Jawab Kegiatan</option>
+                            <option value="penanda-tangan">Penanda Tangan</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Format XML</label>
+                    <select class="form-control" id="formatXML">
+                        <option value="standard" selected>Standard XML</option>
+                        <option value="bappenas">BAPPENAS Format</option>
+                        <option value="span">SPAN Format</option>
+                    </select>
+                </div>
+
+                <div class="alert alert-warning" style="margin-top: 1rem;">
+                    <strong>⚠️ Catatan:</strong>
+                    <ul style="margin: 0.5rem 0 0 1.5rem; line-height: 1.8;">
+                        <li>File XML akan di-generate berdasarkan data yang dipilih</li>
+                        <li>Proses generate mungkin memakan waktu beberapa menit untuk data yang besar</li>
+                        <li>File XML dapat digunakan untuk backup atau transfer data</li>
+                    </ul>
+                </div>
+
+                <div style="display: flex; gap: 0.5rem; margin-top: 1.5rem;">
+                    <button class="btn btn-primary" onclick="downloadXML()">
+                        📥 Download XML
+                    </button>
+                    <button class="btn btn-secondary" onclick="previewXML()">
+                        👁️ Preview XML
+                    </button>
+                </div>
+            </div>
+
+            <!-- Download History -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">📊 History Download</h3>
+                </div>
+
+                <div style="overflow-x: auto;">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th style="width: 50px;">No</th>
+                                <th style="width: 150px;">Tanggal Download</th>
+                                <th style="width: 150px;">Tahun Anggaran</th>
+                                <th style="width: 150px;">Jenis Data</th>
+                                <th style="min-width: 200px;">Nama File</th>
+                                <th style="width: 100px;">Ukuran</th>
+                                <th style="width: 150px;">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>2025-01-15 10:30:00</td>
+                                <td>2025</td>
+                                <td>Semua Data</td>
+                                <td>Reference_Data_2025.xml</td>
+                                <td>2.5 MB</td>
+                                <td>
+                                    <button class="btn btn-success" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="downloadAgain(1)">
+                                        📥 Download
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>2025-01-14 14:20:00</td>
+                                <td>2025</td>
+                                <td>Program/Kegiatan</td>
+                                <td>Program_Kegiatan_2025.xml</td>
+                                <td>1.2 MB</td>
+                                <td>
+                                    <button class="btn btn-success" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="downloadAgain(2)">
+                                        📥 Download
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>2025-01-13 09:15:00</td>
+                                <td>2025</td>
+                                <td>KL/Unit</td>
+                                <td>KL_Unit_2025.xml</td>
+                                <td>0.8 MB</td>
+                                <td>
+                                    <button class="btn btn-success" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="downloadAgain(3)">
+                                        📥 Download
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Pagination -->
+                <div style="display: flex; justify-content: space-between; align-items: center; padding: 1rem 0; border-top: 1px solid var(--border-color);">
+                    <div>
+                        Showing 1-3 of 12 records
+                    </div>
+                    <div style="display: flex; gap: 0.5rem;">
+                        <button class="btn btn-outline" style="padding: 0.5rem 1rem;" disabled>← Previous</button>
+                        <button class="btn btn-outline active" style="padding: 0.5rem 1rem;">1</button>
+                        <button class="btn btn-outline" style="padding: 0.5rem 1rem;">2</button>
+                        <button class="btn btn-outline" style="padding: 0.5rem 1rem;">Next →</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="footer-placeholder"></div>
+
+    <script>
+        // Initialize page components
+        initPageComponents({
+            activePage: 'manage-reference-data',
+            userData: {
+                avatar: 'DJA',
+                role: 'Echelon IV DJA',
+                tahun: '2025',
+                jenisDok: 'RKAKL'
+            }
+        });
+
+        function logout() {
+            if (confirm('Apakah Anda yakin ingin logout?')) {
+                sessionStorage.clear();
+                window.location.href = 'index.html';
+            }
+        }
+
+        function downloadXML() {
+            const tahunAnggaran = document.getElementById('tahunAnggaran').value;
+            const jenisData = document.getElementById('jenisData').value;
+            const formatXML = document.getElementById('formatXML').value;
+
+            if (!tahunAnggaran || !jenisData) {
+                alert('Mohon pilih Tahun Anggaran dan Jenis Data terlebih dahulu!');
+                return;
+            }
+
+            if (confirm(`Apakah Anda yakin ingin mengunduh data XML untuk tahun ${tahunAnggaran} dengan jenis data ${jenisData}?`)) {
+                alert(`Mengunduh file XML...\n\nTahun: ${tahunAnggaran}\nJenis Data: ${jenisData}\nFormat: ${formatXML}`);
+            }
+        }
+
+        function previewXML() {
+            const tahunAnggaran = document.getElementById('tahunAnggaran').value;
+            const jenisData = document.getElementById('jenisData').value;
+
+            if (!tahunAnggaran || !jenisData) {
+                alert('Mohon pilih Tahun Anggaran dan Jenis Data terlebih dahulu!');
+                return;
+            }
+
+            alert('Membuka preview XML...');
+        }
+
+        function downloadAgain(no) {
+            if (confirm('Apakah Anda yakin ingin mengunduh ulang file XML ini?')) {
+                alert(`Mengunduh file XML nomor ${no}...`);
+            }
+        }
+    </script>
+</body>
+</html>
+
+
+

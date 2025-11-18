@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Program/Kegiatan - CustomWeb SPAN</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/sidebar.js"></script>
+    <script src="js/components.js"></script>
+</head>
+<body>
+    <div id="header-placeholder"></div>
+    <div id="sidebar-placeholder"></div>
+    <div class="main-wrapper" id="mainWrapper">
+        <div class="container">
+            <h2 style="margin-bottom: 1.5rem;">📝 Program/Kegiatan</h2>
+            <div class="alert alert-info"><strong>ℹ️ Informasi:</strong> Halaman ini digunakan untuk mengelola data referensi Program dan Kegiatan dalam sistem.</div>
+            <div class="card">
+                <div class="card-header"><h3 class="card-title">⚡ Aksi</h3></div>
+                <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                    <button class="btn btn-primary" onclick="showAddModal()">➕ Tambah Data</button>
+                    <button class="btn btn-success" onclick="importData()">📥 Import Excel</button>
+                    <button class="btn btn-info" onclick="exportData()">📤 Export Excel</button>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header"><h3 class="card-title">📊 Daftar Program/Kegiatan</h3></div>
+                <div style="overflow-x: auto;">
+                    <table class="table">
+                        <thead>
+                            <tr><th>No</th><th>Kode Program</th><th>Nama Program</th><th>Kode Kegiatan</th><th>Nama Kegiatan</th><th>Status</th><th>Aksi</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td><td><strong>001</strong></td><td>Program Pelayanan Administrasi Perkantoran</td>
+                                <td><strong>001.001</strong></td><td>Kegiatan Pelayanan Administrasi Perkantoran</td>
+                                <td><span class="badge badge-success">Active</span></td>
+                                <td><button class="btn btn-outline" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="editData(1)">✏️ Edit</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="footer-placeholder"></div>
+    <script>
+        initPageComponents({activePage: 'manage-reference-data', userData: {avatar: 'DJA', role: 'Echelon IV DJA', tahun: '2025', jenisDok: 'RKAKL'}});
+        function logout() {if (confirm('Apakah Anda yakin ingin logout?')) {sessionStorage.clear(); window.location.href = 'index.html';}}
+        function showAddModal() {alert('Tambah data baru...');}
+        function editData(no) {alert('Edit data ' + no);}
+        function importData() {alert('Import data...');}
+        function exportData() {alert('Export data...');}
+    </script>
+</body>
+</html>
+
+
+

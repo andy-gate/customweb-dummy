@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Managing Jenis Revisi - CustomWeb SPAN</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/sidebar.js"></script>
+    <script src="js/components.js"></script>
+</head>
+<body>
+    <!-- Header Placeholder -->
+    <div id="header-placeholder"></div>
+
+    <!-- Sidebar Placeholder -->
+    <div id="sidebar-placeholder"></div>
+
+    <!-- Main Content Wrapper -->
+    <div class="main-wrapper" id="mainWrapper">
+        <div class="container">
+            <h2 style="margin-bottom: 1.5rem;">🔄 Managing Jenis Revisi</h2>
+
+            <div class="alert alert-info">
+                <strong>ℹ️ Informasi:</strong> Halaman ini digunakan untuk mengelola jenis-jenis revisi DIPA yang dapat dilakukan dalam sistem.
+            </div>
+
+            <!-- Statistics -->
+            <div class="grid grid-3">
+                <div class="stat-card">
+                    <div class="stat-label">📊 Total Jenis Revisi</div>
+                    <div class="stat-value">12</div>
+                </div>
+                <div class="stat-card success">
+                    <div class="stat-label">✅ Aktif</div>
+                    <div class="stat-value">10</div>
+                </div>
+                <div class="stat-card warning">
+                    <div class="stat-label">⏸️ Nonaktif</div>
+                    <div class="stat-value">2</div>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">⚡ Aksi</h3>
+                </div>
+                <div style="display: flex; gap: 0.5rem;">
+                    <button class="btn btn-primary" onclick="showAddModal()">
+                        ➕ Tambah Jenis Revisi Baru
+                    </button>
+                    <button class="btn btn-success" onclick="activateSelected()">
+                        ✅ Aktifkan Terpilih
+                    </button>
+                    <button class="btn btn-warning" onclick="deactivateSelected()">
+                        ⏸️ Nonaktifkan Terpilih
+                    </button>
+                </div>
+            </div>
+
+            <!-- Revisi Types List -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">📊 Daftar Jenis Revisi</h3>
+                </div>
+
+                <div style="overflow-x: auto;">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th style="width: 50px;"><input type="checkbox" id="checkAll" onchange="toggleAllChecks(this)"></th>
+                                <th style="width: 50px;">No</th>
+                                <th style="width: 120px;">Kode Revisi</th>
+                                <th style="min-width: 250px;">Nama Jenis Revisi</th>
+                                <th style="width: 200px;">Keterangan</th>
+                                <th style="width: 120px;">Status</th>
+                                <th style="width: 150px;">Urutan</th>
+                                <th style="width: 200px;">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><input type="checkbox" class="data-checkbox"></td>
+                                <td>1</td>
+                                <td><strong>REV-001</strong></td>
+                                <td>Revisi Anggaran</td>
+                                <td>Revisi perubahan anggaran</td>
+                                <td><span class="badge badge-success">Active</span></td>
+                                <td>1</td>
+                                <td>
+                                    <button class="btn btn-outline" style="padding: 0.25rem 0.5rem; font-size: 0.75rem; margin-right: 0.25rem;" onclick="editJenisRevisi(1)">
+                                        ✏️ Edit
+                                    </button>
+                                    <button class="btn btn-warning" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="toggleStatus(1)">
+                                        ⏸️ Nonaktifkan
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox" class="data-checkbox"></td>
+                                <td>2</td>
+                                <td><strong>REV-002</strong></td>
+                                <td>Revisi Program/Kegiatan</td>
+                                <td>Revisi program atau kegiatan</td>
+                                <td><span class="badge badge-success">Active</span></td>
+                                <td>2</td>
+                                <td>
+                                    <button class="btn btn-outline" style="padding: 0.25rem 0.5rem; font-size: 0.75rem; margin-right: 0.25rem;" onclick="editJenisRevisi(2)">
+                                        ✏️ Edit
+                                    </button>
+                                    <button class="btn btn-warning" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="toggleStatus(2)">
+                                        ⏸️ Nonaktifkan
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox" class="data-checkbox"></td>
+                                <td>3</td>
+                                <td><strong>REV-003</strong></td>
+                                <td>Revisi Penjabaran</td>
+                                <td>Revisi penjabaran anggaran</td>
+                                <td><span class="badge badge-success">Active</span></td>
+                                <td>3</td>
+                                <td>
+                                    <button class="btn btn-outline" style="padding: 0.25rem 0.5rem; font-size: 0.75rem; margin-right: 0.25rem;" onclick="editJenisRevisi(3)">
+                                        ✏️ Edit
+                                    </button>
+                                    <button class="btn btn-warning" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="toggleStatus(3)">
+                                        ⏸️ Nonaktifkan
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox" class="data-checkbox"></td>
+                                <td>4</td>
+                                <td><strong>REV-004</strong></td>
+                                <td>Revisi Rencana Penarikan Dana</td>
+                                <td>Revisi rencana penarikan dana</td>
+                                <td><span class="badge badge-success">Active</span></td>
+                                <td>4</td>
+                                <td>
+                                    <button class="btn btn-outline" style="padding: 0.25rem 0.5rem; font-size: 0.75rem; margin-right: 0.25rem;" onclick="editJenisRevisi(4)">
+                                        ✏️ Edit
+                                    </button>
+                                    <button class="btn btn-warning" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="toggleStatus(4)">
+                                        ⏸️ Nonaktifkan
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox" class="data-checkbox"></td>
+                                <td>5</td>
+                                <td><strong>REV-005</strong></td>
+                                <td>Revisi Jadwal Pelaksanaan</td>
+                                <td>Revisi jadwal pelaksanaan kegiatan</td>
+                                <td><span class="badge badge-secondary">Inactive</span></td>
+                                <td>5</td>
+                                <td>
+                                    <button class="btn btn-outline" style="padding: 0.25rem 0.5rem; font-size: 0.75rem; margin-right: 0.25rem;" onclick="editJenisRevisi(5)">
+                                        ✏️ Edit
+                                    </button>
+                                    <button class="btn btn-success" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="activateJenisRevisi(5)">
+                                        ✅ Aktifkan
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Pagination -->
+                <div style="display: flex; justify-content: space-between; align-items: center; padding: 1rem 0; border-top: 1px solid var(--border-color);">
+                    <div>
+                        Showing 1-5 of 12 records
+                    </div>
+                    <div style="display: flex; gap: 0.5rem;">
+                        <button class="btn btn-outline" style="padding: 0.5rem 1rem;" disabled>← Previous</button>
+                        <button class="btn btn-outline active" style="padding: 0.5rem 1rem;">1</button>
+                        <button class="btn btn-outline" style="padding: 0.5rem 1rem;">2</button>
+                        <button class="btn btn-outline" style="padding: 0.5rem 1rem;">3</button>
+                        <button class="btn btn-outline" style="padding: 0.5rem 1rem;">Next →</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add/Edit Modal -->
+    <div id="jenisRevisiModal" class="modal">
+        <div class="modal-content" style="max-width: 700px;">
+            <div class="modal-header">
+                <h3 id="modalTitle">➕ Tambah Jenis Revisi Baru</h3>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+
+            <div>
+                <div class="grid grid-2">
+                    <div class="form-group">
+                        <label class="form-label">Kode Revisi <span style="color: red;">*</span></label>
+                        <input type="text" class="form-control" id="kodeRevisi" placeholder="Contoh: REV-001" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Urutan <span style="color: red;">*</span></label>
+                        <input type="number" class="form-control" id="urutan" min="1" placeholder="Urutan tampil" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Nama Jenis Revisi <span style="color: red;">*</span></label>
+                    <input type="text" class="form-control" id="namaJenisRevisi" placeholder="Masukkan nama jenis revisi" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Keterangan</label>
+                    <textarea class="form-control" id="keterangan" rows="4" placeholder="Masukkan keterangan jenis revisi"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Persyaratan</label>
+                    <textarea class="form-control" id="persyaratan" rows="4" placeholder="Masukkan persyaratan revisi (opsional)"></textarea>
+                    <small style="color: var(--text-secondary);">Isi persyaratan yang harus dipenuhi untuk melakukan revisi ini</small>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Status</label>
+                    <select class="form-control" id="statusRevisi">
+                        <option value="active" selected>Active</option>
+                        <option value="inactive">Inactive</option>
+                    </select>
+                </div>
+
+                <div style="display: flex; gap: 0.5rem; justify-content: flex-end; margin-top: 1.5rem;">
+                    <button class="btn btn-secondary" onclick="closeModal()">Batal</button>
+                    <button class="btn btn-primary" onclick="saveJenisRevisi()">💾 Simpan</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer Placeholder -->
+    <div id="footer-placeholder"></div>
+
+    <script>
+        // Initialize page components
+        initPageComponents({
+            activePage: 'manage-basic-info',
+            userData: {
+                avatar: 'DJA',
+                role: 'Echelon IV DJA',
+                tahun: '2025',
+                jenisDok: 'RKAKL'
+            }
+        });
+
+        function logout() {
+            if (confirm('Apakah Anda yakin ingin logout?')) {
+                sessionStorage.clear();
+                window.location.href = 'index.html';
+            }
+        }
+
+        function toggleAllChecks(checkbox) {
+            const checkboxes = document.querySelectorAll('.data-checkbox');
+            checkboxes.forEach(cb => {
+                cb.checked = checkbox.checked;
+            });
+        }
+
+        function showAddModal() {
+            document.getElementById('modalTitle').textContent = '➕ Tambah Jenis Revisi Baru';
+            document.getElementById('kodeRevisi').value = '';
+            document.getElementById('namaJenisRevisi').value = '';
+            document.getElementById('urutan').value = '';
+            document.getElementById('keterangan').value = '';
+            document.getElementById('persyaratan').value = '';
+            document.getElementById('statusRevisi').value = 'active';
+            document.getElementById('jenisRevisiModal').classList.add('active');
+        }
+
+        function editJenisRevisi(no) {
+            document.getElementById('modalTitle').textContent = '✏️ Edit Jenis Revisi';
+            // Load data for jenis revisi no
+            document.getElementById('kodeRevisi').value = 'REV-001';
+            document.getElementById('namaJenisRevisi').value = 'Revisi Anggaran';
+            document.getElementById('urutan').value = '1';
+            document.getElementById('keterangan').value = 'Revisi perubahan anggaran';
+            document.getElementById('persyaratan').value = 'Memerlukan persetujuan dari atasan langsung';
+            document.getElementById('statusRevisi').value = 'active';
+            document.getElementById('jenisRevisiModal').classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('jenisRevisiModal').classList.remove('active');
+        }
+
+        function saveJenisRevisi() {
+            const kodeRevisi = document.getElementById('kodeRevisi').value;
+            const namaJenisRevisi = document.getElementById('namaJenisRevisi').value;
+            const urutan = document.getElementById('urutan').value;
+
+            if (!kodeRevisi || !namaJenisRevisi || !urutan) {
+                alert('Mohon lengkapi semua field yang wajib diisi!');
+                return;
+            }
+
+            alert('Jenis revisi berhasil disimpan!');
+            closeModal();
+        }
+
+        function activateSelected() {
+            const selected = [];
+            document.querySelectorAll('.data-checkbox:checked').forEach(cb => {
+                const row = cb.closest('tr');
+                selected.push(row.cells[2].textContent.trim());
+            });
+
+            if (selected.length === 0) {
+                alert('Mohon pilih minimal satu jenis revisi!');
+                return;
+            }
+
+            if (confirm(`Apakah Anda yakin ingin mengaktifkan ${selected.length} jenis revisi yang dipilih?`)) {
+                alert(`Mengaktifkan ${selected.length} jenis revisi...`);
+            }
+        }
+
+        function deactivateSelected() {
+            const selected = [];
+            document.querySelectorAll('.data-checkbox:checked').forEach(cb => {
+                const row = cb.closest('tr');
+                selected.push(row.cells[2].textContent.trim());
+            });
+
+            if (selected.length === 0) {
+                alert('Mohon pilih minimal satu jenis revisi!');
+                return;
+            }
+
+            if (confirm(`Apakah Anda yakin ingin menonaktifkan ${selected.length} jenis revisi yang dipilih?`)) {
+                alert(`Menonaktifkan ${selected.length} jenis revisi...`);
+            }
+        }
+
+        function toggleStatus(no) {
+            if (confirm(`Apakah Anda yakin ingin menonaktifkan jenis revisi nomor ${no}?`)) {
+                alert(`Menonaktifkan jenis revisi nomor ${no}...`);
+            }
+        }
+
+        function activateJenisRevisi(no) {
+            if (confirm(`Apakah Anda yakin ingin mengaktifkan jenis revisi nomor ${no}?`)) {
+                alert(`Mengaktifkan jenis revisi nomor ${no}...`);
+            }
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('jenisRevisiModal');
+            if (event.target === modal) {
+                modal.classList.remove('active');
+            }
+        }
+    </script>
+</body>
+</html>
+
+
+

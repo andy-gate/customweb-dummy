@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage User information - CustomWeb SPAN</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/sidebar.js"></script>
+    <script src="js/components.js"></script>
+</head>
+<body>
+    <div id="header-placeholder"></div>
+    <div id="sidebar-placeholder"></div>
+    <div class="main-wrapper" id="mainWrapper">
+        <div class="container">
+            <h2 style="margin-bottom: 1.5rem;">👤 Manage User information</h2>
+            <div class="alert alert-info"><strong>ℹ️ Informasi:</strong> Halaman ini digunakan untuk mengelola informasi user dalam sistem.</div>
+            <div class="grid grid-4">
+                <div class="stat-card">
+                    <div class="stat-label">📊 Total User</div>
+                    <div class="stat-value">156</div>
+                </div>
+                <div class="stat-card success">
+                    <div class="stat-label">✅ Active</div>
+                    <div class="stat-value">142</div>
+                </div>
+                <div class="stat-card warning">
+                    <div class="stat-label">⏸️ Inactive</div>
+                    <div class="stat-value">12</div>
+                </div>
+                <div class="stat-card danger">
+                    <div class="stat-label">🔒 Locked</div>
+                    <div class="stat-value">2</div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header"><h3 class="card-title">⚡ Aksi</h3></div>
+                <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                    <button class="btn btn-primary" onclick="showAddModal()">➕ Tambah User</button>
+                    <button class="btn btn-success" onclick="importData()">📥 Import Excel</button>
+                    <button class="btn btn-info" onclick="exportData()">📤 Export Excel</button>
+                    <button class="btn btn-warning" onclick="resetPassword()">🔑 Reset Password</button>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header"><h3 class="card-title">🔍 Filter</h3></div>
+                <div class="grid grid-4">
+                    <div class="form-group">
+                        <label class="form-label">User ID</label>
+                        <input type="text" class="form-control" placeholder="Cari berdasarkan User ID">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Nama</label>
+                        <input type="text" class="form-control" placeholder="Cari berdasarkan nama">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Job Position</label>
+                        <select class="form-control">
+                            <option value="">-- Semua Position --</option>
+                            <option>Administrator</option>
+                            <option>Echelon I</option>
+                            <option>Echelon II</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Status</label>
+                        <select class="form-control">
+                            <option value="">-- Semua Status --</option>
+                            <option>Active</option>
+                            <option>Inactive</option>
+                            <option>Locked</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header"><h3 class="card-title">📊 Daftar User</h3></div>
+                <div style="overflow-x: auto;">
+                    <table class="table">
+                        <thead>
+                            <tr><th>No</th><th>User ID</th><th>Nama</th><th>Email</th><th>Job Position</th><th>Authority Code</th><th>Status</th><th>Aksi</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td><td><strong>ADMIN001</strong></td><td>Administrator</td><td>admin@span.go.id</td><td>Administrator</td><td>AUTH-001</td>
+                                <td><span class="badge badge-success">Active</span></td>
+                                <td>
+                                    <button class="btn btn-outline" style="padding: 0.25rem 0.5rem; font-size: 0.75rem; margin-right: 0.25rem;" onclick="editData(1)">✏️ Edit</button>
+                                    <button class="btn btn-warning" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="resetPasswordSingle(1)">🔑 Reset</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>2</td><td><strong>ES1-001</strong></td><td>Dr. Ahmad Hidayat, M.Sc</td><td>ahmad.hidayat@span.go.id</td><td>Echelon I</td><td>AUTH-001</td>
+                                <td><span class="badge badge-success">Active</span></td>
+                                <td>
+                                    <button class="btn btn-outline" style="padding: 0.25rem 0.5rem; font-size: 0.75rem; margin-right: 0.25rem;" onclick="editData(2)">✏️ Edit</button>
+                                    <button class="btn btn-warning" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="resetPasswordSingle(2)">🔑 Reset</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="footer-placeholder"></div>
+    <script>
+        initPageComponents({activePage: 'manage-authority', userData: {avatar: 'DJA', role: 'Echelon IV DJA', tahun: '2025', jenisDok: 'RKAKL'}});
+        function logout() {if (confirm('Apakah Anda yakin ingin logout?')) {sessionStorage.clear(); window.location.href = 'index.html';}}
+        function showAddModal() {alert('Tambah user baru...');}
+        function editData(no) {alert('Edit user ' + no);}
+        function importData() {alert('Import data...');}
+        function exportData() {alert('Export data...');}
+        function resetPassword() {alert('Reset password untuk user terpilih...');}
+        function resetPasswordSingle(no) {if (confirm('Reset password untuk user ' + no + '?')) {alert('Password direset...');}}
+    </script>
+</body>
+</html>
+
+
+

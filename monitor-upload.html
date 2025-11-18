@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monitor Upload - CustomWeb SPAN</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/sidebar.js"></script>
+    <script src="js/components.js"></script>
+</head>
+<body>
+    <!-- Header Placeholder -->
+    <div id="header-placeholder"></div>
+
+    <!-- Sidebar Placeholder -->
+    <div id="sidebar-placeholder"></div>
+
+    <!-- Main Content Wrapper -->
+    <div class="main-wrapper" id="mainWrapper">
+        <div class="container">
+        <h2 style="margin-bottom: 1.5rem;">Monitor Status Pengunggahan</h2>
+
+        <div class="alert alert-info">
+            <strong>ℹ️ Informasi:</strong> Halaman ini menampilkan status upload, validasi XML, Digital Stamp, dan hasil validasi data (50+ validation rules).
+        </div>
+
+        <!-- Filter Card -->
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">🔍 Filter Pencarian</h3>
+                <button class="btn btn-primary" onclick="searchData()">
+                    🔎 Cari Data
+                </button>
+            </div>
+
+            <div class="grid grid-4">
+                <div class="form-group">
+                    <label class="form-label">Tanggal Upload Dari</label>
+                    <input type="date" class="form-control" id="tanggalDari">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Tanggal Upload Sampai</label>
+                    <input type="date" class="form-control" id="tanggalSampai">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Jenis Data</label>
+                    <select class="form-control">
+                        <option>Semua</option>
+                        <option>Initial RKAKL</option>
+                        <option>Initial DIPA</option>
+                        <option>Revision RKAKL</option>
+                        <option>Revision DIPA</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Phase Code</label>
+                    <select class="form-control">
+                        <option>-- Semua Phase --</option>
+                        <option>Phase 1</option>
+                        <option>Phase 2</option>
+                        <option>Phase 3</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="grid grid-2" style="margin-top: 1rem;">
+                <div class="form-group">
+                    <label class="form-label">SATKER</label>
+                    <select class="form-control" data-autocomplete="satker"></select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Status Validasi</label>
+                    <select class="form-control">
+                        <option>-- Semua Status --</option>
+                        <option>Success</option>
+                        <option>In Progress</option>
+                        <option>Failed</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Statistics -->
+        <div class="grid grid-4">
+            <div class="stat-card success">
+                <div class="stat-label">✅ Validasi Berhasil</div>
+                <div class="stat-value">185</div>
+            </div>
+            <div class="stat-card warning">
+                <div class="stat-label">⏳ Sedang Divalidasi</div>
+                <div class="stat-value">23</div>
+            </div>
+            <div class="stat-card danger">
+                <div class="stat-label">❌ Error Validasi</div>
+                <div class="stat-value">12</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">📊 Total Upload</div>
+                <div class="stat-value">220</div>
+            </div>
+        </div>
+
+        <!-- Data Table -->
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Hasil Monitoring Upload</h3>
+                <div style="display: flex; gap: 0.5rem;">
+                    <button class="btn btn-success" onclick="exportData()">
+                        📥 Export Excel
+                    </button>
+                    <button class="btn btn-warning" onclick="printReport()">
+                        🖨️ Print Report
+                    </button>
+                </div>
+            </div>
+
+            <div style="overflow-x: auto;">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>SATKER</th>
+                            <th>Nama SATKER</th>
+                            <th>No. Revisi</th>
+                            <th>XML Parse</th>
+                            <th>Digital Stamp</th>
+                            <th>Internal Valid</th>
+                            <th>COA Valid</th>
+                            <th>Submit Status</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>412345</td>
+                            <td>Kantor Pusat DJA</td>
+                            <td><span class="badge badge-info">Rev-0</span></td>
+                            <td><span class="badge badge-success">✓ Success</span></td>
+                            <td><span class="badge badge-success">✓ Valid</span></td>
+                            <td><span class="badge badge-success">✓ Pass</span></td>
+                            <td><span class="badge badge-success">✓ Pass</span></td>
+                            <td><span class="badge badge-success">Submitted</span></td>
+                            <td>
+                                <button class="btn btn-outline" style="padding: 0.25rem 0.75rem; font-size: 0.875rem;" onclick="viewDetail(412345)">
+                                    📋 Detail
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>412346</td>
+                            <td>Kantor Wilayah Jakarta</td>
+                            <td><span class="badge badge-warning">Rev-2</span></td>
+                            <td><span class="badge badge-success">✓ Success</span></td>
+                            <td><span class="badge badge-success">✓ Valid</span></td>
+                            <td><span class="badge badge-danger">✗ Failed</span></td>
+                            <td><span class="badge badge-info">Pending</span></td>
+                            <td><span class="badge badge-danger">Failed</span></td>
+                            <td>
+                                <button class="btn btn-warning" style="padding: 0.25rem 0.75rem; font-size: 0.875rem;" onclick="viewErrors(412346)">
+                                    ⚠️ Lihat Error
+                                </button>
+                                <button class="btn btn-danger" style="padding: 0.25rem 0.75rem; font-size: 0.875rem; margin-top: 0.25rem;" onclick="deleteData(412346)">
+                                    🗑️ Hapus
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>412347</td>
+                            <td>Kantor Wilayah Surabaya</td>
+                            <td><span class="badge badge-info">Rev-0</span></td>
+                            <td><span class="badge badge-success">✓ Success</span></td>
+                            <td><span class="badge badge-warning">⏳ Processing</span></td>
+                            <td><span class="badge badge-info">Waiting</span></td>
+                            <td><span class="badge badge-info">Waiting</span></td>
+                            <td><span class="badge badge-warning">In Progress</span></td>
+                            <td>
+                                <button class="btn btn-outline" style="padding: 0.25rem 0.75rem; font-size: 0.875rem;">
+                                    ⏳ Waiting
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td>412348</td>
+                            <td>Kantor Wilayah Bandung</td>
+                            <td><span class="badge badge-warning">Rev-1</span></td>
+                            <td><span class="badge badge-danger">✗ Failed</span></td>
+                            <td><span class="badge badge-info">-</span></td>
+                            <td><span class="badge badge-info">-</span></td>
+                            <td><span class="badge badge-info">-</span></td>
+                            <td><span class="badge badge-danger">XML Parse Error</span></td>
+                            <td>
+                                <button class="btn btn-danger" style="padding: 0.25rem 0.75rem; font-size: 0.875rem;" onclick="deleteData(412348)">
+                                    🗑️ Hapus
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>5</td>
+                            <td>412349</td>
+                            <td>Kantor Wilayah Medan</td>
+                            <td><span class="badge badge-success">Rev-3</span></td>
+                            <td><span class="badge badge-success">✓ Success</span></td>
+                            <td><span class="badge badge-success">✓ Valid</span></td>
+                            <td><span class="badge badge-success">✓ Pass</span></td>
+                            <td><span class="badge badge-success">✓ Pass</span></td>
+                            <td><span class="badge badge-success">Submitted</span></td>
+                            <td>
+                                <button class="btn btn-outline" style="padding: 0.25rem 0.75rem; font-size: 0.875rem;" onclick="viewDetail(412349)">
+                                    📋 Detail
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Validation Rules Info -->
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">📚 Informasi Validation Rules</h3>
+            </div>
+
+            <div class="grid grid-2">
+                <div>
+                    <h4 style="margin-bottom: 1rem;">Internal Validation (50+ Rules)</h4>
+                    <ul style="line-height: 2;">
+                        <li><strong>Rule 0001-0010:</strong> Data Struktur & Format</li>
+                        <li><strong>Rule 0011-0030:</strong> Business Logic Validation</li>
+                        <li><strong>Rule 0031-0050:</strong> Referential Integrity</li>
+                        <li><strong>Rule 0051-0100:</strong> Budget Calculation</li>
+                        <li><strong>Rule 0101-0153:</strong> Compliance & Policy</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 style="margin-bottom: 1rem;">COA Validation</h4>
+                    <ul style="line-height: 2;">
+                        <li>✓ Chart of Account Structure</li>
+                        <li>✓ Account Code Validity</li>
+                        <li>✓ Account Balance Rules</li>
+                        <li>✓ Account Hierarchy</li>
+                        <li>✓ Account Period Validation</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        </div>
+        </div>
+    </div>
+
+    <!-- Error Detail Modal -->
+    <div id="errorModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>⚠️ Detail Error Validasi</h3>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+
+            <div class="alert alert-danger">
+                <strong>SATKER:</strong> 412346 - Kantor Wilayah Jakarta
+            </div>
+
+            <h4 style="margin-bottom: 1rem;">Internal Validation Errors (3 errors):</h4>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Kode Error</th>
+                        <th>Deskripsi Error</th>
+                        <th>Lokasi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="badge badge-danger">0023</span></td>
+                        <td>Nilai anggaran melebihi PAGU yang dialokasikan</td>
+                        <td>Program 01, Kegiatan 001, Output 01</td>
+                    </tr>
+                    <tr>
+                        <td><span class="badge badge-danger">0045</span></td>
+                        <td>Kode akun tidak sesuai dengan jenis belanja</td>
+                        <td>Akun 521111</td>
+                    </tr>
+                    <tr>
+                        <td><span class="badge badge-danger">0078</span></td>
+                        <td>Target output tidak sesuai dengan indikator kinerja</td>
+                        <td>Output 02</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div style="margin-top: 1.5rem; display: flex; gap: 0.5rem; justify-content: flex-end;">
+                <button class="btn btn-secondary" onclick="closeModal()">Tutup</button>
+                <button class="btn btn-success" onclick="downloadErrorReport()">📥 Download Report</button>
+                <button class="btn btn-warning" onclick="printErrorReport()">🖨️ Print Report</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer Placeholder -->
+    <div id="footer-placeholder"></div>
+
+    <script>
+        // Initialize page components
+        initPageComponents({
+            activePage: 'monitor-upload',
+            userData: {
+                avatar: 'ES1',
+                role: 'Staf Eselon I KL',
+                tahun: '2025',
+                jenisDok: 'RKAKL'
+            }
+        });
+
+        // Initialize autocomplete after page components
+        setTimeout(() => {
+            convertToAutocomplete();
+        }, 200);
+
+        // Set default date range (last 7 days)
+        const today = new Date();
+        const lastWeek = new Date(today);
+        lastWeek.setDate(today.getDate() - 7);
+        
+        document.getElementById('tanggalDari').valueAsDate = lastWeek;
+        document.getElementById('tanggalSampai').valueAsDate = today;
+
+        function logout() {
+            if (confirm('Apakah Anda yakin ingin logout?')) {
+                sessionStorage.clear();
+                window.location.href = 'index.html';
+            }
+        }
+
+        function searchData() {
+            alert('Mencari data dengan filter yang dipilih...');
+        }
+
+        function viewDetail(satkerCode) {
+            alert('Menampilkan detail validasi untuk SATKER: ' + satkerCode);
+        }
+
+        function viewErrors(satkerCode) {
+            document.getElementById('errorModal').classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('errorModal').classList.remove('active');
+        }
+
+        function deleteData(satkerCode) {
+            if (confirm('Hapus data upload untuk SATKER ' + satkerCode + '?\n\nData yang gagal validasi akan dihapus dari sistem.')) {
+                alert('Data berhasil dihapus. Silakan upload ulang dengan data yang sudah diperbaiki.');
+            }
+        }
+
+        function exportData() {
+            alert('Mengexport data ke Excel...');
+        }
+
+        function printReport() {
+            alert('Mencetak laporan monitoring upload...');
+        }
+
+        function downloadErrorReport() {
+            alert('Downloading validation error report...');
+        }
+
+        function printErrorReport() {
+            alert('Printing validation error report...');
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('errorModal');
+            if (event.target === modal) {
+                modal.classList.remove('active');
+            }
+        }
+    </script>
+</body>
+</html>
+

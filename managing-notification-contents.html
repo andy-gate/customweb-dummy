@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Managing Notification Contents - CustomWeb SPAN</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/sidebar.js"></script>
+    <script src="js/components.js"></script>
+</head>
+<body>
+    <!-- Header Placeholder -->
+    <div id="header-placeholder"></div>
+
+    <!-- Sidebar Placeholder -->
+    <div id="sidebar-placeholder"></div>
+
+    <!-- Main Content Wrapper -->
+    <div class="main-wrapper" id="mainWrapper">
+        <div class="container">
+            <h2 style="margin-bottom: 1.5rem;">📧 Managing Notification Contents</h2>
+
+            <div class="alert alert-info">
+                <strong>ℹ️ Informasi:</strong> Halaman ini digunakan untuk mengelola konten template email notifikasi yang akan dikirim kepada user.
+            </div>
+
+            <!-- Notification Types -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">📋 Daftar Template Notifikasi</h3>
+                    <button class="btn btn-primary" onclick="showAddModal()">
+                        ➕ Tambah Template Baru
+                    </button>
+                </div>
+
+                <div style="overflow-x: auto;">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th style="width: 50px;">No</th>
+                                <th style="width: 200px;">Kode Template</th>
+                                <th style="min-width: 250px;">Nama Template</th>
+                                <th style="width: 150px;">Jenis Notifikasi</th>
+                                <th style="width: 120px;">Status</th>
+                                <th style="width: 200px;">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td><strong>NOTIF-001</strong></td>
+                                <td>Notifikasi Upload ADK Berhasil</td>
+                                <td><span class="badge badge-info">Upload ADK</span></td>
+                                <td><span class="badge badge-success">Active</span></td>
+                                <td>
+                                    <button class="btn btn-outline" style="padding: 0.25rem 0.5rem; font-size: 0.75rem; margin-right: 0.25rem;" onclick="editTemplate(1)">
+                                        ✏️ Edit
+                                    </button>
+                                    <button class="btn btn-primary" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="previewTemplate(1)">
+                                        👁️ Preview
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td><strong>NOTIF-002</strong></td>
+                                <td>Notifikasi Approval/Rejection</td>
+                                <td><span class="badge badge-success">Approval</span></td>
+                                <td><span class="badge badge-success">Active</span></td>
+                                <td>
+                                    <button class="btn btn-outline" style="padding: 0.25rem 0.5rem; font-size: 0.75rem; margin-right: 0.25rem;" onclick="editTemplate(2)">
+                                        ✏️ Edit
+                                    </button>
+                                    <button class="btn btn-primary" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="previewTemplate(2)">
+                                        👁️ Preview
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td><strong>NOTIF-003</strong></td>
+                                <td>Notifikasi Lock/Unlock</td>
+                                <td><span class="badge badge-warning">Locking</span></td>
+                                <td><span class="badge badge-success">Active</span></td>
+                                <td>
+                                    <button class="btn btn-outline" style="padding: 0.25rem 0.5rem; font-size: 0.75rem; margin-right: 0.25rem;" onclick="editTemplate(3)">
+                                        ✏️ Edit
+                                    </button>
+                                    <button class="btn btn-primary" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="previewTemplate(3)">
+                                        👁️ Preview
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td><strong>NOTIF-004</strong></td>
+                                <td>Notifikasi DIPA Dibuat</td>
+                                <td><span class="badge badge-primary">DIPA</span></td>
+                                <td><span class="badge badge-success">Active</span></td>
+                                <td>
+                                    <button class="btn btn-outline" style="padding: 0.25rem 0.5rem; font-size: 0.75rem; margin-right: 0.25rem;" onclick="editTemplate(4)">
+                                        ✏️ Edit
+                                    </button>
+                                    <button class="btn btn-primary" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="previewTemplate(4)">
+                                        👁️ Preview
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>5</td>
+                                <td><strong>NOTIF-005</strong></td>
+                                <td>Notifikasi Posting Interface</td>
+                                <td><span class="badge badge-secondary">Posting</span></td>
+                                <td><span class="badge badge-success">Active</span></td>
+                                <td>
+                                    <button class="btn btn-outline" style="padding: 0.25rem 0.5rem; font-size: 0.75rem; margin-right: 0.25rem;" onclick="editTemplate(5)">
+                                        ✏️ Edit
+                                    </button>
+                                    <button class="btn btn-primary" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="previewTemplate(5)">
+                                        👁️ Preview
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add/Edit Modal -->
+    <div id="templateModal" class="modal">
+        <div class="modal-content" style="max-width: 900px;">
+            <div class="modal-header">
+                <h3 id="modalTitle">➕ Tambah Template Notifikasi Baru</h3>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+
+            <div>
+                <div class="grid grid-2">
+                    <div class="form-group">
+                        <label class="form-label">Kode Template <span style="color: red;">*</span></label>
+                        <input type="text" class="form-control" id="kodeTemplate" placeholder="Contoh: NOTIF-001" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Nama Template <span style="color: red;">*</span></label>
+                        <input type="text" class="form-control" id="namaTemplate" placeholder="Masukkan nama template" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Jenis Notifikasi <span style="color: red;">*</span></label>
+                    <select class="form-control" id="jenisNotifikasi" required>
+                        <option value="">-- Pilih Jenis Notifikasi --</option>
+                        <option value="upload-adk">Upload ADK</option>
+                        <option value="approval">Approval/Rejection</option>
+                        <option value="locking">Lock/Unlock</option>
+                        <option value="dipa">DIPA</option>
+                        <option value="posting">Posting Interface</option>
+                        <option value="revisi">Revisi DIPA</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Subject Email <span style="color: red;">*</span></label>
+                    <input type="text" class="form-control" id="subjectEmail" placeholder="Contoh: Notifikasi: Upload ADK Berhasil" required>
+                    <small style="color: var(--text-secondary);">Gunakan variabel: {nama}, {tahun}, {satker}, dll.</small>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Konten Email <span style="color: red;">*</span></label>
+                    <textarea class="form-control" id="kontenEmail" rows="12" placeholder="Masukkan konten email template..." required></textarea>
+                    <small style="color: var(--text-secondary); margin-top: 0.5rem; display: block;">
+                        <strong>Variabel yang tersedia:</strong><br>
+                        {nama} - Nama user<br>
+                        {tahun} - Tahun anggaran<br>
+                        {satker} - Nama SATKER<br>
+                        {dipa} - Nomor DIPA<br>
+                        {tanggal} - Tanggal<br>
+                        {status} - Status<br>
+                        {link} - Link aplikasi
+                    </small>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Status</label>
+                    <select class="form-control" id="statusTemplate">
+                        <option value="active" selected>Active</option>
+                        <option value="inactive">Inactive</option>
+                    </select>
+                </div>
+
+                <div style="display: flex; gap: 0.5rem; justify-content: flex-end; margin-top: 1.5rem;">
+                    <button class="btn btn-secondary" onclick="closeModal()">Batal</button>
+                    <button class="btn btn-info" onclick="previewTemplateModal()">
+                        👁️ Preview
+                    </button>
+                    <button class="btn btn-primary" onclick="saveTemplate()">💾 Simpan</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Preview Modal -->
+    <div id="previewModal" class="modal">
+        <div class="modal-content" style="max-width: 800px;">
+            <div class="modal-header">
+                <h3>👁️ Preview Template Email</h3>
+                <button class="modal-close" onclick="closePreviewModal()">&times;</button>
+            </div>
+            <div style="padding: 1.5rem;">
+                <div style="border: 1px solid var(--border-color); padding: 1.5rem; border-radius: 4px; background-color: #f8f9fa;">
+                    <div style="margin-bottom: 1rem;">
+                        <strong>Subject:</strong>
+                        <div id="previewSubject" style="margin-top: 0.5rem; padding: 0.5rem; background-color: white; border-radius: 4px;">
+                            Notifikasi: Upload ADK Berhasil
+                        </div>
+                    </div>
+                    <div>
+                        <strong>Body:</strong>
+                        <div id="previewBody" style="margin-top: 0.5rem; padding: 1rem; background-color: white; border-radius: 4px; white-space: pre-wrap; line-height: 1.6;">
+Yth. {nama},
+
+Terima kasih. Upload ADK untuk SATKER {satker} telah berhasil dilakukan pada tanggal {tanggal}.
+
+Silakan login ke aplikasi untuk melihat detail lebih lanjut.
+{link}
+
+Hormat kami,
+Tim CustomWeb SPAN
+                        </div>
+                    </div>
+                </div>
+                <div style="display: flex; justify-content: flex-end; margin-top: 1rem;">
+                    <button class="btn btn-secondary" onclick="closePreviewModal()">Tutup</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer Placeholder -->
+    <div id="footer-placeholder"></div>
+
+    <script>
+        // Initialize page components
+        initPageComponents({
+            activePage: 'manage-basic-info',
+            userData: {
+                avatar: 'DJA',
+                role: 'Echelon IV DJA',
+                tahun: '2025',
+                jenisDok: 'RKAKL'
+            }
+        });
+
+        function logout() {
+            if (confirm('Apakah Anda yakin ingin logout?')) {
+                sessionStorage.clear();
+                window.location.href = 'index.html';
+            }
+        }
+
+        function showAddModal() {
+            document.getElementById('modalTitle').textContent = '➕ Tambah Template Notifikasi Baru';
+            document.getElementById('kodeTemplate').value = '';
+            document.getElementById('namaTemplate').value = '';
+            document.getElementById('jenisNotifikasi').value = '';
+            document.getElementById('subjectEmail').value = '';
+            document.getElementById('kontenEmail').value = '';
+            document.getElementById('statusTemplate').value = 'active';
+            document.getElementById('templateModal').classList.add('active');
+        }
+
+        function editTemplate(no) {
+            document.getElementById('modalTitle').textContent = '✏️ Edit Template Notifikasi';
+            // Load data for template no
+            document.getElementById('kodeTemplate').value = 'NOTIF-001';
+            document.getElementById('namaTemplate').value = 'Notifikasi Upload ADK Berhasil';
+            document.getElementById('jenisNotifikasi').value = 'upload-adk';
+            document.getElementById('subjectEmail').value = 'Notifikasi: Upload ADK Berhasil';
+            document.getElementById('kontenEmail').value = 'Yth. {nama},\n\nTerima kasih. Upload ADK untuk SATKER {satker} telah berhasil dilakukan pada tanggal {tanggal}.\n\nSilakan login ke aplikasi untuk melihat detail lebih lanjut.\n{link}\n\nHormat kami,\nTim CustomWeb SPAN';
+            document.getElementById('statusTemplate').value = 'active';
+            document.getElementById('templateModal').classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('templateModal').classList.remove('active');
+        }
+
+        function closePreviewModal() {
+            document.getElementById('previewModal').classList.remove('active');
+        }
+
+        function previewTemplate(no) {
+            document.getElementById('previewSubject').textContent = 'Notifikasi: Upload ADK Berhasil';
+            document.getElementById('previewBody').textContent = 'Yth. {nama},\n\nTerima kasih. Upload ADK untuk SATKER {satker} telah berhasil dilakukan pada tanggal {tanggal}.\n\nSilakan login ke aplikasi untuk melihat detail lebih lanjut.\n{link}\n\nHormat kami,\nTim CustomWeb SPAN';
+            document.getElementById('previewModal').classList.add('active');
+        }
+
+        function previewTemplateModal() {
+            const subject = document.getElementById('subjectEmail').value;
+            const body = document.getElementById('kontenEmail').value;
+
+            if (!subject || !body) {
+                alert('Mohon isi Subject dan Konten Email terlebih dahulu!');
+                return;
+            }
+
+            document.getElementById('previewSubject').textContent = subject;
+            document.getElementById('previewBody').textContent = body;
+            document.getElementById('previewModal').classList.add('active');
+        }
+
+        function saveTemplate() {
+            const kodeTemplate = document.getElementById('kodeTemplate').value;
+            const namaTemplate = document.getElementById('namaTemplate').value;
+            const jenisNotifikasi = document.getElementById('jenisNotifikasi').value;
+            const subjectEmail = document.getElementById('subjectEmail').value;
+            const kontenEmail = document.getElementById('kontenEmail').value;
+
+            if (!kodeTemplate || !namaTemplate || !jenisNotifikasi || !subjectEmail || !kontenEmail) {
+                alert('Mohon lengkapi semua field yang wajib diisi!');
+                return;
+            }
+
+            alert('Template notifikasi berhasil disimpan!');
+            closeModal();
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const templateModal = document.getElementById('templateModal');
+            const previewModal = document.getElementById('previewModal');
+            if (event.target === templateModal) {
+                templateModal.classList.remove('active');
+            }
+            if (event.target === previewModal) {
+                previewModal.classList.remove('active');
+            }
+        }
+    </script>
+</body>
+</html>
+
+
+

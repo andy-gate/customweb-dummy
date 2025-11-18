@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jenis Belanja/Akun - CustomWeb SPAN</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/sidebar.js"></script>
+    <script src="js/components.js"></script>
+</head>
+<body>
+    <!-- Header Placeholder -->
+    <div id="header-placeholder"></div>
+
+    <!-- Sidebar Placeholder -->
+    <div id="sidebar-placeholder"></div>
+
+    <!-- Main Content Wrapper -->
+    <div class="main-wrapper" id="mainWrapper">
+        <div class="container">
+            <h2 style="margin-bottom: 1.5rem;">💰 Jenis Belanja/Akun</h2>
+
+            <div class="alert alert-info">
+                <strong>ℹ️ Informasi:</strong> Halaman ini digunakan untuk mengelola data referensi Jenis Belanja dan Akun dalam sistem.
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">⚡ Aksi</h3>
+                </div>
+                <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                    <button class="btn btn-primary" onclick="showAddModal()">
+                        ➕ Tambah Data Baru
+                    </button>
+                    <button class="btn btn-success" onclick="importData()">
+                        📥 Import dari Excel
+                    </button>
+                    <button class="btn btn-info" onclick="exportData()">
+                        📤 Export ke Excel
+                    </button>
+                    <button class="btn btn-warning" onclick="syncFromBAPPENAS()">
+                        🔄 Sync dari BAPPENAS
+                    </button>
+                </div>
+            </div>
+
+            <!-- Filter Card -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">🔍 Filter Pencarian</h3>
+                    <div style="display: flex; gap: 0.5rem;">
+                        <button class="btn btn-primary" onclick="searchData()">
+                            🔍 Search
+                        </button>
+                        <button class="btn btn-secondary" onclick="resetFilter()">
+                            🔄 Reset
+                        </button>
+                    </div>
+                </div>
+
+                <div class="grid grid-3">
+                    <div class="form-group">
+                        <label class="form-label">Kode Akun</label>
+                        <input type="text" class="form-control" placeholder="Cari berdasarkan kode akun">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Nama Akun</label>
+                        <input type="text" class="form-control" placeholder="Cari berdasarkan nama akun">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Jenis Belanja</label>
+                        <select class="form-control">
+                            <option value="">-- Semua Jenis --</option>
+                            <option>Belanja Pegawai</option>
+                            <option>Belanja Barang</option>
+                            <option>Belanja Modal</option>
+                            <option>Belanja Bantuan Sosial</option>
+                            <option>Belanja Subsidi</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Data Table -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">📊 Daftar Jenis Belanja/Akun</h3>
+                </div>
+
+                <div style="overflow-x: auto;">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th style="width: 50px;">No</th>
+                                <th style="width: 120px;">Kode Akun</th>
+                                <th style="min-width: 300px;">Nama Akun</th>
+                                <th style="width: 150px;">Jenis Belanja</th>
+                                <th style="width: 150px;">Kode Kelompok</th>
+                                <th style="width: 150px;">Nama Kelompok</th>
+                                <th style="width: 120px;">Status</th>
+                                <th style="width: 200px;">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td><strong>511111</strong></td>
+                                <td>Belanja Gaji dan Tunjangan PNS</td>
+                                <td>Belanja Pegawai</td>
+                                <td>51</td>
+                                <td>Belanja Operasional</td>
+                                <td><span class="badge badge-success">Active</span></td>
+                                <td>
+                                    <button class="btn btn-outline" style="padding: 0.25rem 0.5rem; font-size: 0.75rem; margin-right: 0.25rem;" onclick="editData(1)">
+                                        ✏️ Edit
+                                    </button>
+                                    <button class="btn btn-danger" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="deleteData(1)">
+                                        🗑️ Hapus
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td><strong>521111</strong></td>
+                                <td>Belanja Bahan</td>
+                                <td>Belanja Barang</td>
+                                <td>52</td>
+                                <td>Belanja Barang</td>
+                                <td><span class="badge badge-success">Active</span></td>
+                                <td>
+                                    <button class="btn btn-outline" style="padding: 0.25rem 0.5rem; font-size: 0.75rem; margin-right: 0.25rem;" onclick="editData(2)">
+                                        ✏️ Edit
+                                    </button>
+                                    <button class="btn btn-danger" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="deleteData(2)">
+                                        🗑️ Hapus
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td><strong>531111</strong></td>
+                                <td>Belanja Peralatan dan Mesin</td>
+                                <td>Belanja Modal</td>
+                                <td>53</td>
+                                <td>Belanja Modal</td>
+                                <td><span class="badge badge-success">Active</span></td>
+                                <td>
+                                    <button class="btn btn-outline" style="padding: 0.25rem 0.5rem; font-size: 0.75rem; margin-right: 0.25rem;" onclick="editData(3)">
+                                        ✏️ Edit
+                                    </button>
+                                    <button class="btn btn-danger" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="deleteData(3)">
+                                        🗑️ Hapus
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Pagination -->
+                <div style="display: flex; justify-content: space-between; align-items: center; padding: 1rem 0; border-top: 1px solid var(--border-color);">
+                    <div>
+                        Showing 1-3 of 150 records
+                    </div>
+                    <div style="display: flex; gap: 0.5rem;">
+                        <button class="btn btn-outline" style="padding: 0.5rem 1rem;" disabled>← Previous</button>
+                        <button class="btn btn-outline active" style="padding: 0.5rem 1rem;">1</button>
+                        <button class="btn btn-outline" style="padding: 0.5rem 1rem;">2</button>
+                        <button class="btn btn-outline" style="padding: 0.5rem 1rem;">3</button>
+                        <button class="btn btn-outline" style="padding: 0.5rem 1rem;">Next →</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add/Edit Modal -->
+    <div id="dataModal" class="modal">
+        <div class="modal-content" style="max-width: 700px;">
+            <div class="modal-header">
+                <h3 id="modalTitle">➕ Tambah Jenis Belanja/Akun Baru</h3>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+
+            <div>
+                <div class="grid grid-2">
+                    <div class="form-group">
+                        <label class="form-label">Kode Akun <span style="color: red;">*</span></label>
+                        <input type="text" class="form-control" id="kodeAkun" placeholder="Contoh: 511111" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Jenis Belanja <span style="color: red;">*</span></label>
+                        <select class="form-control" id="jenisBelanja" required>
+                            <option value="">-- Pilih Jenis Belanja --</option>
+                            <option>Belanja Pegawai</option>
+                            <option>Belanja Barang</option>
+                            <option>Belanja Modal</option>
+                            <option>Belanja Bantuan Sosial</option>
+                            <option>Belanja Subsidi</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Nama Akun <span style="color: red;">*</span></label>
+                    <input type="text" class="form-control" id="namaAkun" placeholder="Masukkan nama akun" required>
+                </div>
+
+                <div class="grid grid-2">
+                    <div class="form-group">
+                        <label class="form-label">Kode Kelompok</label>
+                        <input type="text" class="form-control" id="kodeKelompok" placeholder="Contoh: 51">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Nama Kelompok</label>
+                        <input type="text" class="form-control" id="namaKelompok" placeholder="Masukkan nama kelompok">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Keterangan</label>
+                    <textarea class="form-control" id="keterangan" rows="3" placeholder="Masukkan keterangan (opsional)"></textarea>
+                </div>
+
+                <div style="display: flex; gap: 0.5rem; justify-content: flex-end; margin-top: 1.5rem;">
+                    <button class="btn btn-secondary" onclick="closeModal()">Batal</button>
+                    <button class="btn btn-primary" onclick="saveData()">💾 Simpan</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer Placeholder -->
+    <div id="footer-placeholder"></div>
+
+    <script>
+        // Initialize page components
+        initPageComponents({
+            activePage: 'manage-reference-data',
+            userData: {
+                avatar: 'DJA',
+                role: 'Echelon IV DJA',
+                tahun: '2025',
+                jenisDok: 'RKAKL'
+            }
+        });
+
+        function logout() {
+            if (confirm('Apakah Anda yakin ingin logout?')) {
+                sessionStorage.clear();
+                window.location.href = 'index.html';
+            }
+        }
+
+        function showAddModal() {
+            document.getElementById('modalTitle').textContent = '➕ Tambah Jenis Belanja/Akun Baru';
+            document.getElementById('kodeAkun').value = '';
+            document.getElementById('namaAkun').value = '';
+            document.getElementById('jenisBelanja').value = '';
+            document.getElementById('kodeKelompok').value = '';
+            document.getElementById('namaKelompok').value = '';
+            document.getElementById('keterangan').value = '';
+            document.getElementById('dataModal').classList.add('active');
+        }
+
+        function editData(no) {
+            document.getElementById('modalTitle').textContent = '✏️ Edit Jenis Belanja/Akun';
+            document.getElementById('kodeAkun').value = '511111';
+            document.getElementById('namaAkun').value = 'Belanja Gaji dan Tunjangan PNS';
+            document.getElementById('jenisBelanja').value = 'Belanja Pegawai';
+            document.getElementById('kodeKelompok').value = '51';
+            document.getElementById('namaKelompok').value = 'Belanja Operasional';
+            document.getElementById('keterangan').value = '';
+            document.getElementById('dataModal').classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('dataModal').classList.remove('active');
+        }
+
+        function saveData() {
+            const kodeAkun = document.getElementById('kodeAkun').value;
+            const namaAkun = document.getElementById('namaAkun').value;
+            const jenisBelanja = document.getElementById('jenisBelanja').value;
+
+            if (!kodeAkun || !namaAkun || !jenisBelanja) {
+                alert('Mohon lengkapi semua field yang wajib diisi!');
+                return;
+            }
+
+            alert('Data berhasil disimpan!');
+            closeModal();
+        }
+
+        function deleteData(no) {
+            if (confirm(`Apakah Anda yakin ingin menghapus data nomor ${no}?\n\nPeringatan: Data yang sudah dihapus tidak dapat dikembalikan!`)) {
+                alert(`Menghapus data nomor ${no}...`);
+            }
+        }
+
+        function importData() {
+            alert('Membuka dialog untuk import data dari Excel...');
+        }
+
+        function exportData() {
+            alert('Exporting data ke Excel...');
+        }
+
+        function syncFromBAPPENAS() {
+            if (confirm('Apakah Anda yakin ingin melakukan sinkronisasi data dari BAPPENAS?')) {
+                alert('Memulai sinkronisasi data dari BAPPENAS...');
+            }
+        }
+
+        function searchData() {
+            alert('Mencari data dengan filter yang dipilih...');
+        }
+
+        function resetFilter() {
+            document.querySelectorAll('.form-control').forEach(el => {
+                if (el.tagName === 'INPUT') {
+                    el.value = '';
+                } else if (el.tagName === 'SELECT') {
+                    el.selectedIndex = 0;
+                }
+            });
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('dataModal');
+            if (event.target === modal) {
+                modal.classList.remove('active');
+            }
+        }
+    </script>
+</body>
+</html>
+
+
+

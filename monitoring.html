@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monitoring - CustomWeb SPAN</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/sidebar.js"></script>
+    <script src="js/components.js"></script>
+</head>
+<body>
+    <!-- Header Placeholder -->
+    <div id="header-placeholder"></div>
+
+    <!-- Sidebar Placeholder -->
+    <div id="sidebar-placeholder"></div>
+
+    <!-- Main Content Wrapper -->
+    <div class="main-wrapper" id="mainWrapper">
+        <div class="container">
+        <h2 style="margin-bottom: 1.5rem;">Monitoring</h2>
+
+        <!-- Filter dan Pencarian Section -->
+        <div class="card">
+
+            <!-- Filter Status -->
+            <div class="form-group" style="margin-bottom: 1.5rem;">
+                <label class="form-label" style="font-weight: 600; margin-bottom: 0.75rem;">Status:</label>
+                <div style="display: flex; flex-wrap: wrap; gap: 1rem;">
+                    <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                        <input type="radio" name="status" value="before-receive">
+                        <span>Sebelum Penerimaan</span>
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                        <input type="radio" name="status" value="receive-process">
+                        <span>Proses Penerimaan</span>
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                        <input type="radio" name="status" value="validation-process">
+                        <span>Proses Validasi</span>
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                        <input type="radio" name="status" value="not-posting">
+                        <span>Tidak Posting</span>
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                        <input type="radio" name="status" value="posting">
+                        <span>Posting</span>
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                        <input type="radio" name="status" value="all" checked>
+                        <span>Semua</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Filter Kondisi dan Pencarian -->
+            <div style="display: flex; gap: 2rem; flex-wrap: wrap; align-items: flex-end; margin-bottom: 1.5rem;">
+                <!-- Filter Kondisi -->
+                <div class="form-group" style="flex: 1; min-width: 400px;">
+                    <label class="form-label" style="font-weight: 600; margin-bottom: 0.75rem;">Kondisi:</label>
+                    <div style="display: flex; flex-wrap: wrap; gap: 1rem;">
+                        <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                            <input type="radio" name="kondisi" value="dept">
+                            <span>Dept</span>
+                        </label>
+                        <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                            <input type="radio" name="kondisi" value="unit">
+                            <span>Unit</span>
+                        </label>
+                        <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                            <input type="radio" name="kondisi" value="lokasi">
+                            <span>Lokasi</span>
+                        </label>
+                        <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                            <input type="radio" name="kondisi" value="satker">
+                            <span>Satker</span>
+                        </label>
+                        <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                            <input type="radio" name="kondisi" value="all" checked>
+                            <span>Semua</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Keyword Search -->
+                <div class="form-group" style="display: flex; gap: 0.5rem; align-items: flex-end;">
+                    <div>
+                        <label class="form-label" style="font-weight: 600;">Kata kunci :</label>
+                        <input type="text" class="form-control" placeholder="Masukkan kata kunci..." style="min-width: 250px;">
+                    </div>
+                    <button class="btn btn-primary">
+                        Cari
+                    </button>
+                </div>
+            </div>
+
+            <!-- Tab Navigation -->
+            <div style="display: flex; gap: 0.5rem; margin-bottom: 1.5rem;">
+                <button class="tab-btn-dashboard active" onclick="switchTab('monitoring')">Monitoring</button>
+                <button class="tab-btn-dashboard" onclick="switchTab('posting')">Posting dan Create DIPA</button>
+                <button class="tab-btn-dashboard" onclick="switchTab('copyAdk')">Copy ADK</button>
+            </div>
+
+            <!-- Monitoring Tab -->
+            <div id="monitoring-tab" class="tab-content active">
+                <!-- Total Data dan Action Buttons -->
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 1rem;">
+                    <div style="display: flex; align-items: center; gap: 1.5rem;">
+                        <div style="font-weight: 600; font-size: 1rem;">
+                            Total <span style="color: var(--primary-color);">3367</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 0.5rem;">
+                            <label class="form-label" style="margin: 0;">Jumlah per halaman</label>
+                            <select class="form-control" style="width: auto; padding: 0.5rem;">
+                                <option value="10">10</option>
+                                <option value="30" selected>30</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                        <button class="btn btn-danger" style="padding: 0.5rem 1rem;">
+                            🚫 Nonaktif Satker
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Data Table -->
+                <div style="overflow-x: auto;">
+                    <table class="table table-hierarchical">
+                        <thead>
+                            <tr>
+                                <th style="width: 30px;"><input type="checkbox"></th>
+                                <th style="min-width: 350px;">KEMENTERIAN/UNIT/LOKASI/SATKER</th>
+                                <th colspan="2" style="text-align: center;">Revision</th>
+                                <th>Penerimaan ADK</th>
+                                <th>Valid ADK</th>
+                                <th>Posting</th>
+                                <th colspan="2" style="text-align: center;">Dipa Creation</th>
+                                <th>Email Notifikasi</th>
+                            </tr>
+                            <tr>
+                                <th></th>
+                                <th></th>
+                                <th style="width: 50px;">NO</th>
+                                <th style="width: 80px;">Type</th>
+                                <th style="width: 100px;"></th>
+                                <th style="width: 100px;"></th>
+                                <th style="width: 100px;"></th>
+                                <th style="width: 100px;">Induk</th>
+                                <th style="width: 100px;">Petikan</th>
+                                <th style="width: 120px;"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Level 1: Mahkamah Agung -->
+                            <tr class="hierarchy-level-1">
+                                <td><input type="checkbox"></td>
+                                <td><strong>005 MAHKAMAH AGUNG</strong></td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <!-- Level 2: Badan Strategi Kebijakan -->
+                            <tr class="hierarchy-level-2">
+                                <td><input type="checkbox"></td>
+                                <td style="padding-left: 2rem;"><strong>005.06 Badan Strategi Kebijakan dan Pendidikan da...</strong></td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <!-- Level 3: Jawa Barat -->
+                            <tr class="hierarchy-level-3">
+                                <td><input type="checkbox"></td>
+                                <td style="padding-left: 4rem;">005.06.02 JAWA BARAT</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <!-- Level 4: Satker with data -->
+                            <tr class="hierarchy-level-4">
+                                <td><input type="checkbox"></td>
+                                <td style="padding-left: 6rem;">610378 Badan Strategi Kebijakan dan Pendidikan da...</td>
+                                <td>11</td>
+                                <td>DJA</td>
+                                <td></td>
+                                <td>V</td>
+                                <td>V</td>
+                                <td></td>
+                                <td>V</td>
+                                <td>V</td>
+                            </tr>
+                            
+                            <!-- Level 1: Kementerian Luar Negeri -->
+                            <tr class="hierarchy-level-1">
+                                <td><input type="checkbox"></td>
+                                <td><strong>011 KEMENTERIAN LUAR NEGERI</strong></td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <!-- Level 2: Ditjen Hukum -->
+                            <tr class="hierarchy-level-2">
+                                <td><input type="checkbox"></td>
+                                <td style="padding-left: 2rem;"><strong>011.07 Ditjen Hukum dan Perjanjian Internasional</strong></td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <!-- Level 3: DKI Jakarta -->
+                            <tr class="hierarchy-level-3">
+                                <td><input type="checkbox"></td>
+                                <td style="padding-left: 4rem;">011.07.01 DKI JAKARTA</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <!-- Level 4: Satker -->
+                            <tr class="hierarchy-level-4">
+                                <td><input type="checkbox"></td>
+                                <td style="padding-left: 6rem;">667829 DITJEN HUKUM DAN PERJANJIAN INTERNASIONAL</td>
+                                <td>6</td>
+                                <td>KANWIL DJPB</td>
+                                <td></td>
+                                <td>V</td>
+                                <td>V</td>
+                                <td></td>
+                                <td>V</td>
+                                <td>V</td>
+                            </tr>
+
+                            <!-- Level 1: Kementerian Pertahanan -->
+                            <tr class="hierarchy-level-1">
+                                <td><input type="checkbox"></td>
+                                <td><strong>012 KEMENTERIAN PERTAHANAN</strong></td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <!-- Level 2: Kementerian Pertahanan -->
+                            <tr class="hierarchy-level-2">
+                                <td><input type="checkbox"></td>
+                                <td style="padding-left: 2rem;"><strong>012.01 Kementerian Pertahanan</strong></td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <!-- Level 3: DKI Jakarta -->
+                            <tr class="hierarchy-level-3">
+                                <td><input type="checkbox"></td>
+                                <td style="padding-left: 4rem;">012.01.01 DKI JAKARTA</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <!-- Level 4: Satker -->
+                            <tr class="hierarchy-level-4">
+                                <td><input type="checkbox"></td>
+                                <td style="padding-left: 6rem;">683809 RO HUKUM SETJEN KEMHAN</td>
+                                <td>9</td>
+                                <td>DJA</td>
+                                <td></td>
+                                <td>V</td>
+                                <td>V</td>
+                                <td></td>
+                                <td>V</td>
+                                <td>V</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Pagination -->
+                <div class="pagination-container">
+                    <div class="pagination-info">
+                        Menampilkan 1-30 dari 3367 data
+                    </div>
+                    <div class="pagination">
+                        <button class="pagination-btn" disabled>‹‹ First</button>
+                        <button class="pagination-btn" disabled>‹ Previous</button>
+                        <button class="pagination-btn active">1</button>
+                        <button class="pagination-btn">2</button>
+                        <button class="pagination-btn">3</button>
+                        <button class="pagination-btn">4</button>
+                        <button class="pagination-btn">5</button>
+                        <span class="pagination-dots">...</span>
+                        <button class="pagination-btn">113</button>
+                        <button class="pagination-btn">Next ›</button>
+                        <button class="pagination-btn">Last ››</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Posting Tab -->
+            <div id="posting-tab" class="tab-content" style="display: none;">
+                <!-- Total Data dan Action Buttons -->
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 1rem;">
+                    <div style="display: flex; align-items: center; gap: 1.5rem;">
+                        <div style="font-weight: 600; font-size: 1rem;">
+                            Total <span style="color: var(--primary-color);">3367</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 0.5rem;">
+                            <label class="form-label" style="margin: 0;">Jumlah per halaman</label>
+                            <select class="form-control" style="width: auto; padding: 0.5rem;">
+                                <option value="10">10</option>
+                                <option value="30" selected>30</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                        <button class="btn btn-success" style="padding: 0.5rem 1rem;">
+                            📊 Digital Stamp Excel
+                        </button>
+                        <button class="btn btn-primary" style="padding: 0.5rem 1rem;">
+                            📤 Request Posting
+                        </button>
+                        <button class="btn btn-info" style="padding: 0.5rem 1rem;">
+                            📧 Resend Email
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Data Table -->
+                <div style="overflow-x: auto;">
+                    <table class="table table-hierarchical">
+                        <thead>
+                            <tr>
+                                <th style="width: 30px;"><input type="checkbox"></th>
+                                <th style="min-width: 350px;">KEMENTERIAN/UNIT/LOKASI/SATKER</th>
+                                <th colspan="2" style="text-align: center;">Revision</th>
+                                <th>Jumlah</th>
+                                <th>Status</th>
+                                <th>Description</th>
+                                <th>Request Time</th>
+                                <th>End Time</th>
+                                <th>Requester</th>
+                            </tr>
+                            <tr>
+                                <th></th>
+                                <th></th>
+                                <th style="width: 50px;">NO</th>
+                                <th style="width: 80px;">Type</th>
+                                <th style="width: 120px;"></th>
+                                <th style="width: 120px;"></th>
+                                <th style="min-width: 200px;"></th>
+                                <th style="width: 150px;"></th>
+                                <th style="width: 150px;"></th>
+                                <th style="width: 150px;"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Level 1: Mahkamah Agung -->
+                            <tr class="hierarchy-level-1">
+                                <td><input type="checkbox"></td>
+                                <td><strong>005 MAHKAMAH AGUNG</strong></td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <!-- Level 2: Badan Strategi Kebijakan -->
+                            <tr class="hierarchy-level-2">
+                                <td><input type="checkbox"></td>
+                                <td style="padding-left: 2rem;"><strong>005.06 Badan Strategi Kebijakan dan Pendidikan da...</strong></td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <!-- Level 3: Jawa Barat -->
+                            <tr class="hierarchy-level-3">
+                                <td><input type="checkbox"></td>
+                                <td style="padding-left: 4rem;">005.06.02 JAWA BARAT</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <!-- Level 4: Satker -->
+                            <tr class="hierarchy-level-4">
+                                <td><input type="checkbox"></td>
+                                <td style="padding-left: 6rem;">610378 Badan Strategi Kebijakan dan Pendidikan da...</td>
+                                <td>11</td>
+                                <td>DJA</td>
+                                <td>15.500.000</td>
+                                <td><span class="badge badge-success">Success</span></td>
+                                <td>Request Posting to EBS System</td>
+                                <td>13/11/2025 08:30</td>
+                                <td>13/11/2025 08:35</td>
+                                <td>Admin DJA</td>
+                            </tr>
+                            
+                            <!-- Level 1: Kementerian Luar Negeri -->
+                            <tr class="hierarchy-level-1">
+                                <td><input type="checkbox"></td>
+                                <td><strong>011 KEMENTERIAN LUAR NEGERI</strong></td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <!-- Level 2: Ditjen Hukum -->
+                            <tr class="hierarchy-level-2">
+                                <td><input type="checkbox"></td>
+                                <td style="padding-left: 2rem;"><strong>011.07 Ditjen Hukum dan Perjanjian Internasional</strong></td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <!-- Level 3: DKI Jakarta -->
+                            <tr class="hierarchy-level-3">
+                                <td><input type="checkbox"></td>
+                                <td style="padding-left: 4rem;">011.07.01 DKI JAKARTA</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <!-- Level 4: Satker -->
+                            <tr class="hierarchy-level-4">
+                                <td><input type="checkbox"></td>
+                                <td style="padding-left: 6rem;">667829 DITJEN HUKUM DAN PERJANJIAN INTERNASIONAL</td>
+                                <td>6</td>
+                                <td>KANWIL DJPB</td>
+                                <td>28.750.000</td>
+                                <td><span class="badge badge-warning">In Progress</span></td>
+                                <td>Create DIPA and Send Email Notification</td>
+                                <td>13/11/2025 09:15</td>
+                                <td>-</td>
+                                <td>Operator KANWIL</td>
+                            </tr>
+
+                            <!-- Level 1: Kementerian Pertahanan -->
+                            <tr class="hierarchy-level-1">
+                                <td><input type="checkbox"></td>
+                                <td><strong>012 KEMENTERIAN PERTAHANAN</strong></td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <!-- Level 2: Kementerian Pertahanan -->
+                            <tr class="hierarchy-level-2">
+                                <td><input type="checkbox"></td>
+                                <td style="padding-left: 2rem;"><strong>012.01 Kementerian Pertahanan</strong></td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <!-- Level 3: DKI Jakarta -->
+                            <tr class="hierarchy-level-3">
+                                <td><input type="checkbox"></td>
+                                <td style="padding-left: 4rem;">012.01.01 DKI JAKARTA</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <!-- Level 4: Satker -->
+                            <tr class="hierarchy-level-4">
+                                <td><input type="checkbox"></td>
+                                <td style="padding-left: 6rem;">683809 RO HUKUM SETJEN KEMHAN</td>
+                                <td>9</td>
+                                <td>DJA</td>
+                                <td>12.300.000</td>
+                                <td><span class="badge badge-success">Success</span></td>
+                                <td>Posting Data to EBS</td>
+                                <td>13/11/2025 10:00</td>
+                                <td>13/11/2025 10:05</td>
+                                <td>System Admin</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Pagination -->
+                <div class="pagination-container">
+                    <div class="pagination-info">
+                        Menampilkan 1-30 dari 3367 data
+                    </div>
+                    <div class="pagination">
+                        <button class="pagination-btn" disabled>‹‹ First</button>
+                        <button class="pagination-btn" disabled>‹ Previous</button>
+                        <button class="pagination-btn active">1</button>
+                        <button class="pagination-btn">2</button>
+                        <button class="pagination-btn">3</button>
+                        <button class="pagination-btn">4</button>
+                        <button class="pagination-btn">5</button>
+                        <span class="pagination-dots">...</span>
+                        <button class="pagination-btn">113</button>
+                        <button class="pagination-btn">Next ›</button>
+                        <button class="pagination-btn">Last ››</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Copy ADK Tab -->
+            <div id="copyAdk-tab" class="tab-content" style="display: none;">
+                <!-- Total Data dan Action Buttons -->
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 1rem;">
+                    <div style="display: flex; align-items: center; gap: 1.5rem;">
+                        <div style="font-weight: 600; font-size: 1rem;">
+                            Total <span style="color: var(--primary-color);">127</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 0.5rem;">
+                            <label class="form-label" style="margin: 0;">Jumlah per halaman</label>
+                            <select class="form-control" style="width: auto; padding: 0.5rem;">
+                                <option value="10">10</option>
+                                <option value="30" selected>30</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                        <button class="btn btn-success" style="padding: 0.5rem 1rem;">
+                            📦 Buat ADK
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Data Table -->
+                <div style="overflow-x: auto;">
+                    <table class="table table-hierarchical">
+                        <thead>
+                            <tr>
+                                <th style="width: 30px;"><input type="checkbox"></th>
+                                <th style="min-width: 350px;">KEMENTERIAN/UNIT/LOKASI/SATKER</th>
+                                <th colspan="2" style="text-align: center;">Revision</th>
+                                <th>Nama File ADK</th>
+                                <th>Tanggal Generate</th>
+                                <th>Ukuran File</th>
+                                <th>Status ADK</th>
+                                <th>Aksi</th>
+                            </tr>
+                            <tr>
+                                <th></th>
+                                <th></th>
+                                <th style="width: 60px;">NO</th>
+                                <th style="width: 60px;">Type</th>
+                                <th style="width: 200px;"></th>
+                                <th style="width: 150px;"></th>
+                                <th style="width: 100px;"></th>
+                                <th style="width: 100px;"></th>
+                                <th style="width: 100px;"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Level 1: Kementerian -->
+                            <tr class="hierarchy-level-1">
+                                <td><input type="checkbox"></td>
+                                <td><strong>013 KEMENTERIAN HUKUM DAN HAK ASASI MANUSIA RI</strong></td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                            </tr>
+                            <!-- Level 2: Sekretariat Jenderal -->
+                            <tr class="hierarchy-level-2">
+                                <td><input type="checkbox"></td>
+                                <td style="padding-left: 2rem;"><strong>013.01 Sekretariat Jenderal</strong></td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                            </tr>
+                            <!-- Level 3: DKI Jakarta -->
+                            <tr class="hierarchy-level-3">
+                                <td><input type="checkbox"></td>
+                                <td style="padding-left: 4rem;">013.01.01 DKI JAKARTA</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                            </tr>
+                            <!-- Level 4: Satker -->
+                            <tr class="hierarchy-level-4">
+                                <td><input type="checkbox"></td>
+                                <td style="padding-left: 6rem;">404233 SEKRETARIAT JENDERAL (PUSAT)</td>
+                                <td>-1</td>
+                                <td>DJA</td>
+                                <td>ADK_404233_2025.adk</td>
+                                <td>10/11/2025 10:30</td>
+                                <td>2.5 MB</td>
+                                <td><span class="badge badge-success">Ready</span></td>
+                                <td>
+                                    <button class="btn btn-success" style="padding: 0.25rem 0.75rem; font-size: 0.875rem;">📥 Download</button>
+                                </td>
+                            </tr>
+                            <tr class="hierarchy-level-4">
+                                <td><input type="checkbox"></td>
+                                <td style="padding-left: 6rem;">408720 KANTOR WILAYAH KEMENTERIAN HUKUM DAN HAM D...</td>
+                                <td>-1</td>
+                                <td>DJA</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td><span class="badge badge-info">Pending</span></td>
+                                <td>
+                                    <button class="btn btn-outline" style="padding: 0.25rem 0.75rem; font-size: 0.875rem;" disabled>Generate</button>
+                                </td>
+                            </tr>
+                            <tr class="hierarchy-level-4">
+                                <td><input type="checkbox"></td>
+                                <td style="padding-left: 6rem;">532413 PUSAT DATA DAN TEKNOLOGI INFORMASI</td>
+                                <td>-1</td>
+                                <td>DJA</td>
+                                <td>ADK_532413_2025.adk</td>
+                                <td>12/11/2025 14:15</td>
+                                <td>1.8 MB</td>
+                                <td><span class="badge badge-success">Ready</span></td>
+                                <td>
+                                    <button class="btn btn-success" style="padding: 0.25rem 0.75rem; font-size: 0.875rem;">📥 Download</button>
+                                </td>
+                            </tr>
+                            <!-- Level 3: Jawa Barat -->
+                            <tr class="hierarchy-level-3">
+                                <td><input type="checkbox"></td>
+                                <td style="padding-left: 4rem;">013.01.02 JAWA BARAT</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                            </tr>
+                            <tr class="hierarchy-level-4">
+                                <td><input type="checkbox"></td>
+                                <td style="padding-left: 6rem;">408736 KANTOR WILAYAH KEMENTERIAN HUKUM DAN HAM J...</td>
+                                <td>-1</td>
+                                <td>DJA</td>
+                                <td>ADK_408736_2025.adk</td>
+                                <td>11/11/2025 09:20</td>
+                                <td>3.1 MB</td>
+                                <td><span class="badge badge-success">Ready</span></td>
+                                <td>
+                                    <button class="btn btn-success" style="padding: 0.25rem 0.75rem; font-size: 0.875rem;">📥 Download</button>
+                                </td>
+                            </tr>
+                            <!-- Level 3: Jawa Tengah -->
+                            <tr class="hierarchy-level-3">
+                                <td><input type="checkbox"></td>
+                                <td style="padding-left: 4rem;">013.01.03 JAWA TENGAH</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                            </tr>
+                            <tr class="hierarchy-level-4">
+                                <td><input type="checkbox"></td>
+                                <td style="padding-left: 6rem;">408742 KANTOR WILAYAH KEMENTERIAN HUKUM DAN HAM J...</td>
+                                <td>-1</td>
+                                <td>DJA</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td><span class="badge badge-warning">Processing</span></td>
+                                <td>
+                                    <button class="btn btn-outline" style="padding: 0.25rem 0.75rem; font-size: 0.875rem;" disabled>Processing...</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Pagination -->
+                <div class="pagination-container">
+                    <div class="pagination-info">
+                        Menampilkan 1-30 dari 127 data
+                    </div>
+                    <div class="pagination">
+                        <button class="pagination-btn" disabled>‹‹ First</button>
+                        <button class="pagination-btn" disabled>‹ Previous</button>
+                        <button class="pagination-btn active">1</button>
+                        <button class="pagination-btn">2</button>
+                        <button class="pagination-btn">3</button>
+                        <button class="pagination-btn">4</button>
+                        <button class="pagination-btn">5</button>
+                        <button class="pagination-btn">Next ›</button>
+                        <button class="pagination-btn">Last ››</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+
+    <!-- Footer Placeholder -->
+    <div id="footer-placeholder"></div>
+
+    <script>
+        // Initialize page components
+        initPageComponents({
+            activePage: 'monitoring',
+            userData: {
+                avatar: 'DJA',
+                role: 'Echelon IV DJA',
+                tahun: '2025',
+                jenisDok: 'RKAKL'
+            }
+        });
+
+        // Initialize autocomplete after page components
+        setTimeout(() => {
+            convertToAutocomplete();
+        }, 200);
+
+        function logout() {
+            if (confirm('Apakah Anda yakin ingin logout?')) {
+                sessionStorage.clear();
+                window.location.href = 'index.html';
+            }
+        }
+
+        function switchTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.style.display = 'none';
+            });
+            
+            // Remove active class from all buttons
+            document.querySelectorAll('.tab-btn-dashboard').forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            // Show selected tab
+            document.getElementById(tabName + '-tab').style.display = 'block';
+            
+            // Add active class to clicked button
+            event.target.classList.add('active');
+        }
+    </script>
+
+    <style>
+        .tab-btn-dashboard {
+            padding: 0.75rem 1.5rem;
+            background-color: #f0f0f0;
+            border: 1px solid #ddd;
+            cursor: pointer;
+            font-weight: 500;
+            color: var(--text-primary);
+            transition: all 0.3s;
+            border-radius: 4px;
+        }
+
+        .tab-btn-dashboard:hover {
+            background-color: #e0e0e0;
+        }
+
+        .tab-btn-dashboard.active {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        input[type="radio"] {
+            cursor: pointer;
+            width: 16px;
+            height: 16px;
+        }
+
+        input[type="radio"]:checked {
+            accent-color: var(--primary-color);
+        }
+
+        .btn-info {
+            background-color: #17a2b8;
+            color: white;
+            border: none;
+        }
+
+        .btn-info:hover {
+            background-color: #138496;
+        }
+
+        /* Hierarchical Table Styles */
+        .table-hierarchical {
+            font-size: 0.9rem;
+            border-collapse: collapse;
+            border: 1px solid #dee2e6;
+        }
+
+        .table-hierarchical thead tr:first-child th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+            border: 1px solid #dee2e6;
+            border-bottom: 2px solid #dee2e6;
+            padding: 0.75rem;
+        }
+
+        .table-hierarchical thead tr:nth-child(2) th {
+            background-color: #e9ecef;
+            font-size: 0.85rem;
+            padding: 0.5rem;
+            border: 1px solid #dee2e6;
+        }
+
+        .table-hierarchical td {
+            border: 1px solid #dee2e6;
+            padding: 0.5rem;
+            vertical-align: middle;
+        }
+
+        .table-hierarchical tbody tr td:first-child {
+            text-align: center;
+        }
+
+        /* Freeze/Sticky Columns */
+        .table-hierarchical thead tr th:nth-child(1),
+        .table-hierarchical tbody tr td:nth-child(1) {
+            position: sticky;
+            left: 0;
+            z-index: 10;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+        }
+
+        .table-hierarchical thead tr th:nth-child(2),
+        .table-hierarchical tbody tr td:nth-child(2) {
+            position: sticky;
+            left: 30px;
+            z-index: 10;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+        }
+
+        /* Ensure header has higher z-index */
+        .table-hierarchical thead tr th:nth-child(1),
+        .table-hierarchical thead tr th:nth-child(2) {
+            z-index: 11;
+        }
+
+        /* Maintain background colors for sticky columns */
+        .table-hierarchical thead tr:first-child th:nth-child(1),
+        .table-hierarchical thead tr:first-child th:nth-child(2) {
+            background-color: #f8f9fa;
+        }
+
+        .table-hierarchical thead tr:nth-child(2) th:nth-child(1),
+        .table-hierarchical thead tr:nth-child(2) th:nth-child(2) {
+            background-color: #e9ecef;
+        }
+
+        .hierarchy-level-1 {
+            background-color: #f8f9fa;
+            font-weight: 600;
+        }
+
+        .hierarchy-level-2 {
+            background-color: #f0f0f0;
+            font-weight: 600;
+        }
+
+        .hierarchy-level-3 {
+            background-color: #fafafa;
+        }
+
+        .hierarchy-level-4 {
+            background-color: white;
+        }
+
+        /* Maintain background for sticky cells */
+        .hierarchy-level-1 td:nth-child(1),
+        .hierarchy-level-1 td:nth-child(2) {
+            background-color: #f8f9fa;
+        }
+
+        .hierarchy-level-2 td:nth-child(1),
+        .hierarchy-level-2 td:nth-child(2) {
+            background-color: #f0f0f0;
+        }
+
+        .hierarchy-level-3 td:nth-child(1),
+        .hierarchy-level-3 td:nth-child(2) {
+            background-color: #fafafa;
+        }
+
+        .hierarchy-level-4 td:nth-child(1),
+        .hierarchy-level-4 td:nth-child(2) {
+            background-color: white;
+        }
+
+        .hierarchy-level-1:hover,
+        .hierarchy-level-2:hover,
+        .hierarchy-level-3:hover,
+        .hierarchy-level-4:hover {
+            background-color: #e7f3ff;
+        }
+
+        .hierarchy-level-1:hover td:nth-child(1),
+        .hierarchy-level-1:hover td:nth-child(2),
+        .hierarchy-level-2:hover td:nth-child(1),
+        .hierarchy-level-2:hover td:nth-child(2),
+        .hierarchy-level-3:hover td:nth-child(1),
+        .hierarchy-level-3:hover td:nth-child(2),
+        .hierarchy-level-4:hover td:nth-child(1),
+        .hierarchy-level-4:hover td:nth-child(2) {
+            background-color: #e7f3ff;
+        }
+
+        /* Pagination Styles */
+        .pagination-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1.5rem;
+            padding: 1rem 0;
+            border-top: 1px solid #dee2e6;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .pagination-info {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .pagination {
+            display: flex;
+            gap: 0.25rem;
+            align-items: center;
+        }
+
+        .pagination-btn {
+            padding: 0.5rem 0.75rem;
+            border: 1px solid #dee2e6;
+            background-color: white;
+            color: var(--text-primary);
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 0.875rem;
+            transition: all 0.3s;
+            min-width: 40px;
+        }
+
+        .pagination-btn:hover:not(:disabled):not(.active) {
+            background-color: #f8f9fa;
+            border-color: var(--primary-color);
+        }
+
+        .pagination-btn.active {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .pagination-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            background-color: #f8f9fa;
+        }
+
+        .pagination-dots {
+            padding: 0 0.5rem;
+            color: var(--text-secondary);
+        }
+    </style>
+</body>
+</html>
+

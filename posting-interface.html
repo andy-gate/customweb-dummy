@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Posting Interface - CustomWeb SPAN</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/sidebar.js"></script>
+    <script src="js/components.js"></script>
+</head>
+<body>
+    <!-- Header Placeholder -->
+    <div id="header-placeholder"></div>
+
+    <!-- Sidebar Placeholder -->
+    <div id="sidebar-placeholder"></div>
+
+    <!-- Main Content Wrapper -->
+    <div class="main-wrapper" id="mainWrapper">
+        <div class="container">
+            <h2 style="margin-bottom: 1.5rem;">🔄 Posting Interface</h2>
+
+            <div class="alert alert-info">
+                <strong>ℹ️ Informasi:</strong> Halaman ini digunakan untuk melakukan posting data DIPA dari CustomWeb ke sistem SPAN.
+            </div>
+
+            <!-- Statistics -->
+            <div class="grid grid-4">
+                <div class="stat-card">
+                    <div class="stat-label">📊 Total DIPA Induk</div>
+                    <div class="stat-value">125</div>
+                </div>
+                <div class="stat-card success">
+                    <div class="stat-label">✅ Sudah di-Post</div>
+                    <div class="stat-value">98</div>
+                </div>
+                <div class="stat-card warning">
+                    <div class="stat-label">⏳ Menunggu Post</div>
+                    <div class="stat-value">22</div>
+                </div>
+                <div class="stat-card danger">
+                    <div class="stat-label">❌ Gagal Post</div>
+                    <div class="stat-value">5</div>
+                </div>
+            </div>
+
+            <!-- Filter Card -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">🔍 Filter Pencarian</h3>
+                    <div style="display: flex; gap: 0.5rem;">
+                        <button class="btn btn-primary" onclick="searchData()">
+                            🔍 Search
+                        </button>
+                        <button class="btn btn-secondary" onclick="resetFilter()">
+                            🔄 Reset
+                        </button>
+                    </div>
+                </div>
+
+                <div class="grid grid-4">
+                    <div class="form-group">
+                        <label class="form-label">Kementerian</label>
+                        <div style="position: relative;">
+                            <select class="form-control" data-autocomplete="kementerian" id="kementerian"></select>
+                            <span style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); pointer-events: none;">🔍</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Unit</label>
+                        <div style="position: relative;">
+                            <select class="form-control" data-autocomplete="unit" id="unit"></select>
+                            <span style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); pointer-events: none;">🔍</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Jenis DIPA</label>
+                        <select class="form-control" id="jenisDipa">
+                            <option value="">-- Semua Jenis --</option>
+                            <option value="induk">DIPA Induk</option>
+                            <option value="petikan">DIPA Petikan</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Status Posting</label>
+                        <select class="form-control" id="statusPosting">
+                            <option value="">-- Semua Status --</option>
+                            <option value="posted">Sudah di-Post</option>
+                            <option value="pending">Menunggu Post</option>
+                            <option value="failed">Gagal Post</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">⚡ Aksi Posting</h3>
+                </div>
+                <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                    <button class="btn btn-success" onclick="postSelected()">
+                        ✅ Post Terpilih
+                    </button>
+                    <button class="btn btn-primary" onclick="postAllPending()">
+                        📋 Post Semua yang Pending
+                    </button>
+                    <button class="btn btn-warning" onclick="retryFailed()">
+                        🔄 Retry Gagal
+                    </button>
+                    <button class="btn btn-info" onclick="checkStatus()">
+                        🔍 Cek Status Posting
+                    </button>
+                </div>
+            </div>
+
+            <!-- Data Table -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">📊 Daftar DIPA untuk Posting</h3>
+                </div>
+
+                <div style="overflow-x: auto;">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th style="width: 50px;"><input type="checkbox" id="checkAll" onchange="toggleAllChecks(this)"></th>
+                                <th style="width: 50px;">No</th>
+                                <th style="width: 150px;">No. DIPA</th>
+                                <th style="min-width: 250px;">Nama Unit/SATKER</th>
+                                <th style="width: 120px;">Jenis</th>
+                                <th style="width: 150px;">Tanggal Dibuat</th>
+                                <th style="width: 150px;">Tanggal Post</th>
+                                <th style="width: 120px;">Status</th>
+                                <th style="width: 150px;">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="dataTable">
+                            <tr>
+                                <td><input type="checkbox" class="data-checkbox"></td>
+                                <td>1</td>
+                                <td>DIPA-001-2025</td>
+                                <td>Direktorat Jenderal Anggaran</td>
+                                <td><span class="badge badge-info">Induk</span></td>
+                                <td>2025-01-15 10:30:00</td>
+                                <td>2025-01-15 14:20:00</td>
+                                <td><span class="badge badge-success">Posted</span></td>
+                                <td>
+                                    <button class="btn btn-outline" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="viewDetail(1)">
+                                        👁️ Detail
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox" class="data-checkbox"></td>
+                                <td>2</td>
+                                <td>DIPA-002-2025</td>
+                                <td>Kantor Pusat DJA</td>
+                                <td><span class="badge badge-primary">Petikan</span></td>
+                                <td>2025-01-16 09:15:00</td>
+                                <td>-</td>
+                                <td><span class="badge badge-warning">Pending</span></td>
+                                <td>
+                                    <button class="btn btn-success" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="postSingle(2)">
+                                        ✅ Post
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox" class="data-checkbox"></td>
+                                <td>3</td>
+                                <td>DIPA-003-2025</td>
+                                <td>Kantor Wilayah Jakarta DJA</td>
+                                <td><span class="badge badge-primary">Petikan</span></td>
+                                <td>2025-01-17 11:00:00</td>
+                                <td>2025-01-17 11:30:00</td>
+                                <td><span class="badge badge-danger">Failed</span></td>
+                                <td>
+                                    <button class="btn btn-warning" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="retrySingle(3)">
+                                        🔄 Retry
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Pagination -->
+                <div style="display: flex; justify-content: space-between; align-items: center; padding: 1rem 0; border-top: 1px solid var(--border-color);">
+                    <div>
+                        Showing 1-3 of 125 records
+                    </div>
+                    <div style="display: flex; gap: 0.5rem;">
+                        <button class="btn btn-outline" style="padding: 0.5rem 1rem;" disabled>← Previous</button>
+                        <button class="btn btn-outline active" style="padding: 0.5rem 1rem;">1</button>
+                        <button class="btn btn-outline" style="padding: 0.5rem 1rem;">2</button>
+                        <button class="btn btn-outline" style="padding: 0.5rem 1rem;">3</button>
+                        <button class="btn btn-outline" style="padding: 0.5rem 1rem;">...</button>
+                        <button class="btn btn-outline" style="padding: 0.5rem 1rem;">13</button>
+                        <button class="btn btn-outline" style="padding: 0.5rem 1rem;">Next →</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer Placeholder -->
+    <div id="footer-placeholder"></div>
+
+    <script>
+        // Initialize page components
+        initPageComponents({
+            activePage: 'monitoring',
+            userData: {
+                avatar: 'DJA',
+                role: 'Echelon IV DJA',
+                tahun: '2025',
+                jenisDok: 'RKAKL'
+            }
+        });
+
+        // Initialize autocomplete after page components
+        setTimeout(() => {
+            convertToAutocomplete();
+        }, 200);
+
+        function logout() {
+            if (confirm('Apakah Anda yakin ingin logout?')) {
+                sessionStorage.clear();
+                window.location.href = 'index.html';
+            }
+        }
+
+        function searchData() {
+            alert('Mencari data dengan filter yang dipilih...');
+        }
+
+        function resetFilter() {
+            document.getElementById('kementerian').value = '';
+            document.getElementById('unit').value = '';
+            document.getElementById('jenisDipa').value = '';
+            document.getElementById('statusPosting').value = '';
+        }
+
+        function toggleAllChecks(checkbox) {
+            const checkboxes = document.querySelectorAll('.data-checkbox');
+            checkboxes.forEach(cb => {
+                cb.checked = checkbox.checked;
+            });
+        }
+
+        function postSelected() {
+            const selected = [];
+            document.querySelectorAll('.data-checkbox:checked').forEach(cb => {
+                const row = cb.closest('tr');
+                selected.push({
+                    no: row.cells[1].textContent,
+                    noDipa: row.cells[2].textContent,
+                    nama: row.cells[3].textContent
+                });
+            });
+
+            if (selected.length === 0) {
+                alert('Mohon pilih minimal satu DIPA!');
+                return;
+            }
+
+            if (confirm(`Apakah Anda yakin ingin melakukan posting untuk ${selected.length} DIPA yang dipilih?`)) {
+                alert(`Melakukan posting untuk ${selected.length} DIPA...\n\n${selected.map(s => `${s.noDipa} - ${s.nama}`).join('\n')}`);
+            }
+        }
+
+        function postAllPending() {
+            if (confirm('Apakah Anda yakin ingin melakukan posting untuk semua DIPA yang statusnya Pending?')) {
+                alert('Melakukan posting untuk semua DIPA yang Pending...');
+            }
+        }
+
+        function retryFailed() {
+            if (confirm('Apakah Anda yakin ingin retry posting untuk semua DIPA yang gagal?')) {
+                alert('Melakukan retry posting untuk DIPA yang gagal...');
+            }
+        }
+
+        function checkStatus() {
+            alert('Memeriksa status posting semua DIPA...');
+        }
+
+        function postSingle(no) {
+            if (confirm(`Apakah Anda yakin ingin melakukan posting untuk DIPA nomor ${no}?`)) {
+                alert(`Melakukan posting untuk DIPA nomor ${no}...`);
+            }
+        }
+
+        function retrySingle(no) {
+            if (confirm(`Apakah Anda yakin ingin retry posting untuk DIPA nomor ${no}?`)) {
+                alert(`Melakukan retry posting untuk DIPA nomor ${no}...`);
+            }
+        }
+
+        function viewDetail(no) {
+            alert(`Menampilkan detail posting untuk DIPA nomor ${no}...`);
+        }
+    </script>
+</body>
+</html>
+
+

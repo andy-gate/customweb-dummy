@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laporan Himpunan - CustomWeb SPAN</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/sidebar.js"></script>
+    <script src="js/components.js"></script>
+</head>
+<body>
+    <!-- Header Placeholder -->
+    <div id="header-placeholder"></div>
+
+    <!-- Sidebar Placeholder -->
+    <div id="sidebar-placeholder"></div>
+
+    <!-- Main Content Wrapper -->
+    <div class="main-wrapper" id="mainWrapper">
+        <div class="container">
+            <h2 style="margin-bottom: 1.5rem;">LAPORAN HIMPUNAN</h2>
+
+            <div class="card">
+                <!-- Report Type Section -->
+                <div style="border: 1px solid #dee2e6; border-radius: 4px; padding: 1.5rem; margin-bottom: 2rem;">
+                    <h3 style="font-size: 1rem; margin: 0 0 1rem 0; font-weight: 600; text-align: center;">Jenis Laporan</h3>
+                    <div style="display: flex;">
+                        <!-- Left side: Report Types -->
+                        <div style="flex: 1; display: flex; flex-direction: column; gap: 0.75rem; padding-right: 2rem;">
+                            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                                <input type="checkbox" name="reportType" value="bagian-unit-program" style="width: 18px; height: 18px;">
+                                <span>Bagian Anggaran, Unit Organisasi, Program Dan Kegiatan</span>
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                                <input type="checkbox" name="reportType" value="fungsi-subfungsi" style="width: 18px; height: 18px;">
+                                <span>Fungsi, Subfungsi dan Jenis Belanja</span>
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                                <input type="checkbox" name="reportType" value="fungsi-subfungsi-bagian" style="width: 18px; height: 18px;">
+                                <span>Fungsi, Subfungsi, Bagian Anggaran dan Jenis Belanja</span>
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                                <input type="checkbox" name="reportType" value="bagian-fungsi-subfungsi" style="width: 18px; height: 18px;">
+                                <span>Bagian Anggaran, Fungsi, Subfungsi dan Jenis Belanja</span>
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                                <input type="checkbox" name="reportType" value="bagian-unit-sumber-dana" style="width: 18px; height: 18px;">
+                                <span>Bagian Anggaran, Unit Organisasi, Program, Kegiatan, Output dan Sumber Dana</span>
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                                <input type="checkbox" name="reportType" value="bagian-unit-kpjm" style="width: 18px; height: 18px;">
+                                <span>Bagian Anggaran, Unit Organisasi, Program, Kegiatan, dan KPJM</span>
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                                <input type="checkbox" name="reportType" value="monitoring-blokir" style="width: 18px; height: 18px;">
+                                <span>Monitoring Blokir Per Bagian Anggaran - Unit - Program - Kegiatan</span>
+                            </label>
+                        </div>
+                        <!-- Border separator -->
+                        <div style="width: 1px; background-color: #dee2e6; margin: -0.5rem 0;"></div>
+                        <!-- Right side: Approval Status -->
+                        <div style="flex: 1; padding-left: 2rem;">
+                            <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+                                <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                                    <input type="radio" name="approvalStatus" value="approved" checked style="width: 18px; height: 18px;">
+                                    <span>Sudah disetujui</span>
+                                </label>
+                                <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                                    <input type="radio" name="approvalStatus" value="not-approved" style="width: 18px; height: 18px;">
+                                    <span>Belum disetujui (sudah di-upload)</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Print Button -->
+                <div style="display: flex; justify-content: flex-end;">
+                    <button class="btn btn-primary" onclick="printReport()" style="padding: 0.75rem 2rem;">
+                        🖨️ Cetak
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer Placeholder -->
+    <div id="footer-placeholder"></div>
+
+    <script>
+        // Initialize page components
+        initPageComponents({
+            activePage: 'rkakl-reports',
+            userData: {
+                avatar: 'DJA',
+                role: 'Echelon IV DJA',
+                tahun: '2025',
+                jenisDok: 'RKAKL'
+            }
+        });
+
+        function logout() {
+            if (confirm('Apakah Anda yakin ingin logout?')) {
+                sessionStorage.clear();
+                window.location.href = 'index.html';
+            }
+        }
+
+        function printReport() {
+            const selectedTypes = [];
+            document.querySelectorAll('input[name="reportType"]:checked').forEach(cb => {
+                selectedTypes.push(cb.nextElementSibling.textContent);
+            });
+
+            const approvalStatus = document.querySelector('input[name="approvalStatus"]:checked');
+            const statusText = approvalStatus ? approvalStatus.nextElementSibling.textContent : 'Tidak dipilih';
+
+            if (selectedTypes.length === 0) {
+                alert('Mohon pilih minimal satu jenis laporan!');
+                return;
+            }
+
+            alert(`Mencetak Laporan Himpunan:\n\nJenis Laporan:\n${selectedTypes.join('\n')}\n\nStatus Approval: ${statusText}`);
+            
+            // In real implementation, this would generate PDF or print dialog
+            console.log('Print Laporan Himpunan:', { selectedTypes, approvalStatus: statusText });
+        }
+    </script>
+
+    <style>
+        input[type="checkbox"],
+        input[type="radio"] {
+            cursor: pointer;
+            accent-color: var(--primary-color);
+        }
+    </style>
+</body>
+</html>
+
+

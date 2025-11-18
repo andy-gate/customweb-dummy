@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create DIPA Induk - CustomWeb SPAN</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/sidebar.js"></script>
+    <script src="js/components.js"></script>
+</head>
+<body>
+    <!-- Header Placeholder -->
+    <div id="header-placeholder"></div>
+
+    <!-- Sidebar Placeholder -->
+    <div id="sidebar-placeholder"></div>
+
+    <!-- Main Content Wrapper -->
+    <div class="main-wrapper" id="mainWrapper">
+        <div class="container">
+            <h2 style="margin-bottom: 1.5rem;">📝 Create DIPA Induk</h2>
+
+            <div class="alert alert-info">
+                <strong>ℹ️ Informasi:</strong> Halaman ini digunakan untuk membuat DIPA Induk baru berdasarkan data RKAKL yang sudah disetujui.
+            </div>
+
+            <!-- Filter Section -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">🔍 Filter Pencarian Data</h3>
+                </div>
+
+                <div class="grid grid-3">
+                    <div class="form-group">
+                        <label class="form-label">Kementerian <span style="color: red;">*</span></label>
+                        <div style="position: relative;">
+                            <select class="form-control" data-autocomplete="kementerian" id="kementerian" required></select>
+                            <span style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); pointer-events: none;">🔍</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Unit</label>
+                        <div style="position: relative;">
+                            <select class="form-control" data-autocomplete="unit" id="unit"></select>
+                            <span style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); pointer-events: none;">🔍</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Tahun Anggaran</label>
+                        <select class="form-control" id="tahunAnggaran">
+                            <option value="2025" selected>2025</option>
+                            <option value="2024">2024</option>
+                            <option value="2026">2026</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
+                    <button class="btn btn-primary" onclick="searchData()">
+                        🔍 Cari Data
+                    </button>
+                    <button class="btn btn-secondary" onclick="resetFilter()">
+                        🔄 Reset
+                    </button>
+                </div>
+            </div>
+
+            <!-- Data Table -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">📊 Daftar Unit yang Siap Dibuat DIPA Induk</h3>
+                    <div style="display: flex; gap: 0.5rem;">
+                        <button class="btn btn-success" onclick="createSelected()">
+                            ✅ Buat DIPA Induk (Terpilih)
+                        </button>
+                        <button class="btn btn-primary" onclick="createAll()">
+                            📋 Buat Semua DIPA Induk
+                        </button>
+                    </div>
+                </div>
+
+                <div style="overflow-x: auto;">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th style="width: 50px;"><input type="checkbox" id="checkAll" onchange="toggleAllChecks(this)"></th>
+                                <th style="width: 50px;">No</th>
+                                <th style="width: 120px;">Kode Unit</th>
+                                <th style="min-width: 300px;">Nama Unit</th>
+                                <th style="width: 150px;">Tanggal Awal</th>
+                                <th style="width: 150px;">Tanggal Akhir</th>
+                                <th style="width: 120px;">Status Approval</th>
+                                <th style="width: 150px;">Total Pagu</th>
+                                <th style="width: 120px;">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="dataTable">
+                            <tr>
+                                <td colspan="9" style="text-align: center; color: var(--text-secondary); padding: 2rem;">
+                                    Tidak ada data. Silakan lakukan pencarian terlebih dahulu.
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Pagination -->
+                <div style="display: flex; justify-content: space-between; align-items: center; padding: 1rem 0; border-top: 1px solid var(--border-color);">
+                    <div>
+                        Showing 0 of 0 records
+                    </div>
+                    <div style="display: flex; gap: 0.5rem;">
+                        <button class="btn btn-outline" style="padding: 0.5rem 1rem;" disabled>← Previous</button>
+                        <button class="btn btn-outline active" style="padding: 0.5rem 1rem;">1</button>
+                        <button class="btn btn-outline" style="padding: 0.5rem 1rem;" disabled>Next →</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Information Card -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">📚 Informasi</h3>
+                </div>
+                <div>
+                    <ul style="line-height: 2;">
+                        <li>✅ DIPA Induk dapat dibuat untuk unit yang sudah memiliki RKAKL yang disetujui</li>
+                        <li>✅ Pastikan data RKAKL sudah lengkap sebelum membuat DIPA Induk</li>
+                        <li>✅ Setelah DIPA Induk dibuat, dapat dilakukan revisi sesuai kebutuhan</li>
+                        <li>⚠️ Proses pembuatan DIPA Induk akan memproses semua data terkait unit tersebut</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer Placeholder -->
+    <div id="footer-placeholder"></div>
+
+    <script>
+        // Initialize page components
+        initPageComponents({
+            activePage: 'monitoring',
+            userData: {
+                avatar: 'DJA',
+                role: 'Echelon IV DJA',
+                tahun: '2025',
+                jenisDok: 'RKAKL'
+            }
+        });
+
+        // Initialize autocomplete after page components
+        setTimeout(() => {
+            convertToAutocomplete();
+        }, 200);
+
+        function logout() {
+            if (confirm('Apakah Anda yakin ingin logout?')) {
+                sessionStorage.clear();
+                window.location.href = 'index.html';
+            }
+        }
+
+        // Sample data
+        const sampleData = [
+            { no: 1, kode: '01', nama: 'Direktorat Jenderal Anggaran', tglAwal: '2025-01-01', tglAkhir: '2025-12-31', status: 'Approved', pagu: 'Rp 500.000.000.000' },
+            { no: 2, kode: '02', nama: 'Direktorat Jenderal Perbendaharaan', tglAwal: '2025-01-01', tglAkhir: '2025-12-31', status: 'Approved', pagu: 'Rp 450.000.000.000' }
+        ];
+
+        function searchData() {
+            const kementerian = document.getElementById('kementerian').value;
+            if (!kementerian) {
+                alert('Mohon pilih Kementerian terlebih dahulu!');
+                return;
+            }
+
+            // Populate table
+            const tableBody = document.querySelector('#dataTable');
+            tableBody.innerHTML = '';
+
+            sampleData.forEach(item => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td><input type="checkbox" class="data-checkbox"></td>
+                    <td>${item.no}</td>
+                    <td>${item.kode}</td>
+                    <td>${item.nama}</td>
+                    <td>${item.tglAwal}</td>
+                    <td>${item.tglAkhir}</td>
+                    <td><span class="badge badge-success">${item.status}</span></td>
+                    <td><strong>${item.pagu}</strong></td>
+                    <td>
+                        <button class="btn btn-primary" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="createSingle(${item.no})">
+                            ✅ Buat
+                        </button>
+                    </td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+
+        function resetFilter() {
+            document.getElementById('kementerian').value = '';
+            document.getElementById('unit').value = '';
+            document.getElementById('tahunAnggaran').value = '2025';
+            document.querySelector('#dataTable').innerHTML = `
+                <tr>
+                    <td colspan="9" style="text-align: center; color: var(--text-secondary); padding: 2rem;">
+                        Tidak ada data. Silakan lakukan pencarian terlebih dahulu.
+                    </td>
+                </tr>
+            `;
+        }
+
+        function toggleAllChecks(checkbox) {
+            const checkboxes = document.querySelectorAll('.data-checkbox');
+            checkboxes.forEach(cb => {
+                cb.checked = checkbox.checked;
+            });
+        }
+
+        function createSelected() {
+            const selected = [];
+            document.querySelectorAll('.data-checkbox:checked').forEach(cb => {
+                const row = cb.closest('tr');
+                selected.push({
+                    no: row.cells[1].textContent,
+                    kode: row.cells[2].textContent,
+                    nama: row.cells[3].textContent
+                });
+            });
+
+            if (selected.length === 0) {
+                alert('Mohon pilih minimal satu unit!');
+                return;
+            }
+
+            if (confirm(`Apakah Anda yakin ingin membuat DIPA Induk untuk ${selected.length} unit yang dipilih?`)) {
+                alert(`Membuat DIPA Induk untuk ${selected.length} unit...\n\n${selected.map(s => `${s.kode} - ${s.nama}`).join('\n')}`);
+            }
+        }
+
+        function createAll() {
+            const allRows = document.querySelectorAll('#dataTable tr');
+            if (allRows.length === 0 || allRows[0].cells.length === 1) {
+                alert('Tidak ada data untuk dibuat DIPA Induk!');
+                return;
+            }
+
+            if (confirm('Apakah Anda yakin ingin membuat DIPA Induk untuk semua unit yang ditampilkan?')) {
+                alert('Membuat DIPA Induk untuk semua unit...');
+            }
+        }
+
+        function createSingle(no) {
+            if (confirm(`Apakah Anda yakin ingin membuat DIPA Induk untuk unit nomor ${no}?`)) {
+                alert(`Membuat DIPA Induk untuk unit nomor ${no}...`);
+            }
+        }
+    </script>
+</body>
+</html>
+
+

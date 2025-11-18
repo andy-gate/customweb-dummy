@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monitoring PAGU - CustomWeb SPAN</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/sidebar.js"></script>
+    <script src="js/components.js"></script>
+</head>
+<body>
+    <!-- Header Placeholder -->
+    <div id="header-placeholder"></div>
+
+    <!-- Sidebar Placeholder -->
+    <div id="sidebar-placeholder"></div>
+
+    <!-- Main Content Wrapper -->
+    <div class="main-wrapper" id="mainWrapper">
+        <div class="container">
+            <h2 style="margin-bottom: 1.5rem;">MONITORING PAGU</h2>
+
+            <div class="card">
+                <!-- Jenis Data Selection -->
+                <div style="max-width: 600px; margin-bottom: 2rem;">
+                    <div style="display: flex; align-items: center; gap: 1rem;">
+                        <label class="form-label" style="min-width: 120px; margin: 0;">Jenis Data <span style="color: red;">*</span></label>
+                        <select class="form-control" id="jenisData" required>
+                            <option value="">-- Pilih Jenis Data --</option>
+                            <option value="himpunan">Himpunan</option>
+                            <option value="keppres">Keppres</option>
+                            <option value="revisi">Revisi</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Report Type Section -->
+                <div style="border: 1px solid #dee2e6; border-radius: 4px; padding: 1.5rem; margin-bottom: 2rem;">
+                    <h3 style="font-size: 1rem; margin: 0 0 1rem 0; font-weight: 600; text-align: center;">Jenis Laporan</h3>
+                    <div style="display: flex;">
+                        <!-- Left side: Report Format -->
+                        <div style="flex: 1; display: flex; flex-direction: column; gap: 0.75rem; padding-right: 2rem;">
+                            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                                <input type="radio" name="reportFormat" value="pdf" checked style="width: 18px; height: 18px;">
+                                <span>MONITORING ANGGARAN KL by PDF</span>
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                                <input type="radio" name="reportFormat" value="excel" style="width: 18px; height: 18px;">
+                                <span>MONITORING ANGGARAN KL by Excel</span>
+                            </label>
+                        </div>
+                        <!-- Border separator -->
+                        <div style="width: 1px; background-color: #dee2e6; margin: -0.5rem 0;"></div>
+                        <!-- Right side: Approval Status -->
+                        <div style="flex: 1; padding-left: 2rem;">
+                            <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+                                <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                                    <input type="radio" name="approvalStatus" value="approved" checked style="width: 18px; height: 18px;">
+                                    <span>Sudah disetujui</span>
+                                </label>
+                                <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                                    <input type="radio" name="approvalStatus" value="not-approved" style="width: 18px; height: 18px;">
+                                    <span>Belum disetujui (sudah di-upload)</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Print Button -->
+                <div style="display: flex; justify-content: flex-end;">
+                    <button class="btn btn-primary" onclick="printReport()" style="padding: 0.75rem 2rem;">
+                        🖨️ Cetak
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer Placeholder -->
+    <div id="footer-placeholder"></div>
+
+    <script>
+        // Initialize page components
+        initPageComponents({
+            activePage: 'internal-reports',
+            userData: {
+                avatar: 'DJA',
+                role: 'Echelon IV DJA',
+                tahun: '2025',
+                jenisDok: 'RKAKL'
+            }
+        });
+
+        function logout() {
+            if (confirm('Apakah Anda yakin ingin logout?')) {
+                sessionStorage.clear();
+                window.location.href = 'index.html';
+            }
+        }
+
+        function printReport() {
+            const jenisData = document.getElementById('jenisData').value;
+            const reportFormat = document.querySelector('input[name="reportFormat"]:checked');
+            const approvalStatus = document.querySelector('input[name="approvalStatus"]:checked');
+            
+            if (!jenisData) {
+                alert('Mohon pilih Jenis Data terlebih dahulu!');
+                return;
+            }
+
+            const formatText = reportFormat ? reportFormat.nextElementSibling.textContent : 'Tidak dipilih';
+            const statusText = approvalStatus ? approvalStatus.nextElementSibling.textContent : 'Tidak dipilih';
+
+            alert(`Mencetak Monitoring PAGU:\n\nJenis Data: ${jenisData.toUpperCase()}\nFormat: ${formatText}\nStatus: ${statusText}`);
+            
+            // In real implementation, this would generate PDF/Excel or print dialog
+            console.log('Print Monitoring PAGU:', { 
+                jenisData, 
+                format: reportFormat?.value, 
+                approvalStatus: approvalStatus?.value 
+            });
+        }
+    </script>
+
+    <style>
+        input[type="radio"] {
+            cursor: pointer;
+            accent-color: var(--primary-color);
+        }
+
+        select.form-control {
+            cursor: pointer;
+        }
+    </style>
+</body>
+</html>
+
+
+
+
+
