@@ -21,30 +21,6 @@ function generateSidebar(activePage) {
                 <span class="text">Monitoring</span>
             </a>
             
-            <!-- Monitoring Admin -->
-            <div class="nav-item-parent ${activePage === 'monitoring-admin' ? 'expanded' : ''}" onclick="toggleSubmenu(event)">
-                <div class="main-content">
-                    <span class="icon">⚙️</span>
-                    <span class="text">Monitoring Admin</span>
-                </div>
-                <span class="arrow">▶</span>
-                
-                <!-- Tooltip for collapsed sidebar -->
-                <div class="submenu-tooltip">
-                    <div class="tooltip-header">⚙️ Monitoring Admin</div>
-                    <a href="create-dipa-induk.html" class="tooltip-item">📝 Create DIPA Induk</a>
-                    <a href="create-dipa-petikan.html" class="tooltip-item">📝 Create DIPA Petikan</a>
-                    <a href="posting-interface.html" class="tooltip-item">🔄 Posting Interface</a>
-                    <a href="email-notification.html" class="tooltip-item">📧 Email Notification</a>
-                </div>
-            </div>
-            <div class="submenu ${activePage === 'monitoring-admin' ? 'expanded' : ''}">
-                <a href="create-dipa-induk.html" class="submenu-item">📝 Create DIPA Induk</a>
-                <a href="create-dipa-petikan.html" class="submenu-item">📝 Create DIPA Petikan</a>
-                <a href="posting-interface.html" class="submenu-item">🔄 Posting Interface</a>
-                <a href="email-notification.html" class="submenu-item">📧 Email Notification</a>
-            </div>
-            
             <a href="adk-upload.html" class="nav-item ${activePage === 'adk-upload' ? 'active' : ''}">
                 <span class="icon">🔄</span>
                 <span class="text">Penerimaan ADK</span>
@@ -52,7 +28,7 @@ function generateSidebar(activePage) {
             
             <a href="monitor-upload.html" class="nav-item ${activePage === 'monitor-upload' ? 'active' : ''}">
                 <span class="icon">🔍</span>
-                <span class="text">Monitor & Validasi</span>
+                <span class="text">Monitoring Status ADK</span>
             </a>
             
             <!-- RKAKL Reports -->
@@ -121,6 +97,30 @@ function generateSidebar(activePage) {
                 <a href="monitoring-pagu.html" class="submenu-item">📊 Monitoring PAGU</a>
                 <a href="matriks-perubahan.html" class="submenu-item">📈 Matriks Perubahan</a>
                 <a href="laporan-revisi.html" class="submenu-item">🔄 Laporan Revisi</a>
+            </div>
+            
+            <!-- Monitoring Admin -->
+            <div class="nav-item-parent ${activePage === 'monitoring-admin' ? 'expanded' : ''}" onclick="toggleSubmenu(event)">
+                <div class="main-content">
+                    <span class="icon">⚙️</span>
+                    <span class="text">Monitoring Admin</span>
+                </div>
+                <span class="arrow">▶</span>
+                
+                <!-- Tooltip for collapsed sidebar -->
+                <div class="submenu-tooltip">
+                    <div class="tooltip-header">⚙️ Monitoring Admin</div>
+                    <a href="create-dipa-induk.html" class="tooltip-item">📝 Create DIPA Induk</a>
+                    <a href="create-dipa-petikan.html" class="tooltip-item">📝 Create DIPA Petikan</a>
+                    <a href="posting-interface.html" class="tooltip-item">🔄 Posting Interface</a>
+                    <a href="email-notification.html" class="tooltip-item">📧 Email Notification</a>
+                </div>
+            </div>
+            <div class="submenu ${activePage === 'monitoring-admin' ? 'expanded' : ''}">
+                <a href="create-dipa-induk.html" class="submenu-item">📝 Create DIPA Induk</a>
+                <a href="create-dipa-petikan.html" class="submenu-item">📝 Create DIPA Petikan</a>
+                <a href="posting-interface.html" class="submenu-item">🔄 Posting Interface</a>
+                <a href="email-notification.html" class="submenu-item">📧 Email Notification</a>
             </div>
             
             <!-- Manage Basic Information -->
