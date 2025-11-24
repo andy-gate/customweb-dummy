@@ -3,62 +3,554 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manage Job position - CustomWeb SPAN</title>
+    <title>Manage Job Position - CustomWeb SPAN</title>
     <link rel="stylesheet" href="css/style.css">
     <script src="js/sidebar.js"></script>
     <script src="js/components.js"></script>
 </head>
 <body>
+    <!-- Header Placeholder -->
     <div id="header-placeholder"></div>
+
+    <!-- Sidebar Placeholder -->
     <div id="sidebar-placeholder"></div>
+
+    <!-- Main Content Wrapper -->
     <div class="main-wrapper" id="mainWrapper">
         <div class="container">
-            <h2 style="margin-bottom: 1.5rem;">💼 Manage Job position</h2>
-            <div class="alert alert-info"><strong>ℹ️ Informasi:</strong> Halaman ini digunakan untuk mengelola posisi jabatan dalam sistem.</div>
+            <h2 style="margin-bottom: 1.5rem;">Manage Job Position</h2>
+
+            <!-- Data Table Section -->
             <div class="card">
-                <div class="card-header"><h3 class="card-title">⚡ Aksi</h3></div>
-                <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
-                    <button class="btn btn-primary" onclick="showAddModal()">➕ Tambah Job Position</button>
-                    <button class="btn btn-success" onclick="importData()">📥 Import Excel</button>
-                    <button class="btn info" onclick="exportData()">📤 Export Excel</button>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; padding: 0 1rem; padding-top: 1rem; flex-wrap: wrap; gap: 1rem;">
+                    <div style="display: flex; align-items: center; gap: 1.5rem;">
+                        <div style="font-weight: 600; font-size: 1rem;">
+                            Total <span style="color: var(--primary-color);" id="totalData">13</span> | 
+                            <label class="form-label" style="margin: 0; display: inline;">Jumlah per halaman</label>
+                            <select class="form-control" id="itemsPerPage" style="width: auto; padding: 0.5rem; display: inline-block; margin-left: 0.5rem;" onchange="changeItemsPerPage()">
+                                <option value="10">10</option>
+                                <option value="30" selected>30</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: 0.5rem; align-items: center;">
+                        <label class="form-label" style="margin: 0;">Nama Jabatan :</label>
+                        <input type="text" class="form-control" id="searchNamaJabatan" placeholder="Cari..." style="width: 200px;">
+                        <button class="btn btn-primary" onclick="tambahData()" style="background-color: #6f42c1; border-color: #6f42c1;">
+                            Tambah
+                        </button>
+                        <button class="btn btn-primary" onclick="hapusData()" style="background-color: #6f42c1; border-color: #6f42c1;">
+                            Hapus
+                        </button>
+                    </div>
                 </div>
-            </div>
-            <div class="card">
-                <div class="card-header"><h3 class="card-title">📊 Daftar Job Position</h3></div>
-                <div style="overflow-x: auto;">
+
+                <!-- Data Table -->
+                <div class="table-container">
                     <table class="table">
                         <thead>
-                            <tr><th>No</th><th>Kode</th><th>Nama Jabatan</th><th>Level</th><th>Deskripsi</th><th>Status</th><th>Aksi</th></tr>
+                            <tr>
+                                <th style="min-width: 50px; text-align: center;">
+                                    <input type="checkbox" id="selectAll" onchange="toggleSelectAll()">
+                                </th>
+                                <th style="min-width: 120px; text-align: center;">Kode Jabatan</th>
+                                <th style="min-width: 200px; text-align: left;">Nama Jabatan</th>
+                                <th style="min-width: 100px; text-align: center;">Eselon</th>
+                                <th style="min-width: 300px; text-align: left;">Deskripsi</th>
+                                <th style="min-width: 100px; text-align: center;">Aksi</th>
+                            </tr>
                         </thead>
-                        <tbody>
-                            <tr>
-                                <td>1</td><td><strong>JOB-001</strong></td><td>Administrator</td><td>Level 1</td><td>Administrator sistem</td>
-                                <td><span class="badge badge-success">Active</span></td>
-                                <td><button class="btn btn-outline" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="editData(1)">✏️ Edit</button></td>
-                            </tr>
-                            <tr>
-                                <td>2</td><td><strong>JOB-002</strong></td><td>Echelon I</td><td>Level 2</td><td>Pejabat Eselon I</td>
-                                <td><span class="badge badge-success">Active</span></td>
-                                <td><button class="btn btn-outline" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="editData(2)">✏️ Edit</button></td>
-                            </tr>
+                        <tbody id="dataTable">
+                            <!-- Data akan diisi oleh JavaScript -->
                         </tbody>
                     </table>
+                </div>
+
+                <!-- Pagination -->
+                <div class="pagination-container">
+                    <div class="pagination-info">
+                        Menampilkan 1-13 dari 13 data
+                    </div>
+                    <div class="pagination">
+                        <button class="pagination-btn" disabled>‹‹ First</button>
+                        <button class="pagination-btn" disabled>‹ Previous</button>
+                        <button class="pagination-btn active">1</button>
+                        <button class="pagination-btn" disabled>Next ›</button>
+                        <button class="pagination-btn" disabled>Last ››</button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <!-- Add/Edit Modal -->
+    <div id="dataModal" class="modal">
+        <div class="modal-content" style="max-width: 800px;">
+            <div class="modal-header">
+                <h3 id="modalTitle">✏️ Edit Data</h3>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+
+            <div style="padding: 1.5rem;">
+                <div class="form-group">
+                    <label class="form-label">Kode Jabatan <span style="color: red;">*</span></label>
+                    <input type="text" class="form-control" id="modalKodeJabatan" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Nama Jabatan <span style="color: red;">*</span></label>
+                    <input type="text" class="form-control" id="modalNamaJabatan" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Eselon <span style="color: red;">*</span></label>
+                    <input type="text" class="form-control" id="modalEselon" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Deskripsi</label>
+                    <textarea class="form-control" id="modalDeskripsi" rows="4" style="resize: vertical;"></textarea>
+                </div>
+
+                <div style="display: flex; gap: 0.5rem; justify-content: flex-end; margin-top: 1.5rem;">
+                    <button class="btn btn-secondary" onclick="closeModal()">Batal</button>
+                    <button class="btn btn-primary" onclick="saveData()" style="background-color: #6f42c1; border-color: #6f42c1;">💾 Simpan</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer Placeholder -->
     <div id="footer-placeholder"></div>
+
     <script>
-        initPageComponents({activePage: 'manage-authority', userData: {avatar: 'DJA', role: 'Echelon IV DJA', tahun: '2025', jenisDok: 'RKAKL'}});
-        function logout() {if (confirm('Apakah Anda yakin ingin logout?')) {sessionStorage.clear(); window.location.href = 'index.html';}}
-        function showAddModal() {alert('Tambah job position baru...');}
-        function editData(no) {alert('Edit job position ' + no);}
-        function importData() {alert('Import data...');}
-        function exportData() {alert('Export data...');}
+        // Initialize page components
+        initPageComponents({
+            activePage: 'manage-reference-data',
+            userData: {
+                avatar: 'DJA',
+                role: 'Echelon IV DJA',
+                tahun: '2025',
+                jenisDok: 'RKAKL'
+            }
+        });
+
+        function logout() {
+            if (confirm('Apakah Anda yakin ingin logout?')) {
+                sessionStorage.clear();
+                window.location.href = 'index.html';
+            }
+        }
+
+        // Data tabel
+        const allData = {
+            total: 13,
+            rows: [
+                { kode: '001', nama: 'Kementerian Lembaga', eselon: '5', deskripsi: 'Kementerian Lembaga' },
+                { kode: '002', nama: 'DGB_2', eselon: '2', deskripsi: 'DGB2' },
+                { kode: '003', nama: 'DGB_3', eselon: '3', deskripsi: 'DGB3' },
+                { kode: '004', nama: 'DGB_4', eselon: '4', deskripsi: 'DGB4' },
+                { kode: '005', nama: 'DGB_DADUKTEK', eselon: '3', deskripsi: 'DGB-DADUTEK' },
+                { kode: '006', nama: 'DGB_Director', eselon: '2', deskripsi: 'Not use(from 20131214)' },
+                { kode: '007', nama: 'DGB_Staff', eselon: '5', deskripsi: 'Staff Pelaksana' },
+                { kode: '008', nama: 'DGB_Manager', eselon: '', deskripsi: 'DJA' }
+            ]
+        };
+
+        let selectedRows = new Set();
+        let currentEditKode = null;
+
+        function loadTableData() {
+            const tableBody = document.getElementById('dataTable');
+            const totalData = document.getElementById('totalData');
+            const selectAllCheckbox = document.getElementById('selectAll');
+            const searchInput = document.getElementById('searchNamaJabatan');
+            const searchTerm = searchInput ? searchInput.value.toLowerCase() : '';
+
+            if (totalData) totalData.textContent = allData.total;
+
+            if (tableBody) {
+                tableBody.innerHTML = '';
+                
+                // Filter data berdasarkan search
+                const filteredData = allData.rows.filter(item => 
+                    item.nama.toLowerCase().includes(searchTerm) ||
+                    item.kode.toLowerCase().includes(searchTerm)
+                );
+                
+                filteredData.forEach((item, index) => {
+                    const tr = document.createElement('tr');
+                    tr.setAttribute('data-kode', item.kode);
+                    const isSelected = selectedRows.has(item.kode);
+                    
+                    const aksiButton = `<button class="btn btn-primary" onclick="editData('${item.kode}'); event.stopPropagation();" style="padding: 0.25rem 0.75rem; font-size: 0.875rem; background-color: #6f42c1; border-color: #6f42c1;">
+                                Edit
+                            </button>`;
+                    
+                    tr.innerHTML = `
+                        <td style="text-align: center;">
+                            <input type="checkbox" class="row-checkbox" data-kode="${item.kode}" ${isSelected ? 'checked' : ''} onchange="updateSelection('${item.kode}')">
+                        </td>
+                        <td style="text-align: center;">${item.kode}</td>
+                        <td>${item.nama}</td>
+                        <td style="text-align: center;">${item.eselon || ''}</td>
+                        <td>${item.deskripsi}</td>
+                        <td style="text-align: center;">${aksiButton}</td>
+                    `;
+                    tableBody.appendChild(tr);
+                });
+                
+                // Update select all checkbox
+                if (selectAllCheckbox) {
+                    const allSelected = filteredData.length > 0 && filteredData.every(item => selectedRows.has(item.kode));
+                    selectAllCheckbox.checked = allSelected;
+                }
+            }
+        }
+
+        function toggleSelectAll() {
+            const selectAllCheckbox = document.getElementById('selectAll');
+            const isChecked = selectAllCheckbox.checked;
+            const searchInput = document.getElementById('searchNamaJabatan');
+            const searchTerm = searchInput ? searchInput.value.toLowerCase() : '';
+            const filteredData = allData.rows.filter(item => 
+                item.nama.toLowerCase().includes(searchTerm) ||
+                item.kode.toLowerCase().includes(searchTerm)
+            );
+            
+            if (isChecked) {
+                filteredData.forEach(item => {
+                    selectedRows.add(item.kode);
+                });
+            } else {
+                filteredData.forEach(item => {
+                    selectedRows.delete(item.kode);
+                });
+            }
+            
+            // Update checkboxes
+            const checkboxes = document.querySelectorAll('.row-checkbox');
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = isChecked;
+            });
+        }
+
+        function updateSelection(kode) {
+            if (selectedRows.has(kode)) {
+                selectedRows.delete(kode);
+            } else {
+                selectedRows.add(kode);
+            }
+            
+            // Update select all checkbox
+            const selectAllCheckbox = document.getElementById('selectAll');
+            if (selectAllCheckbox) {
+                const searchInput = document.getElementById('searchNamaJabatan');
+                const searchTerm = searchInput ? searchInput.value.toLowerCase() : '';
+                const filteredData = allData.rows.filter(item => 
+                    item.nama.toLowerCase().includes(searchTerm) ||
+                    item.kode.toLowerCase().includes(searchTerm)
+                );
+                const allSelected = filteredData.length > 0 && filteredData.every(item => selectedRows.has(item.kode));
+                selectAllCheckbox.checked = allSelected;
+            }
+        }
+
+        function tambahData() {
+            const modalTitle = document.getElementById('modalTitle');
+            const modalKodeJabatan = document.getElementById('modalKodeJabatan');
+            const modalNamaJabatan = document.getElementById('modalNamaJabatan');
+            const modalEselon = document.getElementById('modalEselon');
+            const modalDeskripsi = document.getElementById('modalDeskripsi');
+            const dataModal = document.getElementById('dataModal');
+            
+            if (modalTitle) modalTitle.textContent = '➕ Tambah Data';
+            if (modalKodeJabatan) modalKodeJabatan.value = '';
+            if (modalNamaJabatan) modalNamaJabatan.value = '';
+            if (modalEselon) modalEselon.value = '';
+            if (modalDeskripsi) modalDeskripsi.value = '';
+            
+            if (dataModal) dataModal.classList.add('active');
+            currentEditKode = null;
+        }
+
+        function editData(kode) {
+            const modalTitle = document.getElementById('modalTitle');
+            const modalKodeJabatan = document.getElementById('modalKodeJabatan');
+            const modalNamaJabatan = document.getElementById('modalNamaJabatan');
+            const modalEselon = document.getElementById('modalEselon');
+            const modalDeskripsi = document.getElementById('modalDeskripsi');
+            const dataModal = document.getElementById('dataModal');
+
+            // Find item data
+            const itemData = allData.rows.find(item => item.kode === kode);
+            
+            if (!itemData) return;
+            
+            if (modalTitle) modalTitle.textContent = '✏️ Edit Data';
+            if (modalKodeJabatan) modalKodeJabatan.value = itemData.kode;
+            if (modalNamaJabatan) modalNamaJabatan.value = itemData.nama;
+            if (modalEselon) modalEselon.value = itemData.eselon || '';
+            if (modalDeskripsi) modalDeskripsi.value = itemData.deskripsi || '';
+            
+            if (dataModal) dataModal.classList.add('active');
+            currentEditKode = kode;
+        }
+
+        function closeModal() {
+            const dataModal = document.getElementById('dataModal');
+            if (dataModal) dataModal.classList.remove('active');
+            currentEditKode = null;
+        }
+
+        function saveData() {
+            const modalKodeJabatan = document.getElementById('modalKodeJabatan');
+            const modalNamaJabatan = document.getElementById('modalNamaJabatan');
+            const modalEselon = document.getElementById('modalEselon');
+
+            if (!modalKodeJabatan || !modalKodeJabatan.value.trim()) {
+                alert('Mohon lengkapi field Kode Jabatan yang wajib diisi!');
+                return;
+            }
+
+            if (!modalNamaJabatan || !modalNamaJabatan.value.trim()) {
+                alert('Mohon lengkapi field Nama Jabatan yang wajib diisi!');
+                return;
+            }
+
+            if (!modalEselon || !modalEselon.value.trim()) {
+                alert('Mohon lengkapi field Eselon yang wajib diisi!');
+                return;
+            }
+
+            const kode = modalKodeJabatan.value.trim();
+            const nama = modalNamaJabatan.value.trim();
+            const eselon = modalEselon.value.trim();
+            const deskripsi = document.getElementById('modalDeskripsi').value.trim();
+
+            // Simulasi penyimpanan data
+            if (currentEditKode) {
+                alert(`Data jabatan dengan kode ${kode} berhasil diperbarui!`);
+            } else {
+                alert(`Data jabatan baru dengan kode ${kode} berhasil ditambahkan!`);
+            }
+
+            closeModal();
+            // Di sini bisa ditambahkan logika untuk update tabel atau reload data
+        }
+
+        function hapusData() {
+            const selected = Array.from(selectedRows);
+            
+            if (selected.length === 0) {
+                alert('Mohon pilih minimal satu jabatan untuk dihapus!');
+                return;
+            }
+            
+            if (confirm(`Apakah Anda yakin ingin menghapus ${selected.length} jabatan yang dipilih?`)) {
+                alert(`Menghapus ${selected.length} jabatan...`);
+                selectedRows.clear();
+                loadTableData();
+            }
+        }
+
+        function changeItemsPerPage() {
+            const itemsPerPage = document.getElementById('itemsPerPage').value;
+            console.log('Mengubah jumlah item per halaman:', itemsPerPage);
+        }
+
+        // Search functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            loadTableData();
+            
+            const searchInput = document.getElementById('searchNamaJabatan');
+            if (searchInput) {
+                searchInput.addEventListener('input', function() {
+                    loadTableData();
+                });
+            }
+        });
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('dataModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
     </script>
+
+    <style>
+        /* Table Container */
+        .table-container {
+            overflow-x: auto;
+            position: relative;
+            width: 100%;
+        }
+
+        /* Table layout auto untuk fleksibilitas */
+        .table-container .table {
+            width: 100%;
+            min-width: 100%;
+        }
+
+        /* Table Header Styles */
+        .table thead tr th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+            border: 1px solid #dee2e6;
+            border-bottom: 2px solid #dee2e6;
+            padding: 0.75rem;
+        }
+
+        .table th {
+            text-align: left;
+        }
+
+        .table td {
+            text-align: left;
+            padding: 0.75rem;
+            border: 1px solid #dee2e6;
+        }
+
+        .table tbody tr:nth-child(even) {
+            background-color: #f0f4f8;
+        }
+
+        .table tbody tr:nth-child(odd) {
+            background-color: white;
+        }
+
+        .table tbody tr:hover {
+            background-color: var(--light-color);
+        }
+
+        /* Checkbox Styles */
+        input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        .row-checkbox {
+            margin: 0;
+        }
+
+        /* Pagination Styles */
+        .pagination-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1.5rem;
+            padding: 1rem;
+            border-top: 1px solid var(--border-color);
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .pagination-info {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .pagination {
+            display: flex;
+            gap: 0.25rem;
+            align-items: center;
+        }
+
+        .pagination-btn {
+            padding: 0.5rem 0.75rem;
+            border: 1px solid var(--border-color);
+            background-color: white;
+            color: var(--text-primary);
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 0.875rem;
+            transition: all 0.3s;
+            min-width: 40px;
+        }
+
+        .pagination-btn:hover:not(:disabled):not(.active) {
+            background-color: var(--light-color);
+            border-color: var(--primary-color);
+        }
+
+        .pagination-btn.active {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .pagination-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            background-color: var(--light-color);
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            width: 90%;
+            max-width: 700px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .modal-header h3 {
+            margin: 0;
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-secondary);
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-close:hover {
+            color: var(--text-primary);
+        }
+    </style>
 </body>
 </html>
-
-
-
-

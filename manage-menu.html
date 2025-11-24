@@ -9,56 +9,695 @@
     <script src="js/components.js"></script>
 </head>
 <body>
+    <!-- Header Placeholder -->
     <div id="header-placeholder"></div>
+
+    <!-- Sidebar Placeholder -->
     <div id="sidebar-placeholder"></div>
+
+    <!-- Main Content Wrapper -->
     <div class="main-wrapper" id="mainWrapper">
         <div class="container">
-            <h2 style="margin-bottom: 1.5rem;">📋 Manage Menu</h2>
-            <div class="alert alert-info"><strong>ℹ️ Informasi:</strong> Halaman ini digunakan untuk mengelola struktur menu aplikasi dalam sistem.</div>
+            <h2 style="margin-bottom: 1.5rem;">Manage Menu</h2>
+
+            <!-- Data Table Section -->
             <div class="card">
-                <div class="card-header"><h3 class="card-title">⚡ Aksi</h3></div>
-                <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
-                    <button class="btn btn-primary" onclick="showAddModal()">➕ Tambah Menu</button>
-                    <button class="btn btn-success" onclick="importData()">📥 Import Excel</button>
-                    <button class="btn btn-info" onclick="exportData()">📤 Export Excel</button>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; padding: 0 1rem; padding-top: 1rem; flex-wrap: wrap; gap: 1rem;">
+                    <div style="display: flex; align-items: center; gap: 1.5rem;">
+                        <div style="font-weight: 600; font-size: 1rem;">
+                            Total <span style="color: var(--primary-color);" id="totalData">76</span> | 
+                            <label class="form-label" style="margin: 0; display: inline;">Jumlah per halaman</label>
+                            <select class="form-control" id="itemsPerPage" style="width: auto; padding: 0.5rem; display: inline-block; margin-left: 0.5rem;" onchange="changeItemsPerPage()">
+                                <option value="10">10</option>
+                                <option value="30" selected>30</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: 0.5rem; align-items: center;">
+                        <label class="form-label" style="margin: 0;">Nama Menu :</label>
+                        <input type="text" class="form-control" id="searchNamaMenu" placeholder="Cari..." style="width: 200px;">
+                        <button class="btn btn-primary" onclick="tambahData()" style="background-color: #6f42c1; border-color: #6f42c1;">
+                            Tambah
+                        </button>
+                        <button class="btn btn-primary" onclick="hapusData()" style="background-color: #6f42c1; border-color: #6f42c1;">
+                            Hapus
+                        </button>
+                    </div>
                 </div>
-            </div>
-            <div class="card">
-                <div class="card-header"><h3 class="card-title">📊 Daftar Menu</h3></div>
-                <div style="overflow-x: auto;">
+
+                <!-- Data Table -->
+                <div class="table-container">
                     <table class="table">
                         <thead>
-                            <tr><th>No</th><th>Kode Menu</th><th>Nama Menu</th><th>Parent Menu</th><th>URL</th><th>Urutan</th><th>Status</th><th>Aksi</th></tr>
+                            <tr>
+                                <th style="min-width: 50px; text-align: center;">
+                                    <input type="checkbox" id="selectAll" onchange="toggleSelectAll()">
+                                </th>
+                                <th style="min-width: 120px; text-align: center;">Nomor Menu</th>
+                                <th style="min-width: 200px; text-align: left;">Nama Menu</th>
+                                <th style="min-width: 200px; text-align: left;">Nama Program</th>
+                                <th style="min-width: 200px; text-align: left;">Deskripsi Menu</th>
+                                <th style="min-width: 120px; text-align: center;">Urutan Menu</th>
+                                <th style="min-width: 120px; text-align: center;">Menu Induk</th>
+                                <th style="min-width: 100px; text-align: center;">Aksi</th>
+                            </tr>
                         </thead>
-                        <tbody>
-                            <tr>
-                                <td>1</td><td><strong>MENU-001</strong></td><td>Dashboard</td><td>-</td><td>dashboard.html</td><td>1</td>
-                                <td><span class="badge badge-success">Active</span></td>
-                                <td><button class="btn btn-outline" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="editData(1)">✏️ Edit</button></td>
-                            </tr>
-                            <tr>
-                                <td>2</td><td><strong>MENU-002</strong></td><td>Monitoring</td><td>-</td><td>#</td><td>2</td>
-                                <td><span class="badge badge-success">Active</span></td>
-                                <td><button class="btn btn-outline" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="editData(2)">✏️ Edit</button></td>
-                            </tr>
+                        <tbody id="dataTable">
+                            <!-- Data akan diisi oleh JavaScript -->
                         </tbody>
                     </table>
+                </div>
+
+                <!-- Pagination -->
+                <div class="pagination-container">
+                    <div class="pagination-info">
+                        Menampilkan 1-30 dari 76 data
+                    </div>
+                    <div class="pagination">
+                        <button class="pagination-btn" disabled>‹‹ First</button>
+                        <button class="pagination-btn" disabled>‹ Previous</button>
+                        <button class="pagination-btn">1</button>
+                        <button class="pagination-btn">2</button>
+                        <button class="pagination-btn active">3</button>
+                        <button class="pagination-btn">Next ›</button>
+                        <button class="pagination-btn">Last ››</button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <!-- Add/Edit Modal -->
+    <div id="dataModal" class="modal">
+        <div class="modal-content" style="max-width: 800px;">
+            <div class="modal-header">
+                <h3 id="modalTitle">✏️ Edit Data</h3>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+
+            <div style="padding: 1.5rem;">
+                <div class="form-group">
+                    <label class="form-label">Nomor Menu <span style="color: red;">*</span></label>
+                    <input type="text" class="form-control" id="modalNomorMenu" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Nama Menu <span style="color: red;">*</span></label>
+                    <input type="text" class="form-control" id="modalNamaMenu" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Nama Program <span style="color: red;">*</span></label>
+                    <div style="position: relative;">
+                        <input type="text" class="form-control" id="modalNamaProgram" required autocomplete="off" oninput="filterPrograms()" onfocus="showProgramList()" onblur="hideProgramList()">
+                        <div id="programAutocomplete" class="autocomplete-list" style="display: none;"></div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Tahun Menu <span style="color: red;">*</span></label>
+                    <input type="text" class="form-control" id="modalTahunMenu" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Urutan Menu <span style="color: red;">*</span></label>
+                    <input type="number" class="form-control" id="modalUrutanMenu" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Nomor Menu Induk <span style="color: red;">*</span></label>
+                    <input type="text" class="form-control" id="modalNomorMenuInduk" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Jenis Menu <span style="color: red;">*</span></label>
+                    <select class="form-control" id="modalJenisMenu" required>
+                        <option value="">-- Pilih Jenis Menu --</option>
+                        <option value="menu">Menu</option>
+                        <option value="submenu">Submenu</option>
+                        <option value="action">Action</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Deskripsi Menu</label>
+                    <textarea class="form-control" id="modalDeskripsiMenu" rows="4" style="resize: vertical;"></textarea>
+                </div>
+
+                <div style="display: flex; gap: 0.5rem; justify-content: flex-end; margin-top: 1.5rem;">
+                    <button class="btn btn-secondary" onclick="closeModal()">Batal</button>
+                    <button class="btn btn-primary" onclick="saveData()" style="background-color: #6f42c1; border-color: #6f42c1;">💾 Simpan</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer Placeholder -->
     <div id="footer-placeholder"></div>
+
     <script>
-        initPageComponents({activePage: 'manage-authority', userData: {avatar: 'DJA', role: 'Echelon IV DJA', tahun: '2025', jenisDok: 'RKAKL'}});
-        function logout() {if (confirm('Apakah Anda yakin ingin logout?')) {sessionStorage.clear(); window.location.href = 'index.html';}}
-        function showAddModal() {alert('Tambah menu baru...');}
-        function editData(no) {alert('Edit menu ' + no);}
-        function importData() {alert('Import data...');}
-        function exportData() {alert('Export data...');}
+        // Initialize page components
+        initPageComponents({
+            activePage: 'manage-reference-data',
+            userData: {
+                avatar: 'DJA',
+                role: 'Echelon IV DJA',
+                tahun: '2025',
+                jenisDok: 'RKAKL'
+            }
+        });
+
+        function logout() {
+            if (confirm('Apakah Anda yakin ingin logout?')) {
+                sessionStorage.clear();
+                window.location.href = 'index.html';
+            }
+        }
+
+        // Data program untuk autocomplete
+        const programList = [
+            'Program_dir',
+            'Program_retrieveDeptList',
+            'Program_retrieveUserList',
+            'Program_retrieveMenuList',
+            'Program_retrieveProgrmList',
+            'Program_retrieveTreeMenuList',
+            'Program_retrieveMenuAuthList',
+            'Program_retrieveAuthorList',
+            'Program_retrieveJobList',
+            'Batch Monitoring',
+            'Program_monitorUploadStatus'
+        ];
+
+        // Data tabel
+        const allData = {
+            total: 76,
+            rows: [
+                { nomor: '0', nama: 'root', namaProgram: 'Program_dir', deskripsi: 'root menu!', urutan: '10', menuInduk: '0', tahun: '2025', jenisMenu: 'menu' },
+                { nomor: '72', nama: 'Work_', namaProgram: 'Program_dir', deskripsi: 'Work_2014', urutan: '10', menuInduk: '0', tahun: '2025', jenisMenu: 'menu' },
+                { nomor: '73', nama: 'Batch Monitoring', namaProgram: 'Batch Monitoring', deskripsi: 'Batch Monitoring', urutan: '2095', menuInduk: '207', tahun: '2025', jenisMenu: 'menu' },
+                { nomor: '201', nama: 'Manage System', namaProgram: 'Program_dir', deskripsi: '2-', urutan: '2010', menuInduk: '72', tahun: '2025', jenisMenu: 'menu' },
+                { nomor: '202', nama: 'Manage Authority', namaProgram: 'Program_retrieveUserList', deskripsi: '3-', urutan: '2019', menuInduk: '201', tahun: '2025', jenisMenu: 'menu' },
+                { nomor: '203', nama: 'Manage Authority code', namaProgram: 'Program_retrieveAuthorList', deskripsi: '4-Y', urutan: '2030', menuInduk: '202', tahun: '2025', jenisMenu: 'menu' },
+                { nomor: '204', nama: 'Manage User information', namaProgram: 'Program_retrieveUserList', deskripsi: '4-Y', urutan: '2040', menuInduk: '202', tahun: '2025', jenisMenu: 'menu' },
+                { nomor: '205', nama: 'Manage Job position', namaProgram: 'Program_retrieveJobList', deskripsi: '4-Y', urutan: '2050', menuInduk: '202', tahun: '2025', jenisMenu: 'menu' }
+            ]
+        };
+
+        let selectedRows = new Set();
+        let currentEditNomor = null;
+
+        function loadTableData() {
+            const tableBody = document.getElementById('dataTable');
+            const totalData = document.getElementById('totalData');
+            const selectAllCheckbox = document.getElementById('selectAll');
+
+            if (totalData) totalData.textContent = allData.total;
+
+            if (tableBody) {
+                tableBody.innerHTML = '';
+                
+                allData.rows.forEach((item, index) => {
+                    const tr = document.createElement('tr');
+                    tr.setAttribute('data-nomor', item.nomor);
+                    const isSelected = selectedRows.has(item.nomor);
+                    
+                    const aksiButton = `<button class="btn btn-primary" onclick="editData('${item.nomor}'); event.stopPropagation();" style="padding: 0.25rem 0.75rem; font-size: 0.875rem; background-color: #6f42c1; border-color: #6f42c1;">
+                                Edit
+                            </button>`;
+                    
+                    tr.innerHTML = `
+                        <td style="text-align: center;">
+                            <input type="checkbox" class="row-checkbox" data-nomor="${item.nomor}" ${isSelected ? 'checked' : ''} onchange="updateSelection('${item.nomor}')">
+                        </td>
+                        <td style="text-align: center;">${item.nomor}</td>
+                        <td>${item.nama}</td>
+                        <td>${item.namaProgram}</td>
+                        <td>${item.deskripsi}</td>
+                        <td style="text-align: center;">${item.urutan}</td>
+                        <td style="text-align: center;">${item.menuInduk}</td>
+                        <td style="text-align: center;">${aksiButton}</td>
+                    `;
+                    tableBody.appendChild(tr);
+                });
+                
+                // Update select all checkbox
+                if (selectAllCheckbox) {
+                    const allSelected = allData.rows.every(item => selectedRows.has(item.nomor));
+                    selectAllCheckbox.checked = allSelected;
+                }
+            }
+        }
+
+        function toggleSelectAll() {
+            const selectAllCheckbox = document.getElementById('selectAll');
+            const isChecked = selectAllCheckbox.checked;
+            
+            if (isChecked) {
+                allData.rows.forEach(item => {
+                    selectedRows.add(item.nomor);
+                });
+            } else {
+                selectedRows.clear();
+            }
+            
+            // Update checkboxes
+            const checkboxes = document.querySelectorAll('.row-checkbox');
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = isChecked;
+            });
+        }
+
+        function updateSelection(nomor) {
+            if (selectedRows.has(nomor)) {
+                selectedRows.delete(nomor);
+            } else {
+                selectedRows.add(nomor);
+            }
+            
+            // Update select all checkbox
+            const selectAllCheckbox = document.getElementById('selectAll');
+            if (selectAllCheckbox) {
+                const allSelected = allData.rows.every(item => selectedRows.has(item.nomor));
+                selectAllCheckbox.checked = allSelected;
+            }
+        }
+
+        function filterPrograms() {
+            const input = document.getElementById('modalNamaProgram');
+            const autocomplete = document.getElementById('programAutocomplete');
+            const filter = input.value.toUpperCase();
+            
+            if (!filter) {
+                autocomplete.style.display = 'none';
+                return;
+            }
+            
+            const filtered = programList.filter(program => 
+                program.toUpperCase().includes(filter)
+            );
+            
+            if (filtered.length === 0) {
+                autocomplete.style.display = 'none';
+                return;
+            }
+            
+            autocomplete.innerHTML = '';
+            filtered.forEach(program => {
+                const div = document.createElement('div');
+                div.className = 'autocomplete-item';
+                div.textContent = program;
+                div.onclick = function() {
+                    input.value = program;
+                    autocomplete.style.display = 'none';
+                };
+                autocomplete.appendChild(div);
+            });
+            
+            autocomplete.style.display = 'block';
+        }
+
+        function showProgramList() {
+            const input = document.getElementById('modalNamaProgram');
+            if (input.value) {
+                filterPrograms();
+            }
+        }
+
+        function hideProgramList() {
+            // Delay untuk allow click on autocomplete item
+            setTimeout(() => {
+                const autocomplete = document.getElementById('programAutocomplete');
+                if (autocomplete) autocomplete.style.display = 'none';
+            }, 200);
+        }
+
+        function tambahData() {
+            const modalTitle = document.getElementById('modalTitle');
+            const modalNomorMenu = document.getElementById('modalNomorMenu');
+            const modalNamaMenu = document.getElementById('modalNamaMenu');
+            const modalNamaProgram = document.getElementById('modalNamaProgram');
+            const modalTahunMenu = document.getElementById('modalTahunMenu');
+            const modalUrutanMenu = document.getElementById('modalUrutanMenu');
+            const modalNomorMenuInduk = document.getElementById('modalNomorMenuInduk');
+            const modalJenisMenu = document.getElementById('modalJenisMenu');
+            const modalDeskripsiMenu = document.getElementById('modalDeskripsiMenu');
+            const dataModal = document.getElementById('dataModal');
+            
+            if (modalTitle) modalTitle.textContent = '➕ Tambah Data';
+            if (modalNomorMenu) modalNomorMenu.value = '';
+            if (modalNamaMenu) modalNamaMenu.value = '';
+            if (modalNamaProgram) modalNamaProgram.value = '';
+            if (modalTahunMenu) modalTahunMenu.value = '2025';
+            if (modalUrutanMenu) modalUrutanMenu.value = '';
+            if (modalNomorMenuInduk) modalNomorMenuInduk.value = '0';
+            if (modalJenisMenu) modalJenisMenu.value = '';
+            if (modalDeskripsiMenu) modalDeskripsiMenu.value = '';
+            
+            if (dataModal) dataModal.classList.add('active');
+            currentEditNomor = null;
+        }
+
+        function editData(nomor) {
+            const modalTitle = document.getElementById('modalTitle');
+            const modalNomorMenu = document.getElementById('modalNomorMenu');
+            const modalNamaMenu = document.getElementById('modalNamaMenu');
+            const modalNamaProgram = document.getElementById('modalNamaProgram');
+            const modalTahunMenu = document.getElementById('modalTahunMenu');
+            const modalUrutanMenu = document.getElementById('modalUrutanMenu');
+            const modalNomorMenuInduk = document.getElementById('modalNomorMenuInduk');
+            const modalJenisMenu = document.getElementById('modalJenisMenu');
+            const modalDeskripsiMenu = document.getElementById('modalDeskripsiMenu');
+            const dataModal = document.getElementById('dataModal');
+
+            // Find item data
+            const itemData = allData.rows.find(item => item.nomor === nomor);
+            
+            if (!itemData) return;
+            
+            if (modalTitle) modalTitle.textContent = '✏️ Edit Data';
+            if (modalNomorMenu) modalNomorMenu.value = itemData.nomor;
+            if (modalNamaMenu) modalNamaMenu.value = itemData.nama;
+            if (modalNamaProgram) modalNamaProgram.value = itemData.namaProgram;
+            if (modalTahunMenu) modalTahunMenu.value = itemData.tahun || '2025';
+            if (modalUrutanMenu) modalUrutanMenu.value = itemData.urutan;
+            if (modalNomorMenuInduk) modalNomorMenuInduk.value = itemData.menuInduk;
+            if (modalJenisMenu) modalJenisMenu.value = itemData.jenisMenu || 'menu';
+            if (modalDeskripsiMenu) modalDeskripsiMenu.value = itemData.deskripsi;
+            
+            if (dataModal) dataModal.classList.add('active');
+            currentEditNomor = nomor;
+        }
+
+        function closeModal() {
+            const dataModal = document.getElementById('dataModal');
+            if (dataModal) dataModal.classList.remove('active');
+            currentEditNomor = null;
+            
+            // Hide autocomplete
+            const autocomplete = document.getElementById('programAutocomplete');
+            if (autocomplete) autocomplete.style.display = 'none';
+        }
+
+        function saveData() {
+            const modalNomorMenu = document.getElementById('modalNomorMenu');
+            const modalNamaMenu = document.getElementById('modalNamaMenu');
+            const modalNamaProgram = document.getElementById('modalNamaProgram');
+            const modalTahunMenu = document.getElementById('modalTahunMenu');
+            const modalUrutanMenu = document.getElementById('modalUrutanMenu');
+            const modalNomorMenuInduk = document.getElementById('modalNomorMenuInduk');
+            const modalJenisMenu = document.getElementById('modalJenisMenu');
+
+            if (!modalNomorMenu || !modalNomorMenu.value.trim()) {
+                alert('Mohon lengkapi field Nomor Menu yang wajib diisi!');
+                return;
+            }
+
+            if (!modalNamaMenu || !modalNamaMenu.value.trim()) {
+                alert('Mohon lengkapi field Nama Menu yang wajib diisi!');
+                return;
+            }
+
+            if (!modalNamaProgram || !modalNamaProgram.value.trim()) {
+                alert('Mohon lengkapi field Nama Program yang wajib diisi!');
+                return;
+            }
+
+            if (!modalTahunMenu || !modalTahunMenu.value.trim()) {
+                alert('Mohon lengkapi field Tahun Menu yang wajib diisi!');
+                return;
+            }
+
+            if (!modalUrutanMenu || !modalUrutanMenu.value.trim()) {
+                alert('Mohon lengkapi field Urutan Menu yang wajib diisi!');
+                return;
+            }
+
+            if (!modalNomorMenuInduk || !modalNomorMenuInduk.value.trim()) {
+                alert('Mohon lengkapi field Nomor Menu Induk yang wajib diisi!');
+                return;
+            }
+
+            if (!modalJenisMenu || !modalJenisMenu.value) {
+                alert('Mohon lengkapi field Jenis Menu yang wajib diisi!');
+                return;
+            }
+
+            const nomor = modalNomorMenu.value;
+            const nama = modalNamaMenu.value;
+            const namaProgram = modalNamaProgram.value;
+            const tahun = modalTahunMenu.value;
+            const urutan = modalUrutanMenu.value;
+            const menuInduk = modalNomorMenuInduk.value;
+            const jenisMenu = modalJenisMenu.value;
+            const deskripsi = document.getElementById('modalDeskripsiMenu').value;
+
+            // Simulasi penyimpanan data
+            if (currentEditNomor) {
+                alert(`Data menu dengan nomor ${nomor} berhasil diperbarui!`);
+            } else {
+                alert(`Data menu baru dengan nomor ${nomor} berhasil ditambahkan!`);
+            }
+
+            closeModal();
+            // Di sini bisa ditambahkan logika untuk update tabel atau reload data
+        }
+
+        function hapusData() {
+            const selected = Array.from(selectedRows);
+            
+            if (selected.length === 0) {
+                alert('Mohon pilih minimal satu menu untuk dihapus!');
+                return;
+            }
+            
+            if (confirm(`Apakah Anda yakin ingin menghapus ${selected.length} menu yang dipilih?`)) {
+                alert(`Menghapus ${selected.length} menu...`);
+                selectedRows.clear();
+                loadTableData();
+            }
+        }
+
+        function changeItemsPerPage() {
+            const itemsPerPage = document.getElementById('itemsPerPage').value;
+            console.log('Mengubah jumlah item per halaman:', itemsPerPage);
+        }
+
+        // Load initial data
+        document.addEventListener('DOMContentLoaded', function() {
+            loadTableData();
+        });
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('dataModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
     </script>
+
+    <style>
+        /* Table Container */
+        .table-container {
+            overflow-x: auto;
+            position: relative;
+            width: 100%;
+        }
+
+        /* Table layout auto untuk fleksibilitas */
+        .table-container .table {
+            width: 100%;
+            min-width: 100%;
+        }
+
+        /* Table Header Styles */
+        .table thead tr th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+            border: 1px solid #dee2e6;
+            border-bottom: 2px solid #dee2e6;
+            padding: 0.75rem;
+        }
+
+        .table th {
+            text-align: left;
+        }
+
+        .table td {
+            text-align: left;
+            padding: 0.75rem;
+            border: 1px solid #dee2e6;
+        }
+
+        .table tbody tr:nth-child(even) {
+            background-color: #f0f4f8;
+        }
+
+        .table tbody tr:nth-child(odd) {
+            background-color: white;
+        }
+
+        .table tbody tr:hover {
+            background-color: var(--light-color);
+        }
+
+        /* Checkbox Styles */
+        input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        .row-checkbox {
+            margin: 0;
+        }
+
+        /* Autocomplete Styles */
+        .autocomplete-list {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background-color: white;
+            border: 1px solid #dee2e6;
+            border-top: none;
+            border-radius: 0 0 4px 4px;
+            max-height: 200px;
+            overflow-y: auto;
+            z-index: 1000;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .autocomplete-item {
+            padding: 0.75rem;
+            cursor: pointer;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .autocomplete-item:hover {
+            background-color: #f0f4f8;
+        }
+
+        .autocomplete-item:last-child {
+            border-bottom: none;
+        }
+
+        /* Pagination Styles */
+        .pagination-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1.5rem;
+            padding: 1rem;
+            border-top: 1px solid var(--border-color);
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .pagination-info {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .pagination {
+            display: flex;
+            gap: 0.25rem;
+            align-items: center;
+        }
+
+        .pagination-btn {
+            padding: 0.5rem 0.75rem;
+            border: 1px solid var(--border-color);
+            background-color: white;
+            color: var(--text-primary);
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 0.875rem;
+            transition: all 0.3s;
+            min-width: 40px;
+        }
+
+        .pagination-btn:hover:not(:disabled):not(.active) {
+            background-color: var(--light-color);
+            border-color: var(--primary-color);
+        }
+
+        .pagination-btn.active {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .pagination-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            background-color: var(--light-color);
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            width: 90%;
+            max-width: 700px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .modal-header h3 {
+            margin: 0;
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-secondary);
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-close:hover {
+            color: var(--text-primary);
+        }
+    </style>
 </body>
 </html>
-
-
-
-

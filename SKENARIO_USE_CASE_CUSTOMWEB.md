@@ -743,7 +743,7 @@
 
 **Aktor:** User (Admin)
 
-**Tujuan:** Mengelola data referensi jenis belanja dan akun
+**Tujuan:** Mengelola data referensi jenis belanja dan akun dengan struktur hierarki 2 level
 
 **Pra Kondisi:**
 - Pengguna sudah login ke sistem
@@ -751,25 +751,28 @@
 
 **Pasca Kondisi:**
 - Data jenis belanja/akun berhasil ditambah/diubah dan tersimpan di database
-- Data dapat di-import dari Excel atau diekspor ke Excel
+- Data dapat diekspor ke Excel
 - Data dapat digunakan sebagai referensi dalam proses budgeting
+- Data ditampilkan dalam format hierarki 2 level (Jenis Belanja sebagai parent, Akun sebagai child)
 
 **Skenario normal:**
 
 | Aktor | Sistem |
 |-------|--------|
-| 1. Mengklik menu "Manage Reference Data" -> "Atribut Anggaran" -> "Jenis Belanja/Akun" | 2. Menampilkan halaman Jenis Belanja/Akun dengan daftar data |
-| 3. Melihat daftar jenis belanja/akun | 4. Menampilkan tabel dengan kolom: No, Kode Akun, Nama Akun, Jenis Belanja, Status, Aksi |
-| 5. Mengatur filter pencarian | 6. Menampilkan form filter yang sudah diisi |
-| 7. Mengklik tombol "Search" | 8. Mengambil data sesuai filter dari database |
-| 9. Mengklik tombol "Tambah Data" | 10. Menampilkan form untuk menambah data baru |
-| 11. Mengisi data (Kode Akun, Nama Akun, Jenis Belanja) | 12. Menampilkan form yang sudah terisi |
-| 13. Mengklik tombol "Simpan" | 14. Menyimpan data ke database |
-| 15. Mengklik tombol "Edit" pada salah satu data | 16. Menampilkan form edit dengan data yang sudah ada |
-| 17. Mengubah data | 18. Menampilkan form yang sudah diubah |
-| 19. Mengklik tombol "Simpan" | 20. Menyimpan perubahan data ke database |
-| 21. Mengklik tombol "Import Excel" | 22. Membuka dialog untuk upload file Excel dan memproses import data |
-| 23. Mengklik tombol "Export Excel" | 24. Mengekspor data ke file Excel |
+| 1. Mengklik menu "Manage Reference Data" -> "Atribut Anggaran" -> "Jenis Belanja/Akun" | 2. Menampilkan halaman Jenis Belanja/Akun dengan filter, tabel hierarki, dan pagination |
+| 3. Melihat filter pencarian dengan field "Keyword" | 4. Menampilkan form filter dengan field keyword dan tombol "Cari" |
+| 4. Mengisi keyword untuk pencarian | 5. Menampilkan field keyword yang sudah diisi |
+| 5. Mengklik tombol "Cari" | 6. Memfilter data berdasarkan keyword dan menampilkan hasil di tabel |
+| 6. Melihat informasi total data dan jumlah per halaman | 7. Menampilkan "Total X | Jumlah per halaman" dengan dropdown pilihan (10, 30, 50, 100) |
+| 7. Melihat struktur hierarki 2 level | 8. Menampilkan Jenis Belanja (level 1) dengan expand/collapse icon (▼/▶) dan Akun (level 2) sebagai child dengan indentasi |
+| 8. Mengklik icon expand/collapse pada Jenis Belanja | 9. Menampilkan/menyembunyikan Akun yang merupakan child dari Jenis Belanja tersebut |
+| 9. Melihat tombol "Ke excel" | 10. Menampilkan tombol export ke Excel di kanan atas |
+| 10. Mengklik tombol "Ke excel" | 11. Mengekspor data jenis belanja dan akun ke file Excel |
+| 11. Mengklik tombol "Edit" pada baris Jenis Belanja atau Akun | 12. Menampilkan modal form edit dengan data yang sudah terisi |
+| 12. Melihat form edit untuk Jenis Belanja (2 level) | 13. Menampilkan field: Kode Kementerian* (readonly), Kode Jenis Belanja* (readonly), Uraian*, Aktif (Y/N) |
+| 13. Melihat form edit untuk Akun (2 level) | 14. Menampilkan field: Kode Kementerian* (readonly), Kode Jenis Belanja* (readonly), Kode Akun* (readonly), Uraian*, Aktif (Y/N) |
+| 14. Mengubah data | 15. Menampilkan form yang sudah diubah |
+| 15. Mengklik tombol "Simpan" | 16. Menyimpan perubahan data ke database dan menampilkan notifikasi sukses |
 
 ---
 
@@ -777,7 +780,7 @@
 
 **Aktor:** User (Admin)
 
-**Tujuan:** Mengelola data referensi beban dan sumber dana
+**Tujuan:** Mengelola data referensi beban, sumber dana, dan jenis beban dengan struktur hierarki 2 level
 
 **Pra Kondisi:**
 - Pengguna sudah login ke sistem
@@ -786,21 +789,29 @@
 **Pasca Kondisi:**
 - Data beban/sumber dana berhasil ditambah/diubah dan tersimpan di database
 - Data dapat digunakan sebagai referensi dalam proses budgeting
+- Data ditampilkan dalam format hierarki 2 level dengan 3 tab utama
 
 **Skenario normal:**
 
 | Aktor | Sistem |
 |-------|--------|
-| 1. Mengklik menu "Manage Reference Data" -> "Atribut Anggaran" -> "Beban/Sumber Dana" | 2. Menampilkan halaman Beban/Sumber Dana dengan daftar data |
-| 3. Melihat daftar beban/sumber dana | 4. Menampilkan tabel dengan kolom: No, Kode, Nama, Jenis, Status, Aksi |
-| 5. Mengatur filter pencarian | 6. Menampilkan form filter yang sudah diisi |
-| 7. Mengklik tombol "Search" | 8. Mengambil data sesuai filter dari database |
-| 9. Mengklik tombol "Tambah Data" | 10. Menampilkan form untuk menambah data baru |
-| 11. Mengisi data (Kode, Nama, Jenis) | 12. Menampilkan form yang sudah terisi |
-| 13. Mengklik tombol "Simpan" | 14. Menyimpan data ke database |
-| 15. Mengklik tombol "Edit" pada salah satu data | 16. Menampilkan form edit dengan data yang sudah ada |
-| 17. Mengubah data | 18. Menampilkan form yang sudah diubah |
-| 19. Mengklik tombol "Simpan" | 20. Menyimpan perubahan data ke database |
+| 1. Mengklik menu "Manage Reference Data" -> "Atribut Anggaran" -> "Beban/Sumber Dana" | 2. Menampilkan halaman Beban/Sumber Dana dengan 3 main tabs: Beban, Sumber Dana, Jenis Beban |
+| 3. Melihat 3 main tabs | 4. Menampilkan tab navigation yang dapat diklik untuk beralih antar jenis data |
+| 4. Memilih salah satu tab (Beban, Sumber Dana, atau Jenis Beban) | 5. Menampilkan data sesuai tab yang dipilih dengan struktur hierarki 2 level |
+| 5. Melihat filter pencarian dengan field "Keyword" | 6. Menampilkan form filter dengan field keyword dan tombol "Cari" |
+| 6. Mengisi keyword untuk pencarian | 7. Menampilkan field keyword yang sudah diisi |
+| 7. Mengklik tombol "Cari" | 8. Memfilter data berdasarkan keyword dan menampilkan hasil di tabel |
+| 8. Melihat informasi total data dan jumlah per halaman | 9. Menampilkan "Total X | Jumlah per halaman" dengan dropdown pilihan (10, 30, 50, 100) |
+| 9. Melihat struktur hierarki 2 level | 10. Menampilkan parent item (level 1) dengan expand/collapse icon (▼/▶) dan child item (level 2) dengan indentasi |
+| 10. Mengklik icon expand/collapse pada parent item | 11. Menampilkan/menyembunyikan child items |
+| 11. Melihat tombol "Tambah" dan "Ke excel" | 12. Menampilkan tombol Tambah dan Export Excel di kanan atas |
+| 12. Mengklik tombol "Tambah" | 13. Menampilkan modal form untuk menambah data baru |
+| 13. Mengisi data sesuai level hierarki | 14. Menampilkan form yang sudah terisi dengan field sesuai level |
+| 14. Mengklik tombol "Simpan" | 15. Menyimpan data ke database dan menampilkan notifikasi sukses |
+| 15. Mengklik tombol "Edit" pada baris data | 16. Menampilkan modal form edit dengan data yang sudah terisi |
+| 16. Mengubah data | 17. Menampilkan form yang sudah diubah |
+| 17. Mengklik tombol "Simpan" | 18. Menyimpan perubahan data ke database dan menampilkan notifikasi sukses |
+| 18. Mengklik tombol "Ke excel" | 19. Mengekspor data sesuai tab yang aktif ke file Excel |
 
 ---
 
@@ -808,30 +819,36 @@
 
 **Aktor:** User (Admin)
 
-**Tujuan:** Mengelola data referensi fungsi anggaran
+**Tujuan:** Mengelola data referensi fungsi anggaran dengan subfungsi secara hierarki
 
 **Pra Kondisi:**
 - Pengguna sudah login ke sistem
 - User memiliki akses admin
 
 **Pasca Kondisi:**
-- Data fungsi berhasil ditambah/diubah dan tersimpan di database
+- Data fungsi dan subfungsi berhasil ditambah/diubah dan tersimpan di database
 - Data dapat digunakan sebagai referensi dalam proses budgeting
+- Data ditampilkan dalam format hierarki (Fungsi sebagai parent, Subfungsi sebagai child)
 
 **Skenario normal:**
 
 | Aktor | Sistem |
 |-------|--------|
-| 1. Mengklik menu "Manage Reference Data" -> "Atribut Anggaran" -> "Fungsi" | 2. Menampilkan halaman Fungsi dengan daftar data |
-| 3. Melihat daftar fungsi | 4. Menampilkan tabel dengan kolom: No, Kode Fungsi, Nama Fungsi, Status, Aksi |
-| 5. Mengatur filter pencarian | 6. Menampilkan form filter yang sudah diisi |
-| 7. Mengklik tombol "Search" | 8. Mengambil data sesuai filter dari database |
-| 9. Mengklik tombol "Tambah Data" | 10. Menampilkan form untuk menambah data baru |
-| 11. Mengisi data (Kode Fungsi, Nama Fungsi) | 12. Menampilkan form yang sudah terisi |
-| 13. Mengklik tombol "Simpan" | 14. Menyimpan data ke database |
-| 15. Mengklik tombol "Edit" pada salah satu data | 16. Menampilkan form edit dengan data yang sudah ada |
-| 17. Mengubah data | 18. Menampilkan form yang sudah diubah |
-| 19. Mengklik tombol "Simpan" | 20. Menyimpan perubahan data ke database |
+| 1. Mengklik menu "Manage Reference Data" -> "Atribut Anggaran" -> "Fungsi" | 2. Menampilkan halaman Fungsi/Subfungsi dengan filter, tabel hierarki, dan pagination |
+| 3. Melihat filter pencarian dengan field "Keyword" | 4. Menampilkan form filter dengan field keyword |
+| 4. Mengisi keyword untuk pencarian | 5. Menampilkan field keyword yang sudah diisi |
+| 5. Mengklik tombol "Cari" | 6. Memfilter data berdasarkan keyword dan menampilkan hasil di tabel |
+| 6. Melihat informasi total data dan jumlah per halaman | 7. Menampilkan "Total X | Jumlah per halaman" dengan dropdown pilihan (10, 30, 50, 100) |
+| 7. Melihat daftar fungsi dan subfungsi | 8. Menampilkan tabel hierarki dengan kolom: Kode, Uraian, Aktif, Tgl Modifikasi, User ID, Aksi (Edit) |
+| 8. Melihat struktur hierarki (Fungsi -> Subfungsi) | 9. Menampilkan Fungsi sebagai parent dengan expand/collapse icon (▼/▶) dan Subfungsi sebagai child dengan indentasi |
+| 9. Mengklik icon expand/collapse pada Fungsi | 10. Menampilkan/menyembunyikan Subfungsi yang merupakan child dari Fungsi tersebut |
+| 10. Melihat tombol "Ke excel" | 11. Menampilkan tombol export ke Excel di kanan atas |
+| 11. Mengklik tombol "Ke excel" | 12. Mengekspor data fungsi dan subfungsi ke file Excel |
+| 12. Mengklik tombol "Edit" pada baris Fungsi atau Subfungsi | 13. Menampilkan modal form edit dengan data yang sudah terisi |
+| 13. Melihat form edit untuk Fungsi (2 level) | 14. Menampilkan field: Kode Kementerian* (readonly), Kode Fungsi* (readonly), Uraian*, Aktif (Y/N) |
+| 14. Melihat form edit untuk Subfungsi (2 level) | 15. Menampilkan field: Kode Kementerian* (readonly), Kode Fungsi* (readonly), Kode Subfungsi* (readonly), Uraian*, Aktif (Y/N) |
+| 15. Mengubah data | 16. Menampilkan form yang sudah diubah |
+| 16. Mengklik tombol "Simpan" | 17. Menyimpan perubahan data ke database dan menampilkan notifikasi sukses |
 
 ---
 
@@ -839,7 +856,7 @@
 
 **Aktor:** User (Admin)
 
-**Tujuan:** Mengelola data referensi program dan kegiatan
+**Tujuan:** Mengelola data referensi program, outcome, kegiatan, output, dan indikator kinerja secara hierarki
 
 **Pra Kondisi:**
 - Pengguna sudah login ke sistem
@@ -848,21 +865,28 @@
 **Pasca Kondisi:**
 - Data program/kegiatan berhasil ditambah/diubah dan tersimpan di database
 - Data dapat digunakan sebagai referensi dalam proses budgeting
+- Data ditampilkan dalam format hierarki 3 level (Kementerian -> Unit -> Program/Outcome/Kegiatan/Output/Indikator)
 
 **Skenario normal:**
 
 | Aktor | Sistem |
 |-------|--------|
-| 1. Mengklik menu "Manage Reference Data" -> "Atribut Anggaran" -> "Program/Kegiatan" | 2. Menampilkan halaman Program/Kegiatan dengan daftar data |
-| 3. Melihat daftar program/kegiatan | 4. Menampilkan tabel dengan kolom: No, Kode Program, Nama Program, Kode Kegiatan, Nama Kegiatan, Status, Aksi |
-| 5. Mengatur filter pencarian | 6. Menampilkan form filter yang sudah diisi |
-| 7. Mengklik tombol "Search" | 8. Mengambil data sesuai filter dari database |
-| 9. Mengklik tombol "Tambah Data" | 10. Menampilkan form untuk menambah data baru |
-| 11. Mengisi data (Kode Program, Nama Program, Kode Kegiatan, Nama Kegiatan) | 12. Menampilkan form yang sudah terisi |
-| 13. Mengklik tombol "Simpan" | 14. Menyimpan data ke database |
-| 15. Mengklik tombol "Edit" pada salah satu data | 16. Menampilkan form edit dengan data yang sudah ada |
-| 17. Mengubah data | 18. Menampilkan form yang sudah diubah |
-| 19. Mengklik tombol "Simpan" | 20. Menyimpan perubahan data ke database |
+| 1. Mengklik menu "Manage Reference Data" -> "Atribut Anggaran" -> "Program/Kegiatan" | 2. Menampilkan halaman Program dengan 6 main tabs: Program, Outcome, Kegiatan, Output, Indikator Kinerja Utama, Indikator Kinerja Kegiatan |
+| 3. Melihat tab navigation | 4. Menampilkan 6 tab utama yang dapat diklik untuk beralih antar jenis data |
+| 4. Memilih tab "Program", "Outcome", "Kegiatan", "Output", "Indikator Kinerja Utama", atau "Indikator Kinerja Kegiatan" | 5. Menampilkan data sesuai tab yang dipilih dengan struktur hierarki 3 level |
+| 5. Melihat filter pencarian dengan field "Keyword" | 6. Menampilkan form filter dengan field keyword dan tombol "Cari" |
+| 6. Mengisi keyword untuk pencarian | 7. Menampilkan field keyword yang sudah diisi |
+| 7. Mengklik tombol "Cari" | 8. Memfilter data berdasarkan keyword dan menampilkan hasil di tabel |
+| 8. Melihat informasi total data dan jumlah per halaman | 9. Menampilkan "Total X | Jumlah per halaman" dengan dropdown pilihan (10, 30, 50, 100) |
+| 9. Melihat struktur hierarki 3 level | 10. Menampilkan Kementerian (level 1) dengan expand/collapse, Unit (level 2) dengan expand/collapse, Program/Outcome/Kegiatan/Output/Indikator (level 3) dengan indentasi jelas |
+| 10. Mengklik icon expand/collapse pada Kementerian | 11. Menampilkan/menyembunyikan Unit yang merupakan child dari Kementerian tersebut |
+| 11. Mengklik icon expand/collapse pada Unit | 12. Menampilkan/menyembunyikan Program/Outcome/Kegiatan/Output/Indikator yang merupakan child dari Unit tersebut |
+| 12. Melihat tombol "Ke excel" | 13. Menampilkan tombol export ke Excel di kanan atas |
+| 13. Mengklik tombol "Ke excel" | 14. Mengekspor data sesuai tab yang aktif ke file Excel |
+| 14. Mengklik tombol "Edit" pada baris data level 3 | 15. Menampilkan modal form edit dengan data yang sudah terisi |
+| 15. Melihat form edit untuk data hierarki 3 level | 16. Menampilkan field: Kode Kementerian* (readonly), Kode Unit* (readonly), Kode Program/Outcome/Kegiatan/Output/Indikator* (readonly), Uraian*, Aktif (Y/N) |
+| 16. Mengubah data | 17. Menampilkan form yang sudah diubah |
+| 17. Mengklik tombol "Simpan" | 18. Menyimpan perubahan data ke database dan menampilkan notifikasi sukses |
 
 ---
 
@@ -870,7 +894,7 @@
 
 **Aktor:** User (Admin)
 
-**Tujuan:** Mengelola data referensi atribut anggaran lainnya
+**Tujuan:** Mengelola data referensi atribut anggaran lainnya dengan 14 jenis data berbeda
 
 **Pra Kondisi:**
 - Pengguna sudah login ke sistem
@@ -879,21 +903,28 @@
 **Pasca Kondisi:**
 - Data atribut anggaran berhasil ditambah/diubah dan tersimpan di database
 - Data dapat digunakan sebagai referensi dalam proses budgeting
+- Data ditampilkan dalam format hierarki 2 level (Kementerian -> Visi/Misi/Sasaran/dll) dengan auto-expand
 
 **Skenario normal:**
 
 | Aktor | Sistem |
 |-------|--------|
-| 1. Mengklik menu "Manage Reference Data" -> "Atribut Anggaran" -> "Lain-lain" | 2. Menampilkan halaman Atribut Anggaran Lain-lain dengan daftar data |
-| 3. Melihat daftar atribut anggaran | 4. Menampilkan tabel dengan kolom: No, Kode, Nama, Keterangan, Status, Aksi |
-| 5. Mengatur filter pencarian | 6. Menampilkan form filter yang sudah diisi |
-| 7. Mengklik tombol "Search" | 8. Mengambil data sesuai filter dari database |
-| 9. Mengklik tombol "Tambah Data" | 10. Menampilkan form untuk menambah data baru |
-| 11. Mengisi data (Kode, Nama, Keterangan) | 12. Menampilkan form yang sudah terisi |
-| 13. Mengklik tombol "Simpan" | 14. Menyimpan data ke database |
-| 15. Mengklik tombol "Edit" pada salah satu data | 16. Menampilkan form edit dengan data yang sudah ada |
-| 17. Mengubah data | 18. Menampilkan form yang sudah diubah |
-| 19. Mengklik tombol "Simpan" | 20. Menyimpan perubahan data ke database |
+| 1. Mengklik menu "Manage Reference Data" -> "Atribut Anggaran" -> "Lain-lain" | 2. Menampilkan halaman Atribut Anggaran Lain-lain dengan 14 main tabs dalam 2 baris |
+| 3. Melihat 14 main tabs | 4. Menampilkan tab: Visi, Misi, Misi Unit, Sasaran, Sasaran Kegiatan, PROGSAS, Jenis Prioritas, Prioritas Ke, Inisiatif Baru, Jenis Dokumen, Blokir, Kurs, Register, Cara Tarik |
+| 4. Memilih salah satu tab | 5. Menampilkan data sesuai tab yang dipilih dengan struktur hierarki 2 level |
+| 5. Melihat filter pencarian dengan field "Keyword" | 6. Menampilkan form filter dengan field keyword dan tombol "Cari" |
+| 6. Mengisi keyword untuk pencarian | 7. Menampilkan field keyword yang sudah diisi |
+| 7. Mengklik tombol "Cari" | 8. Memfilter data berdasarkan keyword dan menampilkan hasil di tabel |
+| 8. Melihat informasi total data dan jumlah per halaman | 9. Menampilkan "Total X | Jumlah per halaman" dengan dropdown pilihan (10, 30, 50, 100) |
+| 9. Melihat struktur hierarki 2 level dengan auto-expand | 10. Menampilkan Kementerian (level 1) dan Visi/Misi/Sasaran/dll (level 2) dengan semua parent item otomatis expanded saat load |
+| 10. Melihat expand/collapse icon pada Kementerian | 11. Menampilkan icon expand/collapse (▼/▶) yang dapat diklik untuk expand/collapse child items |
+| 11. Mengklik icon expand/collapse | 12. Menampilkan/menyembunyikan child items dengan animasi |
+| 12. Melihat tombol "Ke excel" | 13. Menampilkan tombol export ke Excel di kanan atas |
+| 13. Mengklik tombol "Ke excel" | 14. Mengekspor data sesuai tab yang aktif ke file Excel |
+| 14. Mengklik tombol "Edit" pada baris data level 2 | 15. Menampilkan modal form edit dengan data yang sudah terisi |
+| 15. Melihat form edit untuk data hierarki 2 level | 16. Menampilkan field: Kode Kementerian* (readonly), Kode Visi/Misi/Sasaran/dll* (readonly), Uraian*, Aktif (Y/N) |
+| 16. Mengubah data | 17. Menampilkan form yang sudah diubah |
+| 17. Mengklik tombol "Simpan" | 18. Menyimpan perubahan data ke database dan menampilkan notifikasi sukses |
 
 ---
 
@@ -901,7 +932,7 @@
 
 **Aktor:** User (Admin)
 
-**Tujuan:** Mengelola data referensi Kementerian/Lembaga dan Unit
+**Tujuan:** Mengelola data referensi Kementerian/Lembaga, Unit, Eselon 2, Satuan Kerja, dan Jenis Satker
 
 **Pra Kondisi:**
 - Pengguna sudah login ke sistem
@@ -910,21 +941,26 @@
 **Pasca Kondisi:**
 - Data KL/Unit berhasil ditambah/diubah dan tersimpan di database
 - Data dapat digunakan sebagai referensi dalam proses budgeting
+- Data ditampilkan dalam format flat (non-hierarki) dengan 5 tab utama
 
 **Skenario normal:**
 
 | Aktor | Sistem |
 |-------|--------|
-| 1. Mengklik menu "Manage Reference Data" -> "Struktur Organisasi" -> "KL/Unit" | 2. Menampilkan halaman KL/Unit dengan daftar data |
-| 3. Melihat daftar KL/Unit | 4. Menampilkan tabel dengan kolom: No, Kode KL, Nama KL, Kode Unit, Nama Unit, Status, Aksi |
-| 5. Mengatur filter pencarian | 6. Menampilkan form filter yang sudah diisi |
-| 7. Mengklik tombol "Search" | 8. Mengambil data sesuai filter dari database |
-| 9. Mengklik tombol "Tambah Data" | 10. Menampilkan form untuk menambah data baru |
-| 11. Mengisi data (Kode KL, Nama KL, Kode Unit, Nama Unit) | 12. Menampilkan form yang sudah terisi |
-| 13. Mengklik tombol "Simpan" | 14. Menyimpan data ke database |
-| 15. Mengklik tombol "Edit" pada salah satu data | 16. Menampilkan form edit dengan data yang sudah ada |
-| 17. Mengubah data | 18. Menampilkan form yang sudah diubah |
-| 19. Mengklik tombol "Simpan" | 20. Menyimpan perubahan data ke database |
+| 1. Mengklik menu "Manage Reference Data" -> "Struktur Organisasi" -> "KL/Unit" | 2. Menampilkan halaman KL/Unit dengan 5 main tabs: Kementerian, Unit, Eselon 2, Satuan Kerja, Jenis Satker |
+| 3. Melihat 5 main tabs | 4. Menampilkan tab navigation yang dapat diklik untuk beralih antar jenis data |
+| 4. Memilih salah satu tab (Kementerian, Unit, Eselon 2, Satuan Kerja, atau Jenis Satker) | 5. Menampilkan data sesuai tab yang dipilih dalam format tabel flat |
+| 5. Melihat filter pencarian dengan field "Keyword" | 6. Menampilkan form filter dengan field keyword dan tombol "Cari" |
+| 6. Mengisi keyword untuk pencarian | 7. Menampilkan field keyword yang sudah diisi |
+| 7. Mengklik tombol "Cari" | 8. Memfilter data berdasarkan keyword dan menampilkan hasil di tabel |
+| 8. Melihat informasi total data dan jumlah per halaman | 9. Menampilkan "Total X | Jumlah per halaman" dengan dropdown pilihan (10, 30, 50, 100) |
+| 9. Melihat daftar data sesuai tab | 10. Menampilkan tabel dengan kolom: Kode, Uraian, Aktif, Tgl Modifikasi, User ID, Aksi (Edit) |
+| 10. Melihat tombol "Ke excel" | 11. Menampilkan tombol export ke Excel di kanan atas |
+| 11. Mengklik tombol "Ke excel" | 12. Mengekspor data sesuai tab yang aktif ke file Excel |
+| 12. Mengklik tombol "Edit" pada salah satu baris | 13. Menampilkan modal form edit dengan data yang sudah terisi |
+| 13. Melihat form edit untuk data flat | 14. Menampilkan field: Kode* (readonly), Uraian*, Aktif (Y/N) |
+| 14. Mengubah data | 15. Menampilkan form yang sudah diubah |
+| 15. Mengklik tombol "Simpan" | 16. Menyimpan perubahan data ke database dan menampilkan notifikasi sukses |
 
 ---
 
@@ -932,7 +968,7 @@
 
 **Aktor:** User (Admin)
 
-**Tujuan:** Mengelola data referensi lokasi dan KPPN
+**Tujuan:** Mengelola data referensi lokasi, Kabupaten/Kota, Kanwil, KPPN, dan DEKON
 
 **Pra Kondisi:**
 - Pengguna sudah login ke sistem
@@ -941,21 +977,26 @@
 **Pasca Kondisi:**
 - Data lokasi/KPPN berhasil ditambah/diubah dan tersimpan di database
 - Data dapat digunakan sebagai referensi dalam proses budgeting
+- Data ditampilkan dalam format flat (non-hierarki) dengan 5 tab utama
 
 **Skenario normal:**
 
 | Aktor | Sistem |
 |-------|--------|
-| 1. Mengklik menu "Manage Reference Data" -> "Struktur Organisasi" -> "Lokasi/KPPN" | 2. Menampilkan halaman Lokasi/KPPN dengan daftar data |
-| 3. Melihat daftar lokasi/KPPN | 4. Menampilkan tabel dengan kolom: No, Kode Lokasi, Nama Lokasi, Kode KPPN, Nama KPPN, Status, Aksi |
-| 5. Mengatur filter pencarian | 6. Menampilkan form filter yang sudah diisi |
-| 7. Mengklik tombol "Search" | 8. Mengambil data sesuai filter dari database |
-| 9. Mengklik tombol "Tambah Data" | 10. Menampilkan form untuk menambah data baru |
-| 11. Mengisi data (Kode Lokasi, Nama Lokasi, Kode KPPN, Nama KPPN) | 12. Menampilkan form yang sudah terisi |
-| 13. Mengklik tombol "Simpan" | 14. Menyimpan data ke database |
-| 15. Mengklik tombol "Edit" pada salah satu data | 16. Menampilkan form edit dengan data yang sudah ada |
-| 17. Mengubah data | 18. Menampilkan form yang sudah diubah |
-| 19. Mengklik tombol "Simpan" | 20. Menyimpan perubahan data ke database |
+| 1. Mengklik menu "Manage Reference Data" -> "Struktur Organisasi" -> "Lokasi/KPPN" | 2. Menampilkan halaman Lokasi/KPPN dengan 5 main tabs: Lokasi, Kabupaten/Kota, Kanwil, KPPN, DEKON |
+| 3. Melihat 5 main tabs | 4. Menampilkan tab navigation yang dapat diklik untuk beralih antar jenis data |
+| 4. Memilih salah satu tab (Lokasi, Kabupaten/Kota, Kanwil, KPPN, atau DEKON) | 5. Menampilkan data sesuai tab yang dipilih dalam format tabel flat |
+| 5. Melihat filter pencarian dengan field "Keyword" | 6. Menampilkan form filter dengan field keyword dan tombol "Cari" |
+| 6. Mengisi keyword untuk pencarian | 7. Menampilkan field keyword yang sudah diisi |
+| 7. Mengklik tombol "Cari" | 8. Memfilter data berdasarkan keyword dan menampilkan hasil di tabel |
+| 8. Melihat informasi total data dan jumlah per halaman | 9. Menampilkan "Total X | Jumlah per halaman" dengan dropdown pilihan (10, 30, 50, 100) |
+| 9. Melihat daftar data sesuai tab | 10. Menampilkan tabel dengan kolom: Kode, Uraian, Aktif, Tgl Modifikasi, User ID, Aksi (Edit) |
+| 10. Melihat tombol "Ke excel" | 11. Menampilkan tombol export ke Excel di kanan atas |
+| 11. Mengklik tombol "Ke excel" | 12. Mengekspor data sesuai tab yang aktif ke file Excel |
+| 12. Mengklik tombol "Edit" pada salah satu baris | 13. Menampilkan modal form edit dengan data yang sudah terisi |
+| 13. Melihat form edit untuk data flat | 14. Menampilkan field: Kode* (readonly), Uraian*, Aktif (Y/N) |
+| 14. Mengubah data | 15. Menampilkan form yang sudah diubah |
+| 15. Mengklik tombol "Simpan" | 16. Menyimpan perubahan data ke database dan menampilkan notifikasi sukses |
 
 ---
 
@@ -963,7 +1004,7 @@
 
 **Aktor:** User (Admin)
 
-**Tujuan:** Mengelola data penanggung jawab kegiatan
+**Tujuan:** Mengelola data penanggung jawab kegiatan dengan struktur hierarki 4 level
 
 **Pra Kondisi:**
 - Pengguna sudah login ke sistem
@@ -972,21 +1013,26 @@
 **Pasca Kondisi:**
 - Data penanggung jawab kegiatan berhasil ditambah/diubah dan tersimpan di database
 - Data dapat digunakan sebagai referensi dalam proses budgeting
+- Data ditampilkan dalam format hierarki 4 level (Kementerian -> Unit -> Eselon 2 -> Kegiatan) dengan auto-expand
 
 **Skenario normal:**
 
 | Aktor | Sistem |
 |-------|--------|
-| 1. Mengklik menu "Manage Reference Data" -> "Struktur Organisasi" -> "Penanggung Jawab Kegiatan" | 2. Menampilkan halaman Penanggung Jawab Kegiatan dengan daftar data |
-| 3. Melihat daftar penanggung jawab kegiatan | 4. Menampilkan tabel dengan kolom: No, NIP, Nama, Jabatan, Unit, Status, Aksi |
-| 5. Mengatur filter pencarian | 6. Menampilkan form filter yang sudah diisi |
-| 7. Mengklik tombol "Search" | 8. Mengambil data sesuai filter dari database |
-| 9. Mengklik tombol "Tambah Data" | 10. Menampilkan form untuk menambah data baru |
-| 11. Mengisi data (NIP, Nama, Jabatan, Unit) | 12. Menampilkan form yang sudah terisi |
-| 13. Mengklik tombol "Simpan" | 14. Menyimpan data ke database |
-| 15. Mengklik tombol "Edit" pada salah satu data | 16. Menampilkan form edit dengan data yang sudah ada |
-| 17. Mengubah data | 18. Menampilkan form yang sudah diubah |
-| 19. Mengklik tombol "Simpan" | 20. Menyimpan perubahan data ke database |
+| 1. Mengklik menu "Manage Reference Data" -> "Struktur Organisasi" -> "Penanggung Jawab Kegiatan" | 2. Menampilkan halaman Penanggung Jawab Kegiatan dengan filter, tabel hierarki, dan pagination |
+| 3. Melihat filter pencarian dengan field "Keyword" | 4. Menampilkan form filter dengan field keyword dan tombol "Cari" |
+| 4. Mengisi keyword untuk pencarian | 5. Menampilkan field keyword yang sudah diisi |
+| 5. Mengklik tombol "Cari" | 6. Memfilter data berdasarkan keyword dan menampilkan hasil di tabel |
+| 6. Melihat informasi total data dan jumlah per halaman | 7. Menampilkan "Total X | Jumlah per halaman" dengan dropdown pilihan (10, 30, 50, 100) |
+| 7. Melihat struktur hierarki 4 level dengan auto-expand | 8. Menampilkan Kementerian (level 1), Unit (level 2), Eselon 2 (level 3), Kegiatan (level 4) dengan semua parent item otomatis expanded saat load |
+| 8. Melihat expand/collapse icon pada level 1-3 | 9. Menampilkan icon expand/collapse (▼/▶) yang dapat diklik untuk expand/collapse child items |
+| 9. Mengklik icon expand/collapse | 10. Menampilkan/menyembunyikan child items dengan animasi |
+| 10. Melihat tombol "Tambah" dan "Ke excel" | 11. Menampilkan tombol Tambah dan Export Excel di kanan atas |
+| 11. Mengklik tombol "Ke excel" | 12. Mengekspor data penanggung jawab kegiatan ke file Excel |
+| 12. Mengklik tombol "Edit" pada baris data level 4 (Kegiatan) | 13. Menampilkan modal form edit dengan data yang sudah terisi |
+| 13. Melihat form edit untuk data hierarki 4 level | 14. Menampilkan field: Kode Kementerian* (readonly), Kode Unit* (readonly), Kode Eselon 2* (readonly), Kode Kegiatan* (readonly), Aktif (Y/N) |
+| 14. Mengubah status Aktif | 15. Menampilkan form yang sudah diubah |
+| 15. Mengklik tombol "Simpan" | 16. Menyimpan perubahan data ke database dan menampilkan notifikasi sukses |
 
 ---
 
@@ -994,7 +1040,7 @@
 
 **Aktor:** User (Admin)
 
-**Tujuan:** Mengelola data penanda tangan dokumen
+**Tujuan:** Mengelola data penanda tangan dokumen dengan data flat (non-hierarki)
 
 **Pra Kondisi:**
 - Pengguna sudah login ke sistem
@@ -1003,21 +1049,28 @@
 **Pasca Kondisi:**
 - Data penanda tangan berhasil ditambah/diubah dan tersimpan di database
 - Data dapat digunakan sebagai referensi dalam proses pembuatan dokumen
+- Gambar tanda tangan dapat diunggah dan disimpan
 
 **Skenario normal:**
 
 | Aktor | Sistem |
 |-------|--------|
-| 1. Mengklik menu "Manage Reference Data" -> "Struktur Organisasi" -> "Penanda Tangan" | 2. Menampilkan halaman Penanda Tangan dengan daftar data |
-| 3. Melihat daftar penanda tangan | 4. Menampilkan tabel dengan kolom: No, NIP, Nama, Jabatan, Unit, Status, Aksi |
-| 5. Mengatur filter pencarian | 6. Menampilkan form filter yang sudah diisi |
-| 7. Mengklik tombol "Search" | 8. Mengambil data sesuai filter dari database |
-| 9. Mengklik tombol "Tambah Data" | 10. Menampilkan form untuk menambah data baru |
-| 11. Mengisi data (NIP, Nama, Jabatan, Unit) | 12. Menampilkan form yang sudah terisi |
-| 13. Mengklik tombol "Simpan" | 14. Menyimpan data ke database |
-| 15. Mengklik tombol "Edit" pada salah satu data | 16. Menampilkan form edit dengan data yang sudah ada |
-| 17. Mengubah data | 18. Menampilkan form yang sudah diubah |
-| 19. Mengklik tombol "Simpan" | 20. Menyimpan perubahan data ke database |
+| 1. Mengklik menu "Manage Reference Data" -> "Struktur Organisasi" -> "Penanda Tangan" | 2. Menampilkan halaman Penanda Tangan dengan filter, tabel data flat, dan pagination |
+| 3. Melihat filter pencarian dengan field "Keyword" | 4. Menampilkan form filter dengan field keyword dan tombol "Cari" |
+| 4. Mengisi keyword untuk pencarian | 5. Menampilkan field keyword yang sudah diisi |
+| 5. Mengklik tombol "Cari" | 6. Memfilter data berdasarkan keyword dan menampilkan hasil di tabel |
+| 6. Melihat informasi total data dan jumlah per halaman | 7. Menampilkan "Total X | Jumlah per halaman" dengan dropdown pilihan (10, 30, 50, 100) |
+| 7. Melihat daftar penanda tangan | 8. Menampilkan tabel dengan kolom: Kode, Uraian, Aktif, Tgl Modifikasi, User ID, Aksi (Edit) |
+| 8. Melihat tombol "Tambah" dan "Ke excel" | 9. Menampilkan tombol Tambah dan Export Excel di kanan atas |
+| 9. Mengklik tombol "Tambah" | 10. Menampilkan modal form untuk menambah penanda tangan baru |
+| 10. Mengisi data (NIP*, Nama*, NIP2, Jabatan1*, Jabatan2, Jabatan3, Jabatan4, IMG Nama dengan browse, Pejabat DJA dropdown, Aktif Y/N) | 11. Menampilkan form yang sudah terisi dengan field-file input untuk gambar |
+| 11. Mengklik tombol "Browse" pada field IMG Nama | 12. Membuka dialog file picker untuk memilih file gambar |
+| 12. Memilih file gambar | 13. Menampilkan nama file yang dipilih |
+| 13. Mengklik tombol "Simpan" | 14. Memvalidasi form dan menyimpan data penanda tangan beserta gambar ke database |
+| 14. Mengklik tombol "Edit" pada salah satu baris | 15. Menampilkan modal form edit dengan data yang sudah terisi |
+| 15. Mengubah data penanda tangan | 16. Menampilkan form yang sudah diubah |
+| 16. Mengklik tombol "Simpan" | 17. Menyimpan perubahan data ke database dan menampilkan notifikasi sukses |
+| 17. Mengklik tombol "Ke excel" | 18. Mengekspor data penanda tangan ke file Excel |
 
 ---
 
@@ -1039,13 +1092,13 @@
 
 | Aktor | Sistem |
 |-------|--------|
-| 1. Mengklik menu "Manage Reference Data" -> "XML Download" | 2. Menampilkan halaman XML Download dengan form filter |
-| 3. Mengatur filter (Tahun Anggaran, Kementerian, Unit, SATKER, Jenis Data) | 4. Menampilkan form filter yang sudah diisi |
-| 5. Mengklik tombol "Search" | 6. Mengambil data sesuai filter dari database |
-| 7. Melihat daftar data yang tersedia | 8. Menampilkan tabel dengan kolom: No, SATKER, Jenis Data, Tanggal, Status, Aksi |
-| 9. Memilih data yang akan di-download | 10. Menandai data yang dipilih |
-| 11. Mengklik tombol "Download XML" | 12. Memproses generate file XML dan mengunduh file tersebut |
-| 13. Mengklik tombol "Download All" | 14. Mengunduh semua data yang sesuai filter dalam format ZIP |
+| 1. Mengklik menu "Manage Reference Data" -> "XML Download" | 2. Menampilkan halaman XML Download dengan tabel data table dan tombol Download |
+| 3. Melihat daftar data table yang tersedia | 4. Menampilkan tabel dengan kolom: No, Checkbox (Select All), Table (nama table seperti T_AKUN, T_BEBAN, T_BKPK, dll) |
+| 5. Mengklik checkbox "Select All" di header | 6. Memilih semua table yang tersedia |
+| 6. Memilih table tertentu dengan checkbox | 7. Menandai table yang dipilih untuk di-download |
+| 7. Melihat table yang sudah terpilih | 8. Menampilkan checkbox yang sudah tercentang |
+| 8. Mengklik tombol "Download" | 9. Memproses generate file XML untuk table yang dipilih dan mengunduh file tersebut |
+| 9. Melihat notifikasi download | 10. Menampilkan notifikasi sukses dan file XML terunduh |
 
 ---
 
@@ -1129,16 +1182,21 @@
 
 | Aktor | Sistem |
 |-------|--------|
-| 1. Mengklik menu "Manage Authority/User/Menu" -> "Manage Application" -> "Manage Menu" | 2. Menampilkan halaman Manage Menu dengan daftar menu |
-| 3. Melihat daftar menu | 4. Menampilkan tabel dengan kolom: No, Kode Menu, Nama Menu, Parent Menu, URL, Status, Aksi |
-| 5. Mengatur filter pencarian | 6. Menampilkan form filter yang sudah diisi |
-| 7. Mengklik tombol "Search" | 8. Mengambil data sesuai filter dari database |
-| 9. Mengklik tombol "Tambah Menu" | 10. Menampilkan form untuk menambah menu baru |
-| 11. Mengisi data (Kode Menu, Nama Menu, Parent Menu, URL) | 12. Menampilkan form yang sudah terisi |
-| 13. Mengklik tombol "Simpan" | 14. Menyimpan menu ke database |
-| 15. Mengklik tombol "Edit" pada salah satu menu | 16. Menampilkan form edit dengan data menu yang sudah ada |
-| 17. Mengubah data menu | 18. Menampilkan form yang sudah diubah |
-| 19. Mengklik tombol "Simpan" | 20. Menyimpan perubahan menu ke database |
+| 1. Mengklik menu "Manage Authority/User/Menu" -> "Manage Application" -> "Manage Menu" | 2. Menampilkan halaman Manage Menu dengan daftar menu, pagination, dan search |
+| 3. Melihat daftar menu | 4. Menampilkan tabel dengan kolom: Checkbox, Nomor Menu, Nama Menu, Nama Program, Deskripsi Menu, Urutan Menu, Menu Induk, Aksi (Edit) |
+| 4. Melihat informasi total data dan jumlah per halaman | 5. Menampilkan "Total X | Jumlah per halaman" dengan dropdown pilihan (10, 30, 50, 100) |
+| 5. Mengisi field "Nama Menu" untuk pencarian | 6. Menampilkan field search yang sudah diisi |
+| 6. Melihat hasil pencarian real-time | 7. Memfilter data tabel secara real-time berdasarkan input search |
+| 7. Mengklik tombol "Tambah" | 8. Menampilkan modal form untuk menambah menu baru |
+| 8. Mengisi data (Nomor Menu*, Nama Menu*, Nama Program* dengan autocomplete, Tahun Menu*, Urutan Menu*, Nomor Menu Induk*, Jenis Menu* dropdown, Deskripsi Menu) | 9. Menampilkan form yang sudah terisi dengan autocomplete untuk Nama Program |
+| 9. Mengetik di field "Nama Program" | 10. Menampilkan dropdown autocomplete dengan daftar program yang sesuai dengan input |
+| 10. Memilih program dari autocomplete | 11. Mengisi field Nama Program dengan program yang dipilih |
+| 11. Mengklik tombol "Simpan" | 12. Memvalidasi form dan menyimpan menu ke database, menampilkan notifikasi sukses |
+| 12. Mengklik tombol "Edit" pada salah satu baris menu | 13. Menampilkan modal form edit dengan data menu yang sudah terisi |
+| 13. Mengubah data menu | 14. Menampilkan form yang sudah diubah |
+| 14. Mengklik tombol "Simpan" | 15. Menyimpan perubahan menu ke database dan menampilkan notifikasi sukses |
+| 15. Memilih beberapa menu dengan checkbox | 16. Menandai menu yang dipilih |
+| 16. Mengklik tombol "Hapus" | 17. Menampilkan konfirmasi dan menghapus menu yang dipilih |
 
 ---
 
@@ -1155,19 +1213,23 @@
 
 **Pasca Kondisi:**
 - Status batch job berhasil ditampilkan
-- Batch job dapat di-rerun atau dihentikan jika diperlukan
+- Batch job dapat di-start atau dihentikan jika diperlukan
+- Auto refresh dapat diaktifkan untuk monitoring real-time
 
 **Skenario normal:**
 
 | Aktor | Sistem |
 |-------|--------|
-| 1. Mengklik menu "Manage Authority/User/Menu" -> "Manage Application" -> "Batch Monitoring" | 2. Menampilkan halaman Batch Monitoring dengan daftar batch job |
-| 3. Melihat daftar batch job | 4. Menampilkan tabel dengan kolom: No, Nama Batch, Status, Waktu Mulai, Waktu Selesai, Durasi, Aksi |
-| 5. Mengatur filter pencarian (Status, Tanggal) | 6. Menampilkan form filter yang sudah diisi |
-| 7. Mengklik tombol "Search" | 8. Mengambil data sesuai filter dari database |
-| 9. Melihat detail batch job | 10. Menampilkan detail batch job yang dipilih (log, error, dll) |
-| 11. Mengklik tombol "Rerun" pada batch yang gagal | 12. Menjalankan ulang batch job yang gagal |
-| 13. Mengklik tombol "Stop" pada batch yang sedang berjalan | 14. Menghentikan batch job yang sedang berjalan |
+| 1. Mengklik menu "Manage Authority/User/Menu" -> "Manage Application" -> "Batch Monitoring" | 2. Menampilkan halaman Batch Monitoring dengan konfigurasi dan tabel batch job |
+| 3. Melihat konfigurasi monitoring (Server, Auto Refresh, Tanggal, Refresh Interval) | 4. Menampilkan form konfigurasi dengan nilai default |
+| 5. Mengisi Server IP (opsional) | 6. Menampilkan field server yang sudah diisi |
+| 7. Mengaktifkan checkbox "Auto Refresh" | 8. Mengaktifkan auto refresh sesuai interval yang ditentukan |
+| 8. Mengatur Refresh Interval (dalam detik) | 9. Menampilkan field interval yang sudah diisi |
+| 10. Mengklik tombol "Cari" | 11. Mengambil data batch job dari server dan menampilkan di tabel |
+| 12. Melihat daftar batch job | 13. Menampilkan tabel dengan kolom: Batch Name, Count, Status (Alive/Dead), Cyde(sec), Control (tombol G/K), Jumlah, Standby, Running, Completed, Fail |
+| 14. Mengklik tombol "G" (Green/Start) pada batch tertentu | 15. Memulai batch job yang dipilih dan menampilkan notifikasi sukses |
+| 16. Mengklik tombol "K" (Red/Stop) pada batch tertentu | 17. Menghentikan batch job yang sedang berjalan dan menampilkan notifikasi sukses |
+| 18. Melihat status real-time batch (jika auto refresh aktif) | 19. Memperbarui status batch secara otomatis sesuai interval yang ditentukan |
 
 ---
 
@@ -1189,16 +1251,21 @@
 
 | Aktor | Sistem |
 |-------|--------|
-| 1. Mengklik menu "Manage Authority/User/Menu" -> "Manage Authority" -> "Manage Job position" | 2. Menampilkan halaman Manage Job Position dengan daftar jabatan |
-| 3. Melihat daftar jabatan | 4. Menampilkan tabel dengan kolom: No, Kode Jabatan, Nama Jabatan, Level, Status, Aksi |
-| 5. Mengatur filter pencarian | 6. Menampilkan form filter yang sudah diisi |
-| 7. Mengklik tombol "Search" | 8. Mengambil data sesuai filter dari database |
-| 9. Mengklik tombol "Tambah Jabatan" | 10. Menampilkan form untuk menambah jabatan baru |
-| 11. Mengisi data (Kode Jabatan, Nama Jabatan, Level) | 12. Menampilkan form yang sudah terisi |
-| 13. Mengklik tombol "Simpan" | 14. Menyimpan jabatan ke database |
-| 15. Mengklik tombol "Edit" pada salah satu jabatan | 16. Menampilkan form edit dengan data jabatan yang sudah ada |
-| 17. Mengubah data jabatan | 18. Menampilkan form yang sudah diubah |
-| 19. Mengklik tombol "Simpan" | 20. Menyimpan perubahan jabatan ke database |
+| 1. Mengklik menu "Manage Authority/User/Menu" -> "Manage Authority" -> "Manage Job position" | 2. Menampilkan halaman Manage Job Position dengan daftar jabatan, pagination, dan search |
+| 3. Melihat daftar jabatan | 4. Menampilkan tabel dengan kolom: Checkbox, Kode Jabatan, Nama Jabatan, Eselon, Deskripsi, Aksi (Edit) |
+| 5. Melihat informasi total data dan jumlah per halaman | 6. Menampilkan "Total X | Jumlah per halaman" dengan dropdown pilihan (10, 30, 50, 100) |
+| 7. Mengatur jumlah item per halaman | 8. Memperbarui tampilan tabel sesuai jumlah item yang dipilih |
+| 9. Mengisi field "Nama Jabatan" untuk pencarian | 10. Menampilkan field search yang sudah diisi |
+| 11. Melihat hasil pencarian real-time | 12. Memfilter data tabel secara real-time berdasarkan input search |
+| 13. Mengklik tombol "Tambah" | 14. Menampilkan modal form untuk menambah jabatan baru |
+| 15. Mengisi data (Kode Jabatan*, Nama Jabatan*, Eselon*, Deskripsi) | 16. Menampilkan form yang sudah terisi dengan validasi field wajib |
+| 17. Mengklik tombol "Simpan" | 18. Memvalidasi form dan menyimpan jabatan ke database, menampilkan notifikasi sukses |
+| 19. Mengklik tombol "Edit" pada salah satu baris jabatan | 20. Menampilkan modal form edit dengan data jabatan yang sudah terisi |
+| 21. Mengubah data jabatan | 22. Menampilkan form yang sudah diubah |
+| 23. Mengklik tombol "Simpan" | 24. Menyimpan perubahan jabatan ke database dan menampilkan notifikasi sukses |
+| 25. Memilih beberapa jabatan dengan checkbox | 26. Menandai jabatan yang dipilih |
+| 27. Mengklik tombol "Hapus" | 28. Menampilkan konfirmasi dan menghapus jabatan yang dipilih |
+| 29. Menggunakan pagination untuk navigasi halaman | 30. Menampilkan data sesuai halaman yang dipilih |
 
 ---
 
@@ -1220,16 +1287,19 @@
 
 | Aktor | Sistem |
 |-------|--------|
-| 1. Mengklik menu "Manage Authority/User/Menu" -> "Manage Authority" -> "Manage Authority code" | 2. Menampilkan halaman Manage Authority Code dengan daftar authority code |
-| 3. Melihat daftar authority code | 4. Menampilkan tabel dengan kolom: No, Kode Authority, Nama Authority, Level, Status, Aksi |
-| 5. Mengatur filter pencarian | 6. Menampilkan form filter yang sudah diisi |
-| 7. Mengklik tombol "Search" | 8. Mengambil data sesuai filter dari database |
-| 9. Mengklik tombol "Tambah Authority Code" | 10. Menampilkan form untuk menambah authority code baru |
-| 11. Mengisi data (Kode Authority, Nama Authority, Level) | 12. Menampilkan form yang sudah terisi |
-| 13. Mengklik tombol "Simpan" | 14. Menyimpan authority code ke database |
-| 15. Mengklik tombol "Edit" pada salah satu authority code | 16. Menampilkan form edit dengan data authority code yang sudah ada |
-| 17. Mengubah data authority code | 18. Menampilkan form yang sudah diubah |
-| 19. Mengklik tombol "Simpan" | 20. Menyimpan perubahan authority code ke database |
+| 1. Mengklik menu "Manage Authority/User/Menu" -> "Manage Authority" -> "Manage Authority code" | 2. Menampilkan halaman Manage Authority Code dengan daftar authority code, pagination, dan search |
+| 3. Melihat daftar authority code | 4. Menampilkan tabel dengan kolom: Checkbox, Kode Kewenangan, Nama Kewenangan, Deskripsi, Waktu Pembuatan, Aksi (Edit) |
+| 4. Melihat informasi total data dan jumlah per halaman | 5. Menampilkan "Total X | Jumlah per halaman" dengan dropdown pilihan (10, 30, 50, 100) |
+| 5. Mengisi field "Nama Kewenangan" untuk pencarian | 6. Menampilkan field search yang sudah diisi |
+| 6. Melihat hasil pencarian real-time | 7. Memfilter data tabel secara real-time berdasarkan input search (Kode, Nama, atau Deskripsi) |
+| 7. Mengklik tombol "Tambah" | 8. Menampilkan modal form untuk menambah authority code baru dengan timestamp otomatis |
+| 8. Mengisi data (Kode Kewenangan*, Nama Kewenangan*, Deskripsi, Waktu Pembuatan* dengan format dd-mm-yyyy hh:mm:ss) | 9. Menampilkan form yang sudah terisi dengan timestamp saat ini sebagai default |
+| 9. Mengklik tombol "Simpan" | 10. Memvalidasi form (termasuk format waktu) dan menyimpan authority code ke database, menampilkan notifikasi sukses |
+| 10. Mengklik tombol "Edit" pada salah satu baris authority code | 11. Menampilkan modal form edit dengan data authority code yang sudah terisi |
+| 11. Mengubah data authority code | 12. Menampilkan form yang sudah diubah |
+| 12. Mengklik tombol "Simpan" | 13. Menyimpan perubahan authority code ke database dan menampilkan notifikasi sukses |
+| 13. Memilih beberapa authority code dengan checkbox | 14. Menandai authority code yang dipilih |
+| 14. Mengklik tombol "Hapus" | 15. Menampilkan konfirmasi dan menghapus authority code yang dipilih |
 
 ---
 
@@ -1252,16 +1322,19 @@
 
 | Aktor | Sistem |
 |-------|--------|
-| 1. Mengklik menu "Manage Authority/User/Menu" -> "Manage Authority" -> "Manage Authority over menu" | 2. Menampilkan halaman Manage Authority Over Menu dengan daftar authority dan menu |
-| 3. Melihat daftar authority dan menu | 4. Menampilkan tabel dengan kolom: No, Authority Code, Menu, Status, Aksi |
-| 5. Mengatur filter pencarian | 6. Menampilkan form filter yang sudah diisi |
-| 7. Mengklik tombol "Search" | 8. Mengambil data sesuai filter dari database |
-| 9. Mengklik tombol "Tambah Authority Menu" | 10. Menampilkan form untuk menambah authority menu baru |
-| 11. Memilih Authority Code dan Menu | 12. Menampilkan dropdown yang sudah terisi |
-| 13. Mengklik tombol "Simpan" | 14. Menyimpan authority menu ke database |
-| 15. Mengklik tombol "Edit" pada salah satu authority menu | 16. Menampilkan form edit dengan data authority menu yang sudah ada |
-| 17. Mengubah authority menu | 18. Menampilkan form yang sudah diubah |
-| 19. Mengklik tombol "Simpan" | 20. Menyimpan perubahan authority menu ke database |
+| 1. Mengklik menu "Manage Authority/User/Menu" -> "Manage Authority" -> "Manage Authority over menu" | 2. Menampilkan halaman Manage Authority Over Menu dengan daftar authority code, pagination, dan search |
+| 3. Melihat daftar authority code | 4. Menampilkan tabel dengan kolom: Kode Kewenangan, Nama Kewenangan, Deskripsi Kewenangan, Berhak Akses Menu (Y), Hak Menu (link "Hak Atas Menu") |
+| 5. Melihat informasi total data dan jumlah per halaman | 6. Menampilkan "Total X | Jumlah per halaman" dengan dropdown pilihan (10, 30, 50, 100) |
+| 6. Mengisi field "Kode Kewenangan" untuk pencarian | 7. Menampilkan field search yang sudah diisi |
+| 7. Melihat hasil pencarian real-time | 8. Memfilter data tabel secara real-time berdasarkan input search |
+| 8. Mengklik link "Hak Atas Menu" pada salah satu authority code | 9. Menampilkan modal "Menu Rights" dengan header menampilkan Kode Kewenangan yang dipilih dan tombol "Simpan" |
+| 9. Melihat tree structure menu | 10. Menampilkan tree menu dengan struktur hierarki (root, Dashboard, Monitoring, Reports, dll) dengan checkbox untuk setiap item |
+| 10. Melihat expand/collapse icon (chevron) pada parent menu | 11. Menampilkan chevron icon yang dapat diklik untuk expand/collapse submenu |
+| 11. Mengklik chevron untuk expand submenu | 12. Menampilkan submenu dengan indentasi yang jelas (2.5rem per level) |
+| 12. Memilih/deselect checkbox pada menu item | 13. Menandai menu yang dipilih untuk authority code tersebut |
+| 13. Melihat semua menu yang sudah terpilih | 14. Menampilkan checkbox yang sudah tercentang untuk menu yang memiliki akses |
+| 14. Mengklik tombol "Simpan" | 15. Menyimpan konfigurasi menu rights untuk authority code dan menampilkan notifikasi sukses |
+| 15. Mengklik tombol close atau di luar modal | 16. Menutup modal dan kembali ke halaman utama |
 
 ---
 
@@ -1278,23 +1351,30 @@
 **Pasca Kondisi:**
 - Data user berhasil ditambah/diubah dan tersimpan di database
 - User dapat login dengan kredensial yang sudah dibuat
-- Password user dapat direset jika diperlukan
+- Password user dapat diubah jika diperlukan
+- Kewenangan user dapat diatur melalui tree directory
 
 **Skenario normal:**
 
 | Aktor | Sistem |
 |-------|--------|
-| 1. Mengklik menu "Manage Authority/User/Menu" -> "Manage Authority" -> "Manage User information" | 2. Menampilkan halaman Manage User Information dengan daftar user |
-| 3. Melihat daftar user | 4. Menampilkan tabel dengan kolom: No, NIP, Nama, Email, Authority, Status, Aksi |
-| 5. Mengatur filter pencarian | 6. Menampilkan form filter yang sudah diisi |
-| 7. Mengklik tombol "Search" | 8. Mengambil data sesuai filter dari database |
-| 9. Mengklik tombol "Tambah User" | 10. Menampilkan form untuk menambah user baru |
-| 11. Mengisi data (NIP, Nama, Email, Authority, Password) | 12. Menampilkan form yang sudah terisi |
-| 13. Mengklik tombol "Simpan" | 14. Menyimpan user ke database |
-| 15. Mengklik tombol "Edit" pada salah satu user | 16. Menampilkan form edit dengan data user yang sudah ada |
-| 17. Mengubah data user | 18. Menampilkan form yang sudah diubah |
-| 19. Mengklik tombol "Simpan" | 20. Menyimpan perubahan user ke database |
-| 21. Mengklik tombol "Reset Password" | 22. Mereset password user dan mengirim email notifikasi |
+| 1. Mengklik menu "Manage Authority/User/Menu" -> "Manage Authority" -> "Manage User information" | 2. Menampilkan halaman Manage User Information dengan daftar user, pagination, dan search |
+| 3. Melihat daftar user | 4. Menampilkan tabel dengan kolom: No, Pengguna Hyperion, Pengguna, Kewenangan, Jabatan, Eselon, Kementerian, Unit, Aksi (Edit) |
+| 4. Melihat informasi total data dan jumlah per halaman | 5. Menampilkan "Total X | Jumlah per halaman" dengan dropdown pilihan (10, 30, 50, 100) |
+| 5. Memilih tipe search dari dropdown "Choose:" (Pengguna, Kewenangan, Jabatan) | 6. Menampilkan dropdown yang sudah dipilih |
+| 6. Mengisi field search sesuai tipe yang dipilih | 7. Menampilkan field search yang sudah diisi |
+| 7. Melihat hasil pencarian real-time | 8. Memfilter data tabel secara real-time berdasarkan tipe dan input search |
+| 8. Mengklik tombol "Edit" pada salah satu baris user | 9. Menampilkan modal form edit user dengan 2 kolom form dan tree directory di bawah |
+| 9. Melihat form edit user (Kolom Kiri) | 10. Menampilkan field: Kode Identitas* (readonly), Nama Pengguna* (readonly), Password* (dengan hint), Nama*, Email* (prefix + @ + domain), Kode Kewenangan* (dropdown), Nama Kementerian* (dengan icon search) |
+| 10. Melihat form edit user (Kolom Kanan) | 11. Menampilkan field: Multiple Login (checkbox), Pengguna Hyperion* (readonly), NIP*, Jabatan* (dengan icon search), Nama Unit* (dengan icon search) |
+| 11. Mengubah password (jika diperlukan) | 12. Mengisi field password baru (jika kosong, password tidak berubah) |
+| 12. Mengklik icon search pada Nama Kementerian, Jabatan, atau Nama Unit | 13. Membuka dialog/search untuk memilih data yang sesuai |
+| 13. Melihat section "Daftar Kewenangan" di bawah form | 14. Menampilkan tree directory dengan struktur hierarki Kementerian/Unit dengan checkbox |
+| 14. Melihat tree structure kewenangan | 15. Menampilkan tree dengan expand/collapse chevron, checkbox, dan indentasi jelas (2.5rem per level) |
+| 15. Memilih/deselect checkbox pada kewenangan | 16. Menandai kewenangan yang dipilih untuk user tersebut |
+| 16. Mengklik tombol "Simpan" | 17. Memvalidasi form dan menyimpan data user beserta kewenangan ke database |
+| 17. Mengklik tombol "Hapus" | 18. Menampilkan konfirmasi dan menghapus user dari database |
+| 18. Mengklik tombol "Kembali" | 19. Menutup modal dan kembali ke halaman utama |
 
 ---
 

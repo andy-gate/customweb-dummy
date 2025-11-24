@@ -18,159 +18,82 @@
     <!-- Main Content Wrapper -->
     <div class="main-wrapper" id="mainWrapper">
         <div class="container">
-            <h2 style="margin-bottom: 1.5rem;">💰 Jenis Belanja/Akun</h2>
+            <h2 style="margin-bottom: 1.5rem;">Jenis Belanja/Akun</h2>
 
-            <div class="alert alert-info">
-                <strong>ℹ️ Informasi:</strong> Halaman ini digunakan untuk mengelola data referensi Jenis Belanja dan Akun dalam sistem.
-            </div>
-
-            <!-- Action Buttons -->
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">⚡ Aksi</h3>
-                </div>
-                <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
-                    <button class="btn btn-primary" onclick="showAddModal()">
-                        ➕ Tambah Data Baru
-                    </button>
-                    <button class="btn btn-success" onclick="importData()">
-                        📥 Import dari Excel
-                    </button>
-                    <button class="btn btn-info" onclick="exportData()">
-                        📤 Export ke Excel
-                    </button>
-                    <button class="btn btn-warning" onclick="syncFromBAPPENAS()">
-                        🔄 Sync dari BAPPENAS
-                    </button>
+            <!-- Filter Section -->
+            <div class="card" style="margin-bottom: 1.5rem;">
+                <div style="padding: 1.5rem;">
+                    <!-- Keyword -->
+                    <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                        <label class="form-label" style="min-width: 120px; margin: 0;">Keyword :</label>
+                        <div style="flex: 1;">
+                            <input type="text" class="form-control" id="keyword" placeholder="Masukkan kata kunci">
                 </div>
             </div>
 
-            <!-- Filter Card -->
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">🔍 Filter Pencarian</h3>
-                    <div style="display: flex; gap: 0.5rem;">
-                        <button class="btn btn-primary" onclick="searchData()">
-                            🔍 Search
-                        </button>
-                        <button class="btn btn-secondary" onclick="resetFilter()">
-                            🔄 Reset
+                    <!-- Search Button -->
+                    <div style="margin-top: 1.5rem;">
+                        <button class="btn btn-primary" onclick="searchData()" style="padding: 0.75rem 2rem;">
+                            Cari
                         </button>
                     </div>
                 </div>
-
-                <div class="grid grid-3">
-                    <div class="form-group">
-                        <label class="form-label">Kode Akun</label>
-                        <input type="text" class="form-control" placeholder="Cari berdasarkan kode akun">
                     </div>
 
-                    <div class="form-group">
-                        <label class="form-label">Nama Akun</label>
-                        <input type="text" class="form-control" placeholder="Cari berdasarkan nama akun">
+            <!-- Data Table Section -->
+            <div class="card">
+                <div style="display: flex; justify-content: flex-end; gap: 0.5rem; margin-bottom: 1rem; padding: 0 1rem; padding-top: 1rem;">
+                    <button class="btn btn-primary" onclick="exportExcel()" style="background-color: #6f42c1; border-color: #6f42c1;">
+                        Ke excel
+                    </button>
                     </div>
 
-                    <div class="form-group">
-                        <label class="form-label">Jenis Belanja</label>
-                        <select class="form-control">
-                            <option value="">-- Semua Jenis --</option>
-                            <option>Belanja Pegawai</option>
-                            <option>Belanja Barang</option>
-                            <option>Belanja Modal</option>
-                            <option>Belanja Bantuan Sosial</option>
-                            <option>Belanja Subsidi</option>
+                <!-- Total Data dan Jumlah per Halaman -->
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; padding: 0 1rem; flex-wrap: wrap; gap: 1rem;">
+                    <div style="display: flex; align-items: center; gap: 1.5rem;">
+                        <div style="font-weight: 600; font-size: 1rem;">
+                            Total <span style="color: var(--primary-color);" id="totalData">8</span> | 
+                            <label class="form-label" style="margin: 0; display: inline;">Jumlah per halaman</label>
+                            <select class="form-control" id="itemsPerPage" style="width: auto; padding: 0.5rem; display: inline-block; margin-left: 0.5rem;" onchange="changeItemsPerPage()">
+                                <option value="10">10</option>
+                                <option value="30" selected>30</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
                         </select>
-                    </div>
+                        </div>
                 </div>
             </div>
 
             <!-- Data Table -->
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">📊 Daftar Jenis Belanja/Akun</h3>
-                </div>
-
-                <div style="overflow-x: auto;">
-                    <table class="table">
+                <div class="table-container">
+                    <table class="table" style="table-layout: fixed;">
                         <thead>
                             <tr>
-                                <th style="width: 50px;">No</th>
-                                <th style="width: 120px;">Kode Akun</th>
-                                <th style="min-width: 300px;">Nama Akun</th>
-                                <th style="width: 150px;">Jenis Belanja</th>
-                                <th style="width: 150px;">Kode Kelompok</th>
-                                <th style="width: 150px;">Nama Kelompok</th>
-                                <th style="width: 120px;">Status</th>
-                                <th style="width: 200px;">Aksi</th>
+                                <th style="width: 100px; text-align: center;">Kode</th>
+                                <th style="min-width: 400px; text-align: left;">Uraian</th>
+                                <th style="width: 100px; text-align: center;">Aktif</th>
+                                <th style="width: 200px; text-align: center;">Tgl Modifikasi</th>
+                                <th style="width: 150px; text-align: center;">User ID</th>
+                                <th style="width: 120px; text-align: center;">Aksi</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td><strong>511111</strong></td>
-                                <td>Belanja Gaji dan Tunjangan PNS</td>
-                                <td>Belanja Pegawai</td>
-                                <td>51</td>
-                                <td>Belanja Operasional</td>
-                                <td><span class="badge badge-success">Active</span></td>
-                                <td>
-                                    <button class="btn btn-outline" style="padding: 0.25rem 0.5rem; font-size: 0.75rem; margin-right: 0.25rem;" onclick="editData(1)">
-                                        ✏️ Edit
-                                    </button>
-                                    <button class="btn btn-danger" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="deleteData(1)">
-                                        🗑️ Hapus
-                                    </button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td><strong>521111</strong></td>
-                                <td>Belanja Bahan</td>
-                                <td>Belanja Barang</td>
-                                <td>52</td>
-                                <td>Belanja Barang</td>
-                                <td><span class="badge badge-success">Active</span></td>
-                                <td>
-                                    <button class="btn btn-outline" style="padding: 0.25rem 0.5rem; font-size: 0.75rem; margin-right: 0.25rem;" onclick="editData(2)">
-                                        ✏️ Edit
-                                    </button>
-                                    <button class="btn btn-danger" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="deleteData(2)">
-                                        🗑️ Hapus
-                                    </button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td><strong>531111</strong></td>
-                                <td>Belanja Peralatan dan Mesin</td>
-                                <td>Belanja Modal</td>
-                                <td>53</td>
-                                <td>Belanja Modal</td>
-                                <td><span class="badge badge-success">Active</span></td>
-                                <td>
-                                    <button class="btn btn-outline" style="padding: 0.25rem 0.5rem; font-size: 0.75rem; margin-right: 0.25rem;" onclick="editData(3)">
-                                        ✏️ Edit
-                                    </button>
-                                    <button class="btn btn-danger" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="deleteData(3)">
-                                        🗑️ Hapus
-                                    </button>
-                                </td>
-                            </tr>
+                        <tbody id="dataTable">
+                            <!-- Data akan diisi oleh JavaScript -->
                         </tbody>
                     </table>
                 </div>
 
                 <!-- Pagination -->
-                <div style="display: flex; justify-content: space-between; align-items: center; padding: 1rem 0; border-top: 1px solid var(--border-color);">
-                    <div>
-                        Showing 1-3 of 150 records
+                <div class="pagination-container">
+                    <div class="pagination-info">
+                        Menampilkan 1-8 dari 8 data
                     </div>
-                    <div style="display: flex; gap: 0.5rem;">
-                        <button class="btn btn-outline" style="padding: 0.5rem 1rem;" disabled>← Previous</button>
-                        <button class="btn btn-outline active" style="padding: 0.5rem 1rem;">1</button>
-                        <button class="btn btn-outline" style="padding: 0.5rem 1rem;">2</button>
-                        <button class="btn btn-outline" style="padding: 0.5rem 1rem;">3</button>
-                        <button class="btn btn-outline" style="padding: 0.5rem 1rem;">Next →</button>
+                    <div class="pagination">
+                        <button class="pagination-btn" disabled>‹‹ First</button>
+                        <button class="pagination-btn" disabled>‹ Previous</button>
+                        <button class="pagination-btn active">1</button>
+                        <button class="pagination-btn" disabled>Next ›</button>
+                        <button class="pagination-btn" disabled>Last ››</button>
                     </div>
                 </div>
             </div>
@@ -179,57 +102,80 @@
 
     <!-- Add/Edit Modal -->
     <div id="dataModal" class="modal">
-        <div class="modal-content" style="max-width: 700px;">
+        <div class="modal-content" style="max-width: 800px;">
             <div class="modal-header">
-                <h3 id="modalTitle">➕ Tambah Jenis Belanja/Akun Baru</h3>
+                <h3 id="modalTitle">✏️ Edit Data</h3>
                 <button class="modal-close" onclick="closeModal()">&times;</button>
             </div>
 
-            <div>
-                <div class="grid grid-2">
+            <div style="padding: 1.5rem;">
                     <div class="form-group">
-                        <label class="form-label">Kode Akun <span style="color: red;">*</span></label>
-                        <input type="text" class="form-control" id="kodeAkun" placeholder="Contoh: 511111" required>
+                    <label class="form-label">Kode Jenis Belanja</label>
+                    <div style="display: flex; gap: 0.5rem; align-items: center;">
+                        <input type="text" class="form-control" id="modalKodeJenisBelanja" readonly style="flex: 1;">
+                        <input type="text" class="form-control" id="modalUraianJenisBelanja" readonly style="flex: 2;">
+                    </div>
                     </div>
 
                     <div class="form-group">
-                        <label class="form-label">Jenis Belanja <span style="color: red;">*</span></label>
-                        <select class="form-control" id="jenisBelanja" required>
-                            <option value="">-- Pilih Jenis Belanja --</option>
-                            <option>Belanja Pegawai</option>
-                            <option>Belanja Barang</option>
-                            <option>Belanja Modal</option>
-                            <option>Belanja Bantuan Sosial</option>
-                            <option>Belanja Subsidi</option>
-                        </select>
+                    <label class="form-label">Kode Group BKPK</label>
+                    <div style="display: flex; gap: 0.5rem; align-items: center;">
+                        <input type="text" class="form-control" id="modalKodeGroupBKPK" readonly style="flex: 1;">
+                        <input type="text" class="form-control" id="modalUraianGroupBKPK" readonly style="flex: 2;">
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label">Nama Akun <span style="color: red;">*</span></label>
-                    <input type="text" class="form-control" id="namaAkun" placeholder="Masukkan nama akun" required>
+                    <label class="form-label">Kode Kelompok BKPK</label>
+                    <div style="display: flex; gap: 0.5rem; align-items: center;">
+                        <input type="text" class="form-control" id="modalKodeKelompokBKPK" readonly style="flex: 1;">
+                        <input type="text" class="form-control" id="modalUraianKelompokBKPK" readonly style="flex: 2;">
+                    </div>
                 </div>
 
-                <div class="grid grid-2">
                     <div class="form-group">
-                        <label class="form-label">Kode Kelompok</label>
-                        <input type="text" class="form-control" id="kodeKelompok" placeholder="Contoh: 51">
+                    <label class="form-label">Kode BKPK</label>
+                    <div style="display: flex; gap: 0.5rem; align-items: center;">
+                        <input type="text" class="form-control" id="modalKodeBKPK" readonly style="flex: 1;">
+                        <input type="text" class="form-control" id="modalUraianBKPK" readonly style="flex: 2;">
+                    </div>
                     </div>
 
                     <div class="form-group">
-                        <label class="form-label">Nama Kelompok</label>
-                        <input type="text" class="form-control" id="namaKelompok" placeholder="Masukkan nama kelompok">
+                    <label class="form-label">Kode Kelompok Akun</label>
+                    <div style="display: flex; gap: 0.5rem; align-items: center;">
+                        <input type="text" class="form-control" id="modalKodeKelompokAkun" readonly style="flex: 1;">
+                        <input type="text" class="form-control" id="modalUraianKelompokAkun" readonly style="flex: 2;">
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label">Keterangan</label>
-                    <textarea class="form-control" id="keterangan" rows="3" placeholder="Masukkan keterangan (opsional)"></textarea>
+                    <label class="form-label">Kode Akun</label>
+                    <div style="display: flex; gap: 0.5rem; align-items: center;">
+                        <input type="text" class="form-control" id="modalKodeAkun" readonly style="flex: 1;">
+                        <input type="text" class="form-control" id="modalUraianAkun" readonly style="flex: 2;">
+                    </div>
+                </div>
+
+                <div class="form-group" id="halaman4Group" style="display: none;">
+                    <label class="form-label">Halaman4(Y/N)</label>
+                    <select class="form-control" id="modalHalaman4">
+                        <option value="Y">Y</option>
+                        <option value="N" selected>N</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Aktif(Y/N) <span style="color: red;">*</span></label>
+                    <select class="form-control" id="modalAktif" required>
+                        <option value="Y">Y</option>
+                        <option value="N">N</option>
+                    </select>
                 </div>
 
                 <div style="display: flex; gap: 0.5rem; justify-content: flex-end; margin-top: 1.5rem;">
                     <button class="btn btn-secondary" onclick="closeModal()">Batal</button>
-                    <button class="btn btn-primary" onclick="saveData()">💾 Simpan</button>
+                    <button class="btn btn-primary" onclick="saveData()" style="background-color: #6f42c1; border-color: #6f42c1;">💾 Simpan</button>
                 </div>
             </div>
         </div>
@@ -257,91 +203,469 @@
             }
         }
 
-        function showAddModal() {
-            document.getElementById('modalTitle').textContent = '➕ Tambah Jenis Belanja/Akun Baru';
-            document.getElementById('kodeAkun').value = '';
-            document.getElementById('namaAkun').value = '';
-            document.getElementById('jenisBelanja').value = '';
-            document.getElementById('kodeKelompok').value = '';
-            document.getElementById('namaKelompok').value = '';
-            document.getElementById('keterangan').value = '';
-            document.getElementById('dataModal').classList.add('active');
+        // Data dengan struktur 6 level (hierarchical)
+        const allData = {
+            total: 2954,
+            rows: [
+                { 
+                    kode: '1', uraian: 'ASET', aktif: 'Yes', tglModifikasi: '09-10-2024 00:52:19', userId: 'Cadmin', level: 1,
+                    children: [
+                        {
+                            kode: '11', uraian: 'ASET LANCAR', aktif: 'Yes', tglModifikasi: '09-10-2024 00:52:18', userId: 'Cadmin', level: 2,
+                            children: [
+                                {
+                                    kode: '111', uraian: 'KAS DAN SETARA KAS', aktif: 'Yes', tglModifikasi: '16-09-2013 10:30:16', userId: 'INF', level: 3,
+                                    children: [
+                                        {
+                                            kode: '1111', uraian: 'Rekening Pemerintah di Bank Indonesia dalam Rupiah', aktif: 'Yes', tglModifikasi: '25-11-2013 00:00:00', userId: 'INF', level: 4,
+                                            children: [
+                                                {
+                                                    kode: '11111', uraian: 'Kas di Bank Indonesia', aktif: 'Yes', tglModifikasi: '25-11-2013 00:00:00', userId: 'INF', level: 5,
+                                                    children: [
+                                                        { kode: '111111', uraian: 'Kas di Rekening BUN (502.000.000)', aktif: 'Yes', tglModifikasi: '26-08-2013 14:43:18', userId: 'Cadmin', level: 6 }
+                                                    ]
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        };
+
+        // Flatten data untuk display dengan parent path
+        function flattenData(data, result = [], parentPath = []) {
+            data.forEach(item => {
+                const currentPath = [...parentPath, { kode: item.kode, uraian: item.uraian }];
+                result.push({
+                    ...item,
+                    parentPath: currentPath.slice(0, -1), // Exclude current item
+                    fullPath: currentPath // Include current item for reference
+                });
+                if (item.children && item.children.length > 0) {
+                    flattenData(item.children, result, currentPath);
+                }
+            });
+            return result;
         }
 
-        function editData(no) {
-            document.getElementById('modalTitle').textContent = '✏️ Edit Jenis Belanja/Akun';
-            document.getElementById('kodeAkun').value = '511111';
-            document.getElementById('namaAkun').value = 'Belanja Gaji dan Tunjangan PNS';
-            document.getElementById('jenisBelanja').value = 'Belanja Pegawai';
-            document.getElementById('kodeKelompok').value = '51';
-            document.getElementById('namaKelompok').value = 'Belanja Operasional';
-            document.getElementById('keterangan').value = '';
-            document.getElementById('dataModal').classList.add('active');
+        let expandedItems = new Set(); // Track expanded items
+
+        function toggleExpand(kode) {
+            if (expandedItems.has(kode)) {
+                expandedItems.delete(kode);
+            } else {
+                expandedItems.add(kode);
+            }
+            loadTableData();
+        }
+
+        function loadTableData() {
+            const flattened = flattenData(allData.rows);
+            const tableBody = document.getElementById('dataTable');
+            const totalData = document.getElementById('totalData');
+            
+            if (totalData) totalData.textContent = allData.total;
+
+            if (tableBody) {
+                tableBody.innerHTML = '';
+                
+                // Render items recursively dengan collapse/expand
+                function renderRecursive(items, parentExpanded = true, parentPath = []) {
+                    items.forEach(item => {
+                        const currentPath = [...parentPath, { kode: item.kode, uraian: item.uraian }];
+                        const hasChildren = item.children && item.children.length > 0;
+                        const isExpanded = expandedItems.has(item.kode);
+                        const isLastLevel = item.level === 6;
+                        
+                        // Skip jika parent tidak expanded
+                        if (!parentExpanded) return;
+                        
+                        const tr = document.createElement('tr');
+                        tr.setAttribute('data-kode', item.kode);
+                        tr.setAttribute('data-level', item.level);
+                        
+                        // Indentasi berdasarkan level
+                        const indentPixels = (item.level - 1) * 2;
+                        const indentStyle = indentPixels > 0 ? `padding-left: ${indentPixels}rem;` : '';
+                        
+                        // Alignment kode: left untuk level 1-5, center untuk level 6
+                        const kodeAlign = item.level < 6 ? 'text-align: left;' : 'text-align: center;';
+                        
+                        // Icon collapse/expand
+                        let expandIcon = '';
+                        if (hasChildren && !isLastLevel) {
+                            expandIcon = `<span style="cursor: pointer; margin-right: 0.5rem; font-weight: bold; user-select: none; display: inline-block; width: 1rem;" onclick="toggleExpand('${item.kode}'); event.stopPropagation();">${isExpanded ? '▼' : '▶'}</span>`;
+                        } else {
+                            expandIcon = '<span style="margin-right: 1.5rem; display: inline-block; width: 1rem;"></span>';
+                        }
+                        
+                        // Tampilkan value untuk semua kolom (Aktif, Tgl Modifikasi, User ID, Aksi)
+                        const aktifValue = item.aktif || '';
+                        const tglModValue = item.tglModifikasi || '';
+                        const userIdValue = item.userId || '';
+                        // Tombol Edit untuk semua level
+                        const aksiButton = `<button class="btn btn-primary" onclick="editData('${item.kode}', '${JSON.stringify(currentPath).replace(/"/g, '&quot;')}')" style="padding: 0.25rem 0.75rem; font-size: 0.875rem; background-color: #6f42c1; border-color: #6f42c1;">
+                                    Edit
+                                </button>`;
+                        
+                        tr.innerHTML = `
+                            <td style="${kodeAlign}">${expandIcon}${item.kode}</td>
+                            <td style="${indentStyle}">${item.uraian}</td>
+                            <td style="text-align: center;">${aktifValue}</td>
+                            <td style="text-align: center;">${tglModValue}</td>
+                            <td style="text-align: center;">${userIdValue}</td>
+                            <td style="text-align: center;">${aksiButton}</td>
+                        `;
+                        tableBody.appendChild(tr);
+                        
+                        // Store full path in data attribute for later use
+                        tr.setAttribute('data-fullpath', JSON.stringify(currentPath));
+                        
+                        // Render children if expanded
+                        if (hasChildren && isExpanded && !isLastLevel) {
+                            renderRecursive(item.children, true, currentPath);
+                        }
+                    });
+                }
+                
+                renderRecursive(allData.rows, true, []);
+            }
+        }
+
+        // Load initial data
+        document.addEventListener('DOMContentLoaded', function() {
+            loadTableData();
+        });
+
+        function searchData() {
+            const keyword = document.getElementById('keyword').value;
+            console.log('Mencari dengan keyword:', keyword);
+            alert('Pencarian dilakukan dengan keyword yang dipilih');
+        }
+
+        function exportExcel() {
+            alert('Export ke Excel...');
+        }
+
+        function changeItemsPerPage() {
+            const itemsPerPage = document.getElementById('itemsPerPage').value;
+            console.log('Mengubah jumlah item per halaman:', itemsPerPage);
+        }
+
+        let currentEditKode = null;
+
+        function editData(kode, fullPathJson) {
+            const modalTitle = document.getElementById('modalTitle');
+            const modalKodeJenisBelanja = document.getElementById('modalKodeJenisBelanja');
+            const modalUraianJenisBelanja = document.getElementById('modalUraianJenisBelanja');
+            const modalKodeGroupBKPK = document.getElementById('modalKodeGroupBKPK');
+            const modalUraianGroupBKPK = document.getElementById('modalUraianGroupBKPK');
+            const modalKodeKelompokBKPK = document.getElementById('modalKodeKelompokBKPK');
+            const modalUraianKelompokBKPK = document.getElementById('modalUraianKelompokBKPK');
+            const modalKodeBKPK = document.getElementById('modalKodeBKPK');
+            const modalUraianBKPK = document.getElementById('modalUraianBKPK');
+            const modalKodeKelompokAkun = document.getElementById('modalKodeKelompokAkun');
+            const modalUraianKelompokAkun = document.getElementById('modalUraianKelompokAkun');
+            const modalKodeAkun = document.getElementById('modalKodeAkun');
+            const modalUraianAkun = document.getElementById('modalUraianAkun');
+            const modalHalaman4 = document.getElementById('modalHalaman4');
+            const halaman4Group = document.getElementById('halaman4Group');
+            const modalAktif = document.getElementById('modalAktif');
+            const dataModal = document.getElementById('dataModal');
+
+            // Parse full path (includes all 6 levels)
+            const fullPath = JSON.parse(fullPathJson.replace(/&quot;/g, '"'));
+            
+            // Find current item data
+            const flattened = flattenData(allData.rows);
+            const currentItem = flattened.find(item => item.kode === kode);
+            
+            if (modalTitle) modalTitle.textContent = '✏️ Edit Data';
+            
+            // Reset all fields
+            if (modalKodeJenisBelanja) modalKodeJenisBelanja.value = '';
+            if (modalUraianJenisBelanja) modalUraianJenisBelanja.value = '';
+            if (modalKodeGroupBKPK) modalKodeGroupBKPK.value = '';
+            if (modalUraianGroupBKPK) modalUraianGroupBKPK.value = '';
+            if (modalKodeKelompokBKPK) modalKodeKelompokBKPK.value = '';
+            if (modalUraianKelompokBKPK) modalUraianKelompokBKPK.value = '';
+            if (modalKodeBKPK) modalKodeBKPK.value = '';
+            if (modalUraianBKPK) modalUraianBKPK.value = '';
+            if (modalKodeKelompokAkun) modalKodeKelompokAkun.value = '';
+            if (modalUraianKelompokAkun) modalUraianKelompokAkun.value = '';
+            if (modalKodeAkun) modalKodeAkun.value = '';
+            if (modalUraianAkun) modalUraianAkun.value = '';
+            
+            // Set values based on full path (6 levels)
+            if (fullPath.length >= 1) {
+                if (modalKodeJenisBelanja) modalKodeJenisBelanja.value = fullPath[0].kode;
+                if (modalUraianJenisBelanja) modalUraianJenisBelanja.value = fullPath[0].uraian;
+            }
+            if (fullPath.length >= 2) {
+                if (modalKodeGroupBKPK) modalKodeGroupBKPK.value = fullPath[1].kode;
+                if (modalUraianGroupBKPK) modalUraianGroupBKPK.value = fullPath[1].uraian;
+            }
+            if (fullPath.length >= 3) {
+                if (modalKodeKelompokBKPK) modalKodeKelompokBKPK.value = fullPath[2].kode;
+                if (modalUraianKelompokBKPK) modalUraianKelompokBKPK.value = fullPath[2].uraian;
+            }
+            if (fullPath.length >= 4) {
+                if (modalKodeBKPK) modalKodeBKPK.value = fullPath[3].kode;
+                if (modalUraianBKPK) modalUraianBKPK.value = fullPath[3].uraian;
+            }
+            if (fullPath.length >= 5) {
+                if (modalKodeKelompokAkun) modalKodeKelompokAkun.value = fullPath[4].kode;
+                if (modalUraianKelompokAkun) modalUraianKelompokAkun.value = fullPath[4].uraian;
+            }
+            if (fullPath.length >= 6) {
+                if (modalKodeAkun) modalKodeAkun.value = fullPath[5].kode;
+                if (modalUraianAkun) modalUraianAkun.value = fullPath[5].uraian;
+            }
+            
+            // Current item - show Halaman4 hanya untuk level 6 (Akun)
+            if (currentItem && currentItem.level === 6) {
+                if (halaman4Group) halaman4Group.style.display = 'block'; // Show Halaman4 for level 6
+                if (modalHalaman4) modalHalaman4.value = 'N'; // Default value
+            } else {
+                if (halaman4Group) halaman4Group.style.display = 'none'; // Hide Halaman4 for other levels
+            }
+            
+            // Set Aktif value untuk semua level
+            if (modalAktif && currentItem) {
+                modalAktif.value = currentItem.aktif === 'Yes' ? 'Y' : (currentItem.aktif === 'No' ? 'N' : (currentItem.aktif || 'Y'));
+            }
+            
+            if (dataModal) dataModal.classList.add('active');
+            currentEditKode = kode;
         }
 
         function closeModal() {
-            document.getElementById('dataModal').classList.remove('active');
+            const dataModal = document.getElementById('dataModal');
+            if (dataModal) dataModal.classList.remove('active');
+            currentEditKode = null;
         }
 
         function saveData() {
-            const kodeAkun = document.getElementById('kodeAkun').value;
-            const namaAkun = document.getElementById('namaAkun').value;
-            const jenisBelanja = document.getElementById('jenisBelanja').value;
+            const modalAktif = document.getElementById('modalAktif');
+            const modalHalaman4 = document.getElementById('modalHalaman4');
+            const halaman4Group = document.getElementById('halaman4Group');
+            const modalKodeAkun = document.getElementById('modalKodeAkun');
 
-            if (!kodeAkun || !namaAkun || !jenisBelanja) {
+            if (!modalAktif) {
                 alert('Mohon lengkapi semua field yang wajib diisi!');
                 return;
             }
 
-            alert('Data berhasil disimpan!');
+            const aktif = modalAktif.value;
+            const halaman4 = halaman4Group && halaman4Group.style.display !== 'none' ? (modalHalaman4 ? modalHalaman4.value : 'N') : null;
+            const kode = modalKodeAkun ? modalKodeAkun.value.trim() : '';
+
+            // Simulasi penyimpanan data
+            if (halaman4 !== null) {
+                alert(`Data dengan kode ${kode} berhasil diperbarui! (Aktif: ${aktif}, Halaman4: ${halaman4})`);
+            } else {
+                alert(`Data dengan kode ${kode} berhasil diperbarui! (Aktif: ${aktif})`);
+            }
+
             closeModal();
-        }
-
-        function deleteData(no) {
-            if (confirm(`Apakah Anda yakin ingin menghapus data nomor ${no}?\n\nPeringatan: Data yang sudah dihapus tidak dapat dikembalikan!`)) {
-                alert(`Menghapus data nomor ${no}...`);
-            }
-        }
-
-        function importData() {
-            alert('Membuka dialog untuk import data dari Excel...');
-        }
-
-        function exportData() {
-            alert('Exporting data ke Excel...');
-        }
-
-        function syncFromBAPPENAS() {
-            if (confirm('Apakah Anda yakin ingin melakukan sinkronisasi data dari BAPPENAS?')) {
-                alert('Memulai sinkronisasi data dari BAPPENAS...');
-            }
-        }
-
-        function searchData() {
-            alert('Mencari data dengan filter yang dipilih...');
-        }
-
-        function resetFilter() {
-            document.querySelectorAll('.form-control').forEach(el => {
-                if (el.tagName === 'INPUT') {
-                    el.value = '';
-                } else if (el.tagName === 'SELECT') {
-                    el.selectedIndex = 0;
-                }
-            });
+            // Di sini bisa ditambahkan logika untuk update tabel atau reload data
         }
 
         // Close modal when clicking outside
         window.onclick = function(event) {
             const modal = document.getElementById('dataModal');
             if (event.target === modal) {
-                modal.classList.remove('active');
+                closeModal();
             }
         }
     </script>
+
+    <style>
+        /* Tab Styles */
+        .tab-btn {
+            padding: 0.75rem 1.5rem;
+            border: 1px solid var(--border-color);
+            background-color: white;
+            color: var(--text-primary);
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 0.875rem;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .tab-btn:hover {
+            background-color: var(--light-color);
+            border-color: var(--primary-color);
+        }
+
+        .tab-btn.active {
+            background-color: #6f42c1;
+            color: white;
+            border-color: #6f42c1;
+            font-weight: 600;
+        }
+
+        /* Table Container */
+        .table-container {
+            overflow-x: auto;
+            position: relative;
+        }
+
+        /* Force table layout fixed to respect column widths */
+        .table-container .table {
+            table-layout: fixed !important;
+            width: 100%;
+        }
+
+        /* Table Header Styles */
+        .table thead tr th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+            border: 1px solid #dee2e6;
+            border-bottom: 2px solid #dee2e6;
+            padding: 0.75rem;
+        }
+
+        .table th {
+            text-align: left;
+        }
+
+        .table td {
+            text-align: left;
+            padding: 0.75rem;
+            border: 1px solid #dee2e6;
+        }
+
+        .table tbody tr:nth-child(even) {
+            background-color: #f0f4f8;
+        }
+
+        .table tbody tr:nth-child(odd) {
+            background-color: white;
+        }
+
+        .table tbody tr:hover {
+            background-color: var(--light-color);
+        }
+
+        /* Pagination Styles */
+        .pagination-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1.5rem;
+            padding: 1rem;
+            border-top: 1px solid var(--border-color);
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .pagination-info {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .pagination {
+            display: flex;
+            gap: 0.25rem;
+            align-items: center;
+        }
+
+        .pagination-btn {
+            padding: 0.5rem 0.75rem;
+            border: 1px solid var(--border-color);
+            background-color: white;
+            color: var(--text-primary);
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 0.875rem;
+            transition: all 0.3s;
+            min-width: 40px;
+        }
+
+        .pagination-btn:hover:not(:disabled):not(.active) {
+            background-color: var(--light-color);
+            border-color: var(--primary-color);
+        }
+
+        .pagination-btn.active {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .pagination-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            background-color: var(--light-color);
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            width: 90%;
+            max-width: 700px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .modal-header h3 {
+            margin: 0;
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-secondary);
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-close:hover {
+            color: var(--text-primary);
+        }
+    </style>
 </body>
 </html>
-
-
-
-

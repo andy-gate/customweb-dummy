@@ -18,153 +18,186 @@
     <!-- Main Content Wrapper -->
     <div class="main-wrapper" id="mainWrapper">
         <div class="container">
-            <h2 style="margin-bottom: 1.5rem;">💵 Beban/Sumber Dana</h2>
+            <h2 style="margin-bottom: 1.5rem;">Beban/Sumber Dana</h2>
 
-            <div class="alert alert-info">
-                <strong>ℹ️ Informasi:</strong> Halaman ini digunakan untuk mengelola data referensi Beban dan Sumber Dana dalam sistem.
-            </div>
+            <!-- Navigation Tabs and Filter Section -->
+            <div class="card" style="margin-bottom: 1.5rem;">
+                <div style="padding: 1.5rem;">
+                    <!-- Navigation Tabs -->
+                    <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1.5rem;">
+                        <button class="tab-btn active" onclick="switchTab('beban')" id="tabBeban">Beban</button>
+                        <button class="tab-btn" onclick="switchTab('sumber-dana')" id="tabSumberDana">Sumber Dana</button>
+                        <button class="tab-btn" onclick="switchTab('jenis-beban')" id="tabJenisBeban">Jenis Beban</button>
+                    </div>
 
-            <!-- Action Buttons -->
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">⚡ Aksi</h3>
-                </div>
-                <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
-                    <button class="btn btn-primary" onclick="showAddModal()">
-                        ➕ Tambah Data Baru
-                    </button>
-                    <button class="btn btn-success" onclick="importData()">
-                        📥 Import dari Excel
-                    </button>
-                    <button class="btn btn-info" onclick="exportData()">
-                        📤 Export ke Excel
-                    </button>
-                    <button class="btn btn-warning" onclick="syncFromBAPPENAS()">
-                        🔄 Sync dari BAPPENAS
-                    </button>
+                    <!-- Keyword -->
+                    <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                        <label class="form-label" style="min-width: 120px; margin: 0;">Keyword :</label>
+                        <div style="flex: 1;">
+                            <input type="text" class="form-control" id="keyword" placeholder="Masukkan kata kunci">
+                        </div>
+                        <button class="btn btn-primary" onclick="searchData()" style="padding: 0.75rem 2rem;">
+                            Cari
+                        </button>
+                    </div>
                 </div>
             </div>
 
-            <!-- Filter Card -->
+            <!-- Data Table Section -->
             <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">🔍 Filter Pencarian</h3>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; padding: 0 1rem; padding-top: 1rem; flex-wrap: wrap; gap: 1rem;">
+                    <div></div>
                     <div style="display: flex; gap: 0.5rem;">
-                        <button class="btn btn-primary" onclick="searchData()">
-                            🔍 Search
+                        <button class="btn btn-primary" onclick="tambahData()" style="background-color: #6f42c1; border-color: #6f42c1;">
+                            Tambah
                         </button>
-                        <button class="btn btn-secondary" onclick="resetFilter()">
-                            🔄 Reset
+                        <button class="btn btn-primary" onclick="exportExcel()" style="background-color: #6f42c1; border-color: #6f42c1;">
+                            Ke excel
                         </button>
                     </div>
                 </div>
 
-                <div class="grid grid-3">
-                    <div class="form-group">
-                        <label class="form-label">Kode</label>
-                        <input type="text" class="form-control" placeholder="Cari berdasarkan kode">
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label">Nama</label>
-                        <input type="text" class="form-control" placeholder="Cari berdasarkan nama">
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label">Jenis</label>
-                        <select class="form-control">
-                            <option value="">-- Semua Jenis --</option>
-                            <option>Beban</option>
-                            <option>Sumber Dana</option>
-                        </select>
+                <!-- Total Data dan Jumlah per Halaman -->
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; padding: 0 1rem; flex-wrap: wrap; gap: 1rem;">
+                    <div style="display: flex; align-items: center; gap: 1.5rem;">
+                        <div style="font-weight: 600; font-size: 1rem;">
+                            Total <span style="color: var(--primary-color);" id="totalData">26</span> | 
+                            <label class="form-label" style="margin: 0; display: inline;">Jumlah per halaman</label>
+                            <select class="form-control" id="itemsPerPage" style="width: auto; padding: 0.5rem; display: inline-block; margin-left: 0.5rem;" onchange="changeItemsPerPage()">
+                                <option value="10">10</option>
+                                <option value="30" selected>30</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Data Table -->
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">📊 Daftar Beban/Sumber Dana</h3>
-                </div>
-
-                <div style="overflow-x: auto;">
-                    <table class="table">
+                <!-- Data Table -->
+                <div class="table-container">
+                    <table class="table" style="table-layout: fixed;">
                         <thead>
                             <tr>
-                                <th style="width: 50px;">No</th>
-                                <th style="width: 120px;">Kode</th>
-                                <th style="min-width: 300px;">Nama</th>
-                                <th style="width: 150px;">Jenis</th>
-                                <th style="width: 150px;">Keterangan</th>
-                                <th style="width: 120px;">Status</th>
-                                <th style="width: 200px;">Aksi</th>
+                                <th style="width: 100px; text-align: center;">Kode</th>
+                                <th style="min-width: 400px; text-align: left;">Uraian</th>
+                                <th style="width: 100px; text-align: center;">Aktif</th>
+                                <th style="width: 200px; text-align: center;">Tgl Modifikasi</th>
+                                <th style="width: 150px; text-align: center;">User ID</th>
+                                <th style="width: 120px; text-align: center;">Aksi</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td><strong>001</strong></td>
-                                <td>APBN</td>
-                                <td>Sumber Dana</td>
-                                <td>Anggaran Pendapatan dan Belanja Negara</td>
-                                <td><span class="badge badge-success">Active</span></td>
-                                <td>
-                                    <button class="btn btn-outline" style="padding: 0.25rem 0.5rem; font-size: 0.75rem; margin-right: 0.25rem;" onclick="editData(1)">
-                                        ✏️ Edit
-                                    </button>
-                                    <button class="btn btn-danger" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="deleteData(1)">
-                                        🗑️ Hapus
-                                    </button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td><strong>002</strong></td>
-                                <td>APBD</td>
-                                <td>Sumber Dana</td>
-                                <td>Anggaran Pendapatan dan Belanja Daerah</td>
-                                <td><span class="badge badge-success">Active</span></td>
-                                <td>
-                                    <button class="btn btn-outline" style="padding: 0.25rem 0.5rem; font-size: 0.75rem; margin-right: 0.25rem;" onclick="editData(2)">
-                                        ✏️ Edit
-                                    </button>
-                                    <button class="btn btn-danger" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="deleteData(2)">
-                                        🗑️ Hapus
-                                    </button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td><strong>003</strong></td>
-                                <td>Beban Langsung</td>
-                                <td>Beban</td>
-                                <td>Beban yang langsung terkait dengan kegiatan</td>
-                                <td><span class="badge badge-success">Active</span></td>
-                                <td>
-                                    <button class="btn btn-outline" style="padding: 0.25rem 0.5rem; font-size: 0.75rem; margin-right: 0.25rem;" onclick="editData(3)">
-                                        ✏️ Edit
-                                    </button>
-                                    <button class="btn btn-danger" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="deleteData(3)">
-                                        🗑️ Hapus
-                                    </button>
-                                </td>
-                            </tr>
+                        <tbody id="dataTable">
+                            <!-- Data akan diisi oleh JavaScript -->
                         </tbody>
                     </table>
                 </div>
 
                 <!-- Pagination -->
-                <div style="display: flex; justify-content: space-between; align-items: center; padding: 1rem 0; border-top: 1px solid var(--border-color);">
-                    <div>
-                        Showing 1-3 of 25 records
+                <div class="pagination-container">
+                    <div class="pagination-info">
+                        Menampilkan 1-26 dari 26 data
                     </div>
-                    <div style="display: flex; gap: 0.5rem;">
-                        <button class="btn btn-outline" style="padding: 0.5rem 1rem;" disabled>← Previous</button>
-                        <button class="btn btn-outline active" style="padding: 0.5rem 1rem;">1</button>
-                        <button class="btn btn-outline" style="padding: 0.5rem 1rem;">2</button>
-                        <button class="btn btn-outline" style="padding: 0.5rem 1rem;">3</button>
-                        <button class="btn btn-outline" style="padding: 0.5rem 1rem;">Next →</button>
+                    <div class="pagination">
+                        <button class="pagination-btn" disabled>‹‹ First</button>
+                        <button class="pagination-btn" disabled>‹ Previous</button>
+                        <button class="pagination-btn active">1</button>
+                        <button class="pagination-btn" disabled>Next ›</button>
+                        <button class="pagination-btn" disabled>Last ››</button>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add/Edit Modal -->
+    <div id="dataModal" class="modal">
+        <div class="modal-content" style="max-width: 700px;">
+            <div class="modal-header">
+                <h3 id="modalTitle">✏️ Mengatur Jenis Beban</h3>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+
+            <div style="padding: 1.5rem;">
+                <!-- Form untuk Beban -->
+                <div id="formBeban" style="display: none;">
+                    <div class="form-group">
+                        <label class="form-label">Kode <span style="color: red;">*</span></label>
+                        <input type="text" class="form-control" id="modalKodeBebanSimple" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Uraian <span style="color: red;">*</span></label>
+                        <input type="text" class="form-control" id="modalUraianBeban" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Aktif(Y/N) <span style="color: red;">*</span></label>
+                        <select class="form-control" id="modalAktifBeban" required>
+                            <option value="Y">Y</option>
+                            <option value="N">N</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Form untuk Sumber Dana -->
+                <div id="formSumberDana" style="display: none;">
+                    <div class="form-group">
+                        <label class="form-label">Kode <span style="color: red;">*</span></label>
+                        <input type="text" class="form-control" id="modalKodeSumberDanaSimple" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Uraian <span style="color: red;">*</span></label>
+                        <input type="text" class="form-control" id="modalUraianSumberDana" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Aktif(Y/N) <span style="color: red;">*</span></label>
+                        <select class="form-control" id="modalAktifSumberDana" required>
+                            <option value="Y">Y</option>
+                            <option value="N">N</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Form untuk Jenis Beban -->
+                <div id="formJenisBeban">
+                    <div class="form-group">
+                        <label class="form-label">Kode Beban <span style="color: red;">*</span></label>
+                        <div style="position: relative;">
+                            <select class="form-control" id="modalKodeBeban" required></select>
+                            <span style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); pointer-events: none;">🔍</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Kode Sumber Dana <span style="color: red;">*</span></label>
+                        <div style="position: relative;">
+                            <select class="form-control" id="modalKodeSumberDana" required></select>
+                            <span style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); pointer-events: none;">🔍</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Kode Jenis Beban <span style="color: red;">*</span></label>
+                        <div style="display: flex; gap: 0.5rem; align-items: center;">
+                            <input type="text" class="form-control" id="modalKodeJenisBeban1" placeholder="Contoh: 0" required style="flex: 1;">
+                            <input type="text" class="form-control" id="modalKodeJenisBeban2" placeholder="Contoh: RM" required style="flex: 1;">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Aktif(Y/N) <span style="color: red;">*</span></label>
+                        <select class="form-control" id="modalAktif" required>
+                            <option value="Y">Y</option>
+                            <option value="N">N</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div style="display: flex; gap: 0.5rem; justify-content: flex-end; margin-top: 1.5rem;">
+                    <button class="btn btn-secondary" onclick="closeModal()">Kembali</button>
+                    <button class="btn btn-primary" onclick="saveData()" style="background-color: #6f42c1; border-color: #6f42c1;">💾 Simpan</button>
                 </div>
             </div>
         </div>
@@ -172,6 +205,88 @@
 
     <!-- Footer Placeholder -->
     <div id="footer-placeholder"></div>
+
+    <style>
+        /* Tab Styles */
+        .tab-btn {
+            padding: 0.75rem 1.5rem;
+            border: 1px solid var(--border-color);
+            background-color: white;
+            color: var(--text-primary);
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 0.875rem;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .tab-btn:hover {
+            background-color: var(--light-color);
+            border-color: var(--primary-color);
+        }
+
+        .tab-btn.active {
+            background-color: #6f42c1;
+            color: white;
+            border-color: #6f42c1;
+            font-weight: 600;
+        }
+
+        /* Table Container */
+        .table-container {
+            overflow-x: auto;
+            max-width: 100%;
+        }
+
+        /* Pagination Styles */
+        .pagination-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            border-top: 1px solid var(--border-color);
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .pagination-info {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+
+        .pagination {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .pagination-btn {
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--border-color);
+            background-color: white;
+            color: var(--text-primary);
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 0.875rem;
+            transition: all 0.3s;
+        }
+
+        .pagination-btn:hover:not(:disabled) {
+            background-color: var(--light-color);
+            border-color: var(--primary-color);
+        }
+
+        .pagination-btn.active {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .pagination-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+    </style>
 
     <script>
         // Initialize page components
@@ -192,46 +307,397 @@
             }
         }
 
-        function showAddModal() {
-            alert('Tambah data Beban/Sumber Dana baru...');
+        // Data untuk Beban (flat)
+        const bebanData = {
+            total: 3,
+            rows: [
+                { kode: 'A', uraian: 'RUPIAH MURNI', aktif: 'Yes', tglModifikasi: '09-10-2024 00:52:19', userId: 'Cadmin' },
+                { kode: 'B', uraian: 'PLN', aktif: 'Yes', tglModifikasi: '09-10-2024 00:52:19', userId: 'Cadmin' },
+                { kode: 'C', uraian: 'LOCAL COST/RMP', aktif: 'Yes', tglModifikasi: '09-10-2024 00:52:19', userId: 'Cadmin' }
+            ]
+        };
+
+        // Data untuk Sumber Dana (flat)
+        const sumberDanaData = {
+            total: 15,
+            rows: [
+                { kode: '01', uraian: 'RM', aktif: 'Yes', tglModifikasi: '26-08-2013 15:45:49', userId: 'Cadmin' },
+                { kode: '02', uraian: 'SBSN PBS', aktif: 'Yes', tglModifikasi: '26-08-2013 15:45:49', userId: 'Cadmin' },
+                { kode: '03', uraian: 'PINJ. VALAS', aktif: 'Yes', tglModifikasi: '26-08-2013 15:45:49', userId: 'Cadmin' }
+            ]
+        };
+
+        // Data untuk Jenis Beban (flat)
+        const jenisBebanData = {
+            total: 26,
+            rows: [
+                { kode: '0', uraian: 'RM', aktif: 'Yes', tglModifikasi: '26-08-2013 15:45:49', userId: 'Cadmin' },
+                { kode: '1', uraian: 'PINJ. VALAS', aktif: 'Yes', tglModifikasi: '26-08-2013 15:45:49', userId: 'Cadmin' },
+                { kode: '2', uraian: 'RPLN', aktif: 'Yes', tglModifikasi: '26-08-2013 15:45:49', userId: 'Cadmin' },
+                { kode: '0', uraian: 'SBSN PBS', aktif: 'Yes', tglModifikasi: '26-08-2013 15:45:49', userId: 'Cadmin' }
+            ]
+        };
+
+        // Dropdown options
+        const kodeBebanOptions = [
+            { value: 'A', text: 'A:RUPIAH MURNI' },
+            { value: 'B', text: 'B:PLN' },
+            { value: 'C', text: 'C:LOCAL COST/RMP' }
+        ];
+
+        const kodeSumberDanaOptions = [
+            { value: '01', text: '01:RM' },
+            { value: '02', text: '02:SBSN PBS' },
+            { value: '03', text: '03:PINJ. VALAS' }
+        ];
+
+        let currentTab = 'beban';
+
+        function switchTab(tabName) {
+            currentTab = tabName;
+            
+            // Update tab buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            if (tabName === 'beban') {
+                document.getElementById('tabBeban').classList.add('active');
+            } else if (tabName === 'sumber-dana') {
+                document.getElementById('tabSumberDana').classList.add('active');
+            } else if (tabName === 'jenis-beban') {
+                document.getElementById('tabJenisBeban').classList.add('active');
+            }
+            
+            // Load data for the selected tab
+            loadTableData();
         }
 
-        function editData(no) {
-            alert('Edit data nomor ' + no);
-        }
+        function loadTableData() {
+            let data;
+            if (currentTab === 'beban') {
+                data = bebanData;
+            } else if (currentTab === 'sumber-dana') {
+                data = sumberDanaData;
+            } else if (currentTab === 'jenis-beban') {
+                data = jenisBebanData;
+            }
 
-        function deleteData(no) {
-            if (confirm(`Apakah Anda yakin ingin menghapus data nomor ${no}?\n\nPeringatan: Data yang sudah dihapus tidak dapat dikembalikan!`)) {
-                alert(`Menghapus data nomor ${no}...`);
+            const tableBody = document.getElementById('dataTable');
+            const totalData = document.getElementById('totalData');
+
+            if (totalData && data) totalData.textContent = data.total;
+
+            if (tableBody && data) {
+                tableBody.innerHTML = '';
+
+                // Render flat data for all tabs
+                data.rows.forEach(item => {
+                    const tr = document.createElement('tr');
+                    tr.setAttribute('data-kode', item.kode);
+
+                    const kodeAlign = 'text-align: center;';
+
+                    const aktifValue = item.aktif || '';
+                    const tglModValue = item.tglModifikasi || '';
+                    const userIdValue = item.userId || '';
+
+                    tr.innerHTML = `
+                        <td style="${kodeAlign}">${item.kode}</td>
+                        <td>${item.uraian}</td>
+                        <td style="text-align: center;">${aktifValue}</td>
+                        <td style="text-align: center;">${tglModValue}</td>
+                        <td style="text-align: center;">${userIdValue}</td>
+                        <td style="text-align: center;">
+                            <button class="btn btn-primary" onclick="editData('${item.kode}')" style="padding: 0.25rem 0.75rem; font-size: 0.875rem; background-color: #6f42c1; border-color: #6f42c1;">
+                                Edit
+                            </button>
+                        </td>
+                    `;
+                    tableBody.appendChild(tr);
+                });
             }
         }
 
-        function importData() {
-            alert('Membuka dialog untuk import data dari Excel...');
-        }
-
-        function exportData() {
-            alert('Exporting data ke Excel...');
-        }
-
-        function syncFromBAPPENAS() {
-            if (confirm('Apakah Anda yakin ingin melakukan sinkronisasi data dari BAPPENAS?')) {
-                alert('Memulai sinkronisasi data dari BAPPENAS...');
+        // Load initial data
+        document.addEventListener('DOMContentLoaded', function() {
+            // Populate dropdowns
+            const kodeBebanSelect = document.getElementById('modalKodeBeban');
+            if (kodeBebanSelect) {
+                kodeBebanOptions.forEach(opt => {
+                    const option = document.createElement('option');
+                    option.value = opt.value;
+                    option.textContent = opt.text;
+                    kodeBebanSelect.appendChild(option);
+                });
             }
+
+            const kodeSumberDanaSelect = document.getElementById('modalKodeSumberDana');
+            if (kodeSumberDanaSelect) {
+                kodeSumberDanaOptions.forEach(opt => {
+                    const option = document.createElement('option');
+                    option.value = opt.value;
+                    option.textContent = opt.text;
+                    kodeSumberDanaSelect.appendChild(option);
+                });
+            }
+
+            loadTableData();
+        });
+
+        function showForm(tabName) {
+            const formBeban = document.getElementById('formBeban');
+            const formSumberDana = document.getElementById('formSumberDana');
+            const formJenisBeban = document.getElementById('formJenisBeban');
+
+            // Hide all forms
+            if (formBeban) formBeban.style.display = 'none';
+            if (formSumberDana) formSumberDana.style.display = 'none';
+            if (formJenisBeban) formJenisBeban.style.display = 'none';
+
+            // Show appropriate form
+            if (tabName === 'beban' && formBeban) {
+                formBeban.style.display = 'block';
+            } else if (tabName === 'sumber-dana' && formSumberDana) {
+                formSumberDana.style.display = 'block';
+            } else if (tabName === 'jenis-beban' && formJenisBeban) {
+                formJenisBeban.style.display = 'block';
+            }
+        }
+
+        function tambahData() {
+            const modalTitle = document.getElementById('modalTitle');
+            const dataModal = document.getElementById('dataModal');
+
+            showForm(currentTab);
+
+            if (currentTab === 'beban') {
+                if (modalTitle) modalTitle.textContent = '➕ Tambah Beban';
+                const modalKodeBebanSimple = document.getElementById('modalKodeBebanSimple');
+                const modalUraianBeban = document.getElementById('modalUraianBeban');
+                const modalAktifBeban = document.getElementById('modalAktifBeban');
+                if (modalKodeBebanSimple) {
+                    modalKodeBebanSimple.value = '';
+                    modalKodeBebanSimple.readOnly = false; // Bisa diisi saat tambah
+                }
+                if (modalUraianBeban) modalUraianBeban.value = '';
+                if (modalAktifBeban) modalAktifBeban.value = 'Y';
+            } else if (currentTab === 'sumber-dana') {
+                if (modalTitle) modalTitle.textContent = '➕ Tambah Sumber Dana';
+                const modalKodeSumberDanaSimple = document.getElementById('modalKodeSumberDanaSimple');
+                const modalUraianSumberDana = document.getElementById('modalUraianSumberDana');
+                const modalAktifSumberDana = document.getElementById('modalAktifSumberDana');
+                if (modalKodeSumberDanaSimple) {
+                    modalKodeSumberDanaSimple.value = '';
+                    modalKodeSumberDanaSimple.readOnly = false; // Bisa diisi saat tambah
+                }
+                if (modalUraianSumberDana) modalUraianSumberDana.value = '';
+                if (modalAktifSumberDana) modalAktifSumberDana.value = 'Y';
+            } else if (currentTab === 'jenis-beban') {
+                if (modalTitle) modalTitle.textContent = '➕ Mengatur Jenis Beban';
+                const modalKodeBeban = document.getElementById('modalKodeBeban');
+                const modalKodeSumberDana = document.getElementById('modalKodeSumberDana');
+                const modalKodeJenisBeban1 = document.getElementById('modalKodeJenisBeban1');
+                const modalKodeJenisBeban2 = document.getElementById('modalKodeJenisBeban2');
+                const modalAktif = document.getElementById('modalAktif');
+                if (modalKodeBeban) modalKodeBeban.selectedIndex = 0;
+                if (modalKodeSumberDana) modalKodeSumberDana.selectedIndex = 0;
+                if (modalKodeJenisBeban1) modalKodeJenisBeban1.value = '';
+                if (modalKodeJenisBeban2) modalKodeJenisBeban2.value = '';
+                if (modalAktif) modalAktif.value = 'Y';
+            }
+
+            if (dataModal) dataModal.classList.add('active');
+            currentEditKode = null;
+        }
+
+        let currentEditKode = null;
+
+        function editData(kode) {
+            const modalTitle = document.getElementById('modalTitle');
+            const dataModal = document.getElementById('dataModal');
+
+            // Find current item data
+            let data;
+            let currentItem = null;
+            
+            if (currentTab === 'beban') {
+                data = bebanData;
+                if (modalTitle) modalTitle.textContent = '✏️ Edit Beban';
+            } else if (currentTab === 'sumber-dana') {
+                data = sumberDanaData;
+                if (modalTitle) modalTitle.textContent = '✏️ Edit Sumber Dana';
+            } else if (currentTab === 'jenis-beban') {
+                data = jenisBebanData;
+                if (modalTitle) modalTitle.textContent = '✏️ Mengatur Jenis Beban';
+            }
+
+            if (data) {
+                currentItem = data.rows.find(item => item.kode === kode);
+            }
+
+                if (currentItem) {
+                // Show appropriate form based on current tab
+                showForm(currentTab);
+
+                if (currentTab === 'beban') {
+                    // Form untuk Beban
+                    const modalKodeBebanSimple = document.getElementById('modalKodeBebanSimple');
+                    const modalUraianBeban = document.getElementById('modalUraianBeban');
+                    const modalAktifBeban = document.getElementById('modalAktifBeban');
+                    if (modalKodeBebanSimple) {
+                        modalKodeBebanSimple.value = currentItem.kode;
+                        modalKodeBebanSimple.readOnly = true; // Readonly saat edit
+                    }
+                    if (modalUraianBeban) modalUraianBeban.value = currentItem.uraian;
+                    if (modalAktifBeban) modalAktifBeban.value = currentItem.aktif === 'Yes' ? 'Y' : 'N';
+                } else if (currentTab === 'sumber-dana') {
+                    // Form untuk Sumber Dana
+                    const modalKodeSumberDanaSimple = document.getElementById('modalKodeSumberDanaSimple');
+                    const modalUraianSumberDana = document.getElementById('modalUraianSumberDana');
+                    const modalAktifSumberDana = document.getElementById('modalAktifSumberDana');
+                    if (modalKodeSumberDanaSimple) {
+                        modalKodeSumberDanaSimple.value = currentItem.kode;
+                        modalKodeSumberDanaSimple.readOnly = true; // Readonly saat edit
+                    }
+                    if (modalUraianSumberDana) modalUraianSumberDana.value = currentItem.uraian;
+                    if (modalAktifSumberDana) modalAktifSumberDana.value = currentItem.aktif === 'Yes' ? 'Y' : 'N';
+                } else if (currentTab === 'jenis-beban') {
+                    // Form untuk Jenis Beban
+                    const modalKodeBeban = document.getElementById('modalKodeBeban');
+                    const modalKodeSumberDana = document.getElementById('modalKodeSumberDana');
+                    const modalKodeJenisBeban1 = document.getElementById('modalKodeJenisBeban1');
+                    const modalKodeJenisBeban2 = document.getElementById('modalKodeJenisBeban2');
+                    const modalAktif = document.getElementById('modalAktif');
+                    if (modalKodeBeban && modalKodeBeban.options.length > 0) {
+                        modalKodeBeban.selectedIndex = 0;
+                    }
+                    if (modalKodeSumberDana && modalKodeSumberDana.options.length > 0) {
+                        modalKodeSumberDana.selectedIndex = 0;
+                    }
+                    if (modalKodeJenisBeban1) modalKodeJenisBeban1.value = currentItem.kode;
+                    if (modalKodeJenisBeban2) modalKodeJenisBeban2.value = currentItem.uraian;
+                    if (modalAktif) modalAktif.value = currentItem.aktif === 'Yes' ? 'Y' : 'N';
+                }
+                
+                if (dataModal) dataModal.classList.add('active');
+                currentEditKode = kode;
+            }
+        }
+
+        function closeModal() {
+            const dataModal = document.getElementById('dataModal');
+            
+            // Reset readonly state
+            const modalKodeBebanSimple = document.getElementById('modalKodeBebanSimple');
+            const modalKodeSumberDanaSimple = document.getElementById('modalKodeSumberDanaSimple');
+            if (modalKodeBebanSimple) modalKodeBebanSimple.readOnly = false;
+            if (modalKodeSumberDanaSimple) modalKodeSumberDanaSimple.readOnly = false;
+            
+            if (dataModal) dataModal.classList.remove('active');
+            currentEditKode = null;
+        }
+
+        function saveData() {
+            if (currentTab === 'beban') {
+                const modalKodeBebanSimple = document.getElementById('modalKodeBebanSimple');
+                const modalUraianBeban = document.getElementById('modalUraianBeban');
+                const modalAktifBeban = document.getElementById('modalAktifBeban');
+
+                if (!modalKodeBebanSimple || !modalUraianBeban || !modalAktifBeban) {
+                    alert('Mohon lengkapi semua field yang wajib diisi!');
+                    return;
+                }
+
+                const kode = modalKodeBebanSimple.value.trim();
+                const uraian = modalUraianBeban.value.trim();
+                const aktif = modalAktifBeban.value;
+
+                if (!kode || !uraian) {
+                    alert('Mohon lengkapi Kode dan Uraian!');
+                    return;
+                }
+
+                // Simulasi penyimpanan data
+                if (currentEditKode) {
+                    alert(`Data Beban dengan kode ${currentEditKode} berhasil diperbarui!`);
+                } else {
+                    alert(`Data Beban baru berhasil ditambahkan!`);
+                }
+            } else if (currentTab === 'sumber-dana') {
+                const modalKodeSumberDanaSimple = document.getElementById('modalKodeSumberDanaSimple');
+                const modalUraianSumberDana = document.getElementById('modalUraianSumberDana');
+                const modalAktifSumberDana = document.getElementById('modalAktifSumberDana');
+
+                if (!modalKodeSumberDanaSimple || !modalUraianSumberDana || !modalAktifSumberDana) {
+                    alert('Mohon lengkapi semua field yang wajib diisi!');
+                    return;
+                }
+
+                const kode = modalKodeSumberDanaSimple.value.trim();
+                const uraian = modalUraianSumberDana.value.trim();
+                const aktif = modalAktifSumberDana.value;
+
+                if (!kode || !uraian) {
+                    alert('Mohon lengkapi Kode dan Uraian!');
+                    return;
+                }
+
+                // Simulasi penyimpanan data
+                if (currentEditKode) {
+                    alert(`Data Sumber Dana dengan kode ${currentEditKode} berhasil diperbarui!`);
+                } else {
+                    alert(`Data Sumber Dana baru berhasil ditambahkan!`);
+                }
+            } else if (currentTab === 'jenis-beban') {
+                const modalKodeBeban = document.getElementById('modalKodeBeban');
+                const modalKodeSumberDana = document.getElementById('modalKodeSumberDana');
+                const modalKodeJenisBeban1 = document.getElementById('modalKodeJenisBeban1');
+                const modalKodeJenisBeban2 = document.getElementById('modalKodeJenisBeban2');
+                const modalAktif = document.getElementById('modalAktif');
+
+                if (!modalKodeBeban || !modalKodeSumberDana || !modalKodeJenisBeban1 || !modalKodeJenisBeban2 || !modalAktif) {
+                    alert('Mohon lengkapi semua field yang wajib diisi!');
+                    return;
+                }
+
+                const kodeBeban = modalKodeBeban.value;
+                const kodeSumberDana = modalKodeSumberDana.value;
+                const kodeJenisBeban1 = modalKodeJenisBeban1.value.trim();
+                const kodeJenisBeban2 = modalKodeJenisBeban2.value.trim();
+                const aktif = modalAktif.value;
+
+                if (!kodeBeban || !kodeSumberDana || !kodeJenisBeban1 || !kodeJenisBeban2) {
+                    alert('Mohon lengkapi semua field yang wajib diisi!');
+                    return;
+                }
+
+                // Simulasi penyimpanan data
+                if (currentEditKode) {
+                    alert(`Data Jenis Beban dengan kode ${currentEditKode} berhasil diperbarui!`);
+                } else {
+                    alert(`Data Jenis Beban baru berhasil ditambahkan!`);
+                }
+            }
+
+            closeModal();
+            loadTableData();
         }
 
         function searchData() {
-            alert('Mencari data dengan filter yang dipilih...');
+            const keyword = document.getElementById('keyword')?.value || '';
+            // Filter data based on keyword
+            loadTableData();
         }
 
-        function resetFilter() {
-            document.querySelectorAll('.form-control').forEach(el => {
-                if (el.tagName === 'INPUT') {
-                    el.value = '';
-                } else if (el.tagName === 'SELECT') {
-                    el.selectedIndex = 0;
-                }
-            });
+        function exportExcel() {
+            alert('Exporting data ke Excel...');
+        }
+
+        function changeItemsPerPage() {
+            const itemsPerPage = document.getElementById('itemsPerPage')?.value || '30';
+            // Reload data with new items per page
+            loadTableData();
         }
     </script>
 </body>

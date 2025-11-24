@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manage Common code - CustomWeb SPAN</title>
+    <title>Manage Common Code - CustomWeb SPAN</title>
     <link rel="stylesheet" href="css/style.css">
     <script src="js/sidebar.js"></script>
     <script src="js/components.js"></script>
@@ -18,205 +18,147 @@
     <!-- Main Content Wrapper -->
     <div class="main-wrapper" id="mainWrapper">
         <div class="container">
-            <h2 style="margin-bottom: 1.5rem;">📋 Manage Common code</h2>
+            <h2 style="margin-bottom: 1.5rem;">Manage Common Code</h2>
 
-            <div class="alert alert-info">
-                <strong>ℹ️ Informasi:</strong> Halaman ini digunakan untuk mengelola kode-kode umum (common code) yang digunakan di seluruh sistem.
+            <!-- Tabel 1: Daftar Kode Umum -->
+            <div class="card" style="margin-bottom: 1.5rem;">
+                <div style="padding: 1.5rem;">
+                    <h3 style="margin-bottom: 1rem;">Daftar Kode Umum</h3>
+                    
+                    <!-- Search and Action Buttons -->
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 1rem;">
+                        <div style="display: flex; align-items: center; gap: 1rem; flex: 1;">
+                            <div style="font-weight: 600; font-size: 1rem;">
+                                Total <span style="color: var(--primary-color);" id="totalData1">28</span> | 
+                                <label class="form-label" style="margin: 0; display: inline;">Jumlah per halaman</label>
+                                <select class="form-control" id="itemsPerPage1" style="width: auto; padding: 0.5rem; display: inline-block; margin-left: 0.5rem;" onchange="changeItemsPerPage1()">
+                                    <option value="5" selected>5</option>
+                                    <option value="10">10</option>
+                                    <option value="30">30</option>
+                                    <option value="50">50</option>
+                                </select>
             </div>
-
-            <!-- Action Buttons -->
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">⚡ Aksi</h3>
                 </div>
-                <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
-                    <button class="btn btn-primary" onclick="showAddModal()">
-                        ➕ Tambah Common Code Baru
+                        <div style="display: flex; gap: 0.5rem; align-items: center;">
+                            <input type="text" class="form-control" id="search1" placeholder="Cari..." style="width: 200px;">
+                            <button class="btn btn-primary" onclick="tambahData1()" style="background-color: #6f42c1; border-color: #6f42c1;">
+                                Tambah
                     </button>
-                    <button class="btn btn-success" onclick="importData()">
-                        📥 Import dari Excel
+                            <button class="btn btn-primary" onclick="editData1()" style="background-color: #6f42c1; border-color: #6f42c1;">
+                                Edit
                     </button>
-                    <button class="btn btn-info" onclick="exportData()">
-                        📤 Export ke Excel
-                    </button>
-                </div>
-            </div>
-
-            <!-- Filter Card -->
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">🔍 Filter Pencarian</h3>
-                    <div style="display: flex; gap: 0.5rem;">
-                        <button class="btn btn-primary" onclick="searchData()">
-                            🔍 Search
-                        </button>
-                        <button class="btn btn-secondary" onclick="resetFilter()">
-                            🔄 Reset
-                        </button>
-                    </div>
-                </div>
-
-                <div class="grid grid-3">
-                    <div class="form-group">
-                        <label class="form-label">Kode</label>
-                        <input type="text" class="form-control" placeholder="Cari berdasarkan kode">
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label">Nama</label>
-                        <input type="text" class="form-control" placeholder="Cari berdasarkan nama">
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label">Kategori</label>
-                        <select class="form-control">
-                            <option value="">-- Semua Kategori --</option>
-                            <option>Status</option>
-                            <option>Jenis</option>
-                            <option>Kategori</option>
-                            <option>Type</option>
-                        </select>
-                    </div>
                 </div>
             </div>
 
-            <!-- Data Table -->
+                    <!-- Data Table 1 -->
+                    <div class="table-container">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th style="min-width: 80px; text-align: center;">KODE</th>
+                                    <th style="min-width: 250px; text-align: left;">NAMA</th>
+                                    <th style="min-width: 80px; text-align: center;">Dipakai</th>
+                                    <th style="min-width: 150px; text-align: left;">Item Dimanajae 1</th>
+                                    <th style="min-width: 150px; text-align: left;">Item Dimanajae 2</th>
+                                    <th style="min-width: 100px; text-align: left;">Pembuat</th>
+                                    <th style="min-width: 120px; text-align: center;">Tgl Awal</th>
+                                    <th style="min-width: 100px; text-align: left;">Diupdate</th>
+                                    <th style="min-width: 120px; text-align: center;">Tgl Upd Akhir</th>
+                                    <th style="min-width: 100px; text-align: center;">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="dataTable1">
+                                <!-- Data akan diisi oleh JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Pagination 1 -->
+                    <div class="pagination-container">
+                        <div class="pagination-info">
+                            Menampilkan 1-5 dari 28 data
+                        </div>
+                        <div class="pagination">
+                            <button class="pagination-btn" disabled>‹‹ First</button>
+                            <button class="pagination-btn" disabled>‹ Previous</button>
+                            <button class="pagination-btn active">1</button>
+                            <button class="pagination-btn">2</button>
+                            <button class="pagination-btn">3</button>
+                            <button class="pagination-btn">4</button>
+                            <button class="pagination-btn">5</button>
+                            <button class="pagination-btn">›</button>
+                            <button class="pagination-btn">6</button>
+                    </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tabel 2: Daftar Kode Rincian -->
             <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">📊 Daftar Common Code</h3>
+                <div style="padding: 1.5rem;">
+                    <h3 style="margin-bottom: 1rem;" id="table2Title">Daftar Kode Rincian - Portal server information</h3>
+                    
+                    <!-- Search and Action Buttons -->
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 1rem;">
+                        <div style="display: flex; align-items: center; gap: 1rem; flex: 1;">
+                            <div style="font-weight: 600; font-size: 1rem;">
+                                Total <span style="color: var(--primary-color);" id="totalData2">2</span> | 
+                                <label class="form-label" style="margin: 0; display: inline;">Jumlah per halaman</label>
+                                <select class="form-control" id="itemsPerPage2" style="width: auto; padding: 0.5rem; display: inline-block; margin-left: 0.5rem;" onchange="changeItemsPerPage2()">
+                                    <option value="5" selected>5</option>
+                                    <option value="10">10</option>
+                                    <option value="30">30</option>
+                                    <option value="50">50</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div style="display: flex; gap: 0.5rem; align-items: center;">
+                            <input type="text" class="form-control" id="search2" placeholder="Cari..." style="width: 200px;">
+                            <button class="btn btn-primary" onclick="tambahData2()" style="background-color: #6f42c1; border-color: #6f42c1;">
+                                Tambah
+                            </button>
+                            <button class="btn btn-primary" onclick="editData2()" style="background-color: #6f42c1; border-color: #6f42c1;">
+                                Edit
+                            </button>
+                        </div>
                 </div>
 
-                <div style="overflow-x: auto;">
+                    <!-- Data Table 2 -->
+                    <div class="table-container">
                     <table class="table">
                         <thead>
                             <tr>
-                                <th style="width: 50px;">No</th>
-                                <th style="width: 150px;">Kode</th>
-                                <th style="min-width: 300px;">Nama</th>
-                                <th style="width: 150px;">Kategori</th>
-                                <th style="width: 150px;">Deskripsi</th>
-                                <th style="width: 120px;">Status</th>
-                                <th style="width: 200px;">Aksi</th>
+                                    <th style="min-width: 80px; text-align: center;">KODE</th>
+                                    <th style="min-width: 200px; text-align: left;">NAMA</th>
+                                    <th style="min-width: 80px; text-align: center;">Dipakai</th>
+                                    <th style="min-width: 120px; text-align: left;">Nama Item 1</th>
+                                    <th style="min-width: 150px; text-align: left;">Isi Item 1</th>
+                                    <th style="min-width: 120px; text-align: left;">Nama Item 2</th>
+                                    <th style="min-width: 150px; text-align: left;">Isi Item 2</th>
+                                    <th style="min-width: 120px; text-align: left;">Nama Item 3</th>
+                                    <th style="min-width: 150px; text-align: left;">Isi Item 3</th>
+                                    <th style="min-width: 100px; text-align: center;">Aksi</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td><strong>STATUS-001</strong></td>
-                                <td>Active</td>
-                                <td>Status</td>
-                                <td>Status aktif</td>
-                                <td><span class="badge badge-success">Active</span></td>
-                                <td>
-                                    <button class="btn btn-outline" style="padding: 0.25rem 0.5rem; font-size: 0.75rem; margin-right: 0.25rem;" onclick="editData(1)">
-                                        ✏️ Edit
-                                    </button>
-                                    <button class="btn btn-danger" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="deleteData(1)">
-                                        🗑️ Hapus
-                                    </button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td><strong>STATUS-002</strong></td>
-                                <td>Inactive</td>
-                                <td>Status</td>
-                                <td>Status tidak aktif</td>
-                                <td><span class="badge badge-success">Active</span></td>
-                                <td>
-                                    <button class="btn btn-outline" style="padding: 0.25rem 0.5rem; font-size: 0.75rem; margin-right: 0.25rem;" onclick="editData(2)">
-                                        ✏️ Edit
-                                    </button>
-                                    <button class="btn btn-danger" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="deleteData(2)">
-                                        🗑️ Hapus
-                                    </button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td><strong>TYPE-001</strong></td>
-                                <td>Administrator</td>
-                                <td>Type</td>
-                                <td>Tipe user administrator</td>
-                                <td><span class="badge badge-success">Active</span></td>
-                                <td>
-                                    <button class="btn btn-outline" style="padding: 0.25rem 0.5rem; font-size: 0.75rem; margin-right: 0.25rem;" onclick="editData(3)">
-                                        ✏️ Edit
-                                    </button>
-                                    <button class="btn btn-danger" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="deleteData(3)">
-                                        🗑️ Hapus
-                                    </button>
-                                </td>
-                            </tr>
+                            <tbody id="dataTable2">
+                                <!-- Data akan diisi oleh JavaScript -->
                         </tbody>
                     </table>
                 </div>
 
-                <!-- Pagination -->
-                <div style="display: flex; justify-content: space-between; align-items: center; padding: 1rem 0; border-top: 1px solid var(--border-color);">
-                    <div>
-                        Showing 1-3 of 45 records
+                    <!-- Pagination 2 -->
+                    <div class="pagination-container">
+                        <div class="pagination-info">
+                            Menampilkan 1-2 dari 2 data
+                        </div>
+                        <div class="pagination">
+                            <button class="pagination-btn" disabled>‹‹ First</button>
+                            <button class="pagination-btn" disabled>‹ Previous</button>
+                            <button class="pagination-btn active">1</button>
+                            <button class="pagination-btn" disabled>Next ›</button>
+                            <button class="pagination-btn" disabled>Last ››</button>
                     </div>
-                    <div style="display: flex; gap: 0.5rem;">
-                        <button class="btn btn-outline" style="padding: 0.5rem 1rem;" disabled>← Previous</button>
-                        <button class="btn btn-outline active" style="padding: 0.5rem 1rem;">1</button>
-                        <button class="btn btn-outline" style="padding: 0.5rem 1rem;">2</button>
-                        <button class="btn btn-outline" style="padding: 0.5rem 1rem;">3</button>
-                        <button class="btn btn-outline" style="padding: 0.5rem 1rem;">Next →</button>
                     </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Add/Edit Modal -->
-    <div id="dataModal" class="modal">
-        <div class="modal-content" style="max-width: 700px;">
-            <div class="modal-header">
-                <h3 id="modalTitle">➕ Tambah Common Code Baru</h3>
-                <button class="modal-close" onclick="closeModal()">&times;</button>
-            </div>
-
-            <div>
-                <div class="grid grid-2">
-                    <div class="form-group">
-                        <label class="form-label">Kode <span style="color: red;">*</span></label>
-                        <input type="text" class="form-control" id="kode" placeholder="Contoh: STATUS-001" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label">Kategori <span style="color: red;">*</span></label>
-                        <select class="form-control" id="kategori" required>
-                            <option value="">-- Pilih Kategori --</option>
-                            <option>Status</option>
-                            <option>Jenis</option>
-                            <option>Kategori</option>
-                            <option>Type</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">Nama <span style="color: red;">*</span></label>
-                    <input type="text" class="form-control" id="nama" placeholder="Masukkan nama" required>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">Deskripsi</label>
-                    <textarea class="form-control" id="deskripsi" rows="3" placeholder="Masukkan deskripsi (opsional)"></textarea>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">Status</label>
-                    <select class="form-control" id="status">
-                        <option value="active" selected>Active</option>
-                        <option value="inactive">Inactive</option>
-                    </select>
-                </div>
-
-                <div style="display: flex; gap: 0.5rem; justify-content: flex-end; margin-top: 1.5rem;">
-                    <button class="btn btn-secondary" onclick="closeModal()">Batal</button>
-                    <button class="btn btn-primary" onclick="saveData()">💾 Simpan</button>
                 </div>
             </div>
         </div>
@@ -228,7 +170,7 @@
     <script>
         // Initialize page components
         initPageComponents({
-            activePage: 'manage-authority',
+            activePage: 'manage-reference-data',
             userData: {
                 avatar: 'DJA',
                 role: 'Echelon IV DJA',
@@ -244,83 +186,282 @@
             }
         }
 
-        function showAddModal() {
-            document.getElementById('modalTitle').textContent = '➕ Tambah Common Code Baru';
-            document.getElementById('kode').value = '';
-            document.getElementById('nama').value = '';
-            document.getElementById('kategori').value = '';
-            document.getElementById('deskripsi').value = '';
-            document.getElementById('status').value = 'active';
-            document.getElementById('dataModal').classList.add('active');
+        // Data Tabel 1: Daftar Kode Umum
+        const dataKodeUmum = {
+            total: 28,
+            rows: [
+                { kode: '30', nama: 'Portal server information', dipakai: 'Y', itemDimanajae1: '', itemDimanajae2: '', pembuat: 'Cadmin', tglAwal: '12-06-2013', diupdate: 'Cadmin', tglUpdAkhir: '12-06-2013' },
+                { kode: '31', nama: 'Email Address Information', dipakai: 'Y', itemDimanajae1: '', itemDimanajae2: '', pembuat: 'Cadmin', tglAwal: '23-07-2013', diupdate: 'Cadmin', tglUpdAkhir: '16-12-2013' },
+                { kode: '32', nama: 'SDANA', dipakai: 'Y', itemDimanajae1: 'EBS SDANA', itemDimanajae2: '', pembuat: 'Cadmin', tglAwal: '19-08-2013', diupdate: 'Cadmin', tglUpdAkhir: '19-08-2013' },
+                { kode: '40', nama: 'Daduktek XML UPLOAD PHASE CODE', dipakai: 'Y', itemDimanajae1: '', itemDimanajae2: '', pembuat: 'Cadmin', tglAwal: '23-07-2013', diupdate: 'Cadmin', tglUpdAkhir: '23-07-2013' },
+                { kode: '41', nama: 'XML DOWNLOAD PHASE CODE', dipakai: 'Y', itemDimanajae1: '', itemDimanajae2: '', pembuat: 'Cadmin', tglAwal: '23-07-2013', diupdate: 'Cadmin', tglUpdAkhir: '23-07-2013' }
+            ]
+        };
+
+        // Data Tabel 2: Daftar Kode Rincian (berdasarkan kode yang dipilih)
+        const dataKodeRincian = {
+            '30': {
+                total: 2,
+                rows: [
+                    { kode: '301', nama: 'DGB Portal Information', dipakai: 'Y', namaItem1: 'IP', isiItem1: 'Z:\\', namaItem2: 'Port', isiItem2: '', namaItem3: 'User id', isiItem3: 'rkakl' },
+                    { kode: '302', nama: 'DGT Portal Information', dipakai: 'Y', namaItem1: 'IP', isiItem1: '10.100.10.21', namaItem2: 'Port', isiItem2: '', namaItem3: 'User id', isiItem3: 'spanftpdja' }
+                ]
+            },
+            '31': {
+                total: 0,
+                rows: []
+            },
+            '32': {
+                total: 0,
+                rows: []
+            },
+            '40': {
+                total: 0,
+                rows: []
+            },
+            '41': {
+                total: 0,
+                rows: []
+            }
+        };
+
+        let selectedKodeUmum = '30'; // Default selected
+
+        function loadTable1() {
+            const tableBody = document.getElementById('dataTable1');
+            const totalData = document.getElementById('totalData1');
+
+            if (totalData) totalData.textContent = dataKodeUmum.total;
+
+            if (tableBody) {
+                tableBody.innerHTML = '';
+                
+                dataKodeUmum.rows.forEach((item, index) => {
+                    const tr = document.createElement('tr');
+                    tr.setAttribute('data-kode', item.kode);
+                    tr.style.cursor = 'pointer';
+                    
+                    // Highlight jika selected
+                    if (item.kode === selectedKodeUmum) {
+                        tr.style.backgroundColor = '#e8f4f8';
+                    }
+                    
+                    tr.onclick = function() {
+                        selectKodeUmum(item.kode, item.nama);
+                    };
+                    
+                    const aksiButton = `<button class="btn btn-primary" onclick="editRow1('${item.kode}'); event.stopPropagation();" style="padding: 0.25rem 0.75rem; font-size: 0.875rem; background-color: #6f42c1; border-color: #6f42c1;">
+                                Edit
+                            </button>`;
+                    
+                    tr.innerHTML = `
+                        <td style="text-align: center;">${item.kode}</td>
+                        <td>${item.nama}</td>
+                        <td style="text-align: center;">${item.dipakai}</td>
+                        <td>${item.itemDimanajae1 || ''}</td>
+                        <td>${item.itemDimanajae2 || ''}</td>
+                        <td>${item.pembuat}</td>
+                        <td style="text-align: center;">${item.tglAwal}</td>
+                        <td>${item.diupdate}</td>
+                        <td style="text-align: center;">${item.tglUpdAkhir}</td>
+                        <td style="text-align: center;">${aksiButton}</td>
+                    `;
+                    tableBody.appendChild(tr);
+                });
+            }
         }
 
-        function editData(no) {
-            document.getElementById('modalTitle').textContent = '✏️ Edit Common Code';
-            document.getElementById('kode').value = 'STATUS-001';
-            document.getElementById('nama').value = 'Active';
-            document.getElementById('kategori').value = 'Status';
-            document.getElementById('deskripsi').value = 'Status aktif';
-            document.getElementById('status').value = 'active';
-            document.getElementById('dataModal').classList.add('active');
-        }
-
-        function closeModal() {
-            document.getElementById('dataModal').classList.remove('active');
-        }
-
-        function saveData() {
-            const kode = document.getElementById('kode').value;
-            const nama = document.getElementById('nama').value;
-            const kategori = document.getElementById('kategori').value;
-
-            if (!kode || !nama || !kategori) {
-                alert('Mohon lengkapi semua field yang wajib diisi!');
-                return;
+        function loadTable2() {
+            const tableBody = document.getElementById('dataTable2');
+            const totalData = document.getElementById('totalData2');
+            const table2Title = document.getElementById('table2Title');
+            
+            const selectedData = dataKodeRincian[selectedKodeUmum] || { total: 0, rows: [] };
+            const selectedKodeUmumData = dataKodeUmum.rows.find(item => item.kode === selectedKodeUmum);
+            
+            if (totalData) totalData.textContent = selectedData.total;
+            if (table2Title && selectedKodeUmumData) {
+                table2Title.textContent = `Daftar Kode Rincian - ${selectedKodeUmumData.nama}`;
             }
 
-            alert('Common code berhasil disimpan!');
-            closeModal();
-        }
-
-        function deleteData(no) {
-            if (confirm(`Apakah Anda yakin ingin menghapus data nomor ${no}?\n\nPeringatan: Data yang sudah dihapus tidak dapat dikembalikan!`)) {
-                alert(`Menghapus data nomor ${no}...`);
+            if (tableBody) {
+                tableBody.innerHTML = '';
+                
+                selectedData.rows.forEach((item, index) => {
+                    const tr = document.createElement('tr');
+                    tr.setAttribute('data-kode', item.kode);
+                    
+                    const aksiButton = `<button class="btn btn-primary" onclick="editRow2('${item.kode}')" style="padding: 0.25rem 0.75rem; font-size: 0.875rem; background-color: #6f42c1; border-color: #6f42c1;">
+                                Edit
+                            </button>`;
+                    
+                    tr.innerHTML = `
+                        <td style="text-align: center;">${item.kode}</td>
+                        <td>${item.nama}</td>
+                        <td style="text-align: center;">${item.dipakai}</td>
+                        <td>${item.namaItem1 || ''}</td>
+                        <td>${item.isiItem1 || ''}</td>
+                        <td>${item.namaItem2 || ''}</td>
+                        <td>${item.isiItem2 || ''}</td>
+                        <td>${item.namaItem3 || ''}</td>
+                        <td>${item.isiItem3 || ''}</td>
+                        <td style="text-align: center;">${aksiButton}</td>
+                    `;
+                    tableBody.appendChild(tr);
+                });
             }
         }
 
-        function importData() {
-            alert('Membuka dialog untuk import data dari Excel...');
+        function selectKodeUmum(kode, nama) {
+            selectedKodeUmum = kode;
+            loadTable1();
+            loadTable2();
         }
 
-        function exportData() {
-            alert('Exporting data ke Excel...');
-        }
-
-        function searchData() {
-            alert('Mencari data dengan filter yang dipilih...');
-        }
-
-        function resetFilter() {
-            document.querySelectorAll('.form-control').forEach(el => {
-                if (el.tagName === 'INPUT') {
-                    el.value = '';
-                } else if (el.tagName === 'SELECT') {
-                    el.selectedIndex = 0;
-                }
-            });
-        }
-
-        // Close modal when clicking outside
-        window.onclick = function(event) {
-            const modal = document.getElementById('dataModal');
-            if (event.target === modal) {
-                modal.classList.remove('active');
+        function editRow1(kode) {
+            const item = dataKodeUmum.rows.find(r => r.kode === kode);
+            if (item) {
+                alert(`Edit Kode Umum: ${item.kode} - ${item.nama}`);
             }
         }
+
+        function editRow2(kode) {
+            const item = dataKodeRincian[selectedKodeUmum].rows.find(r => r.kode === kode);
+            if (item) {
+                alert(`Edit Kode Rincian: ${item.kode} - ${item.nama}`);
+            }
+        }
+
+        function tambahData1() {
+            alert('Tambah Kode Umum baru...');
+        }
+
+        function editData1() {
+            alert('Edit Kode Umum...');
+        }
+
+        function tambahData2() {
+            alert('Tambah Kode Rincian baru...');
+        }
+
+        function editData2() {
+            alert('Edit Kode Rincian...');
+        }
+
+        function changeItemsPerPage1() {
+            const itemsPerPage = document.getElementById('itemsPerPage1').value;
+            console.log('Mengubah jumlah item per halaman tabel 1:', itemsPerPage);
+        }
+
+        function changeItemsPerPage2() {
+            const itemsPerPage = document.getElementById('itemsPerPage2').value;
+            console.log('Mengubah jumlah item per halaman tabel 2:', itemsPerPage);
+        }
+
+        // Load initial data
+        document.addEventListener('DOMContentLoaded', function() {
+            loadTable1();
+            loadTable2();
+        });
     </script>
+
+    <style>
+        /* Table Container */
+        .table-container {
+            overflow-x: auto;
+            position: relative;
+            width: 100%;
+        }
+
+        /* Table layout auto untuk fleksibilitas */
+        .table-container .table {
+            width: 100%;
+            min-width: 100%;
+        }
+
+        /* Table Header Styles */
+        .table thead tr th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+            border: 1px solid #dee2e6;
+            border-bottom: 2px solid #dee2e6;
+            padding: 0.75rem;
+        }
+
+        .table th {
+            text-align: left;
+        }
+
+        .table td {
+            text-align: left;
+            padding: 0.75rem;
+            border: 1px solid #dee2e6;
+        }
+
+        .table tbody tr:nth-child(even) {
+            background-color: #f0f4f8;
+        }
+
+        .table tbody tr:nth-child(odd) {
+            background-color: white;
+        }
+
+        .table tbody tr:hover {
+            background-color: var(--light-color);
+        }
+
+        /* Pagination Styles */
+        .pagination-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1.5rem;
+            padding: 1rem;
+            border-top: 1px solid var(--border-color);
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .pagination-info {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .pagination {
+            display: flex;
+            gap: 0.25rem;
+            align-items: center;
+        }
+
+        .pagination-btn {
+            padding: 0.5rem 0.75rem;
+            border: 1px solid var(--border-color);
+            background-color: white;
+            color: var(--text-primary);
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 0.875rem;
+            transition: all 0.3s;
+            min-width: 40px;
+        }
+
+        .pagination-btn:hover:not(:disabled):not(.active) {
+            background-color: var(--light-color);
+            border-color: var(--primary-color);
+        }
+
+        .pagination-btn.active {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .pagination-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            background-color: var(--light-color);
+        }
+    </style>
 </body>
 </html>
-
-
-
-

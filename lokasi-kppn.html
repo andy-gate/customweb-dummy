@@ -9,58 +9,501 @@
     <script src="js/components.js"></script>
 </head>
 <body>
+    <!-- Header Placeholder -->
     <div id="header-placeholder"></div>
+
+    <!-- Sidebar Placeholder -->
     <div id="sidebar-placeholder"></div>
+
+    <!-- Main Content Wrapper -->
     <div class="main-wrapper" id="mainWrapper">
         <div class="container">
-            <h2 style="margin-bottom: 1.5rem;">📍 Lokasi/KPPN</h2>
-            <div class="alert alert-info"><strong>ℹ️ Informasi:</strong> Halaman ini digunakan untuk mengelola data referensi Lokasi dan KPPN (Kantor Pelayanan Perbendaharaan Negara) dalam sistem.</div>
-            <div class="card">
-                <div class="card-header"><h3 class="card-title">⚡ Aksi</h3></div>
-                <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
-                    <button class="btn btn-primary" onclick="showAddModal()">➕ Tambah Lokasi/KPPN</button>
-                    <button class="btn btn-success" onclick="importData()">📥 Import Excel</button>
-                    <button class="btn btn-info" onclick="exportData()">📤 Export Excel</button>
+            <h2 style="margin-bottom: 1.5rem;">Lokasi/KPPN</h2>
+
+            <!-- Filter Section -->
+            <div class="card" style="margin-bottom: 1.5rem;">
+                <div style="padding: 1.5rem;">
+                    <!-- Navigation Tabs -->
+                    <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1.5rem;">
+                        <button class="tab-btn active" onclick="switchMainTab('lokasi')" id="tabLokasi">Lokasi</button>
+                        <button class="tab-btn" onclick="switchMainTab('kabupaten-kota')" id="tabKabupatenKota">Kabupaten/Kota</button>
+                        <button class="tab-btn" onclick="switchMainTab('kanwil')" id="tabKanwil">Kanwil</button>
+                        <button class="tab-btn" onclick="switchMainTab('kppn')" id="tabKppn">KPPN</button>
+                        <button class="tab-btn" onclick="switchMainTab('dekon')" id="tabDekon">DEKON</button>
+                    </div>
+
+                    <!-- Keyword -->
+                    <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                        <label class="form-label" style="min-width: 120px; margin: 0;">Keyword :</label>
+                        <div style="flex: 1;">
+                            <input type="text" class="form-control" id="keyword" placeholder="Masukkan kata kunci">
+                        </div>
+                        <button class="btn btn-primary" onclick="searchData()" style="padding: 0.75rem 2rem;">
+                            Cari
+                        </button>
+                    </div>
                 </div>
             </div>
+
+            <!-- Data Table Section -->
             <div class="card">
-                <div class="card-header"><h3 class="card-title">📊 Daftar Lokasi/KPPN</h3></div>
-                <div style="overflow-x: auto;">
-                    <table class="table">
+                <div style="display: flex; justify-content: flex-end; gap: 0.5rem; margin-bottom: 1rem; padding: 0 1rem; padding-top: 1rem;">
+                    <button class="btn btn-primary" onclick="exportExcel()" style="background-color: #6f42c1; border-color: #6f42c1;">
+                        Ke excel
+                    </button>
+                </div>
+
+                <!-- Total Data dan Jumlah per Halaman -->
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; padding: 0 1rem; flex-wrap: wrap; gap: 1rem;">
+                    <div style="display: flex; align-items: center; gap: 1.5rem;">
+                        <div style="font-weight: 600; font-size: 1rem;">
+                            Total <span style="color: var(--primary-color);" id="totalData">44</span> | 
+                            <label class="form-label" style="margin: 0; display: inline;">Jumlah per halaman</label>
+                            <select class="form-control" id="itemsPerPage" style="width: auto; padding: 0.5rem; display: inline-block; margin-left: 0.5rem;" onchange="changeItemsPerPage()">
+                                <option value="10">10</option>
+                                <option value="30" selected>30</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Data Table -->
+                <div class="table-container">
+                    <table class="table" style="table-layout: fixed;">
                         <thead>
-                            <tr><th>No</th><th>Kode Lokasi</th><th>Nama Lokasi</th><th>Kode KPPN</th><th>Nama KPPN</th><th>Status</th><th>Aksi</th></tr>
+                            <tr>
+                                <th style="width: 100px; text-align: center;">Kode</th>
+                                <th style="min-width: 400px; text-align: left;">Uraian</th>
+                                <th style="width: 100px; text-align: center;">Aktif</th>
+                                <th style="width: 200px; text-align: center;">Tgl Modifikasi</th>
+                                <th style="width: 150px; text-align: center;">User ID</th>
+                                <th style="width: 120px; text-align: center;">Aksi</th>
+                            </tr>
                         </thead>
-                        <tbody>
-                            <tr>
-                                <td>1</td><td><strong>01.01</strong></td><td>DKI Jakarta</td>
-                                <td><strong>KPPN-001</strong></td><td>KPPN Jakarta I</td>
-                                <td><span class="badge badge-success">Active</span></td>
-                                <td><button class="btn btn-outline" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="editData(1)">✏️ Edit</button></td>
-                            </tr>
-                            <tr>
-                                <td>2</td><td><strong>01.02</strong></td><td>Jawa Barat</td>
-                                <td><strong>KPPN-002</strong></td><td>KPPN Bandung</td>
-                                <td><span class="badge badge-success">Active</span></td>
-                                <td><button class="btn btn-outline" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="editData(2)">✏️ Edit</button></td>
-                            </tr>
+                        <tbody id="dataTable">
+                            <!-- Data akan diisi oleh JavaScript -->
                         </tbody>
                     </table>
+                </div>
+
+                <!-- Pagination -->
+                <div class="pagination-container">
+                    <div class="pagination-info">
+                        Menampilkan 1-30 dari 44 data
+                    </div>
+                    <div class="pagination">
+                        <button class="pagination-btn" disabled>‹‹ First</button>
+                        <button class="pagination-btn" disabled>‹ Previous</button>
+                        <button class="pagination-btn active">1</button>
+                        <button class="pagination-btn">Next ›</button>
+                        <button class="pagination-btn">Last ››</button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <!-- Add/Edit Modal -->
+    <div id="dataModal" class="modal">
+        <div class="modal-content" style="max-width: 800px;">
+            <div class="modal-header">
+                <h3 id="modalTitle">✏️ Edit Data</h3>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+
+            <div style="padding: 1.5rem;">
+                <div class="form-group">
+                    <label class="form-label">Kode</label>
+                    <input type="text" class="form-control" id="modalKode" readonly>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Uraian</label>
+                    <input type="text" class="form-control" id="modalUraian" readonly>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Aktif(Y/N) <span style="color: red;">*</span></label>
+                    <select class="form-control" id="modalAktif" required>
+                        <option value="Y">Y</option>
+                        <option value="N">N</option>
+                    </select>
+                </div>
+
+                <div style="display: flex; gap: 0.5rem; justify-content: flex-end; margin-top: 1.5rem;">
+                    <button class="btn btn-secondary" onclick="closeModal()">Batal</button>
+                    <button class="btn btn-primary" onclick="saveData()" style="background-color: #6f42c1; border-color: #6f42c1;">💾 Simpan</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer Placeholder -->
     <div id="footer-placeholder"></div>
+
     <script>
-        initPageComponents({activePage: 'manage-reference-data', userData: {avatar: 'DJA', role: 'Echelon IV DJA', tahun: '2025', jenisDok: 'RKAKL'}});
-        function logout() {if (confirm('Apakah Anda yakin ingin logout?')) {sessionStorage.clear(); window.location.href = 'index.html';}}
-        function showAddModal() {alert('Tambah Lokasi/KPPN baru...');}
-        function editData(no) {alert('Edit data ' + no);}
-        function importData() {alert('Import data...');}
-        function exportData() {alert('Export data...');}
+        // Initialize page components
+        initPageComponents({
+            activePage: 'manage-reference-data',
+            userData: {
+                avatar: 'DJA',
+                role: 'Echelon IV DJA',
+                tahun: '2025',
+                jenisDok: 'RKAKL'
+            }
+        });
+
+        function logout() {
+            if (confirm('Apakah Anda yakin ingin logout?')) {
+                sessionStorage.clear();
+                window.location.href = 'index.html';
+            }
+        }
+
+        // Data dengan struktur flat
+        const allData = {
+            lokasi: {
+                total: 44,
+                rows: [
+                    { kode: '01', uraian: 'DKI JAKARTA', aktif: 'Yes', tglModifikasi: '26-08-2013 16:09:57', userId: 'Cadmin' },
+                    { kode: '02', uraian: 'JAWA BARAT', aktif: 'Yes', tglModifikasi: '26-08-2013 16:09:57', userId: 'Cadmin' },
+                    { kode: '03', uraian: 'JAWA TENGAH', aktif: 'Yes', tglModifikasi: '26-08-2013 16:09:57', userId: 'Cadmin' },
+                    { kode: '04', uraian: 'DI YOGYAKARTA', aktif: 'Yes', tglModifikasi: '26-08-2013 16:09:57', userId: 'Cadmin' },
+                    { kode: '05', uraian: 'JAWA TIMUR', aktif: 'Yes', tglModifikasi: '26-08-2013 16:09:57', userId: 'Cadmin' },
+                    { kode: '06', uraian: 'ACEH', aktif: 'Yes', tglModifikasi: '26-08-2013 16:09:57', userId: 'Cadmin' }
+                ]
+            },
+            'kabupaten-kota': {
+                total: 0,
+                rows: []
+            },
+            kanwil: {
+                total: 0,
+                rows: []
+            },
+            kppn: {
+                total: 0,
+                rows: []
+            },
+            dekon: {
+                total: 0,
+                rows: []
+            }
+        };
+
+        let currentMainTab = 'lokasi';
+
+        function switchMainTab(tab) {
+            currentMainTab = tab;
+            
+            // Update tab buttons
+            document.getElementById('tabLokasi').classList.toggle('active', tab === 'lokasi');
+            document.getElementById('tabKabupatenKota').classList.toggle('active', tab === 'kabupaten-kota');
+            document.getElementById('tabKanwil').classList.toggle('active', tab === 'kanwil');
+            document.getElementById('tabKppn').classList.toggle('active', tab === 'kppn');
+            document.getElementById('tabDekon').classList.toggle('active', tab === 'dekon');
+            
+            // Reload table data
+            loadTableData();
+        }
+
+        function loadTableData() {
+            const tableBody = document.getElementById('dataTable');
+            const totalData = document.getElementById('totalData');
+            
+            let dataToShow = allData[currentMainTab] || allData.lokasi;
+            if (totalData) totalData.textContent = dataToShow.total;
+
+            if (tableBody) {
+                tableBody.innerHTML = '';
+                
+                // Render flat data
+                dataToShow.rows.forEach(item => {
+                    const tr = document.createElement('tr');
+                    tr.setAttribute('data-kode', item.kode);
+                    
+                    const aktifValue = item.aktif || '';
+                    const tglModValue = item.tglModifikasi || '';
+                    const userIdValue = item.userId || '';
+                    const aksiButton = `<button class="btn btn-primary" onclick="editData('${item.kode}')" style="padding: 0.25rem 0.75rem; font-size: 0.875rem; background-color: #6f42c1; border-color: #6f42c1;">
+                                Edit
+                            </button>`;
+                    
+                    tr.innerHTML = `
+                        <td style="text-align: center;">${item.kode}</td>
+                        <td>${item.uraian}</td>
+                        <td style="text-align: center;">${aktifValue}</td>
+                        <td style="text-align: center;">${tglModValue}</td>
+                        <td style="text-align: center;">${userIdValue}</td>
+                        <td style="text-align: center;">${aksiButton}</td>
+                    `;
+                    tableBody.appendChild(tr);
+                });
+            }
+        }
+
+        // Load initial data
+        document.addEventListener('DOMContentLoaded', function() {
+            loadTableData();
+        });
+
+        function searchData() {
+            const keyword = document.getElementById('keyword').value;
+            console.log('Mencari dengan keyword:', keyword);
+            alert('Pencarian dilakukan dengan keyword yang dipilih');
+        }
+
+        function exportExcel() {
+            alert('Export ke Excel...');
+        }
+
+        function changeItemsPerPage() {
+            const itemsPerPage = document.getElementById('itemsPerPage').value;
+            console.log('Mengubah jumlah item per halaman:', itemsPerPage);
+        }
+
+        let currentEditKode = null;
+
+        function editData(kode) {
+            const modalTitle = document.getElementById('modalTitle');
+            const modalKode = document.getElementById('modalKode');
+            const modalUraian = document.getElementById('modalUraian');
+            const modalAktif = document.getElementById('modalAktif');
+            const dataModal = document.getElementById('dataModal');
+
+            // Find item data
+            const itemData = allData[currentMainTab].rows.find(item => item.kode === kode);
+            
+            if (!itemData) return;
+            
+            if (modalTitle) modalTitle.textContent = '✏️ Edit Data';
+            if (modalKode) modalKode.value = itemData.kode;
+            if (modalUraian) modalUraian.value = itemData.uraian;
+            if (modalAktif) {
+                modalAktif.value = itemData.aktif === 'Yes' ? 'Y' : (itemData.aktif === 'No' ? 'N' : (itemData.aktif || 'Y'));
+            }
+            
+            if (dataModal) dataModal.classList.add('active');
+            currentEditKode = kode;
+        }
+
+        function closeModal() {
+            const dataModal = document.getElementById('dataModal');
+            if (dataModal) dataModal.classList.remove('active');
+            currentEditKode = null;
+        }
+
+        function saveData() {
+            const modalAktif = document.getElementById('modalAktif');
+
+            if (!modalAktif) {
+                alert('Mohon lengkapi semua field yang wajib diisi!');
+                return;
+            }
+
+            const aktif = modalAktif.value;
+            const kode = currentEditKode;
+
+            // Simulasi penyimpanan data
+            alert(`Data dengan kode ${kode} berhasil diperbarui! (Aktif: ${aktif})`);
+
+            closeModal();
+            // Di sini bisa ditambahkan logika untuk update tabel atau reload data
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('dataModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
     </script>
+
+    <style>
+        /* Tab Styles */
+        .tab-btn {
+            padding: 0.75rem 1.5rem;
+            border: 1px solid var(--border-color);
+            background-color: white;
+            color: var(--text-primary);
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 0.875rem;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .tab-btn:hover {
+            background-color: var(--light-color);
+            border-color: var(--primary-color);
+        }
+
+        .tab-btn.active {
+            background-color: #6f42c1;
+            color: white;
+            border-color: #6f42c1;
+            font-weight: 600;
+        }
+
+        /* Table Container */
+        .table-container {
+            overflow-x: auto;
+            position: relative;
+        }
+
+        /* Force table layout fixed to respect column widths */
+        .table-container .table {
+            table-layout: fixed !important;
+            width: 100%;
+        }
+
+        /* Table Header Styles */
+        .table thead tr th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+            border: 1px solid #dee2e6;
+            border-bottom: 2px solid #dee2e6;
+            padding: 0.75rem;
+        }
+
+        .table th {
+            text-align: left;
+        }
+
+        .table td {
+            text-align: left;
+            padding: 0.75rem;
+            border: 1px solid #dee2e6;
+        }
+
+        .table tbody tr:nth-child(even) {
+            background-color: #f0f4f8;
+        }
+
+        .table tbody tr:nth-child(odd) {
+            background-color: white;
+        }
+
+        .table tbody tr:hover {
+            background-color: var(--light-color);
+        }
+
+        /* Pagination Styles */
+        .pagination-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1.5rem;
+            padding: 1rem;
+            border-top: 1px solid var(--border-color);
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .pagination-info {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .pagination {
+            display: flex;
+            gap: 0.25rem;
+            align-items: center;
+        }
+
+        .pagination-btn {
+            padding: 0.5rem 0.75rem;
+            border: 1px solid var(--border-color);
+            background-color: white;
+            color: var(--text-primary);
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 0.875rem;
+            transition: all 0.3s;
+            min-width: 40px;
+        }
+
+        .pagination-btn:hover:not(:disabled):not(.active) {
+            background-color: var(--light-color);
+            border-color: var(--primary-color);
+        }
+
+        .pagination-btn.active {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .pagination-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            background-color: var(--light-color);
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            width: 90%;
+            max-width: 700px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .modal-header h3 {
+            margin: 0;
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-secondary);
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-close:hover {
+            color: var(--text-primary);
+        }
+    </style>
 </body>
 </html>
-
-
-
-

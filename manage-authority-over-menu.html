@@ -3,82 +3,680 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manage Authority over menu - CustomWeb SPAN</title>
+    <title>Manage Authority Over Menu - CustomWeb SPAN</title>
     <link rel="stylesheet" href="css/style.css">
     <script src="js/sidebar.js"></script>
     <script src="js/components.js"></script>
 </head>
 <body>
+    <!-- Header Placeholder -->
     <div id="header-placeholder"></div>
+
+    <!-- Sidebar Placeholder -->
     <div id="sidebar-placeholder"></div>
+
+    <!-- Main Content Wrapper -->
     <div class="main-wrapper" id="mainWrapper">
         <div class="container">
-            <h2 style="margin-bottom: 1.5rem;">🎯 Manage Authority over menu</h2>
-            <div class="alert alert-info"><strong>ℹ️ Informasi:</strong> Halaman ini digunakan untuk mengelola otoritas akses menu berdasarkan authority code.</div>
+            <h2 style="margin-bottom: 1.5rem;">Manage Authority Over Menu</h2>
+
+            <!-- Data Table Section -->
             <div class="card">
-                <div class="card-header"><h3 class="card-title">⚡ Aksi</h3></div>
-                <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
-                    <button class="btn btn-primary" onclick="showAddModal()">➕ Tambah Authority Menu</button>
-                    <button class="btn btn-success" onclick="assignBulk()">📋 Assign Bulk</button>
-                    <button class="btn btn-info" onclick="exportData()">📤 Export Excel</button>
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-header"><h3 class="card-title">🔍 Filter</h3></div>
-                <div class="grid grid-2">
-                    <div class="form-group">
-                        <label class="form-label">Authority Code</label>
-                        <select class="form-control">
-                            <option value="">-- Pilih Authority Code --</option>
-                            <option>AUTH-001 - Full Access</option>
-                            <option>AUTH-002 - Read Only</option>
-                        </select>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; padding: 0 1rem; padding-top: 1rem; flex-wrap: wrap; gap: 1rem;">
+                    <div style="display: flex; align-items: center; gap: 1.5rem;">
+                        <div style="font-weight: 600; font-size: 1rem;">
+                            Total <span style="color: var(--primary-color);" id="totalData">7</span> | 
+                            <label class="form-label" style="margin: 0; display: inline;">Jumlah per halaman</label>
+                            <select class="form-control" id="itemsPerPage" style="width: auto; padding: 0.5rem; display: inline-block; margin-left: 0.5rem;" onchange="changeItemsPerPage()">
+                                <option value="10">10</option>
+                                <option value="30" selected>30</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                            </select>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label class="form-label">Program</label>
-                        <select class="form-control">
-                            <option value="">-- Pilih Program --</option>
-                            <option>CustomWeb SPAN</option>
-                        </select>
+                    <div style="display: flex; gap: 0.5rem; align-items: center;">
+                        <label class="form-label" style="margin: 0;">Kode Kewenangan :</label>
+                        <input type="text" class="form-control" id="searchKodeKewenangan" placeholder="Cari..." style="width: 200px;">
                     </div>
                 </div>
-            </div>
-            <div class="card">
-                <div class="card-header"><h3 class="card-title">📊 Daftar Authority over Menu</h3></div>
-                <div style="overflow-x: auto;">
+
+                <!-- Data Table -->
+                <div class="table-container">
                     <table class="table">
                         <thead>
-                            <tr><th>No</th><th>Authority Code</th><th>Program</th><th>Menu</th><th>Access Type</th><th>Status</th><th>Aksi</th></tr>
+                            <tr>
+                                <th style="min-width: 150px; text-align: left;">Kode Kewenangan</th>
+                                <th style="min-width: 200px; text-align: left;">Nama Kewenangan</th>
+                                <th style="min-width: 300px; text-align: left;">Deskripsi Kewenangan</th>
+                                <th style="min-width: 150px; text-align: center;">Berhak Akses Menu</th>
+                                <th style="min-width: 150px; text-align: center;">Hak Menu</th>
+                            </tr>
                         </thead>
-                        <tbody>
-                            <tr>
-                                <td>1</td><td><strong>AUTH-001</strong></td><td>CustomWeb SPAN</td><td>Dashboard</td><td>Full Access</td>
-                                <td><span class="badge badge-success">Active</span></td>
-                                <td><button class="btn btn-outline" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="editData(1)">✏️ Edit</button></td>
-                            </tr>
-                            <tr>
-                                <td>2</td><td><strong>AUTH-001</strong></td><td>CustomWeb SPAN</td><td>Monitoring</td><td>Full Access</td>
-                                <td><span class="badge badge-success">Active</span></td>
-                                <td><button class="btn btn-outline" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="editData(2)">✏️ Edit</button></td>
-                            </tr>
+                        <tbody id="dataTable">
+                            <!-- Data akan diisi oleh JavaScript -->
                         </tbody>
                     </table>
+                </div>
+
+                <!-- Pagination -->
+                <div class="pagination-container">
+                    <div class="pagination-info">
+                        Menampilkan 1-7 dari 7 data
+                    </div>
+                    <div class="pagination">
+                        <button class="pagination-btn" disabled>‹‹ First</button>
+                        <button class="pagination-btn" disabled>‹ Previous</button>
+                        <button class="pagination-btn active">1</button>
+                        <button class="pagination-btn" disabled>Next ›</button>
+                        <button class="pagination-btn" disabled>Last ››</button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <!-- Menu Rights Modal -->
+    <div id="menuRightsModal" class="modal">
+        <div class="modal-content" style="max-width: 900px; width: 90%;">
+            <div class="modal-header" style="background-color: #f8f9fa; border-bottom: 1px solid #dee2e6;">
+                <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                    <div style="display: flex; align-items: center; gap: 1rem;">
+                        <span style="font-weight: 600;">Kode Kewenangan</span>
+                        <span id="modalRoleCode" style="font-weight: 600; color: var(--primary-color);"></span>
+                    </div>
+                    <button class="btn btn-primary" onclick="saveMenuRights()" style="background-color: #6f42c1; border-color: #6f42c1; padding: 0.5rem 1rem;">
+                        Simpan
+                    </button>
+                </div>
+            </div>
+
+            <div style="padding: 1.5rem; max-height: 70vh; overflow-y: auto;">
+                <div id="menuTree" class="menu-tree">
+                    <!-- Tree akan diisi oleh JavaScript -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer Placeholder -->
     <div id="footer-placeholder"></div>
+
     <script>
-        initPageComponents({activePage: 'manage-authority', userData: {avatar: 'DJA', role: 'Echelon IV DJA', tahun: '2025', jenisDok: 'RKAKL'}});
-        function logout() {if (confirm('Apakah Anda yakin ingin logout?')) {sessionStorage.clear(); window.location.href = 'index.html';}}
-        function showAddModal() {alert('Tambah authority menu baru...');}
-        function editData(no) {alert('Edit authority menu ' + no);}
-        function assignBulk() {alert('Assign bulk authority...');}
-        function exportData() {alert('Export data...');}
+        // Initialize page components
+        initPageComponents({
+            activePage: 'manage-reference-data',
+            userData: {
+                avatar: 'DJA',
+                role: 'Echelon IV DJA',
+                tahun: '2025',
+                jenisDok: 'RKAKL'
+            }
+        });
+
+        function logout() {
+            if (confirm('Apakah Anda yakin ingin logout?')) {
+                sessionStorage.clear();
+                window.location.href = 'index.html';
+            }
+        }
+
+        // Data tabel
+        const allData = {
+            total: 7,
+            rows: [
+                { kode: 'ROLE_ADMIN', nama: 'DGB-Admin', deskripsi: 'Real_This role is for system-admin', berhakAkses: 'Y' },
+                { kode: 'ROLE_DADUKTEK', nama: 'DGB-DADUKTEK', deskripsi: 'Real_DADUKTEK', berhakAkses: 'Y' },
+                { kode: 'ROLE_DJA', nama: 'DGB-User', deskripsi: 'Real_DGB', berhakAkses: 'Y' },
+                { kode: 'ROLE_E1', nama: 'E1 KL', deskripsi: 'Real_E1 KL', berhakAkses: 'Y' },
+                { kode: 'ROLE_GOD', nama: 'TEST_GOD', deskripsi: 'For TEST', berhakAkses: 'Y' },
+                { kode: 'ROLE_KANWIL', nama: 'ROLE_KANWIL', deskripsi: 'ROLE_KANWIL for Revisi', berhakAkses: 'Y' },
+                { kode: 'ROLE_NONE', nama: 'No Role', deskripsi: 'Real_Just user_id resgist', berhakAkses: 'Y' }
+            ]
+        };
+
+        // Menu tree data structure - based on actual sidebar menu
+        const menuTreeData = {
+            id: 'root',
+            name: 'root',
+            checked: false,
+            expanded: true,
+            children: [
+                { id: 'dashboard', name: '📊 Dashboard', checked: false, expanded: false, children: [] },
+                { id: 'monitoring', name: '🖥️ Monitoring', checked: false, expanded: false, children: [] },
+                { id: 'adk-upload', name: '🔄 Penerimaan ADK', checked: false, expanded: false, children: [] },
+                { id: 'monitor-upload', name: '🔍 Monitoring Status ADK', checked: false, expanded: false, children: [] },
+                {
+                    id: 'rkakl-reports',
+                    name: '📊 RKAKL Reports',
+                    checked: false,
+                    expanded: true,
+                    children: [
+                        { id: 'rka-satker', name: '📄 RKA SATKER', checked: false, expanded: false, children: [] },
+                        { id: 'lampiran-kertas-kerja', name: '📎 Lampiran Kertas Kerja', checked: false, expanded: false, children: [] },
+                        { id: 'dhp', name: '📋 DHP', checked: false, expanded: false, children: [] },
+                        { id: 'laporan-himpunan', name: '📚 Laporan Himpunan', checked: false, expanded: false, children: [] },
+                        { id: 'laporan-keppres', name: '📜 Laporan Keppres', checked: false, expanded: false, children: [] }
+                    ]
+                },
+                {
+                    id: 'dipa-reports',
+                    name: '📑 DIPA Reports',
+                    checked: false,
+                    expanded: true,
+                    children: [
+                        { id: 'dipa-induk', name: '🖨️ Printing DIPA Induk', checked: false, expanded: false, children: [] },
+                        { id: 'dipa-petikan', name: '📑 Printing DIPA Petikan', checked: false, expanded: false, children: [] }
+                    ]
+                },
+                {
+                    id: 'internal-reports',
+                    name: '📈 Internal Reports',
+                    checked: false,
+                    expanded: true,
+                    children: [
+                        { id: 'monitoring-pagu', name: '📊 Monitoring PAGU', checked: false, expanded: false, children: [] },
+                        { id: 'matriks-perubahan', name: '📈 Matriks Perubahan', checked: false, expanded: false, children: [] },
+                        { id: 'laporan-revisi', name: '🔄 Laporan Revisi', checked: false, expanded: false, children: [] }
+                    ]
+                },
+                {
+                    id: 'monitoring-admin',
+                    name: '⚙️ Monitoring Admin',
+                    checked: false,
+                    expanded: true,
+                    children: [
+                        { id: 'create-dipa-induk', name: '📝 Create DIPA Induk', checked: false, expanded: false, children: [] },
+                        { id: 'create-dipa-petikan', name: '📝 Create DIPA Petikan', checked: false, expanded: false, children: [] },
+                        { id: 'posting-interface', name: '🔄 Posting Interface', checked: false, expanded: false, children: [] },
+                        { id: 'email-notification', name: '📧 Email Notification', checked: false, expanded: false, children: [] }
+                    ]
+                },
+                {
+                    id: 'manage-basic-info',
+                    name: '⚙️ Manage Basic Information',
+                    checked: false,
+                    expanded: true,
+                    children: [
+                        { id: 'copy-data-tahun-depan', name: '📋 Copy Data ke Tahun Depan', checked: false, expanded: false, children: [] },
+                        { id: 'manage-budgeting-period', name: '📅 Manage Budgeting period', checked: false, expanded: false, children: [] },
+                        { id: 'manage-budget-satker-list', name: '📊 Manage Budget Satker List', checked: false, expanded: false, children: [] },
+                        { id: 'managing-notification-contents', name: '📧 Managing Notification contents', checked: false, expanded: false, children: [] },
+                        { id: 'managing-disclaimer', name: '⚠️ Managing Disclaimer', checked: false, expanded: false, children: [] },
+                        { id: 'managing-jenis-revisi', name: '🔄 Managing Jenis Revisi', checked: false, expanded: false, children: [] }
+                    ]
+                },
+                {
+                    id: 'manage-reference-data',
+                    name: '📚 Manage Reference Data',
+                    checked: false,
+                    expanded: true,
+                    children: [
+                        { id: 'upload-bappenas-data', name: '📤 Upload BAPPENAS Data', checked: false, expanded: false, children: [] },
+                        {
+                            id: 'atribut-anggaran',
+                            name: '📋 Atribut Anggaran',
+                            checked: false,
+                            expanded: true,
+                            children: [
+                                { id: 'jenis-belanja-akun', name: '💰 Jenis Belanja/Akun', checked: false, expanded: false, children: [] },
+                                { id: 'beban-sumber-dana', name: '💵 Beban/Sumber Dana', checked: false, expanded: false, children: [] },
+                                { id: 'fungsi', name: '🎯 Fungsi', checked: false, expanded: false, children: [] },
+                                { id: 'program-kegiatan', name: '📝 Program/Kegiatan', checked: false, expanded: false, children: [] },
+                                { id: 'atribut-anggaran-lain-lain', name: '📌 Lain-lain', checked: false, expanded: false, children: [] }
+                            ]
+                        },
+                        {
+                            id: 'struktur-organisasi',
+                            name: '🏢 Struktur Organisasi',
+                            checked: false,
+                            expanded: true,
+                            children: [
+                                { id: 'kl-unit', name: '🏛️ KL/Unit', checked: false, expanded: false, children: [] },
+                                { id: 'lokasi-kppn', name: '📍 Lokasi/KPPN', checked: false, expanded: false, children: [] },
+                                { id: 'penanggung-jawab-kegiatan', name: '👤 Penanggung Jawab Kegiatan', checked: false, expanded: false, children: [] },
+                                { id: 'penanda-tangan', name: '✍️ Penanda Tangan', checked: false, expanded: false, children: [] }
+                            ]
+                        },
+                        { id: 'xml-download', name: '📥 XML Download', checked: false, expanded: false, children: [] }
+                    ]
+                },
+                {
+                    id: 'manage-authority',
+                    name: '👥 Manage Authority/User/Menu',
+                    checked: false,
+                    expanded: true,
+                    children: [
+                        { id: 'manage-common-code', name: '📋 Manage Common code', checked: false, expanded: false, children: [] },
+                        {
+                            id: 'manage-application',
+                            name: '📱 Manage Application',
+                            checked: false,
+                            expanded: true,
+                            children: [
+                                { id: 'manage-program', name: '💻 Manage Program', checked: false, expanded: false, children: [] },
+                                { id: 'manage-menu', name: '📋 Manage Menu', checked: false, expanded: false, children: [] },
+                                { id: 'batch-monitoring', name: '📊 Batch Monitoring', checked: false, expanded: false, children: [] }
+                            ]
+                        },
+                        {
+                            id: 'manage-authority-sub',
+                            name: '🔐 Manage Authority',
+                            checked: false,
+                            expanded: true,
+                            children: [
+                                { id: 'manage-job-position', name: '💼 Manage Job position', checked: false, expanded: false, children: [] },
+                                { id: 'manage-authority-code', name: '🔑 Manage Authority code', checked: false, expanded: false, children: [] },
+                                { id: 'manage-authority-over-menu', name: '🎯 Manage Authority over menu', checked: false, expanded: false, children: [] },
+                                { id: 'manage-user-information', name: '👤 Manage User information', checked: false, expanded: false, children: [] }
+                            ]
+                        }
+                    ]
+                },
+                { id: 'audit-trail', name: '🔎 Audit Trail', checked: false, expanded: false, children: [] }
+            ]
+        };
+
+        let currentRoleCode = null;
+        let menuCheckedItems = new Set();
+        let menuExpandedItems = new Set();
+
+        function loadTableData() {
+            const tableBody = document.getElementById('dataTable');
+            const totalData = document.getElementById('totalData');
+            const searchInput = document.getElementById('searchKodeKewenangan');
+            const searchTerm = searchInput ? searchInput.value.toLowerCase() : '';
+
+            if (totalData) totalData.textContent = allData.total;
+
+            if (tableBody) {
+                tableBody.innerHTML = '';
+                
+                // Filter data berdasarkan search
+                const filteredData = allData.rows.filter(item => 
+                    item.kode.toLowerCase().includes(searchTerm) ||
+                    item.nama.toLowerCase().includes(searchTerm) ||
+                    item.deskripsi.toLowerCase().includes(searchTerm)
+                );
+                
+                filteredData.forEach((item) => {
+                    const tr = document.createElement('tr');
+                    
+                    tr.innerHTML = `
+                        <td>${item.kode}</td>
+                        <td>${item.nama}</td>
+                        <td>${item.deskripsi}</td>
+                        <td style="text-align: center;">${item.berhakAkses}</td>
+                        <td style="text-align: center;">
+                            <a href="#" onclick="openMenuRights('${item.kode}'); return false;" style="color: #6f42c1; text-decoration: underline; cursor: pointer;">Hak Atas Menu</a>
+                        </td>
+                    `;
+                    tableBody.appendChild(tr);
+                });
+            }
+        }
+
+        function openMenuRights(roleCode) {
+            currentRoleCode = roleCode;
+            const roleData = allData.rows.find(item => item.kode === roleCode);
+            
+            if (roleData) {
+                document.getElementById('modalRoleCode').textContent = roleCode;
+                
+                // Reset checked and expanded items
+                menuCheckedItems.clear();
+                menuExpandedItems.clear();
+                
+                // Initialize expanded items (all parent nodes)
+                function initExpanded(node) {
+                    if (node.children && node.children.length > 0) {
+                        menuExpandedItems.add(node.id);
+                        node.children.forEach(child => initExpanded(child));
+                    }
+                }
+                initExpanded(menuTreeData);
+                
+                // Initialize checked items (based on role - for demo, use existing checked state)
+                function initChecked(node) {
+                    if (node.checked) {
+                        menuCheckedItems.add(node.id);
+                    }
+                    if (node.children) {
+                        node.children.forEach(child => initChecked(child));
+                    }
+                }
+                initChecked(menuTreeData);
+                
+                renderMenuTree();
+                document.getElementById('menuRightsModal').classList.add('active');
+            }
+        }
+
+        function renderMenuTree() {
+            const treeContainer = document.getElementById('menuTree');
+            treeContainer.innerHTML = '';
+            
+            function renderNode(node, level = 0, parentLines = []) {
+                const hasChildren = node.children && node.children.length > 0;
+                const isExpanded = menuExpandedItems.has(node.id);
+                const isChecked = menuCheckedItems.has(node.id);
+                
+                const div = document.createElement('div');
+                div.className = 'tree-node';
+                div.setAttribute('data-id', node.id);
+                div.setAttribute('data-level', level);
+                
+                // Calculate padding for clear indentation
+                const paddingLeft = level * 2.5 + 'rem';
+                
+                // Expand/collapse icon (modern chevron design)
+                let expandIcon = '';
+                if (hasChildren) {
+                    expandIcon = `<span class="tree-expand ${isExpanded ? 'expanded' : ''}" onclick="toggleMenuExpand('${node.id}'); event.stopPropagation();">
+                        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M5.25 3.5L7 5.25L8.75 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </span>`;
+                } else {
+                    expandIcon = '<span class="tree-expand-placeholder"></span>';
+                }
+                
+                // Checkbox
+                const checkbox = `<input type="checkbox" class="tree-checkbox" ${isChecked ? 'checked' : ''} onchange="toggleMenuCheck('${node.id}', this.checked);" onclick="event.stopPropagation();">`;
+                
+                // Node name
+                const nodeName = `<span class="tree-name">${node.name}</span>`;
+                
+                div.innerHTML = `
+                    <div class="tree-node-content" style="padding-left: ${paddingLeft};">
+                        ${expandIcon}
+                        ${checkbox}
+                        ${nodeName}
+                    </div>
+                `;
+                
+                treeContainer.appendChild(div);
+                
+                // Render children if expanded
+                if (hasChildren && isExpanded) {
+                    node.children.forEach((child, index) => {
+                        const isLastChild = index === node.children.length - 1;
+                        // Update parentLines: keep existing vertical lines, add new one if not last child
+                        const newParentLines = [...parentLines];
+                        if (level > 0) {
+                            newParentLines[level - 1] = !isLastChild; // Keep vertical line if not last child
+                        }
+                        renderNode(child, level + 1, newParentLines);
+                    });
+                }
+            }
+            
+            renderNode(menuTreeData);
+        }
+
+        function toggleMenuExpand(nodeId) {
+            if (menuExpandedItems.has(nodeId)) {
+                menuExpandedItems.delete(nodeId);
+            } else {
+                menuExpandedItems.add(nodeId);
+            }
+            renderMenuTree();
+        }
+
+        function toggleMenuCheck(nodeId, checked) {
+            if (checked) {
+                menuCheckedItems.add(nodeId);
+            } else {
+                menuCheckedItems.delete(nodeId);
+            }
+            
+            // Update checkbox in tree
+            const checkbox = document.querySelector(`.tree-checkbox[onchange*="${nodeId}"]`);
+            if (checkbox) {
+                checkbox.checked = checked;
+            }
+        }
+
+        function saveMenuRights() {
+            const selectedItems = Array.from(menuCheckedItems);
+            alert(`Menu rights untuk ${currentRoleCode} berhasil disimpan!\nSelected items: ${selectedItems.length}`);
+            closeMenuRightsModal();
+        }
+
+        function closeMenuRightsModal() {
+            document.getElementById('menuRightsModal').classList.remove('active');
+            currentRoleCode = null;
+            menuCheckedItems.clear();
+            menuExpandedItems.clear();
+        }
+
+        function changeItemsPerPage() {
+            const itemsPerPage = document.getElementById('itemsPerPage').value;
+            console.log('Mengubah jumlah item per halaman:', itemsPerPage);
+        }
+
+        // Search functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            loadTableData();
+            
+            const searchInput = document.getElementById('searchKodeKewenangan');
+            if (searchInput) {
+                searchInput.addEventListener('input', function() {
+                    loadTableData();
+                });
+            }
+        });
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('menuRightsModal');
+            if (event.target === modal) {
+                closeMenuRightsModal();
+            }
+        }
     </script>
+
+    <style>
+        /* Table Container */
+        .table-container {
+            overflow-x: auto;
+            position: relative;
+            width: 100%;
+        }
+
+        .table-container .table {
+            width: 100%;
+            min-width: 100%;
+        }
+
+        /* Table Header Styles */
+        .table thead tr th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+            border: 1px solid #dee2e6;
+            border-bottom: 2px solid #dee2e6;
+            padding: 0.75rem;
+        }
+
+        .table th {
+            text-align: left;
+        }
+
+        .table td {
+            text-align: left;
+            padding: 0.75rem;
+            border: 1px solid #dee2e6;
+        }
+
+        .table tbody tr:nth-child(even) {
+            background-color: #f0f4f8;
+        }
+
+        .table tbody tr:nth-child(odd) {
+            background-color: white;
+        }
+
+        .table tbody tr:hover {
+            background-color: var(--light-color);
+        }
+
+        /* Pagination Styles */
+        .pagination-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1.5rem;
+            padding: 1rem;
+            border-top: 1px solid var(--border-color);
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .pagination-info {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .pagination {
+            display: flex;
+            gap: 0.25rem;
+            align-items: center;
+        }
+
+        .pagination-btn {
+            padding: 0.5rem 0.75rem;
+            border: 1px solid var(--border-color);
+            background-color: white;
+            color: var(--text-primary);
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 0.875rem;
+            transition: all 0.3s;
+            min-width: 40px;
+        }
+
+        .pagination-btn:hover:not(:disabled):not(.active) {
+            background-color: var(--light-color);
+            border-color: var(--primary-color);
+        }
+
+        .pagination-btn.active {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .pagination-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            background-color: var(--light-color);
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        /* Menu Tree Styles */
+        .menu-tree {
+            font-family: Arial, sans-serif;
+        }
+
+        .tree-node {
+            margin: 0;
+            position: relative;
+        }
+
+        .tree-node-content {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 0;
+            position: relative;
+            transition: background-color 0.2s ease;
+        }
+
+        .tree-node-content:hover {
+            background-color: #f8f9fa;
+            border-radius: 4px;
+        }
+
+        .tree-expand {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 1.5rem;
+            height: 1.5rem;
+            cursor: pointer;
+            user-select: none;
+            color: #6c757d;
+            flex-shrink: 0;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+        }
+
+        .tree-expand:hover {
+            background-color: #f0f4f8;
+            color: var(--primary-color);
+        }
+
+        .tree-expand svg {
+            transition: transform 0.2s ease;
+        }
+
+        .tree-expand.expanded svg {
+            transform: rotate(90deg);
+        }
+
+        .tree-expand-placeholder {
+            display: inline-block;
+            width: 1.2rem;
+            height: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .tree-checkbox {
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .tree-name {
+            margin-left: 0.25rem;
+            font-size: 0.9rem;
+        }
+    </style>
 </body>
 </html>
-
-
-
-

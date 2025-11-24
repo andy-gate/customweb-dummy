@@ -3,120 +3,768 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manage User information - CustomWeb SPAN</title>
+    <title>Manage User Information - CustomWeb SPAN</title>
     <link rel="stylesheet" href="css/style.css">
     <script src="js/sidebar.js"></script>
     <script src="js/components.js"></script>
 </head>
 <body>
+    <!-- Header Placeholder -->
     <div id="header-placeholder"></div>
+
+    <!-- Sidebar Placeholder -->
     <div id="sidebar-placeholder"></div>
+
+    <!-- Main Content Wrapper -->
     <div class="main-wrapper" id="mainWrapper">
         <div class="container">
-            <h2 style="margin-bottom: 1.5rem;">👤 Manage User information</h2>
-            <div class="alert alert-info"><strong>ℹ️ Informasi:</strong> Halaman ini digunakan untuk mengelola informasi user dalam sistem.</div>
-            <div class="grid grid-4">
-                <div class="stat-card">
-                    <div class="stat-label">📊 Total User</div>
-                    <div class="stat-value">156</div>
-                </div>
-                <div class="stat-card success">
-                    <div class="stat-label">✅ Active</div>
-                    <div class="stat-value">142</div>
-                </div>
-                <div class="stat-card warning">
-                    <div class="stat-label">⏸️ Inactive</div>
-                    <div class="stat-value">12</div>
-                </div>
-                <div class="stat-card danger">
-                    <div class="stat-label">🔒 Locked</div>
-                    <div class="stat-value">2</div>
-                </div>
-            </div>
+            <h2 style="margin-bottom: 1.5rem;">Manage User Information</h2>
+
+            <!-- Data Table Section -->
             <div class="card">
-                <div class="card-header"><h3 class="card-title">⚡ Aksi</h3></div>
-                <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
-                    <button class="btn btn-primary" onclick="showAddModal()">➕ Tambah User</button>
-                    <button class="btn btn-success" onclick="importData()">📥 Import Excel</button>
-                    <button class="btn btn-info" onclick="exportData()">📤 Export Excel</button>
-                    <button class="btn btn-warning" onclick="resetPassword()">🔑 Reset Password</button>
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-header"><h3 class="card-title">🔍 Filter</h3></div>
-                <div class="grid grid-4">
-                    <div class="form-group">
-                        <label class="form-label">User ID</label>
-                        <input type="text" class="form-control" placeholder="Cari berdasarkan User ID">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; padding: 0 1rem; padding-top: 1rem; flex-wrap: wrap; gap: 1rem;">
+                    <div style="display: flex; align-items: center; gap: 1.5rem;">
+                        <div style="font-weight: 600; font-size: 1rem;">
+                            Total <span style="color: var(--primary-color);" id="totalData">1011</span> | 
+                            <label class="form-label" style="margin: 0; display: inline;">Jumlah per halaman</label>
+                            <select class="form-control" id="itemsPerPage" style="width: auto; padding: 0.5rem; display: inline-block; margin-left: 0.5rem;" onchange="changeItemsPerPage()">
+                                <option value="10">10</option>
+                                <option value="30" selected>30</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                            </select>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label class="form-label">Nama</label>
-                        <input type="text" class="form-control" placeholder="Cari berdasarkan nama">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Job Position</label>
-                        <select class="form-control">
-                            <option value="">-- Semua Position --</option>
-                            <option>Administrator</option>
-                            <option>Echelon I</option>
-                            <option>Echelon II</option>
+                    <div style="display: flex; gap: 0.5rem; align-items: center;">
+                        <label class="form-label" style="margin: 0;">Choose :</label>
+                        <select class="form-control" id="searchType" style="width: 120px;">
+                            <option value="pengguna" selected>Pengguna</option>
+                            <option value="kewenangan">Kewenangan</option>
+                            <option value="jabatan">Jabatan</option>
                         </select>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Status</label>
-                        <select class="form-control">
-                            <option value="">-- Semua Status --</option>
-                            <option>Active</option>
-                            <option>Inactive</option>
-                            <option>Locked</option>
-                        </select>
+                        <input type="text" class="form-control" id="searchInput" placeholder="Cari..." style="width: 200px;">
                     </div>
                 </div>
-            </div>
-            <div class="card">
-                <div class="card-header"><h3 class="card-title">📊 Daftar User</h3></div>
-                <div style="overflow-x: auto;">
+
+                <!-- Data Table -->
+                <div class="table-container">
                     <table class="table">
                         <thead>
-                            <tr><th>No</th><th>User ID</th><th>Nama</th><th>Email</th><th>Job Position</th><th>Authority Code</th><th>Status</th><th>Aksi</th></tr>
+                            <tr>
+                                <th style="min-width: 50px; text-align: center;">No</th>
+                                <th style="min-width: 120px; text-align: center;">Pengguna Hyperion</th>
+                                <th style="min-width: 150px; text-align: left;">Pengguna</th>
+                                <th style="min-width: 150px; text-align: left;">Kewenangan</th>
+                                <th style="min-width: 120px; text-align: left;">Jabatan</th>
+                                <th style="min-width: 80px; text-align: center;">Eselon</th>
+                                <th style="min-width: 200px; text-align: left;">Kementerian</th>
+                                <th style="min-width: 200px; text-align: left;">Unit</th>
+                                <th style="min-width: 100px; text-align: center;">Aksi</th>
+                            </tr>
                         </thead>
-                        <tbody>
-                            <tr>
-                                <td>1</td><td><strong>ADMIN001</strong></td><td>Administrator</td><td>admin@span.go.id</td><td>Administrator</td><td>AUTH-001</td>
-                                <td><span class="badge badge-success">Active</span></td>
-                                <td>
-                                    <button class="btn btn-outline" style="padding: 0.25rem 0.5rem; font-size: 0.75rem; margin-right: 0.25rem;" onclick="editData(1)">✏️ Edit</button>
-                                    <button class="btn btn-warning" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="resetPasswordSingle(1)">🔑 Reset</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>2</td><td><strong>ES1-001</strong></td><td>Dr. Ahmad Hidayat, M.Sc</td><td>ahmad.hidayat@span.go.id</td><td>Echelon I</td><td>AUTH-001</td>
-                                <td><span class="badge badge-success">Active</span></td>
-                                <td>
-                                    <button class="btn btn-outline" style="padding: 0.25rem 0.5rem; font-size: 0.75rem; margin-right: 0.25rem;" onclick="editData(2)">✏️ Edit</button>
-                                    <button class="btn btn-warning" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="resetPasswordSingle(2)">🔑 Reset</button>
-                                </td>
-                            </tr>
+                        <tbody id="dataTable">
+                            <!-- Data akan diisi oleh JavaScript -->
                         </tbody>
                     </table>
+                </div>
+
+                <!-- Pagination -->
+                <div class="pagination-container">
+                    <div class="pagination-info">
+                        Menampilkan 1-30 dari 1011 data
+                    </div>
+                    <div class="pagination">
+                        <button class="pagination-btn" disabled>‹‹ First</button>
+                        <button class="pagination-btn" disabled>‹ Previous</button>
+                        <button class="pagination-btn active">1</button>
+                        <button class="pagination-btn">2</button>
+                        <button class="pagination-btn">3</button>
+                        <button class="pagination-btn">Next ›</button>
+                        <button class="pagination-btn">Last ››</button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <!-- Edit User Modal -->
+    <div id="dataModal" class="modal">
+        <div class="modal-content" style="max-width: 1000px; width: 95%;">
+            <div class="modal-header">
+                <h3 id="modalTitle">✏️ Edit User Information</h3>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+
+            <div style="padding: 1.5rem;">
+                <!-- User Details Form -->
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 2rem;">
+                    <!-- Left Column -->
+                    <div>
+                        <div class="form-group">
+                            <label class="form-label">Kode Identitas <span style="color: red;">*</span></label>
+                            <input type="text" class="form-control" id="modalKodeIdentitas" readonly>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Nama Pengguna <span style="color: red;">*</span></label>
+                            <input type="text" class="form-control" id="modalNamaPengguna" readonly>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Password <span style="color: red;">*</span></label>
+                            <input type="password" class="form-control" id="modalPassword" placeholder="(Change:input new password // NoChange:empty)">
+                            <small style="color: #6c757d; font-size: 0.875rem;">(Change:input new password // NoChange:empty)</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Nama <span style="color: red;">*</span></label>
+                            <input type="text" class="form-control" id="modalNama" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Email <span style="color: red;">*</span></label>
+                            <div style="display: flex; gap: 0.25rem; align-items: center;">
+                                <input type="text" class="form-control" id="modalEmailPrefix" placeholder="email" style="flex: 1;">
+                                <span>@</span>
+                                <input type="text" class="form-control" id="modalEmailDomain" value="anggaran.depkeu.go.id" style="flex: 1;">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Kode Kewenangan <span style="color: red;">*</span></label>
+                            <select class="form-control" id="modalKodeKewenangan" required>
+                                <option value="">-- Pilih Kewenangan --</option>
+                                <option value="DGB-Admin">DGB-Admin</option>
+                                <option value="DGB-User" selected>DGB-User</option>
+                                <option value="DGB-DADUKTEK">DGB-DADUKTEK</option>
+                                <option value="E1 KL">E1 KL</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Nama Kementerian <span style="color: red;">*</span></label>
+                            <div style="position: relative;">
+                                <input type="text" class="form-control" id="modalNamaKementerian" required>
+                                <span style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); cursor: pointer;" onclick="searchKementerian()">🔍</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Column -->
+                    <div>
+                        <div class="form-group">
+                            <label class="form-label">Multiple Login</label>
+                            <div>
+                                <input type="checkbox" id="modalMultipleLogin" checked>
+                                <label for="modalMultipleLogin" style="margin-left: 0.5rem; font-weight: normal;">Multiple Login</label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Pengguna Hyperion <span style="color: red;">*</span></label>
+                            <input type="text" class="form-control" id="modalPenggunaHyperion" value="N" readonly>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">NIP <span style="color: red;">*</span></label>
+                            <input type="text" class="form-control" id="modalNIP" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Jabatan <span style="color: red;">*</span></label>
+                            <div style="position: relative;">
+                                <input type="text" class="form-control" id="modalJabatan" required>
+                                <span style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); cursor: pointer;" onclick="searchJabatan()">🔍</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Nama Unit <span style="color: red;">*</span></label>
+                            <div style="position: relative;">
+                                <input type="text" class="form-control" id="modalNamaUnit" required>
+                                <span style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); cursor: pointer;" onclick="searchUnit()">🔍</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div style="display: flex; gap: 0.5rem; justify-content: center; margin-bottom: 2rem;">
+                    <button class="btn btn-primary" onclick="saveData()" style="background-color: #6f42c1; border-color: #6f42c1; padding: 0.5rem 2rem;">
+                        Simpan
+                    </button>
+                    <button class="btn btn-danger" onclick="deleteData()" style="padding: 0.5rem 2rem;">
+                        Hapus
+                    </button>
+                    <button class="btn btn-secondary" onclick="closeModal()" style="padding: 0.5rem 2rem;">
+                        Kembali
+                    </button>
+                </div>
+
+                <!-- Daftar Kewenangan Tree -->
+                <div style="border-top: 2px solid #dee2e6; padding-top: 1.5rem;">
+                    <h4 style="margin-bottom: 1rem; font-weight: 600;">Daftar Kewenangan</h4>
+                    <div id="authorityTree" class="menu-tree" style="max-height: 400px; overflow-y: auto; border: 1px solid #dee2e6; padding: 1rem; border-radius: 4px; background-color: #f8f9fa;">
+                        <!-- Tree akan diisi oleh JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer Placeholder -->
     <div id="footer-placeholder"></div>
+
     <script>
-        initPageComponents({activePage: 'manage-authority', userData: {avatar: 'DJA', role: 'Echelon IV DJA', tahun: '2025', jenisDok: 'RKAKL'}});
-        function logout() {if (confirm('Apakah Anda yakin ingin logout?')) {sessionStorage.clear(); window.location.href = 'index.html';}}
-        function showAddModal() {alert('Tambah user baru...');}
-        function editData(no) {alert('Edit user ' + no);}
-        function importData() {alert('Import data...');}
-        function exportData() {alert('Export data...');}
-        function resetPassword() {alert('Reset password untuk user terpilih...');}
-        function resetPasswordSingle(no) {if (confirm('Reset password untuk user ' + no + '?')) {alert('Password direset...');}}
+        // Initialize page components
+        initPageComponents({
+            activePage: 'manage-reference-data',
+            userData: {
+                avatar: 'DJA',
+                role: 'Echelon IV DJA',
+                tahun: '2025',
+                jenisDok: 'RKAKL'
+            }
+        });
+
+        function logout() {
+            if (confirm('Apakah Anda yakin ingin logout?')) {
+                sessionStorage.clear();
+                window.location.href = 'index.html';
+            }
+        }
+
+        // Data tabel
+        const allData = {
+            total: 1011,
+            rows: [
+                { no: 1, penggunaHyperion: 'N', pengguna: 'A1A_3adi', kewenangan: 'DGB-User', jabatan: 'DGB_3', eselon: '3', kementerian: 'KEMENTERIAN KEUANGAN', unit: 'SEKRETARIAT JENDERAL' },
+                { no: 2, penggunaHyperion: 'N', pengguna: 'A1A_4budi', kewenangan: 'DGB-User', jabatan: 'DGB_4', eselon: '4', kementerian: 'KEMENTERIAN KEUANGAN', unit: 'SEKRETARIAT JENDERAL' },
+                { no: 3, penggunaHyperion: 'N', pengguna: 'A1A_4kusno', kewenangan: 'DGB-User', jabatan: 'DGB_4', eselon: '4', kementerian: 'KEMENTERIAN KEUANGAN', unit: 'SEKRETARIAT JENDERAL' },
+                { no: 4, penggunaHyperion: 'N', pengguna: 'A1A_4mahendra', kewenangan: 'DGB-User', jabatan: 'DGB_4', eselon: '4', kementerian: 'KEMENTERIAN KEUANGAN', unit: 'SEKRETARIAT JENDERAL' },
+                { no: 5, penggunaHyperion: 'N', pengguna: 'A1A_4widi', kewenangan: 'DGB-User', jabatan: 'DGB_4', eselon: '4', kementerian: 'KEMENTERIAN KEUANGAN', unit: 'SEKRETARIAT JENDERAL' },
+                { no: 6, penggunaHyperion: 'N', pengguna: 'A1A_aang', kewenangan: 'DGB-User', jabatan: 'DGB_Staff', eselon: '5', kementerian: 'KEMENTERIAN KEUANGAN', unit: 'SEKRETARIAT JENDERAL' },
+                { no: 7, penggunaHyperion: 'N', pengguna: 'A1A_ade', kewenangan: 'DGB-User', jabatan: 'DGB_Staff', eselon: '5', kementerian: 'KEMENTERIAN KEUANGAN', unit: 'SEKRETARIAT JENDERAL' },
+                { no: 8, penggunaHyperion: 'N', pengguna: 'A1A_andi', kewenangan: 'DGB-User', jabatan: 'DGB_Staff', eselon: '5', kementerian: 'KEMENTERIAN KEUANGAN', unit: 'SEKRETARIAT JENDERAL' }
+            ]
+        };
+
+        // Authority tree data (Kementerian/Unit structure)
+        const authorityTreeData = {
+            id: 'root',
+            name: 'root',
+            checked: false,
+            expanded: true,
+            children: [
+                {
+                    id: '001',
+                    name: '001:MAJELIS PERMUSYAWARATAN RAKYAT',
+                    checked: false,
+                    expanded: true,
+                    children: [
+                        { id: '001.01', name: '001.01:SEKRETARIAT JENDERAL', checked: false, expanded: false, children: [] },
+                        { id: '001.02', name: '001.02:MAJELIS', checked: false, expanded: false, children: [] }
+                    ]
+                },
+                {
+                    id: '002',
+                    name: '002:DEWAN PERWAKILAN RAKYAT',
+                    checked: false,
+                    expanded: false,
+                    children: []
+                },
+                {
+                    id: '004',
+                    name: '004:BADAN PEMERIKSA KEUANGAN',
+                    checked: false,
+                    expanded: false,
+                    children: []
+                },
+                {
+                    id: '005',
+                    name: '005:MAHKAMAH AGUNG',
+                    checked: false,
+                    expanded: false,
+                    children: []
+                }
+            ]
+        };
+
+        let selectedRows = new Set();
+        let currentEditId = null;
+        let authorityCheckedItems = new Set();
+        let authorityExpandedItems = new Set();
+
+        function loadTableData() {
+            const tableBody = document.getElementById('dataTable');
+            const totalData = document.getElementById('totalData');
+            const searchInput = document.getElementById('searchInput');
+            const searchType = document.getElementById('searchType').value;
+            const searchTerm = searchInput ? searchInput.value.toLowerCase() : '';
+
+            if (totalData) totalData.textContent = allData.total;
+
+            if (tableBody) {
+                tableBody.innerHTML = '';
+                
+                // Filter data berdasarkan search
+                const filteredData = allData.rows.filter(item => {
+                    if (!searchTerm) return true;
+                    
+                    switch(searchType) {
+                        case 'pengguna':
+                            return item.pengguna.toLowerCase().includes(searchTerm);
+                        case 'kewenangan':
+                            return item.kewenangan.toLowerCase().includes(searchTerm);
+                        case 'jabatan':
+                            return item.jabatan.toLowerCase().includes(searchTerm);
+                        default:
+                            return true;
+                    }
+                });
+                
+                filteredData.forEach((item) => {
+                    const tr = document.createElement('tr');
+                    const aksiButton = `<button class="btn btn-primary" onclick="editData('${item.pengguna}'); event.stopPropagation();" style="padding: 0.25rem 0.75rem; font-size: 0.875rem; background-color: #6f42c1; border-color: #6f42c1;">
+                                Edit
+                            </button>`;
+                    
+                    tr.innerHTML = `
+                        <td style="text-align: center;">${item.no}</td>
+                        <td style="text-align: center;">${item.penggunaHyperion}</td>
+                        <td>${item.pengguna}</td>
+                        <td>${item.kewenangan}</td>
+                        <td>${item.jabatan}</td>
+                        <td style="text-align: center;">${item.eselon}</td>
+                        <td>${item.kementerian.length > 20 ? item.kementerian.substring(0, 20) + '...' : item.kementerian}</td>
+                        <td>${item.unit.length > 20 ? item.unit.substring(0, 20) + '...' : item.unit}</td>
+                        <td style="text-align: center;">${aksiButton}</td>
+                    `;
+                    tableBody.appendChild(tr);
+                });
+            }
+        }
+
+        function editData(pengguna) {
+            const itemData = allData.rows.find(item => item.pengguna === pengguna);
+            
+            if (!itemData) return;
+            
+            // Set form values
+            document.getElementById('modalKodeIdentitas').value = 'SPAN_000000000000287';
+            document.getElementById('modalNamaPengguna').value = itemData.pengguna;
+            document.getElementById('modalPassword').value = '';
+            document.getElementById('modalNama').value = 'ADI PRASETYO, S.P., M.P.';
+            document.getElementById('modalEmailPrefix').value = 'adi.prasetyo';
+            document.getElementById('modalEmailDomain').value = 'anggaran.depkeu.go.id';
+            document.getElementById('modalKodeKewenangan').value = itemData.kewenangan;
+            document.getElementById('modalNamaKementerian').value = itemData.kementerian;
+            document.getElementById('modalMultipleLogin').checked = true;
+            document.getElementById('modalPenggunaHyperion').value = itemData.penggunaHyperion;
+            document.getElementById('modalNIP').value = '197305141999031001';
+            document.getElementById('modalJabatan').value = itemData.jabatan;
+            document.getElementById('modalNamaUnit').value = itemData.unit;
+            
+            currentEditId = itemData.pengguna;
+            
+            // Initialize authority tree
+            authorityCheckedItems.clear();
+            authorityExpandedItems.clear();
+            
+            function initExpanded(node) {
+                if (node.children && node.children.length > 0) {
+                    authorityExpandedItems.add(node.id);
+                    node.children.forEach(child => initExpanded(child));
+                }
+            }
+            initExpanded(authorityTreeData);
+            
+            renderAuthorityTree();
+            document.getElementById('dataModal').classList.add('active');
+        }
+
+        function renderAuthorityTree() {
+            const treeContainer = document.getElementById('authorityTree');
+            treeContainer.innerHTML = '';
+            
+            function renderNode(node, level = 0) {
+                const hasChildren = node.children && node.children.length > 0;
+                const isExpanded = authorityExpandedItems.has(node.id);
+                const isChecked = authorityCheckedItems.has(node.id);
+                
+                const div = document.createElement('div');
+                div.className = 'tree-node';
+                div.setAttribute('data-id', node.id);
+                div.setAttribute('data-level', level);
+                
+                // Calculate padding for clear indentation
+                const paddingLeft = level * 2.5 + 'rem';
+                
+                // Expand/collapse icon (modern chevron design)
+                let expandIcon = '';
+                if (hasChildren) {
+                    expandIcon = `<span class="tree-expand ${isExpanded ? 'expanded' : ''}" onclick="toggleAuthorityExpand('${node.id}'); event.stopPropagation();">
+                        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M5.25 3.5L7 5.25L8.75 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </span>`;
+                } else {
+                    expandIcon = '<span class="tree-expand-placeholder"></span>';
+                }
+                
+                // Checkbox
+                const checkbox = `<input type="checkbox" class="tree-checkbox" ${isChecked ? 'checked' : ''} onchange="toggleAuthorityCheck('${node.id}', this.checked);" onclick="event.stopPropagation();">`;
+                
+                // Node name
+                const nodeName = `<span class="tree-name">${node.name}</span>`;
+                
+                div.innerHTML = `
+                    <div class="tree-node-content" style="padding-left: ${paddingLeft};">
+                        ${expandIcon}
+                        ${checkbox}
+                        ${nodeName}
+                    </div>
+                `;
+                
+                treeContainer.appendChild(div);
+                
+                // Render children if expanded
+                if (hasChildren && isExpanded) {
+                    node.children.forEach((child) => {
+                        renderNode(child, level + 1);
+                    });
+                }
+            }
+            
+            renderNode(authorityTreeData);
+        }
+
+        function toggleAuthorityExpand(nodeId) {
+            if (authorityExpandedItems.has(nodeId)) {
+                authorityExpandedItems.delete(nodeId);
+            } else {
+                authorityExpandedItems.add(nodeId);
+            }
+            renderAuthorityTree();
+        }
+
+        function toggleAuthorityCheck(nodeId, checked) {
+            if (checked) {
+                authorityCheckedItems.add(nodeId);
+            } else {
+                authorityCheckedItems.delete(nodeId);
+            }
+        }
+
+        function closeModal() {
+            document.getElementById('dataModal').classList.remove('active');
+            currentEditId = null;
+            authorityCheckedItems.clear();
+            authorityExpandedItems.clear();
+        }
+
+        function saveData() {
+            const modalNama = document.getElementById('modalNama');
+            const modalPassword = document.getElementById('modalPassword');
+            const modalEmailPrefix = document.getElementById('modalEmailPrefix');
+            const modalKodeKewenangan = document.getElementById('modalKodeKewenangan');
+            const modalNIP = document.getElementById('modalNIP');
+
+            if (!modalNama || !modalNama.value.trim()) {
+                alert('Mohon lengkapi field Nama yang wajib diisi!');
+                return;
+            }
+
+            if (!modalEmailPrefix || !modalEmailPrefix.value.trim()) {
+                alert('Mohon lengkapi field Email yang wajib diisi!');
+                return;
+            }
+
+            if (!modalKodeKewenangan || !modalKodeKewenangan.value) {
+                alert('Mohon lengkapi field Kode Kewenangan yang wajib diisi!');
+                return;
+            }
+
+            if (!modalNIP || !modalNIP.value.trim()) {
+                alert('Mohon lengkapi field NIP yang wajib diisi!');
+                return;
+            }
+
+            alert(`Data user ${currentEditId} berhasil disimpan!`);
+            closeModal();
+        }
+
+        function deleteData() {
+            if (confirm(`Apakah Anda yakin ingin menghapus user ${currentEditId}?`)) {
+                alert(`User ${currentEditId} berhasil dihapus!`);
+                closeModal();
+                loadTableData();
+            }
+        }
+
+        function searchKementerian() {
+            alert('Fungsi pencarian Kementerian akan dibuka...');
+        }
+
+        function searchJabatan() {
+            alert('Fungsi pencarian Jabatan akan dibuka...');
+        }
+
+        function searchUnit() {
+            alert('Fungsi pencarian Unit akan dibuka...');
+        }
+
+        function changeItemsPerPage() {
+            const itemsPerPage = document.getElementById('itemsPerPage').value;
+            console.log('Mengubah jumlah item per halaman:', itemsPerPage);
+        }
+
+        // Search functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            loadTableData();
+            
+            const searchInput = document.getElementById('searchInput');
+            if (searchInput) {
+                searchInput.addEventListener('input', function() {
+                    loadTableData();
+                });
+            }
+        });
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('dataModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
     </script>
+
+    <style>
+        /* Table Container */
+        .table-container {
+            overflow-x: auto;
+            position: relative;
+            width: 100%;
+        }
+
+        .table-container .table {
+            width: 100%;
+            min-width: 100%;
+        }
+
+        /* Table Header Styles */
+        .table thead tr th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+            border: 1px solid #dee2e6;
+            border-bottom: 2px solid #dee2e6;
+            padding: 0.75rem;
+        }
+
+        .table th {
+            text-align: left;
+        }
+
+        .table td {
+            text-align: left;
+            padding: 0.75rem;
+            border: 1px solid #dee2e6;
+        }
+
+        .table tbody tr:nth-child(even) {
+            background-color: #f0f4f8;
+        }
+
+        .table tbody tr:nth-child(odd) {
+            background-color: white;
+        }
+
+        .table tbody tr:hover {
+            background-color: var(--light-color);
+        }
+
+        /* Pagination Styles */
+        .pagination-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1.5rem;
+            padding: 1rem;
+            border-top: 1px solid var(--border-color);
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .pagination-info {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .pagination {
+            display: flex;
+            gap: 0.25rem;
+            align-items: center;
+        }
+
+        .pagination-btn {
+            padding: 0.5rem 0.75rem;
+            border: 1px solid var(--border-color);
+            background-color: white;
+            color: var(--text-primary);
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 0.875rem;
+            transition: all 0.3s;
+            min-width: 40px;
+        }
+
+        .pagination-btn:hover:not(:disabled):not(.active) {
+            background-color: var(--light-color);
+            border-color: var(--primary-color);
+        }
+
+        .pagination-btn.active {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .pagination-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            background-color: var(--light-color);
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .modal-header h3 {
+            margin: 0;
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-secondary);
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-close:hover {
+            color: var(--text-primary);
+        }
+
+        /* Menu Tree Styles */
+        .menu-tree {
+            font-family: Arial, sans-serif;
+        }
+
+        .tree-node {
+            margin: 0;
+            position: relative;
+        }
+
+        .tree-node-content {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 0;
+            position: relative;
+            transition: background-color 0.2s ease;
+        }
+
+        .tree-node-content:hover {
+            background-color: #f8f9fa;
+            border-radius: 4px;
+        }
+
+        .tree-expand {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 1.5rem;
+            height: 1.5rem;
+            cursor: pointer;
+            user-select: none;
+            color: #6c757d;
+            flex-shrink: 0;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+        }
+
+        .tree-expand:hover {
+            background-color: #f0f4f8;
+            color: var(--primary-color);
+        }
+
+        .tree-expand svg {
+            transition: transform 0.2s ease;
+        }
+
+        .tree-expand.expanded svg {
+            transform: rotate(90deg);
+        }
+
+        .tree-expand-placeholder {
+            display: inline-block;
+            width: 1.5rem;
+            height: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .tree-checkbox {
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .tree-name {
+            margin-left: 0.25rem;
+            font-size: 0.9rem;
+        }
+    </style>
 </body>
 </html>
-
-
-
-

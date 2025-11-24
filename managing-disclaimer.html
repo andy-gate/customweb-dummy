@@ -18,106 +18,216 @@
     <!-- Main Content Wrapper -->
     <div class="main-wrapper" id="mainWrapper">
         <div class="container">
-            <h2 style="margin-bottom: 1.5rem;">⚠️ Managing Disclaimer</h2>
+            <h2 style="margin-bottom: 1.5rem;">Managing Disclaimer</h2>
 
-            <div class="alert alert-info">
-                <strong>ℹ️ Informasi:</strong> Halaman ini digunakan untuk mengelola teks disclaimer yang akan ditampilkan di berbagai halaman aplikasi.
+            <!-- Filter dan Pencarian Section -->
+            <div class="card">
+                <div style="max-width: 800px; margin-bottom: 2rem;">
+                    <!-- Kementerian -->
+                    <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                        <label class="form-label" style="min-width: 120px; margin: 0;">Kementerian</label>
+                        <div style="position: relative; flex: 1;">
+                            <select class="form-control" data-autocomplete="kementerian" id="kementerian"></select>
+                            <span style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); pointer-events: none;">🔍</span>
+                        </div>
+                    </div>
+
+                    <!-- Unit -->
+                    <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                        <label class="form-label" style="min-width: 120px; margin: 0;">Unit</label>
+                        <div style="position: relative; flex: 1;">
+                            <select class="form-control" data-autocomplete="unit" id="unit"></select>
+                            <span style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); pointer-events: none;">🔍</span>
+                        </div>
+                    </div>
+
+                    <!-- Search Button -->
+                    <div style="margin-top: 1.5rem;">
+                        <button class="btn btn-primary" onclick="searchData()" style="padding: 0.75rem 2rem;">
+                            Cari
+                        </button>
+                    </div>
+                </div>
             </div>
 
-            <!-- Disclaimer List -->
+            <!-- Data Table Section -->
             <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">📋 Daftar Disclaimer</h3>
-                    <button class="btn btn-primary" onclick="showAddModal()">
-                        ➕ Tambah Disclaimer Baru
+                <div style="display: flex; justify-content: flex-end; gap: 0.5rem; margin-bottom: 1rem; padding: 0 1rem; padding-top: 1rem;">
+                    <button class="btn btn-primary" onclick="tambahData()" style="background-color: #6f42c1; border-color: #6f42c1;">
+                        Tambah
+                    </button>
+                    <button class="btn btn-primary" onclick="hapusData()" style="background-color: #6f42c1; border-color: #6f42c1;">
+                        Hapus
                     </button>
                 </div>
-
-                <div style="overflow-x: auto;">
-                    <table class="table">
+                <!-- Data Table -->
+                <div class="table-container">
+                    <table class="table" style="table-layout: fixed;">
                         <thead>
                             <tr>
-                                <th style="width: 50px;">No</th>
-                                <th style="width: 150px;">Kode Disclaimer</th>
-                                <th style="min-width: 250px;">Nama Disclaimer</th>
-                                <th style="width: 150px;">Lokasi Tampil</th>
-                                <th style="width: 120px;">Status</th>
-                                <th style="width: 200px;">Aksi</th>
+                                <th style="width: 50px; text-align: center;"><input type="checkbox" id="checkAll" onchange="toggleAllChecks(this)"></th>
+                                <th style="min-width: 400px; text-align: left;">KEMENTERIAN/UNIT</th>
+                                <th style="width: 120px; text-align: center;">Dasar Hukum</th>
+                                <th colspan="2" style="text-align: center;">Disclaimer</th>
+                                <th style="width: 150px; text-align: center;">PDF/XML Created</th>
+                                <th style="width: 100px; text-align: center;">Aksi</th>
+                            </tr>
+                            <tr>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th style="width: 100px; text-align: center;">Induk</th>
+                                <th style="width: 100px; text-align: center;">Petikan</th>
+                                <th></th>
+                                <th></th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="dataTable">
                             <tr>
-                                <td>1</td>
-                                <td><strong>DISC-001</strong></td>
-                                <td>Disclaimer Upload ADK</td>
-                                <td><span class="badge badge-info">Halaman Upload</span></td>
-                                <td><span class="badge badge-success">Active</span></td>
-                                <td>
-                                    <button class="btn btn-outline" style="padding: 0.25rem 0.5rem; font-size: 0.75rem; margin-right: 0.25rem;" onclick="editDisclaimer(1)">
-                                        ✏️ Edit
-                                    </button>
-                                    <button class="btn btn-primary" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="previewDisclaimer(1)">
-                                        👁️ Preview
+                                <td style="text-align: center;"><input type="checkbox" class="row-checkbox"></td>
+                                <td>000 Umum</td>
+                                <td style="text-align: center;"></td>
+                                <td style="text-align: center;"></td>
+                                <td style="text-align: center;"></td>
+                                <td style="text-align: center;"></td>
+                                <td style="text-align: center;"></td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: center;"><input type="checkbox" class="row-checkbox"></td>
+                                <td style="padding-left: 2rem;">000.00 Umum</td>
+                                <td style="text-align: center;">3</td>
+                                <td style="text-align: center;">6</td>
+                                <td style="text-align: center;">7</td>
+                                <td style="text-align: center;">N</td>
+                                <td style="text-align: center;">
+                                    <button class="btn btn-primary" onclick="lihatData('000.00')" style="padding: 0.25rem 0.75rem; font-size: 0.875rem; background-color: #6f42c1; border-color: #6f42c1;">
+                                        Edit
                                     </button>
                                 </td>
                             </tr>
                             <tr>
-                                <td>2</td>
-                                <td><strong>DISC-002</strong></td>
-                                <td>Disclaimer Approval</td>
-                                <td><span class="badge badge-success">Halaman Approval</span></td>
-                                <td><span class="badge badge-success">Active</span></td>
-                                <td>
-                                    <button class="btn btn-outline" style="padding: 0.25rem 0.5rem; font-size: 0.75rem; margin-right: 0.25rem;" onclick="editDisclaimer(2)">
-                                        ✏️ Edit
-                                    </button>
-                                    <button class="btn btn-primary" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="previewDisclaimer(2)">
-                                        👁️ Preview
+                                <td style="text-align: center;"><input type="checkbox" class="row-checkbox"></td>
+                                <td>999 BAGIAN ANGGARAN BENDAHARA UMUM NEGARA</td>
+                                <td style="text-align: center;"></td>
+                                <td style="text-align: center;"></td>
+                                <td style="text-align: center;"></td>
+                                <td style="text-align: center;"></td>
+                                <td style="text-align: center;"></td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: center;"><input type="checkbox" class="row-checkbox"></td>
+                                <td style="padding-left: 2rem;">999.01 PPA BUN PENGELOLA UTANG</td>
+                                <td style="text-align: center;">0</td>
+                                <td style="text-align: center;">0</td>
+                                <td style="text-align: center;">7</td>
+                                <td style="text-align: center;">Y</td>
+                                <td style="text-align: center;">
+                                    <button class="btn btn-primary" onclick="lihatData('999.01')" style="padding: 0.25rem 0.75rem; font-size: 0.875rem; background-color: #6f42c1; border-color: #6f42c1;">
+                                        Edit
                                     </button>
                                 </td>
                             </tr>
                             <tr>
-                                <td>3</td>
-                                <td><strong>DISC-003</strong></td>
-                                <td>Disclaimer DIPA</td>
-                                <td><span class="badge badge-primary">Halaman DIPA</span></td>
-                                <td><span class="badge badge-success">Active</span></td>
-                                <td>
-                                    <button class="btn btn-outline" style="padding: 0.25rem 0.5rem; font-size: 0.75rem; margin-right: 0.25rem;" onclick="editDisclaimer(3)">
-                                        ✏️ Edit
-                                    </button>
-                                    <button class="btn btn-primary" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="previewDisclaimer(3)">
-                                        👁️ Preview
+                                <td style="text-align: center;"><input type="checkbox" class="row-checkbox"></td>
+                                <td style="padding-left: 2rem;">999.02 PPA BUN PENGELOLA HIBAH</td>
+                                <td style="text-align: center;">0</td>
+                                <td style="text-align: center;">0</td>
+                                <td style="text-align: center;">7</td>
+                                <td style="text-align: center;">Y</td>
+                                <td style="text-align: center;">
+                                    <button class="btn btn-primary" onclick="lihatData('999.02')" style="padding: 0.25rem 0.75rem; font-size: 0.875rem; background-color: #6f42c1; border-color: #6f42c1;">
+                                        Edit
                                     </button>
                                 </td>
                             </tr>
                             <tr>
-                                <td>4</td>
-                                <td><strong>DISC-004</strong></td>
-                                <td>Disclaimer Locking</td>
-                                <td><span class="badge badge-warning">Halaman Locking</span></td>
-                                <td><span class="badge badge-success">Active</span></td>
-                                <td>
-                                    <button class="btn btn-outline" style="padding: 0.25rem 0.5rem; font-size: 0.75rem; margin-right: 0.25rem;" onclick="editDisclaimer(4)">
-                                        ✏️ Edit
-                                    </button>
-                                    <button class="btn btn-primary" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="previewDisclaimer(4)">
-                                        👁️ Preview
+                                <td style="text-align: center;"><input type="checkbox" class="row-checkbox"></td>
+                                <td style="padding-left: 2rem;">999.03 PPA BUN PENGELOLA INVESTASI PEMERINTAH</td>
+                                <td style="text-align: center;">0</td>
+                                <td style="text-align: center;">0</td>
+                                <td style="text-align: center;">7</td>
+                                <td style="text-align: center;">Y</td>
+                                <td style="text-align: center;">
+                                    <button class="btn btn-primary" onclick="lihatData('999.03')" style="padding: 0.25rem 0.75rem; font-size: 0.875rem; background-color: #6f42c1; border-color: #6f42c1;">
+                                        Edit
                                     </button>
                                 </td>
                             </tr>
                             <tr>
-                                <td>5</td>
-                                <td><strong>DISC-005</strong></td>
-                                <td>Disclaimer Umum</td>
-                                <td><span class="badge badge-secondary">Footer</span></td>
-                                <td><span class="badge badge-success">Active</span></td>
-                                <td>
-                                    <button class="btn btn-outline" style="padding: 0.25rem 0.5rem; font-size: 0.75rem; margin-right: 0.25rem;" onclick="editDisclaimer(5)">
-                                        ✏️ Edit
+                                <td style="text-align: center;"><input type="checkbox" class="row-checkbox"></td>
+                                <td style="padding-left: 2rem;">999.04 PPA BUN PENGELOLA PEMBERIAN PINJAMAN</td>
+                                <td style="text-align: center;">0</td>
+                                <td style="text-align: center;">0</td>
+                                <td style="text-align: center;">7</td>
+                                <td style="text-align: center;">Y</td>
+                                <td style="text-align: center;">
+                                    <button class="btn btn-primary" onclick="lihatData('999.04')" style="padding: 0.25rem 0.75rem; font-size: 0.875rem; background-color: #6f42c1; border-color: #6f42c1;">
+                                        Edit
                                     </button>
-                                    <button class="btn btn-primary" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="previewDisclaimer(5)">
-                                        👁️ Preview
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: center;"><input type="checkbox" class="row-checkbox"></td>
+                                <td style="padding-left: 2rem;">999.05 PPA BUN PENGELOLA TRANSFER KE DAERAH</td>
+                                <td style="text-align: center;">0</td>
+                                <td style="text-align: center;">0</td>
+                                <td style="text-align: center;">7</td>
+                                <td style="text-align: center;">Y</td>
+                                <td style="text-align: center;">
+                                    <button class="btn btn-primary" onclick="lihatData('999.05')" style="padding: 0.25rem 0.75rem; font-size: 0.875rem; background-color: #6f42c1; border-color: #6f42c1;">
+                                        Edit
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: center;"><input type="checkbox" class="row-checkbox"></td>
+                                <td style="padding-left: 2rem;">999.06 PENGELOLAAN BELANJA SUBSIDI DAN LAIN-LAIN</td>
+                                <td style="text-align: center;">0</td>
+                                <td style="text-align: center;">0</td>
+                                <td style="text-align: center;">7</td>
+                                <td style="text-align: center;">N</td>
+                                <td style="text-align: center;">
+                                    <button class="btn btn-primary" onclick="lihatData('999.06')" style="padding: 0.25rem 0.75rem; font-size: 0.875rem; background-color: #6f42c1; border-color: #6f42c1;">
+                                        Edit
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: center;"><input type="checkbox" class="row-checkbox"></td>
+                                <td style="padding-left: 2rem;">999.07 PPA BUN PENGELOLA SUBSIDI</td>
+                                <td style="text-align: center;">0</td>
+                                <td style="text-align: center;">0</td>
+                                <td style="text-align: center;">7</td>
+                                <td style="text-align: center;">Y</td>
+                                <td style="text-align: center;">
+                                    <button class="btn btn-primary" onclick="lihatData('999.07')" style="padding: 0.25rem 0.75rem; font-size: 0.875rem; background-color: #6f42c1; border-color: #6f42c1;">
+                                        Edit
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: center;"><input type="checkbox" class="row-checkbox"></td>
+                                <td style="padding-left: 2rem;">999.08 PPA BUN PENGELOLA BELANJA LAINNYA</td>
+                                <td style="text-align: center;">0</td>
+                                <td style="text-align: center;">0</td>
+                                <td style="text-align: center;">7</td>
+                                <td style="text-align: center;">Y</td>
+                                <td style="text-align: center;">
+                                    <button class="btn btn-primary" onclick="lihatData('999.08')" style="padding: 0.25rem 0.75rem; font-size: 0.875rem; background-color: #6f42c1; border-color: #6f42c1;">
+                                        Edit
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: center;"><input type="checkbox" class="row-checkbox"></td>
+                                <td style="padding-left: 2rem;">999.99 PPA BUN PENGELOLA TRANSAKSI KHUSUS</td>
+                                <td style="text-align: center;">0</td>
+                                <td style="text-align: center;">0</td>
+                                <td style="text-align: center;">7</td>
+                                <td style="text-align: center;">Y</td>
+                                <td style="text-align: center;">
+                                    <button class="btn btn-primary" onclick="lihatData('999.99')" style="padding: 0.25rem 0.75rem; font-size: 0.875rem; background-color: #6f42c1; border-color: #6f42c1;">
+                                        Edit
                                     </button>
                                 </td>
                             </tr>
@@ -128,96 +238,173 @@
         </div>
     </div>
 
-    <!-- Add/Edit Modal -->
-    <div id="disclaimerModal" class="modal">
-        <div class="modal-content" style="max-width: 900px;">
+    <!-- Modal Form untuk Dasar Hukum, Disclaimer Induk, dan Disclaimer Petikan -->
+    <div id="detailModal" class="modal">
+        <div class="modal-content">
             <div class="modal-header">
-                <h3 id="modalTitle">➕ Tambah Disclaimer Baru</h3>
-                <button class="modal-close" onclick="closeModal()">&times;</button>
+                <h3 id="modalTitle">Detail Disclaimer</h3>
+                <button class="modal-close" onclick="closeDetailModal()">&times;</button>
             </div>
 
-            <div>
-                <div class="grid grid-2">
-                    <div class="form-group">
-                        <label class="form-label">Kode Disclaimer <span style="color: red;">*</span></label>
-                        <input type="text" class="form-control" id="kodeDisclaimer" placeholder="Contoh: DISC-001" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label">Nama Disclaimer <span style="color: red;">*</span></label>
-                        <input type="text" class="form-control" id="namaDisclaimer" placeholder="Masukkan nama disclaimer" required>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">Lokasi Tampil <span style="color: red;">*</span></label>
-                    <select class="form-control" id="lokasiTampil" required>
-                        <option value="">-- Pilih Lokasi --</option>
-                        <option value="upload">Halaman Upload</option>
-                        <option value="approval">Halaman Approval</option>
-                        <option value="dipa">Halaman DIPA</option>
-                        <option value="locking">Halaman Locking</option>
-                        <option value="footer">Footer</option>
-                        <option value="header">Header</option>
-                        <option value="dashboard">Dashboard</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">Tipe Tampilan</label>
-                    <select class="form-control" id="tipeTampilan">
-                        <option value="alert">Alert Box</option>
-                        <option value="modal">Modal Dialog</option>
-                        <option value="inline">Inline Text</option>
-                        <option value="tooltip">Tooltip</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">Konten Disclaimer <span style="color: red;">*</span></label>
-                    <textarea class="form-control" id="kontenDisclaimer" rows="10" placeholder="Masukkan konten disclaimer..." required></textarea>
-                    <small style="color: var(--text-secondary); margin-top: 0.5rem; display: block;">
-                        HTML tags dapat digunakan untuk formatting (contoh: &lt;strong&gt;, &lt;em&gt;, &lt;br&gt;, dll.)
-                    </small>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">Status</label>
-                    <select class="form-control" id="statusDisclaimer">
-                        <option value="active" selected>Active</option>
-                        <option value="inactive">Inactive</option>
-                    </select>
-                </div>
-
-                <div style="display: flex; gap: 0.5rem; justify-content: flex-end; margin-top: 1.5rem;">
-                    <button class="btn btn-secondary" onclick="closeModal()">Batal</button>
-                    <button class="btn btn-info" onclick="previewDisclaimerModal()">
-                        👁️ Preview
-                    </button>
-                    <button class="btn btn-primary" onclick="saveDisclaimer()">💾 Simpan</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Preview Modal -->
-    <div id="previewModal" class="modal">
-        <div class="modal-content" style="max-width: 800px;">
-            <div class="modal-header">
-                <h3>👁️ Preview Disclaimer</h3>
-                <button class="modal-close" onclick="closePreviewModal()">&times;</button>
-            </div>
             <div style="padding: 1.5rem;">
-                <div style="border: 1px solid var(--border-color); padding: 1.5rem; border-radius: 4px; background-color: #fff3cd;">
-                    <div style="margin-bottom: 0.5rem;">
-                        <strong>⚠️ Disclaimer:</strong>
+                <!-- Kementerian dan Unit -->
+                <div style="margin-bottom: 2rem;">
+                    <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                        <label class="form-label" style="min-width: 120px; margin: 0;">Kementerian <span style="color: red;">*</span></label>
+                        <div style="position: relative; flex: 1;">
+                            <select class="form-control" data-autocomplete="kementerian" id="modalKementerian" required></select>
+                            <span style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); pointer-events: none;">🔍</span>
+                        </div>
                     </div>
-                    <div id="previewContent" style="line-height: 1.6;">
-                        Data yang di-upload akan diverifikasi oleh sistem. Pastikan data yang di-upload sudah benar dan lengkap. Data yang sudah di-upload tidak dapat diubah tanpa persetujuan administrator.
+                    <div style="display: flex; align-items: center; gap: 1rem;">
+                        <label class="form-label" style="min-width: 120px; margin: 0;">Unit <span style="color: red;">*</span></label>
+                        <div style="position: relative; flex: 1;">
+                            <select class="form-control" data-autocomplete="unit" id="modalUnit" required></select>
+                            <span style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); pointer-events: none;">🔍</span>
+                        </div>
                     </div>
                 </div>
-                <div style="display: flex; justify-content: flex-end; margin-top: 1rem;">
-                    <button class="btn btn-secondary" onclick="closePreviewModal()">Tutup</button>
+                <!-- Dasar Hukum Section -->
+                <div style="margin-bottom: 2rem;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                        <h4 style="margin: 0;">•Dasar Hukum</h4>
+                        <div style="display: flex; gap: 0.5rem;">
+                            <button class="btn btn-primary" onclick="tambahDasarHukum()" style="background-color: #6f42c1; border-color: #6f42c1; padding: 0.5rem 1rem;">
+                                Tambah
+                            </button>
+                            <button class="btn btn-primary" onclick="hapusDasarHukum()" style="background-color: #6f42c1; border-color: #6f42c1; padding: 0.5rem 1rem;">
+                                Hapus
+                            </button>
+                        </div>
+                    </div>
+                    <table class="table" style="width: 100%;">
+                        <thead>
+                            <tr>
+                                <th style="width: 50px; text-align: center;"><input type="checkbox" id="checkAllDasarHukum" onchange="toggleAllChecksDasarHukum(this)"></th>
+                                <th style="width: 80px; text-align: center;">No</th>
+                                <th>Uraian</th>
+                            </tr>
+                        </thead>
+                        <tbody id="dasarHukumTable">
+                            <tr>
+                                <td style="text-align: center;"><input type="checkbox" class="row-checkbox-dasar-hukum"></td>
+                                <td><input type="text" class="form-control" value="1" readonly style="text-align: center; width: 100%;"></td>
+                                <td><textarea class="form-control" rows="2" style="resize: vertical;">UU No. 17 Tahun 2003 tentang Keuangan Negara.</textarea></td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: center;"><input type="checkbox" class="row-checkbox-dasar-hukum"></td>
+                                <td><input type="text" class="form-control" value="2" readonly style="text-align: center; width: 100%;"></td>
+                                <td><textarea class="form-control" rows="2" style="resize: vertical;">UU No. 1 Tahun 2004 tentang Perbendaharaan Negara.</textarea></td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: center;"><input type="checkbox" class="row-checkbox-dasar-hukum"></td>
+                                <td><input type="text" class="form-control" value="3" readonly style="text-align: center; width: 100%;"></td>
+                                <td><textarea class="form-control" rows="2" style="resize: vertical;">UU No. 62 Tahun 2024 tentang Anggaran Pendapatan dan Belanja Negara Tahun Anggaran 2025</textarea></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Disclaimer Induk Section -->
+                <div style="margin-bottom: 2rem;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                        <h4 style="margin: 0;">•Disclaimer Induk</h4>
+                        <div style="display: flex; gap: 0.5rem;">
+                            <button class="btn btn-primary" onclick="tambahDisclaimerInduk()" style="background-color: #6f42c1; border-color: #6f42c1; padding: 0.5rem 1rem;">
+                                Tambah
+                            </button>
+                            <button class="btn btn-primary" onclick="hapusDisclaimerInduk()" style="background-color: #6f42c1; border-color: #6f42c1; padding: 0.5rem 1rem;">
+                                Hapus
+                            </button>
+                        </div>
+                    </div>
+                    <table class="table" style="width: 100%;">
+                        <thead>
+                            <tr>
+                                <th style="width: 50px; text-align: center;"><input type="checkbox" id="checkAllDisclaimerInduk" onchange="toggleAllChecksDisclaimerInduk(this)"></th>
+                                <th style="width: 80px; text-align: center;">No</th>
+                                <th>Uraian</th>
+                            </tr>
+                        </thead>
+                        <tbody id="disclaimerIndukTable">
+                            <tr>
+                                <td style="text-align: center;"><input type="checkbox" class="row-checkbox-disclaimer-induk"></td>
+                                <td><input type="text" class="form-control" value="1" readonly style="text-align: center; width: 100%;"></td>
+                                <td><textarea class="form-control" rows="2" style="resize: vertical;">DIPA Induk yang telah disahkan ini lebih lanjut dituangkan kedalam DIPA Petikan untuk masing-masing Satker.</textarea></td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: center;"><input type="checkbox" class="row-checkbox-disclaimer-induk"></td>
+                                <td><input type="text" class="form-control" value="2" readonly style="text-align: center; width: 100%;"></td>
+                                <td><textarea class="form-control" rows="2" style="resize: vertical;">Pengesahan DIPA Induk sekaligus merupakan pengesahan DIPA Petikan.</textarea></td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: center;"><input type="checkbox" class="row-checkbox-disclaimer-induk"></td>
+                                <td><input type="text" class="form-control" value="3" readonly style="text-align: center; width: 100%;"></td>
+                                <td><textarea class="form-control" rows="2" style="resize: vertical;">DIPA Induk tidak berfungsi sebagai dasar pelaksanaan kegiatan atau dasar pencairan dana/pengesahan bagi Bendahara Umum Negara/Kuasa Bendahara Umum Negara.</textarea></td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: center;"><input type="checkbox" class="row-checkbox-disclaimer-induk"></td>
+                                <td><input type="text" class="form-control" value="4" readonly style="text-align: center; width: 100%;"></td>
+                                <td><textarea class="form-control" rows="2" style="resize: vertical;">Rencana Penarikan Dana dan Perkiraan Penerimaan yang tercantum dalam Halaman III DIPA Induk merupakan akumulasi rencana Penarikan Dana dan Perkiraan Penerimaan dari seluruh satker.</textarea></td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: center;"><input type="checkbox" class="row-checkbox-disclaimer-induk"></td>
+                                <td><input type="text" class="form-control" value="5" readonly style="text-align: center; width: 100%;"></td>
+                                <td><textarea class="form-control" rows="2" style="resize: vertical;">Tanggung jawab terhadap kebenaran alokasi yang tertuang dalam DIPA Induk sepenuhnya berada pada Pengguna Anggaran/Kuasa Pengguna Anggaran.</textarea></td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: center;"><input type="checkbox" class="row-checkbox-disclaimer-induk"></td>
+                                <td><input type="text" class="form-control" value="6" readonly style="text-align: center; width: 100%;"></td>
+                                <td><textarea class="form-control" rows="2" style="resize: vertical;">DIPA Induk ini berlaku sejak tanggal 1 Januari 2025 sampai dengan 31 Desember 2025.</textarea></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Disclaimer Petikan Section -->
+                <div style="margin-bottom: 2rem;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                        <h4 style="margin: 0;">•Disclaimer Petikan</h4>
+                        <div style="display: flex; gap: 0.5rem;">
+                            <button class="btn btn-primary" onclick="tambahDisclaimerPetikan()" style="background-color: #6f42c1; border-color: #6f42c1; padding: 0.5rem 1rem;">
+                                Tambah
+                            </button>
+                            <button class="btn btn-primary" onclick="hapusDisclaimerPetikan()" style="background-color: #6f42c1; border-color: #6f42c1; padding: 0.5rem 1rem;">
+                                Hapus
+                            </button>
+                        </div>
+                    </div>
+                    <table class="table" style="width: 100%;">
+                        <thead>
+                            <tr>
+                                <th style="width: 50px; text-align: center;"><input type="checkbox" id="checkAllDisclaimerPetikan" onchange="toggleAllChecksDisclaimerPetikan(this)"></th>
+                                <th style="width: 80px; text-align: center;">No</th>
+                                <th>Uraian</th>
+                            </tr>
+                        </thead>
+                        <tbody id="disclaimerPetikanTable">
+                            <tr>
+                                <td style="text-align: center;"><input type="checkbox" class="row-checkbox-disclaimer-petikan"></td>
+                                <td><input type="text" class="form-control" value="1" readonly style="text-align: center; width: 100%;"></td>
+                                <td><textarea class="form-control" rows="2" style="resize: vertical;">DIPA Petikan ini merupakan bagian yang tidak terpisahkan dari DIPA Induk (Nama Program, Unit Organisasi dan Kementerian Negara/Lembaga).</textarea></td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: center;"><input type="checkbox" class="row-checkbox-disclaimer-petikan"></td>
+                                <td><input type="text" class="form-control" value="2" readonly style="text-align: center; width: 100%;"></td>
+                                <td><textarea class="form-control" rows="2" style="resize: vertical;">DIPA Petikan ini dicetak secara otomatis melalui sistem yang dilengkapi dengan kode pengaman berupa digital stamp</textarea></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Tombol Simpan dan Batal -->
+                <div style="display: flex; gap: 0.5rem; justify-content: flex-end; margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--border-color);">
+                    <button class="btn btn-secondary" onclick="closeDetailModal()">
+                        Batal
+                    </button>
+                    <button class="btn btn-primary" onclick="simpanSemuaData()" style="background-color: #6f42c1; border-color: #6f42c1;">
+                        Simpan
+                    </button>
                 </div>
             </div>
         </div>
@@ -238,6 +425,11 @@
             }
         });
 
+        // Initialize autocomplete after page components
+        setTimeout(() => {
+            convertToAutocomplete();
+        }, 200);
+
         function logout() {
             if (confirm('Apakah Anda yakin ingin logout?')) {
                 sessionStorage.clear();
@@ -245,84 +437,351 @@
             }
         }
 
-        function showAddModal() {
-            document.getElementById('modalTitle').textContent = '➕ Tambah Disclaimer Baru';
-            document.getElementById('kodeDisclaimer').value = '';
-            document.getElementById('namaDisclaimer').value = '';
-            document.getElementById('lokasiTampil').value = '';
-            document.getElementById('tipeTampilan').value = 'alert';
-            document.getElementById('kontenDisclaimer').value = '';
-            document.getElementById('statusDisclaimer').value = 'active';
-            document.getElementById('disclaimerModal').classList.add('active');
+        function searchData() {
+            const kementerian = document.getElementById('kementerian').value;
+            const unit = document.getElementById('unit').value;
+
+            console.log('Mencari dengan filter:', {
+                kementerian,
+                unit
+            });
+
+            alert('Pencarian dilakukan dengan filter yang dipilih');
         }
 
-        function editDisclaimer(no) {
-            document.getElementById('modalTitle').textContent = '✏️ Edit Disclaimer';
-            // Load data for disclaimer no
-            document.getElementById('kodeDisclaimer').value = 'DISC-001';
-            document.getElementById('namaDisclaimer').value = 'Disclaimer Upload ADK';
-            document.getElementById('lokasiTampil').value = 'upload';
-            document.getElementById('tipeTampilan').value = 'alert';
-            document.getElementById('kontenDisclaimer').value = 'Data yang di-upload akan diverifikasi oleh sistem. Pastikan data yang di-upload sudah benar dan lengkap. Data yang sudah di-upload tidak dapat diubah tanpa persetujuan administrator.';
-            document.getElementById('statusDisclaimer').value = 'active';
-            document.getElementById('disclaimerModal').classList.add('active');
+        function tambahData() {
+            const modalTitle = document.getElementById('modalTitle');
+            if (modalTitle) {
+                modalTitle.textContent = 'Tambah Data Baru';
+            }
+            
+            // Clear all tables
+            const dasarHukumTable = document.getElementById('dasarHukumTable');
+            const disclaimerIndukTable = document.getElementById('disclaimerIndukTable');
+            const disclaimerPetikanTable = document.getElementById('disclaimerPetikanTable');
+            
+            if (dasarHukumTable) dasarHukumTable.innerHTML = '';
+            if (disclaimerIndukTable) disclaimerIndukTable.innerHTML = '';
+            if (disclaimerPetikanTable) disclaimerPetikanTable.innerHTML = '';
+            
+            const detailModal = document.getElementById('detailModal');
+            if (detailModal) {
+                detailModal.classList.add('active');
+            }
+            
+            // Clear and reinitialize autocomplete for modal
+            setTimeout(() => {
+                const kemEl = document.getElementById('modalKementerian');
+                const unitEl = document.getElementById('modalUnit');
+                if (kemEl) {
+                    kemEl.value = '';
+                }
+                if (unitEl) {
+                    unitEl.value = '';
+                }
+                convertToAutocomplete();
+            }, 200);
         }
 
-        function closeModal() {
-            document.getElementById('disclaimerModal').classList.remove('active');
+        function lihatData(kode) {
+            const modalTitle = document.getElementById('modalTitle');
+            if (modalTitle) {
+                modalTitle.textContent = `Detail Disclaimer - ${kode}`;
+            }
+            
+            const detailModal = document.getElementById('detailModal');
+            if (detailModal) {
+                detailModal.classList.add('active');
+            }
+            
+            // Load data based on kode and set values after modal is shown
+            setTimeout(() => {
+                const kemEl = document.getElementById('modalKementerian');
+                const unitEl = document.getElementById('modalUnit');
+                
+                if (kode === '000.00') {
+                    if (kemEl) kemEl.value = '000';
+                    if (unitEl) unitEl.value = '000.00';
+                } else if (kode.startsWith('999.')) {
+                    if (kemEl) kemEl.value = '999';
+                    if (unitEl) unitEl.value = kode;
+                }
+                
+                // Reinitialize autocomplete for modal
+                convertToAutocomplete();
+            }, 300);
         }
 
-        function closePreviewModal() {
-            document.getElementById('previewModal').classList.remove('active');
+        function closeDetailModal() {
+            document.getElementById('detailModal').classList.remove('active');
         }
 
-        function previewDisclaimer(no) {
-            document.getElementById('previewContent').innerHTML = 'Data yang di-upload akan diverifikasi oleh sistem. Pastikan data yang di-upload sudah benar dan lengkap. Data yang sudah di-upload tidak dapat diubah tanpa persetujuan administrator.';
-            document.getElementById('previewModal').classList.add('active');
-        }
-
-        function previewDisclaimerModal() {
-            const konten = document.getElementById('kontenDisclaimer').value;
-
-            if (!konten) {
-                alert('Mohon isi Konten Disclaimer terlebih dahulu!');
+        function hapusData() {
+            const selectedRows = document.querySelectorAll('.row-checkbox:checked');
+            if (selectedRows.length === 0) {
+                alert('Mohon pilih minimal satu data untuk dihapus!');
                 return;
             }
 
-            document.getElementById('previewContent').innerHTML = konten;
-            document.getElementById('previewModal').classList.add('active');
+            if (confirm(`Apakah Anda yakin ingin menghapus ${selectedRows.length} data yang dipilih?`)) {
+                alert(`Menghapus ${selectedRows.length} data...`);
+            }
         }
 
-        function saveDisclaimer() {
-            const kodeDisclaimer = document.getElementById('kodeDisclaimer').value;
-            const namaDisclaimer = document.getElementById('namaDisclaimer').value;
-            const lokasiTampil = document.getElementById('lokasiTampil').value;
-            const kontenDisclaimer = document.getElementById('kontenDisclaimer').value;
+        function toggleAllChecks(checkbox) {
+            const checkboxes = document.querySelectorAll('.row-checkbox');
+            checkboxes.forEach(cb => {
+                cb.checked = checkbox.checked;
+            });
+        }
 
-            if (!kodeDisclaimer || !namaDisclaimer || !lokasiTampil || !kontenDisclaimer) {
-                alert('Mohon lengkapi semua field yang wajib diisi!');
+        // Dasar Hukum Functions
+        function tambahDasarHukum() {
+            const table = document.getElementById('dasarHukumTable');
+            const rowCount = table.rows.length;
+            const newRow = table.insertRow();
+            newRow.innerHTML = `
+                <td style="text-align: center;"><input type="checkbox" class="row-checkbox-dasar-hukum"></td>
+                <td><input type="text" class="form-control" value="${rowCount + 1}" readonly style="text-align: center; width: 100%;"></td>
+                <td><textarea class="form-control" rows="2" style="resize: vertical;"></textarea></td>
+            `;
+        }
+
+        function hapusDasarHukum() {
+            const selected = document.querySelectorAll('.row-checkbox-dasar-hukum:checked');
+            if (selected.length === 0) {
+                alert('Mohon pilih minimal satu data untuk dihapus!');
+                return;
+            }
+            selected.forEach(cb => {
+                cb.closest('tr').remove();
+            });
+            // Renumber rows
+            const rows = document.querySelectorAll('#dasarHukumTable tr');
+            rows.forEach((row, index) => {
+                row.querySelector('td:nth-child(2) input').value = index + 1;
+            });
+        }
+
+        function simpanSemuaData() {
+            const kemEl = document.getElementById('modalKementerian');
+            const unitEl = document.getElementById('modalUnit');
+            
+            if (!kemEl || !unitEl) {
+                alert('Error: Elemen form tidak ditemukan!');
+                return;
+            }
+            
+            const kementerian = kemEl.value || (kemEl.tagName === 'INPUT' ? kemEl.value : '');
+            const unit = unitEl.value || (unitEl.tagName === 'INPUT' ? unitEl.value : '');
+
+            if (!kementerian || !unit) {
+                alert('Mohon lengkapi Kementerian dan Unit!');
                 return;
             }
 
-            alert('Disclaimer berhasil disimpan!');
-            closeModal();
+            // Collect all data
+            const dasarHukum = [];
+            document.querySelectorAll('#dasarHukumTable tr').forEach(row => {
+                const uraian = row.querySelector('textarea').value;
+                if (uraian.trim()) {
+                    dasarHukum.push(uraian);
+                }
+            });
+
+            const disclaimerInduk = [];
+            document.querySelectorAll('#disclaimerIndukTable tr').forEach(row => {
+                const uraian = row.querySelector('textarea').value;
+                if (uraian.trim()) {
+                    disclaimerInduk.push(uraian);
+                }
+            });
+
+            const disclaimerPetikan = [];
+            document.querySelectorAll('#disclaimerPetikanTable tr').forEach(row => {
+                const uraian = row.querySelector('textarea').value;
+                if (uraian.trim()) {
+                    disclaimerPetikan.push(uraian);
+                }
+            });
+
+            console.log('Menyimpan data:', {
+                kementerian,
+                unit,
+                dasarHukum,
+                disclaimerInduk,
+                disclaimerPetikan
+            });
+
+            alert('Data berhasil disimpan!');
+            closeDetailModal();
+        }
+
+        function toggleAllChecksDasarHukum(checkbox) {
+            const checkboxes = document.querySelectorAll('.row-checkbox-dasar-hukum');
+            checkboxes.forEach(cb => {
+                cb.checked = checkbox.checked;
+            });
+        }
+
+        // Disclaimer Induk Functions
+        function tambahDisclaimerInduk() {
+            const table = document.getElementById('disclaimerIndukTable');
+            const rowCount = table.rows.length;
+            const newRow = table.insertRow();
+            newRow.innerHTML = `
+                <td style="text-align: center;"><input type="checkbox" class="row-checkbox-disclaimer-induk"></td>
+                <td><input type="text" class="form-control" value="${rowCount + 1}" readonly style="text-align: center; width: 100%;"></td>
+                <td><textarea class="form-control" rows="2" style="resize: vertical;"></textarea></td>
+            `;
+        }
+
+        function hapusDisclaimerInduk() {
+            const selected = document.querySelectorAll('.row-checkbox-disclaimer-induk:checked');
+            if (selected.length === 0) {
+                alert('Mohon pilih minimal satu data untuk dihapus!');
+                return;
+            }
+            selected.forEach(cb => {
+                cb.closest('tr').remove();
+            });
+            // Renumber rows
+            const rows = document.querySelectorAll('#disclaimerIndukTable tr');
+            rows.forEach((row, index) => {
+                row.querySelector('td:nth-child(2) input').value = index + 1;
+            });
+        }
+
+        function toggleAllChecksDisclaimerInduk(checkbox) {
+            const checkboxes = document.querySelectorAll('.row-checkbox-disclaimer-induk');
+            checkboxes.forEach(cb => {
+                cb.checked = checkbox.checked;
+            });
+        }
+
+        // Disclaimer Petikan Functions
+        function tambahDisclaimerPetikan() {
+            const table = document.getElementById('disclaimerPetikanTable');
+            const rowCount = table.rows.length;
+            const newRow = table.insertRow();
+            newRow.innerHTML = `
+                <td style="text-align: center;"><input type="checkbox" class="row-checkbox-disclaimer-petikan"></td>
+                <td><input type="text" class="form-control" value="${rowCount + 1}" readonly style="text-align: center; width: 100%;"></td>
+                <td><textarea class="form-control" rows="2" style="resize: vertical;"></textarea></td>
+            `;
+        }
+
+        function hapusDisclaimerPetikan() {
+            const selected = document.querySelectorAll('.row-checkbox-disclaimer-petikan:checked');
+            if (selected.length === 0) {
+                alert('Mohon pilih minimal satu data untuk dihapus!');
+                return;
+            }
+            selected.forEach(cb => {
+                cb.closest('tr').remove();
+            });
+            // Renumber rows
+            const rows = document.querySelectorAll('#disclaimerPetikanTable tr');
+            rows.forEach((row, index) => {
+                row.querySelector('td:nth-child(2) input').value = index + 1;
+            });
+        }
+
+        function toggleAllChecksDisclaimerPetikan(checkbox) {
+            const checkboxes = document.querySelectorAll('.row-checkbox-disclaimer-petikan');
+            checkboxes.forEach(cb => {
+                cb.checked = checkbox.checked;
+            });
         }
 
         // Close modal when clicking outside
         window.onclick = function(event) {
-            const disclaimerModal = document.getElementById('disclaimerModal');
-            const previewModal = document.getElementById('previewModal');
-            if (event.target === disclaimerModal) {
-                disclaimerModal.classList.remove('active');
-            }
-            if (event.target === previewModal) {
-                previewModal.classList.remove('active');
+            const modal = document.getElementById('detailModal');
+            if (event.target === modal) {
+                modal.classList.remove('active');
             }
         }
     </script>
+
+    <style>
+        /* Table Container */
+        .table-container {
+            overflow-x: auto;
+            position: relative;
+        }
+
+        /* Force table layout fixed to respect column widths */
+        .table-container .table {
+            table-layout: fixed !important;
+            width: 100%;
+        }
+
+        /* Table Header Styles */
+        .table thead tr th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+            border: 1px solid #dee2e6;
+            border-bottom: 2px solid #dee2e6;
+            padding: 0.75rem;
+        }
+
+        .table th {
+            text-align: left;
+        }
+
+        .table td {
+            text-align: left;
+            padding: 0.75rem;
+            border: 1px solid #dee2e6;
+        }
+
+        .table tbody tr:hover {
+            background-color: var(--light-color);
+        }
+
+        /* Modal table styles */
+        #detailModal .table {
+            margin-bottom: 0;
+        }
+
+        #detailModal .table textarea {
+            min-height: 60px;
+        }
+
+        #detailModal .table input[readonly] {
+            background-color: #f8f9fa;
+            cursor: not-allowed;
+        }
+
+        /* Ensure modal is visible when active */
+        #detailModal.modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #detailModal.modal.active {
+            display: flex !important;
+        }
+
+        #detailModal .modal-content {
+            background-color: white;
+            border-radius: 8px;
+            padding: 2rem !important;
+            max-width: 1000px !important;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            margin: auto;
+        }
+    </style>
 </body>
 </html>
-
-
-
-

@@ -9,156 +9,47 @@
     <script src="js/components.js"></script>
 </head>
 <body>
+    <!-- Header Placeholder -->
     <div id="header-placeholder"></div>
+
+    <!-- Sidebar Placeholder -->
     <div id="sidebar-placeholder"></div>
+
+    <!-- Main Content Wrapper -->
     <div class="main-wrapper" id="mainWrapper">
         <div class="container">
-            <h2 style="margin-bottom: 1.5rem;">📥 XML Download</h2>
-            <div class="alert alert-info">
-                <strong>ℹ️ Informasi:</strong> Halaman ini digunakan untuk mengunduh data referensi dalam format XML.
-            </div>
+            <h2 style="margin-bottom: 1.5rem;">XML Download</h2>
 
-            <!-- Download Configuration -->
+            <!-- Data Table Section -->
             <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">⚙️ Konfigurasi Download</h3>
-                </div>
-
-                <div class="grid grid-2">
-                    <div class="form-group">
-                        <label class="form-label">Tahun Anggaran <span style="color: red;">*</span></label>
-                        <select class="form-control" id="tahunAnggaran" required>
-                            <option value="">-- Pilih Tahun --</option>
-                            <option value="2025" selected>2025</option>
-                            <option value="2024">2024</option>
-                            <option value="2026">2026</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label">Jenis Data <span style="color: red;">*</span></label>
-                        <select class="form-control" id="jenisData" required>
-                            <option value="">-- Pilih Jenis Data --</option>
-                            <option value="all">Semua Data</option>
-                            <option value="akun">Jenis Belanja/Akun</option>
-                            <option value="sumber-dana">Beban/Sumber Dana</option>
-                            <option value="fungsi">Fungsi</option>
-                            <option value="program">Program/Kegiatan</option>
-                            <option value="kl-unit">KL/Unit</option>
-                            <option value="lokasi-kppn">Lokasi/KPPN</option>
-                            <option value="penanggung-jawab">Penanggung Jawab Kegiatan</option>
-                            <option value="penanda-tangan">Penanda Tangan</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">Format XML</label>
-                    <select class="form-control" id="formatXML">
-                        <option value="standard" selected>Standard XML</option>
-                        <option value="bappenas">BAPPENAS Format</option>
-                        <option value="span">SPAN Format</option>
-                    </select>
-                </div>
-
-                <div class="alert alert-warning" style="margin-top: 1rem;">
-                    <strong>⚠️ Catatan:</strong>
-                    <ul style="margin: 0.5rem 0 0 1.5rem; line-height: 1.8;">
-                        <li>File XML akan di-generate berdasarkan data yang dipilih</li>
-                        <li>Proses generate mungkin memakan waktu beberapa menit untuk data yang besar</li>
-                        <li>File XML dapat digunakan untuk backup atau transfer data</li>
-                    </ul>
-                </div>
-
-                <div style="display: flex; gap: 0.5rem; margin-top: 1.5rem;">
-                    <button class="btn btn-primary" onclick="downloadXML()">
-                        📥 Download XML
-                    </button>
-                    <button class="btn btn-secondary" onclick="previewXML()">
-                        👁️ Preview XML
+                <div style="display: flex; justify-content: flex-end; gap: 0.5rem; margin-bottom: 1rem; padding: 0 1rem; padding-top: 1rem;">
+                    <button class="btn btn-primary" onclick="downloadSelected()" style="background-color: #6f42c1; border-color: #6f42c1;">
+                        Download
                     </button>
                 </div>
-            </div>
 
-            <!-- Download History -->
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">📊 History Download</h3>
-                </div>
-
-                <div style="overflow-x: auto;">
-                    <table class="table">
+                <!-- Data Table -->
+                <div class="table-container">
+                    <table class="table" style="table-layout: fixed;">
                         <thead>
                             <tr>
-                                <th style="width: 50px;">No</th>
-                                <th style="width: 150px;">Tanggal Download</th>
-                                <th style="width: 150px;">Tahun Anggaran</th>
-                                <th style="width: 150px;">Jenis Data</th>
-                                <th style="min-width: 200px;">Nama File</th>
-                                <th style="width: 100px;">Ukuran</th>
-                                <th style="width: 150px;">Aksi</th>
+                                <th style="width: 80px; text-align: center;">No</th>
+                                <th style="width: 60px; text-align: center;">
+                                    <input type="checkbox" id="selectAll" onchange="toggleSelectAll()">
+                                </th>
+                                <th style="min-width: 300px; text-align: left;">Table</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>2025-01-15 10:30:00</td>
-                                <td>2025</td>
-                                <td>Semua Data</td>
-                                <td>Reference_Data_2025.xml</td>
-                                <td>2.5 MB</td>
-                                <td>
-                                    <button class="btn btn-success" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="downloadAgain(1)">
-                                        📥 Download
-                                    </button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>2025-01-14 14:20:00</td>
-                                <td>2025</td>
-                                <td>Program/Kegiatan</td>
-                                <td>Program_Kegiatan_2025.xml</td>
-                                <td>1.2 MB</td>
-                                <td>
-                                    <button class="btn btn-success" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="downloadAgain(2)">
-                                        📥 Download
-                                    </button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>2025-01-13 09:15:00</td>
-                                <td>2025</td>
-                                <td>KL/Unit</td>
-                                <td>KL_Unit_2025.xml</td>
-                                <td>0.8 MB</td>
-                                <td>
-                                    <button class="btn btn-success" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="downloadAgain(3)">
-                                        📥 Download
-                                    </button>
-                                </td>
-                            </tr>
+                        <tbody id="dataTable">
+                            <!-- Data akan diisi oleh JavaScript -->
                         </tbody>
                     </table>
-                </div>
-
-                <!-- Pagination -->
-                <div style="display: flex; justify-content: space-between; align-items: center; padding: 1rem 0; border-top: 1px solid var(--border-color);">
-                    <div>
-                        Showing 1-3 of 12 records
-                    </div>
-                    <div style="display: flex; gap: 0.5rem;">
-                        <button class="btn btn-outline" style="padding: 0.5rem 1rem;" disabled>← Previous</button>
-                        <button class="btn btn-outline active" style="padding: 0.5rem 1rem;">1</button>
-                        <button class="btn btn-outline" style="padding: 0.5rem 1rem;">2</button>
-                        <button class="btn btn-outline" style="padding: 0.5rem 1rem;">Next →</button>
-                    </div>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- Footer Placeholder -->
     <div id="footer-placeholder"></div>
 
     <script>
@@ -180,42 +71,177 @@
             }
         }
 
-        function downloadXML() {
-            const tahunAnggaran = document.getElementById('tahunAnggaran').value;
-            const jenisData = document.getElementById('jenisData').value;
-            const formatXML = document.getElementById('formatXML').value;
+        // Data tabel
+        const tableData = [
+            { id: 1, name: 'T_AKUN', selected: true },
+            { id: 2, name: 'T_BEBAN', selected: true },
+            { id: 3, name: 'T_BKPK', selected: true },
+            { id: 4, name: 'T_BLOKIR', selected: false },
+            { id: 5, name: 'T_CTARIK', selected: false },
+            { id: 6, name: 'T_DEKON', selected: false },
+            { id: 7, name: 'T_DEPT', selected: false },
+            { id: 8, name: 'T_ES2', selected: false },
+            { id: 9, name: 'T_FUNGSI', selected: false },
+            { id: 10, name: 'T_GBKPK', selected: false }
+        ];
 
-            if (!tahunAnggaran || !jenisData) {
-                alert('Mohon pilih Tahun Anggaran dan Jenis Data terlebih dahulu!');
+        function loadTableData() {
+            const tableBody = document.getElementById('dataTable');
+            const selectAllCheckbox = document.getElementById('selectAll');
+
+            if (tableBody) {
+                tableBody.innerHTML = '';
+                
+                tableData.forEach((item, index) => {
+                    const tr = document.createElement('tr');
+                    tr.setAttribute('data-id', item.id);
+                    
+                    // Highlight row jika selected
+                    if (item.selected) {
+                        tr.style.backgroundColor = '#f0f8ff';
+                    }
+                    
+                    tr.innerHTML = `
+                        <td style="text-align: center;">${index + 1}</td>
+                        <td style="text-align: center;">
+                            <input type="checkbox" class="table-checkbox" data-id="${item.id}" ${item.selected ? 'checked' : ''} onchange="updateSelection(${item.id})">
+                        </td>
+                        <td>${item.name}</td>
+                    `;
+                    tableBody.appendChild(tr);
+                });
+                
+                // Update select all checkbox
+                if (selectAllCheckbox) {
+                    const allSelected = tableData.every(item => item.selected);
+                    selectAllCheckbox.checked = allSelected;
+                }
+            }
+        }
+
+        function toggleSelectAll() {
+            const selectAllCheckbox = document.getElementById('selectAll');
+            const isChecked = selectAllCheckbox.checked;
+            
+            tableData.forEach(item => {
+                item.selected = isChecked;
+            });
+            
+            // Update checkboxes
+            const checkboxes = document.querySelectorAll('.table-checkbox');
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = isChecked;
+            });
+            
+            // Update row highlighting
+            const rows = document.querySelectorAll('#dataTable tr');
+            rows.forEach((row, index) => {
+                if (isChecked) {
+                    row.style.backgroundColor = '#f0f8ff';
+                } else {
+                    row.style.backgroundColor = '';
+                }
+            });
+        }
+
+        function updateSelection(id) {
+            const item = tableData.find(t => t.id === id);
+            if (item) {
+                item.selected = !item.selected;
+                
+                // Update row highlighting
+                const row = document.querySelector(`#dataTable tr[data-id="${id}"]`);
+                if (row) {
+                    if (item.selected) {
+                        row.style.backgroundColor = '#f0f8ff';
+                    } else {
+                        row.style.backgroundColor = '';
+                    }
+                }
+                
+                // Update select all checkbox
+                const selectAllCheckbox = document.getElementById('selectAll');
+                if (selectAllCheckbox) {
+                    const allSelected = tableData.every(item => item.selected);
+                    selectAllCheckbox.checked = allSelected;
+                }
+            }
+        }
+
+        function downloadSelected() {
+            const selectedTables = tableData.filter(item => item.selected);
+            
+            if (selectedTables.length === 0) {
+                alert('Mohon pilih minimal satu tabel untuk didownload!');
                 return;
             }
-
-            if (confirm(`Apakah Anda yakin ingin mengunduh data XML untuk tahun ${tahunAnggaran} dengan jenis data ${jenisData}?`)) {
-                alert(`Mengunduh file XML...\n\nTahun: ${tahunAnggaran}\nJenis Data: ${jenisData}\nFormat: ${formatXML}`);
+            
+            const tableNames = selectedTables.map(item => item.name).join(', ');
+            if (confirm(`Apakah Anda yakin ingin mengunduh ${selectedTables.length} tabel berikut?\n\n${tableNames}`)) {
+                alert(`Mengunduh ${selectedTables.length} tabel dalam format XML...\n\n${tableNames}`);
             }
         }
 
-        function previewXML() {
-            const tahunAnggaran = document.getElementById('tahunAnggaran').value;
-            const jenisData = document.getElementById('jenisData').value;
-
-            if (!tahunAnggaran || !jenisData) {
-                alert('Mohon pilih Tahun Anggaran dan Jenis Data terlebih dahulu!');
-                return;
-            }
-
-            alert('Membuka preview XML...');
-        }
-
-        function downloadAgain(no) {
-            if (confirm('Apakah Anda yakin ingin mengunduh ulang file XML ini?')) {
-                alert(`Mengunduh file XML nomor ${no}...`);
-            }
-        }
+        // Load initial data
+        document.addEventListener('DOMContentLoaded', function() {
+            loadTableData();
+        });
     </script>
+
+    <style>
+        /* Table Container */
+        .table-container {
+            overflow-x: auto;
+            position: relative;
+        }
+
+        /* Force table layout fixed to respect column widths */
+        .table-container .table {
+            table-layout: fixed !important;
+            width: 100%;
+        }
+
+        /* Table Header Styles */
+        .table thead tr th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+            border: 1px solid #dee2e6;
+            border-bottom: 2px solid #dee2e6;
+            padding: 0.75rem;
+        }
+
+        .table th {
+            text-align: left;
+        }
+
+        .table td {
+            text-align: left;
+            padding: 0.75rem;
+            border: 1px solid #dee2e6;
+        }
+
+        .table tbody tr:nth-child(even) {
+            background-color: #f0f4f8;
+        }
+
+        .table tbody tr:nth-child(odd) {
+            background-color: white;
+        }
+
+        .table tbody tr:hover {
+            background-color: var(--light-color);
+        }
+
+        /* Checkbox Styles */
+        input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        .table-checkbox {
+            margin: 0;
+        }
+    </style>
 </body>
 </html>
-
-
-
-

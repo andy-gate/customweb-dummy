@@ -18,247 +18,241 @@
     <!-- Main Content Wrapper -->
     <div class="main-wrapper" id="mainWrapper">
         <div class="container">
-            <h2 style="margin-bottom: 1.5rem;">📧 Email Notification</h2>
+            <h2 style="margin-bottom: 1.5rem;">Email Notification</h2>
 
-            <div class="alert alert-info">
-                <strong>ℹ️ Informasi:</strong> Halaman ini digunakan untuk mengelola pengiriman email notifikasi kepada user terkait aktivitas dalam sistem.
-            </div>
-
-            <!-- Statistics -->
-            <div class="grid grid-4">
-                <div class="stat-card">
-                    <div class="stat-label">📊 Total Email Hari Ini</div>
-                    <div class="stat-value">342</div>
-                </div>
-                <div class="stat-card success">
-                    <div class="stat-label">✅ Berhasil Terkirim</div>
-                    <div class="stat-value">328</div>
-                </div>
-                <div class="stat-card warning">
-                    <div class="stat-label">⏳ Menunggu Kirim</div>
-                    <div class="stat-value">10</div>
-                </div>
-                <div class="stat-card danger">
-                    <div class="stat-label">❌ Gagal Terkirim</div>
-                    <div class="stat-value">4</div>
-                </div>
-            </div>
-
-            <!-- Email Configuration -->
+            <!-- Filter dan Pencarian Section -->
             <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">⚙️ Konfigurasi Email Notification</h3>
-                </div>
-
-                <div class="grid grid-2">
-                    <div>
-                        <h4 style="margin-bottom: 1rem;">Jenis Notifikasi yang Aktif:</h4>
-                        <div style="display: flex; flex-direction: column; gap: 0.75rem;">
-                            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
-                                <input type="checkbox" checked style="width: 18px; height: 18px;">
-                                <span>📤 Notifikasi Upload ADK Berhasil</span>
-                            </label>
-                            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
-                                <input type="checkbox" checked style="width: 18px; height: 18px;">
-                                <span>✅ Notifikasi Approval/Rejection</span>
-                            </label>
-                            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
-                                <input type="checkbox" checked style="width: 18px; height: 18px;">
-                                <span>🔒 Notifikasi Lock/Unlock</span>
-                            </label>
-                            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
-                                <input type="checkbox" checked style="width: 18px; height: 18px;">
-                                <span>📝 Notifikasi DIPA Dibuat</span>
-                            </label>
-                            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
-                                <input type="checkbox" style="width: 18px; height: 18px;">
-                                <span>🔄 Notifikasi Revisi DIPA</span>
-                            </label>
-                            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
-                                <input type="checkbox" checked style="width: 18px; height: 18px;">
-                                <span>🔄 Notifikasi Posting Interface</span>
-                            </label>
+                <div style="display: flex; flex-wrap: wrap; gap: 1.5rem; align-items: flex-end; margin-bottom: 1.5rem;">
+                    <!-- Tanggal -->
+                    <div class="form-group" style="flex: 1; min-width: 200px;">
+                        <label class="form-label" style="font-weight: 600; margin-bottom: 0.5rem;">Tanggal <span style="color: red;">*</span> :</label>
+                        <div style="display: flex; gap: 0.5rem; align-items: center;">
+                            <div style="position: relative; flex: 1;">
+                                <input type="text" class="form-control" id="tanggalAwal" placeholder="dd-mm-yyyy" value="14-11-2025" style="padding-right: 2.5rem;">
+                                <span style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); pointer-events: none; color: var(--text-secondary);">📅</span>
+                            </div>
+                            <span style="color: var(--text-secondary);">~</span>
+                            <div style="position: relative; flex: 1;">
+                                <input type="text" class="form-control" id="tanggalAkhir" placeholder="dd-mm-yyyy" value="21-11-2025" style="padding-right: 2.5rem;">
+                                <span style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); pointer-events: none; color: var(--text-secondary);">📅</span>
+                            </div>
                         </div>
                     </div>
 
-                    <div>
-                        <h4 style="margin-bottom: 1rem;">Pengaturan Email:</h4>
-                        <div class="form-group">
-                            <label class="form-label">SMTP Server</label>
-                            <input type="text" class="form-control" value="smtp.span.go.id" placeholder="Masukkan SMTP Server">
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">SMTP Port</label>
-                            <input type="number" class="form-control" value="587" placeholder="Masukkan SMTP Port">
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Email Pengirim</label>
-                            <input type="email" class="form-control" value="noreply@span.go.id" placeholder="Masukkan email pengirim">
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Nama Pengirim</label>
-                            <input type="text" class="form-control" value="CustomWeb SPAN" placeholder="Masukkan nama pengirim">
-                        </div>
-                    </div>
-                </div>
-
-                <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
-                    <button class="btn btn-primary" onclick="saveConfig()">
-                        💾 Simpan Konfigurasi
-                    </button>
-                    <button class="btn btn-success" onclick="testEmail()">
-                        📧 Test Email
-                    </button>
-                </div>
-            </div>
-
-            <!-- Filter Card -->
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">🔍 Filter Email Log</h3>
-                    <div style="display: flex; gap: 0.5rem;">
-                        <button class="btn btn-primary" onclick="searchLog()">
-                            🔍 Search
-                        </button>
-                        <button class="btn btn-secondary" onclick="resetFilter()">
-                            🔄 Reset
-                        </button>
-                    </div>
-                </div>
-
-                <div class="grid grid-4">
-                    <div class="form-group">
-                        <label class="form-label">Email Penerima</label>
-                        <input type="email" class="form-control" placeholder="Cari berdasarkan email">
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label">Jenis Notifikasi</label>
-                        <select class="form-control">
-                            <option value="">-- Semua Jenis --</option>
-                            <option>Upload ADK Berhasil</option>
-                            <option>Approval/Rejection</option>
-                            <option>Lock/Unlock</option>
-                            <option>DIPA Dibuat</option>
-                            <option>Revisi DIPA</option>
-                            <option>Posting Interface</option>
+                    <!-- Jenis -->
+                    <div class="form-group" style="flex: 1; min-width: 200px;">
+                        <label class="form-label" style="font-weight: 600; margin-bottom: 0.5rem;">Jenis :</label>
+                        <select class="form-control" id="jenis">
+                            <option value="" selected>-- Seleksi --</option>
+                            <option value="dit-pa-revision">DIPA of DIT.PA Revision</option>
+                            <option value="dgb-revision">DIPA of DGB Revision</option>
+                            <option value="initial">DIPA of Initial</option>
+                            <option value="kanwil-revision">DIPA of KANWIL Revision</option>
+                            <option value="proposal-revision-success">Proposal of Revision(Success)</option>
+                            <option value="rejection-revision">Rejection of Revision</option>
                         </select>
                     </div>
 
-                    <div class="form-group">
-                        <label class="form-label">Status</label>
-                        <select class="form-control">
-                            <option value="">-- Semua Status --</option>
-                            <option>Sent</option>
-                            <option>Pending</option>
-                            <option>Failed</option>
-                        </select>
+                    <!-- Status -->
+                    <div class="form-group" style="flex: 1; min-width: 250px;">
+                        <label class="form-label" style="font-weight: 600; margin-bottom: 0.5rem;">Status :</label>
+                        <div style="display: flex; flex-wrap: wrap; gap: 1rem;">
+                            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                                <input type="radio" name="status" value="semua" checked>
+                                <span>Semua</span>
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                                <input type="radio" name="status" value="sukses">
+                                <span>Sukses</span>
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                                <input type="radio" name="status" value="gagal">
+                                <span>Gagal</span>
+                            </label>
+                        </div>
                     </div>
 
-                    <div class="form-group">
-                        <label class="form-label">Tanggal</label>
-                        <input type="date" class="form-control">
+                    <!-- Kondisi dan Kata Kunci -->
+                    <div class="form-group" style="flex: 1; min-width: 300px;">
+                        <label class="form-label" style="font-weight: 600; margin-bottom: 0.5rem;">Kondisi :</label>
+                        <div style="display: flex; flex-wrap: wrap; gap: 1rem; align-items: center;">
+                            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                                <input type="radio" name="kondisi" value="dept">
+                                <span>Dept</span>
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                                <input type="radio" name="kondisi" value="unit">
+                                <span>Unit</span>
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                                <input type="radio" name="kondisi" value="satker">
+                                <span>Satker</span>
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                                <input type="radio" name="kondisi" value="semua" checked>
+                                <span>Semua</span>
+                            </label>
+                            <span style="margin-left: 0.5rem; font-weight: 600;">•Kata kunci :</span>
+                            <input type="text" class="form-control" id="kataKunci" placeholder="Masukkan kata kunci..." style="flex: 1; min-width: 150px;">
+                        </div>
+                    </div>
+
+                    <!-- Tombol Cari -->
+                    <div class="form-group" style="flex: 0 0 auto;">
+                        <button class="btn btn-primary" onclick="searchData()" style="margin-top: 1.75rem;">
+                            Cari
+                        </button>
                     </div>
                 </div>
             </div>
 
-            <!-- Email Log Table -->
+            <!-- Data Table Section -->
             <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">📊 Email Log</h3>
-                    <div style="display: flex; gap: 0.5rem;">
-                        <button class="btn btn-success" onclick="resendFailed()">
-                            🔄 Resend Gagal
-                        </button>
-                        <button class="btn btn-info" onclick="exportLog()">
-                            📥 Export Log
-                        </button>
+                <!-- Total Data dan Jumlah per Halaman -->
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 1rem;">
+                    <div style="display: flex; align-items: center; gap: 1.5rem;">
+                        <div style="font-weight: 600; font-size: 1rem;">
+                            Total <span style="color: var(--primary-color);" id="totalData">12602</span> | 
+                            <label class="form-label" style="margin: 0; display: inline;">Jumlah per halaman</label>
+                            <select class="form-control" id="itemsPerPage" style="width: auto; padding: 0.5rem; display: inline-block; margin-left: 0.5rem;" onchange="changeItemsPerPage()">
+                                <option value="10">10</option>
+                                <option value="30" selected>30</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
 
-                <div style="overflow-x: auto;">
-                    <table class="table">
+                <!-- Data Table -->
+                <div class="table-container">
+                    <table class="table" style="table-layout: fixed;">
                         <thead>
                             <tr>
-                                <th style="width: 50px;">No</th>
-                                <th style="width: 200px;">Email Penerima</th>
-                                <th style="min-width: 200px;">Subject</th>
-                                <th style="width: 150px;">Jenis Notifikasi</th>
-                                <th style="width: 150px;">Waktu Kirim</th>
-                                <th style="width: 120px;">Status</th>
-                                <th style="width: 150px;">Aksi</th>
+                                <th style="width: 400px; text-align: center;">Kementerian / Unit / Satker</th>
+                                <th style="width: 120px; text-align: center;">Revisi-ke</th>
+                                <th style="width: 120px; text-align: center;">Status</th>
+                                <th style="width: 100px; text-align: center;">Cetak</th>
+                                <th style="width: 180px; text-align: center;">Send Time</th>
+                                <th style="width: 150px; text-align: center;">Sender</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="dataTable">
                             <tr>
+                                <td>006.01.007102 | KEJAKSAAN TINGGI SUMATER...</td>
+                                <td>15</td>
+                                <td>Sukses</td>
+                                <td><a href="#" style="color: var(--primary-color); text-decoration: underline;">Cetak</a></td>
+                                <td>21-NOV-25 14:42:34</td>
+                                <td>sakti_auto</td>
+                            </tr>
+                            <tr>
+                                <td>012.01 | KEMENTERIAN PERTAHANAN</td>
                                 <td>1</td>
-                                <td>user1@span.go.id</td>
-                                <td>Notifikasi: Approval DIPA Berhasil</td>
-                                <td>Approval/Rejection</td>
-                                <td>2025-01-15 14:30:00</td>
-                                <td><span class="badge badge-success">Sent</span></td>
-                                <td>
-                                    <button class="btn btn-outline" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="viewEmail(1)">
-                                        👁️ Detail
-                                    </button>
-                                </td>
+                                <td>Sukses</td>
+                                <td><a href="#" style="color: var(--primary-color); text-decoration: underline;">Cetak</a></td>
+                                <td>21-NOV-25 16:55:40</td>
+                                <td>sakti_auto</td>
                             </tr>
                             <tr>
+                                <td>006.01 | KEJAKSAAN REPUBLIK INDONESIA</td>
                                 <td>2</td>
-                                <td>user2@span.go.id</td>
-                                <td>Notifikasi: Upload ADK Berhasil</td>
-                                <td>Upload ADK Berhasil</td>
-                                <td>2025-01-15 15:00:00</td>
-                                <td><span class="badge badge-success">Sent</span></td>
-                                <td>
-                                    <button class="btn btn-outline" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="viewEmail(2)">
-                                        👁️ Detail
-                                    </button>
-                                </td>
+                                <td>Sukses</td>
+                                <td><a href="#" style="color: var(--primary-color); text-decoration: underline;">Cetak</a></td>
+                                <td>21-NOV-25 16:43:09</td>
+                                <td>sakti_auto</td>
                             </tr>
                             <tr>
+                                <td>010.04 | DITJEN PEMERINTAHAN UMUM</td>
+                                <td>1</td>
+                                <td>Gagal</td>
+                                <td><a href="#" style="color: var(--primary-color); text-decoration: underline;">Cetak</a></td>
+                                <td>21-NOV-25 16:06:32</td>
+                                <td>sakti_auto</td>
+                            </tr>
+                            <tr>
+                                <td>010.01 | SEKRETARIAT JENDERAL</td>
                                 <td>3</td>
-                                <td>user3@span.go.id</td>
-                                <td>Notifikasi: Posting Interface Berhasil</td>
-                                <td>Posting Interface</td>
-                                <td>2025-01-15 16:00:00</td>
-                                <td><span class="badge badge-warning">Pending</span></td>
-                                <td>
-                                    <button class="btn btn-warning" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="resendEmail(3)">
-                                        🔄 Resend
-                                    </button>
-                                </td>
+                                <td>Sukses</td>
+                                <td><a href="#" style="color: var(--primary-color); text-decoration: underline;">Cetak</a></td>
+                                <td>21-NOV-25 15:14:42</td>
+                                <td>sakti_auto</td>
                             </tr>
                             <tr>
+                                <td>011.05 | DIREKTORAT JENDERAL MULTILATERA...</td>
+                                <td>1</td>
+                                <td>Sukses</td>
+                                <td><a href="#" style="color: var(--primary-color); text-decoration: underline;">Cetak</a></td>
+                                <td>21-NOV-25 14:30:15</td>
+                                <td>sakti_auto</td>
+                            </tr>
+                            <tr>
+                                <td>012.02 | DIREKTORAT JENDERAL PERTAHANAN</td>
+                                <td>2</td>
+                                <td>Gagal</td>
+                                <td><a href="#" style="color: var(--primary-color); text-decoration: underline;">Cetak</a></td>
+                                <td>21-NOV-25 13:45:22</td>
+                                <td>sakti_auto</td>
+                            </tr>
+                            <tr>
+                                <td>005.01 | MAHKAMAH AGUNG</td>
+                                <td>1</td>
+                                <td>Sukses</td>
+                                <td><a href="#" style="color: var(--primary-color); text-decoration: underline;">Cetak</a></td>
+                                <td>21-NOV-25 12:20:33</td>
+                                <td>sakti_auto</td>
+                            </tr>
+                            <tr>
+                                <td>007.03 | DIREKTORAT JENDERAL KESEHATAN</td>
                                 <td>4</td>
-                                <td>user4@span.go.id</td>
-                                <td>Notifikasi: DIPA Dibuat</td>
-                                <td>DIPA Dibuat</td>
-                                <td>2025-01-15 17:00:00</td>
-                                <td><span class="badge badge-danger">Failed</span></td>
-                                <td>
-                                    <button class="btn btn-danger" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="resendEmail(4)">
-                                        🔄 Retry
-                                    </button>
-                                </td>
+                                <td>Sukses</td>
+                                <td><a href="#" style="color: var(--primary-color); text-decoration: underline;">Cetak</a></td>
+                                <td>21-NOV-25 11:15:18</td>
+                                <td>sakti_auto</td>
+                            </tr>
+                            <tr>
+                                <td>008.02 | DIREKTORAT JENDERAL SOSIAL</td>
+                                <td>1</td>
+                                <td>Sukses</td>
+                                <td><a href="#" style="color: var(--primary-color); text-decoration: underline;">Cetak</a></td>
+                                <td>21-NOV-25 10:05:55</td>
+                                <td>sakti_auto</td>
+                            </tr>
+                            <tr>
+                                <td>009.01 | DIREKTORAT JENDERAL KETENAGAKERJAAN</td>
+                                <td>2</td>
+                                <td>Sukses</td>
+                                <td><a href="#" style="color: var(--primary-color); text-decoration: underline;">Cetak</a></td>
+                                <td>21-NOV-25 09:30:40</td>
+                                <td>sakti_auto</td>
+                            </tr>
+                            <tr>
+                                <td>013.04 | DIREKTORAT JENDERAL ENERGI</td>
+                                <td>1</td>
+                                <td>Sukses</td>
+                                <td><a href="#" style="color: var(--primary-color); text-decoration: underline;">Cetak</a></td>
+                                <td>21-NOV-25 08:15:20</td>
+                                <td>sakti_auto</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
 
                 <!-- Pagination -->
-                <div style="display: flex; justify-content: space-between; align-items: center; padding: 1rem 0; border-top: 1px solid var(--border-color);">
-                    <div>
-                        Showing 1-4 of 342 records
+                <div class="pagination-container">
+                    <div class="pagination-info">
+                        Menampilkan 1-30 dari 12602 data
                     </div>
-                    <div style="display: flex; gap: 0.5rem;">
-                        <button class="btn btn-outline" style="padding: 0.5rem 1rem;" disabled>← Previous</button>
-                        <button class="btn btn-outline active" style="padding: 0.5rem 1rem;">1</button>
-                        <button class="btn btn-outline" style="padding: 0.5rem 1rem;">2</button>
-                        <button class="btn btn-outline" style="padding: 0.5rem 1rem;">3</button>
-                        <button class="btn btn-outline" style="padding: 0.5rem 1rem;">...</button>
-                        <button class="btn btn-outline" style="padding: 0.5rem 1rem;">86</button>
-                        <button class="btn btn-outline" style="padding: 0.5rem 1rem;">Next →</button>
+                    <div class="pagination">
+                        <button class="pagination-btn" disabled>‹‹ First</button>
+                        <button class="pagination-btn" disabled>‹ Previous</button>
+                        <button class="pagination-btn active">1</button>
+                        <button class="pagination-btn">2</button>
+                        <button class="pagination-btn">3</button>
+                        <button class="pagination-btn">...</button>
+                        <button class="pagination-btn">421</button>
+                        <button class="pagination-btn">Next ›</button>
+                        <button class="pagination-btn">Last ››</button>
                     </div>
                 </div>
             </div>
@@ -287,52 +281,236 @@
             }
         }
 
-        function saveConfig() {
-            alert('Konfigurasi email berhasil disimpan!');
-        }
+        function searchData() {
+            const tanggalAwal = document.getElementById('tanggalAwal').value;
+            const tanggalAkhir = document.getElementById('tanggalAkhir').value;
+            const jenis = document.getElementById('jenis').value;
+            const status = document.querySelector('input[name="status"]:checked').value;
+            const kondisi = document.querySelector('input[name="kondisi"]:checked').value;
+            const kataKunci = document.getElementById('kataKunci').value;
 
-        function testEmail() {
-            const email = prompt('Masukkan email untuk test:', '');
-            if (email) {
-                alert(`Mengirim email test ke ${email}...`);
-            }
-        }
-
-        function searchLog() {
-            alert('Mencari log email dengan filter yang dipilih...');
-        }
-
-        function resetFilter() {
-            document.querySelectorAll('.form-control').forEach(el => {
-                if (el.tagName === 'SELECT') {
-                    el.selectedIndex = 0;
-                } else {
-                    el.value = '';
-                }
+            // Simulasi pencarian
+            console.log('Mencari dengan filter:', {
+                tanggalAwal,
+                tanggalAkhir,
+                jenis,
+                status,
+                kondisi,
+                kataKunci
             });
+
+            // Di sini bisa ditambahkan logika untuk fetch data dari server
+            alert('Pencarian dilakukan dengan filter yang dipilih');
         }
 
-        function resendFailed() {
-            if (confirm('Apakah Anda yakin ingin mengirim ulang semua email yang gagal?')) {
-                alert('Mengirim ulang email yang gagal...');
-            }
+        function changeItemsPerPage() {
+            const itemsPerPage = document.getElementById('itemsPerPage').value;
+            console.log('Mengubah jumlah item per halaman:', itemsPerPage);
+            // Di sini bisa ditambahkan logika untuk reload data dengan pagination baru
         }
 
-        function exportLog() {
-            alert('Exporting email log to Excel...');
-        }
+        // Initialize date picker (simple implementation)
+        document.getElementById('tanggalAwal').addEventListener('focus', function() {
+            this.type = 'date';
+        });
 
-        function viewEmail(no) {
-            alert(`Menampilkan detail email nomor ${no}...`);
-        }
-
-        function resendEmail(no) {
-            if (confirm(`Apakah Anda yakin ingin mengirim ulang email nomor ${no}?`)) {
-                alert(`Mengirim ulang email nomor ${no}...`);
-            }
-        }
+        document.getElementById('tanggalAkhir').addEventListener('focus', function() {
+            this.type = 'date';
+        });
     </script>
+
+    <style>
+        input[type="radio"] {
+            cursor: pointer;
+            width: 16px;
+            height: 16px;
+        }
+
+        input[type="radio"]:checked {
+            accent-color: var(--primary-color);
+        }
+
+        /* Table Container for Horizontal Scroll */
+        .table-container {
+            overflow-x: auto;
+            position: relative;
+        }
+
+        /* Force table layout fixed to respect column widths */
+        .table-container .table {
+            table-layout: fixed !important;
+            width: 100%;
+        }
+
+        /* Table Header Styles */
+        .table thead tr th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+            border: 1px solid #dee2e6;
+            border-bottom: 2px solid #dee2e6;
+            padding: 0.75rem;
+        }
+
+        .table th {
+            text-align: center;
+        }
+
+        .table td {
+            text-align: left;
+            padding: 0.75rem;
+            border: 1px solid #dee2e6;
+        }
+
+        /* Freeze/Sticky Columns - Kementerian / Unit / Satker */
+        .table thead tr th:nth-child(1),
+        .table tbody tr td:nth-child(1) {
+            position: sticky;
+            left: 0;
+            z-index: 100;
+            background-color: #f8f9fa;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+            width: 400px;
+            min-width: 400px;
+            max-width: 400px;
+        }
+
+        .table tbody tr td:nth-child(1) {
+            background-color: white;
+            z-index: 100;
+        }
+
+        /* Freeze/Sticky Columns - Revisi-ke */
+        .table thead tr th:nth-child(2),
+        .table tbody tr td:nth-child(2) {
+            position: sticky;
+            left: 400px;
+            z-index: 100;
+            background-color: #f8f9fa;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+            width: 120px;
+            min-width: 120px;
+            max-width: 120px;
+        }
+
+        .table tbody tr td:nth-child(2) {
+            background-color: white;
+            z-index: 100;
+        }
+
+        /* Freeze/Sticky Columns - Status */
+        .table thead tr th:nth-child(3),
+        .table tbody tr td:nth-child(3) {
+            position: sticky;
+            left: 520px;
+            z-index: 100;
+            background-color: #f8f9fa;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+            width: 120px;
+            min-width: 120px;
+            max-width: 120px;
+        }
+
+        .table tbody tr td:nth-child(3) {
+            background-color: white;
+            z-index: 100;
+        }
+
+        /* Ensure non-sticky columns (after Status) are scrollable - explicitly remove z-index */
+        .table thead tr th:nth-child(n+4),
+        .table tbody tr td:nth-child(n+4) {
+            position: static !important;
+            z-index: auto !important;
+        }
+
+        /* Ensure scrollable columns have appropriate width */
+        /* Cetak */
+        .table thead tr th:nth-child(4),
+        .table tbody tr td:nth-child(4) {
+            width: 100px !important;
+            min-width: 100px !important;
+            max-width: 100px !important;
+            text-align: center;
+        }
+
+        /* Send Time */
+        .table thead tr th:nth-child(5),
+        .table tbody tr td:nth-child(5) {
+            width: 180px !important;
+            min-width: 180px !important;
+            max-width: 180px !important;
+        }
+
+        /* Sender */
+        .table thead tr th:nth-child(6),
+        .table tbody tr td:nth-child(6) {
+            width: 150px !important;
+            min-width: 150px !important;
+            max-width: 150px !important;
+        }
+
+        /* Maintain background colors for sticky cells on hover */
+        .table tbody tr:hover td:nth-child(1),
+        .table tbody tr:hover td:nth-child(2),
+        .table tbody tr:hover td:nth-child(3) {
+            background-color: var(--light-color);
+        }
+
+        /* Pagination Styles */
+        .pagination-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1.5rem;
+            padding: 1rem 0;
+            border-top: 1px solid var(--border-color);
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .pagination-info {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .pagination {
+            display: flex;
+            gap: 0.25rem;
+            align-items: center;
+        }
+
+        .pagination-btn {
+            padding: 0.5rem 0.75rem;
+            border: 1px solid var(--border-color);
+            background-color: white;
+            color: var(--text-primary);
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 0.875rem;
+            transition: all 0.3s;
+            min-width: 40px;
+        }
+
+        .pagination-btn:hover:not(:disabled):not(.active) {
+            background-color: var(--light-color);
+            border-color: var(--primary-color);
+        }
+
+        .pagination-btn.active {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .pagination-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            background-color: var(--light-color);
+        }
+
+        .table tbody tr:hover {
+            background-color: var(--light-color);
+        }
+    </style>
 </body>
 </html>
-
-

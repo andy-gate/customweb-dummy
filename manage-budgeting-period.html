@@ -18,334 +18,85 @@
     <!-- Main Content Wrapper -->
     <div class="main-wrapper" id="mainWrapper">
         <div class="container">
-            <h2 style="margin-bottom: 1.5rem;">📅 Manage Budgeting Period</h2>
+            <h2 style="margin-bottom: 1.5rem;">Manage Budgeting Period</h2>
 
-            <div class="alert alert-info">
-                <strong>ℹ️ Informasi:</strong> Halaman ini digunakan untuk mengelola periode budgeting (Tahun Anggaran) yang akan digunakan dalam sistem.
-            </div>
-
-            <!-- Statistics -->
-            <div class="grid grid-4">
-                <div class="stat-card">
-                    <div class="stat-label">📅 Total Period</div>
-                    <div class="stat-value">5</div>
-                </div>
-                <div class="stat-card success">
-                    <div class="stat-label">✅ Aktif</div>
-                    <div class="stat-value">1</div>
-                </div>
-                <div class="stat-card warning">
-                    <div class="stat-label">📋 Closed</div>
-                    <div class="stat-value">3</div>
-                </div>
-                <div class="stat-card info">
-                    <div class="stat-label">🔜 Upcoming</div>
-                    <div class="stat-value">1</div>
-                </div>
-            </div>
-
-            <!-- Action Buttons -->
+            <!-- Data Table Section -->
             <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">⚡ Aksi</h3>
-                </div>
-                <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
-                    <button class="btn btn-primary" onclick="showAddModal()">
-                        ➕ Tambah Period Baru
-                    </button>
-                    <button class="btn btn-success" onclick="activatePeriod()">
-                        ✅ Aktifkan Period
-                    </button>
-                    <button class="btn btn-warning" onclick="closePeriod()">
-                        🔒 Tutup Period
-                    </button>
-                    <button class="btn btn-info" onclick="exportPeriod()">
-                        📤 Export ke Excel
-                    </button>
-                </div>
-            </div>
-
-            <!-- Filter Card -->
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">🔍 Filter Pencarian</h3>
-                    <div style="display: flex; gap: 0.5rem;">
-                        <button class="btn btn-primary" onclick="searchPeriod()">
-                            🔍 Search
-                        </button>
-                        <button class="btn btn-secondary" onclick="resetFilter()">
-                            🔄 Reset
-                        </button>
-                    </div>
-                </div>
-
-                <div class="grid grid-4">
-                    <div class="form-group">
-                        <label class="form-label">Tahun Anggaran</label>
-                        <input type="text" class="form-control" id="tahunAnggaran" placeholder="Contoh: 2025">
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label">Status</label>
-                        <select class="form-control" id="statusFilter">
-                            <option value="">-- Semua Status --</option>
-                            <option>Active</option>
-                            <option>Closed</option>
-                            <option>Upcoming</option>
-                            <option>Draft</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label">Tanggal Mulai Dari</label>
-                        <input type="date" class="form-control" id="tanggalMulaiDari">
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label">Tanggal Mulai Sampai</label>
-                        <input type="date" class="form-control" id="tanggalMulaiSampai">
-                    </div>
-                </div>
-            </div>
-
-            <!-- Period List Table -->
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">📊 Daftar Budgeting Period</h3>
-                </div>
-
-                <div style="overflow-x: auto;">
-                    <table class="table">
+                <!-- Data Table -->
+                <div class="table-container">
+                    <table class="table" style="table-layout: fixed;">
                         <thead>
                             <tr>
-                                <th style="width: 50px;"><input type="checkbox" id="checkAll" onchange="toggleAllChecks(this)"></th>
-                                <th style="width: 50px;">No</th>
-                                <th style="width: 120px;">Tahun Anggaran</th>
-                                <th style="width: 150px;">Tanggal Mulai</th>
-                                <th style="width: 150px;">Tanggal Selesai</th>
-                                <th style="width: 120px;">Status</th>
-                                <th style="min-width: 200px;">Keterangan</th>
-                                <th style="width: 200px;">Aksi</th>
+                                <th style="text-align: center;">Bugdet Type</th>
+                                <th colspan="2" style="text-align: center;">Start Date ~ End Date</th>
+                                <th style="text-align: center;">Updater</th>
+                                <th style="text-align: center;">Update Date</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr style="background-color: #d1fae5;">
-                                <td><input type="checkbox" class="data-checkbox"></td>
-                                <td>1</td>
-                                <td><strong>2025</strong></td>
-                                <td>01 Jan 2025</td>
-                                <td>31 Des 2025</td>
-                                <td><span class="badge badge-success">Active</span></td>
-                                <td>Tahun Anggaran aktif saat ini</td>
-                                <td>
-                                    <button class="btn btn-outline" style="padding: 0.25rem 0.5rem; font-size: 0.75rem; margin-right: 0.25rem;" onclick="editPeriod(1)">
-                                        ✏️ Edit
-                                    </button>
-                                    <button class="btn btn-warning" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="viewDetails(1)">
-                                        📋 Detail
-                                    </button>
+                        <tbody id="dataTable">
+                            <tr>
+                                <td style="text-align: center;">Himpunan</td>
+                                <td colspan="2">
+                                    <div style="display: flex; align-items: center; gap: 0.5rem; justify-content: center;">
+                                        <div style="position: relative; flex: 1; max-width: 150px;">
+                                            <input type="text" class="form-control date-input" value="01-04-2024" placeholder="dd-mm-yyyy" style="padding-right: 2.5rem;">
+                                            <span style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); pointer-events: none; color: var(--text-secondary);">📅</span>
+                                        </div>
+                                        <span style="color: var(--text-secondary);">~</span>
+                                        <div style="position: relative; flex: 1; max-width: 150px;">
+                                            <input type="text" class="form-control date-input" value="10-08-2024" placeholder="dd-mm-yyyy" style="padding-right: 2.5rem;">
+                                            <span style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); pointer-events: none; color: var(--text-secondary);">📅</span>
+                                        </div>
+                                    </div>
                                 </td>
+                                <td style="text-align: center;">System Admin (Cadmin)</td>
+                                <td style="text-align: center;">09-10-2024</td>
                             </tr>
                             <tr>
-                                <td><input type="checkbox" class="data-checkbox"></td>
-                                <td>2</td>
-                                <td><strong>2024</strong></td>
-                                <td>01 Jan 2024</td>
-                                <td>31 Des 2024</td>
-                                <td><span class="badge badge-secondary">Closed</span></td>
-                                <td>Period sudah ditutup</td>
-                                <td>
-                                    <button class="btn btn-outline" style="padding: 0.25rem 0.5rem; font-size: 0.75rem; margin-right: 0.25rem;" onclick="editPeriod(2)">
-                                        ✏️ Edit
-                                    </button>
-                                    <button class="btn btn-outline" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="viewDetails(2)">
-                                        📋 Detail
-                                    </button>
+                                <td style="text-align: center;">Keppres</td>
+                                <td colspan="2">
+                                    <div style="display: flex; align-items: center; gap: 0.5rem; justify-content: center;">
+                                        <div style="position: relative; flex: 1; max-width: 150px;">
+                                            <input type="text" class="form-control date-input" value="11-08-2024" placeholder="dd-mm-yyyy" style="padding-right: 2.5rem;">
+                                            <span style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); pointer-events: none; color: var(--text-secondary);">📅</span>
+                                        </div>
+                                        <span style="color: var(--text-secondary);">~</span>
+                                        <div style="position: relative; flex: 1; max-width: 150px;">
+                                            <input type="text" class="form-control date-input" value="10-12-2024" placeholder="dd-mm-yyyy" style="padding-right: 2.5rem;">
+                                            <span style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); pointer-events: none; color: var(--text-secondary);">📅</span>
+                                        </div>
+                                    </div>
                                 </td>
+                                <td style="text-align: center;">System Admin (Cadmin)</td>
+                                <td style="text-align: center;">09-10-2024</td>
                             </tr>
                             <tr>
-                                <td><input type="checkbox" class="data-checkbox"></td>
-                                <td>3</td>
-                                <td><strong>2023</strong></td>
-                                <td>01 Jan 2023</td>
-                                <td>31 Des 2023</td>
-                                <td><span class="badge badge-secondary">Closed</span></td>
-                                <td>Period sudah ditutup</td>
-                                <td>
-                                    <button class="btn btn-outline" style="padding: 0.25rem 0.5rem; font-size: 0.75rem; margin-right: 0.25rem;" onclick="editPeriod(3)">
-                                        ✏️ Edit
-                                    </button>
-                                    <button class="btn btn-outline" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="viewDetails(3)">
-                                        📋 Detail
-                                    </button>
+                                <td style="text-align: center;">Revisi</td>
+                                <td colspan="2">
+                                    <div style="display: flex; align-items: center; gap: 0.5rem; justify-content: center;">
+                                        <div style="position: relative; flex: 1; max-width: 150px;">
+                                            <input type="text" class="form-control date-input" value="10-12-2024" placeholder="dd-mm-yyyy" style="padding-right: 2.5rem;">
+                                            <span style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); pointer-events: none; color: var(--text-secondary);">📅</span>
+                                        </div>
+                                        <span style="color: var(--text-secondary);">~</span>
+                                        <div style="position: relative; flex: 1; max-width: 150px;">
+                                            <input type="text" class="form-control date-input" value="31-12-2025" placeholder="dd-mm-yyyy" style="padding-right: 2.5rem;">
+                                            <span style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); pointer-events: none; color: var(--text-secondary);">📅</span>
+                                        </div>
+                                    </div>
                                 </td>
-                            </tr>
-                            <tr style="background-color: #dbeafe;">
-                                <td><input type="checkbox" class="data-checkbox"></td>
-                                <td>4</td>
-                                <td><strong>2026</strong></td>
-                                <td>01 Jan 2026</td>
-                                <td>31 Des 2026</td>
-                                <td><span class="badge badge-info">Upcoming</span></td>
-                                <td>Period akan datang</td>
-                                <td>
-                                    <button class="btn btn-outline" style="padding: 0.25rem 0.5rem; font-size: 0.75rem; margin-right: 0.25rem;" onclick="editPeriod(4)">
-                                        ✏️ Edit
-                                    </button>
-                                    <button class="btn btn-success" style="padding: 0.25rem 0.5rem; font-size: 0.75rem; margin-right: 0.25rem;" onclick="activatePeriodById(4)">
-                                        ✅ Aktifkan
-                                    </button>
-                                    <button class="btn btn-outline" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="viewDetails(4)">
-                                        📋 Detail
-                                    </button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><input type="checkbox" class="data-checkbox"></td>
-                                <td>5</td>
-                                <td><strong>2022</strong></td>
-                                <td>01 Jan 2022</td>
-                                <td>31 Des 2022</td>
-                                <td><span class="badge badge-secondary">Closed</span></td>
-                                <td>Period sudah ditutup</td>
-                                <td>
-                                    <button class="btn btn-outline" style="padding: 0.25rem 0.5rem; font-size: 0.75rem; margin-right: 0.25rem;" onclick="editPeriod(5)">
-                                        ✏️ Edit
-                                    </button>
-                                    <button class="btn btn-outline" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="viewDetails(5)">
-                                        📋 Detail
-                                    </button>
-                                </td>
+                                <td style="text-align: center;">System Admin (Cadmin)</td>
+                                <td style="text-align: center;">09-10-2024</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
 
-                <!-- Pagination -->
-                <div style="display: flex; justify-content: space-between; align-items: center; padding: 1rem 0; border-top: 1px solid var(--border-color);">
-                    <div>
-                        Showing 1-5 of 5 records
-                    </div>
-                    <div style="display: flex; gap: 0.5rem;">
-                        <button class="btn btn-outline" style="padding: 0.5rem 1rem;" disabled>← Previous</button>
-                        <button class="btn btn-outline active" style="padding: 0.5rem 1rem;">1</button>
-                        <button class="btn btn-outline" style="padding: 0.5rem 1rem;" disabled>Next →</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Add/Edit Modal -->
-    <div id="periodModal" class="modal">
-        <div class="modal-content" style="max-width: 600px;">
-            <div class="modal-header">
-                <h3 id="modalTitle">➕ Tambah Budgeting Period Baru</h3>
-                <button class="modal-close" onclick="closeModal()">&times;</button>
-            </div>
-
-            <div>
-                <div class="grid grid-2">
-                    <div class="form-group">
-                        <label class="form-label">Tahun Anggaran <span style="color: red;">*</span></label>
-                        <input type="text" class="form-control" id="tahunAnggaranModal" placeholder="Contoh: 2025" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label">Status <span style="color: red;">*</span></label>
-                        <select class="form-control" id="statusPeriod" required>
-                            <option value="draft">Draft</option>
-                            <option value="upcoming">Upcoming</option>
-                            <option value="active">Active</option>
-                            <option value="closed">Closed</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="grid grid-2">
-                    <div class="form-group">
-                        <label class="form-label">Tanggal Mulai <span style="color: red;">*</span></label>
-                        <input type="date" class="form-control" id="tanggalMulai" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label">Tanggal Selesai <span style="color: red;">*</span></label>
-                        <input type="date" class="form-control" id="tanggalSelesai" required>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">Keterangan</label>
-                    <textarea class="form-control" id="keterangan" rows="3" placeholder="Masukkan keterangan (opsional)"></textarea>
-                </div>
-
-                <div style="display: flex; gap: 0.5rem; justify-content: flex-end; margin-top: 1.5rem;">
-                    <button class="btn btn-secondary" onclick="closeModal()">Batal</button>
-                    <button class="btn btn-primary" onclick="savePeriod()">💾 Simpan</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Detail Modal -->
-    <div id="detailModal" class="modal">
-        <div class="modal-content" style="max-width: 700px;">
-            <div class="modal-header">
-                <h3>📋 Detail Budgeting Period</h3>
-                <button class="modal-close" onclick="closeDetailModal()">&times;</button>
-            </div>
-
-            <div>
-                <div class="grid grid-2">
-                    <div class="form-group">
-                        <label class="form-label">Tahun Anggaran</label>
-                        <div style="padding: 0.5rem; background: #f3f4f6; border-radius: 4px;">
-                            <strong>2025</strong>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label">Status</label>
-                        <div style="padding: 0.5rem;">
-                            <span class="badge badge-success">Active</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="grid grid-2">
-                    <div class="form-group">
-                        <label class="form-label">Tanggal Mulai</label>
-                        <div style="padding: 0.5rem; background: #f3f4f6; border-radius: 4px;">
-                            01 Januari 2025
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label">Tanggal Selesai</label>
-                        <div style="padding: 0.5rem; background: #f3f4f6; border-radius: 4px;">
-                            31 Desember 2025
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">Keterangan</label>
-                    <div style="padding: 0.5rem; background: #f3f4f6; border-radius: 4px; min-height: 60px;">
-                        Tahun Anggaran aktif saat ini
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">Informasi Tambahan</label>
-                    <div style="padding: 1rem; background: #eff6ff; border-radius: 4px;">
-                        <div style="margin-bottom: 0.5rem;"><strong>Dibuat:</strong> 15 Desember 2024</div>
-                        <div style="margin-bottom: 0.5rem;"><strong>Diperbarui:</strong> 01 Januari 2025</div>
-                        <div><strong>Dibuat oleh:</strong> Admin System</div>
-                    </div>
-                </div>
-
-                <div style="display: flex; gap: 0.5rem; justify-content: flex-end; margin-top: 1.5rem;">
-                    <button class="btn btn-secondary" onclick="closeDetailModal()">Tutup</button>
+                <!-- Action Button -->
+                <div style="display: flex; justify-content: flex-end; margin-top: 1.5rem;">
+                    <button class="btn btn-primary" onclick="simpanData()">
+                        Simpan
+                    </button>
                 </div>
             </div>
         </div>
@@ -373,121 +124,97 @@
             }
         }
 
-        function toggleAllChecks(checkbox) {
-            const checkboxes = document.querySelectorAll('.data-checkbox');
-            checkboxes.forEach(cb => {
-                cb.checked = checkbox.checked;
+        function simpanData() {
+            const dateInputs = document.querySelectorAll('.date-input');
+            let isValid = true;
+            
+            dateInputs.forEach(input => {
+                const value = input.value.trim();
+                if (value && !/^\d{2}-\d{2}-\d{4}$/.test(value)) {
+                    isValid = false;
+                }
             });
-        }
 
-        function showAddModal() {
-            document.getElementById('modalTitle').textContent = '➕ Tambah Budgeting Period Baru';
-            document.getElementById('tahunAnggaranModal').value = '';
-            document.getElementById('statusPeriod').value = 'draft';
-            document.getElementById('tanggalMulai').value = '';
-            document.getElementById('tanggalSelesai').value = '';
-            document.getElementById('keterangan').value = '';
-            document.getElementById('periodModal').classList.add('active');
-        }
-
-        function editPeriod(no) {
-            document.getElementById('modalTitle').textContent = '✏️ Edit Budgeting Period';
-            // Load data for period no
-            document.getElementById('tahunAnggaranModal').value = '2025';
-            document.getElementById('statusPeriod').value = 'active';
-            document.getElementById('tanggalMulai').value = '2025-01-01';
-            document.getElementById('tanggalSelesai').value = '2025-12-31';
-            document.getElementById('keterangan').value = 'Tahun Anggaran aktif saat ini';
-            document.getElementById('periodModal').classList.add('active');
-        }
-
-        function closeModal() {
-            document.getElementById('periodModal').classList.remove('active');
-        }
-
-        function closeDetailModal() {
-            document.getElementById('detailModal').classList.remove('active');
-        }
-
-        function savePeriod() {
-            const tahunAnggaran = document.getElementById('tahunAnggaranModal').value;
-            const status = document.getElementById('statusPeriod').value;
-            const tanggalMulai = document.getElementById('tanggalMulai').value;
-            const tanggalSelesai = document.getElementById('tanggalSelesai').value;
-
-            if (!tahunAnggaran || !status || !tanggalMulai || !tanggalSelesai) {
-                alert('Mohon lengkapi semua field yang wajib diisi!');
+            if (!isValid) {
+                alert('Format tanggal tidak valid. Gunakan format dd-mm-yyyy');
                 return;
             }
 
-            if (new Date(tanggalSelesai) < new Date(tanggalMulai)) {
-                alert('Tanggal selesai tidak boleh lebih awal dari tanggal mulai!');
-                return;
-            }
-
-            alert('Data Budgeting Period berhasil disimpan!');
-            closeModal();
+            alert('Data berhasil disimpan!');
+            // Di sini bisa ditambahkan logika untuk menyimpan data ke server
         }
 
-        function activatePeriod() {
-            const checked = document.querySelectorAll('.data-checkbox:checked');
-            if (checked.length === 0) {
-                alert('Pilih minimal satu period yang akan diaktifkan!');
-                return;
-            }
-            if (confirm(`Apakah Anda yakin ingin mengaktifkan ${checked.length} period yang dipilih?`)) {
-                alert('Mengaktifkan period yang dipilih...');
-            }
-        }
-
-        function activatePeriodById(no) {
-            if (confirm(`Apakah Anda yakin ingin mengaktifkan Tahun Anggaran ini?\n\nPeriod yang sedang aktif akan otomatis ditutup.`)) {
-                alert(`Mengaktifkan period nomor ${no}...`);
-            }
-        }
-
-        function closePeriod() {
-            const checked = document.querySelectorAll('.data-checkbox:checked');
-            if (checked.length === 0) {
-                alert('Pilih minimal satu period yang akan ditutup!');
-                return;
-            }
-            if (confirm(`Apakah Anda yakin ingin menutup ${checked.length} period yang dipilih?\n\nPeriod yang ditutup tidak dapat diaktifkan kembali.`)) {
-                alert('Menutup period yang dipilih...');
-            }
-        }
-
-        function exportPeriod() {
-            alert('Exporting daftar Budgeting Period ke Excel...');
-        }
-
-        function searchPeriod() {
-            alert('Mencari Budgeting Period dengan filter yang dipilih...');
-        }
-
-        function resetFilter() {
-            document.getElementById('tahunAnggaran').value = '';
-            document.getElementById('statusFilter').value = '';
-            document.getElementById('tanggalMulaiDari').value = '';
-            document.getElementById('tanggalMulaiSampai').value = '';
-        }
-
-        function viewDetails(no) {
-            document.getElementById('detailModal').classList.add('active');
-        }
-
-        // Close modal when clicking outside
-        window.onclick = function(event) {
-            const periodModal = document.getElementById('periodModal');
-            const detailModal = document.getElementById('detailModal');
-            if (event.target === periodModal) {
-                periodModal.classList.remove('active');
-            }
-            if (event.target === detailModal) {
-                detailModal.classList.remove('active');
-            }
-        }
+        // Initialize date picker (simple implementation)
+        document.querySelectorAll('.date-input').forEach(input => {
+            input.addEventListener('focus', function() {
+                this.type = 'date';
+            });
+            input.addEventListener('blur', function() {
+                if (this.value) {
+                    // Convert date format from YYYY-MM-DD to DD-MM-YYYY
+                    const date = new Date(this.value);
+                    if (!isNaN(date.getTime())) {
+                        const day = String(date.getDate()).padStart(2, '0');
+                        const month = String(date.getMonth() + 1).padStart(2, '0');
+                        const year = date.getFullYear();
+                        this.type = 'text';
+                        this.value = `${day}-${month}-${year}`;
+                    }
+                }
+            });
+        });
     </script>
+
+    <style>
+        /* Table Container */
+        .table-container {
+            overflow-x: auto;
+            position: relative;
+        }
+
+        /* Force table layout fixed to respect column widths */
+        .table-container .table {
+            table-layout: fixed !important;
+            width: 100%;
+        }
+
+        /* Table Header Styles */
+        .table thead tr th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+            border: 1px solid #dee2e6;
+            border-bottom: 2px solid #dee2e6;
+            padding: 0.75rem;
+        }
+
+        .table th {
+            text-align: center;
+        }
+
+        .table td {
+            text-align: left;
+            padding: 0.75rem;
+            border: 1px solid #dee2e6;
+        }
+
+        /* Date input styling */
+        .date-input {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            font-size: 0.875rem;
+        }
+
+        .date-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+        }
+
+        .table tbody tr:hover {
+            background-color: var(--light-color);
+        }
+    </style>
 </body>
 </html>
-
