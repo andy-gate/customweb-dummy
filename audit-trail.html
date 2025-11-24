@@ -70,15 +70,13 @@
                         <option>-- Semua Action --</option>
                         <option>Login</option>
                         <option>Logout</option>
-                        <option>Upload</option>
-                        <option>Approve</option>
                         <option>Reject</option>
                         <option>Delete</option>
                         <option>Update</option>
-                        <option>Lock</option>
-                        <option>Unlock</option>
                         <option>View</option>
                         <option>Export</option>
+                        <option>Create</option>
+                        <option>Search</option>
                     </select>
                 </div>
 
@@ -98,13 +96,13 @@
                     <label class="form-label">Module</label>
                     <select class="form-control">
                         <option>-- Semua Module --</option>
-                        <option>ADK Upload</option>
                         <option>Monitor Upload</option>
                         <option>Online Review</option>
-                        <option>Approval</option>
-                        <option>Locking</option>
                         <option>Dashboard</option>
                         <option>Reports</option>
+                        <option>Monitoring</option>
+                        <option>Manage Reference Data</option>
+                        <option>Manage Authority</option>
                     </select>
                 </div>
 
@@ -134,11 +132,11 @@
             <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
                 <button class="btn btn-outline" onclick="filterByType('all')">📋 All Activities</button>
                 <button class="btn btn-outline" onclick="filterByType('login')">🔐 Login/Logout</button>
-                <button class="btn btn-outline" onclick="filterByType('upload')">📤 Upload</button>
-                <button class="btn btn-outline" onclick="filterByType('approval')">✅ Approval</button>
-                <button class="btn btn-outline" onclick="filterByType('blocking')">🔒 Blocking</button>
-                <button class="btn btn-outline" onclick="filterByType('locking')">🔐 Lock/Unlock</button>
                 <button class="btn btn-outline" onclick="filterByType('delete')">🗑️ Delete</button>
+                <button class="btn btn-outline" onclick="filterByType('update')">✏️ Update</button>
+                <button class="btn btn-outline" onclick="filterByType('view')">👁️ View</button>
+                <button class="btn btn-outline" onclick="filterByType('export')">📥 Export</button>
+                <button class="btn btn-outline" onclick="filterByType('create')">➕ Create</button>
                 <button class="btn btn-outline" onclick="filterByType('report')">📊 Reports</button>
             </div>
         </div>
@@ -174,14 +172,14 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td>11 Nov 2025<br>14:35:23</td>
-                            <td>DADUTEK01</td>
-                            <td>DADUTEK DJB</td>
-                            <td><span class="badge badge-warning">Lock</span></td>
-                            <td>Locking</td>
-                            <td>Unit: DJA - Approval</td>
+                            <td>13 Nov 2025<br>14:35:23</td>
+                            <td>ES4-002</td>
+                            <td>Echelon IV DJB</td>
+                            <td><span class="badge badge-info">View</span></td>
+                            <td>Monitoring</td>
+                            <td>Monitoring Dashboard</td>
                             <td><span class="badge badge-success">Success</span></td>
-                            <td>192.168.10.50</td>
+                            <td>192.168.10.42</td>
                             <td>
                                 <button class="btn btn-outline" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="viewDetail(1)">
                                     👁️ Detail
@@ -189,12 +187,12 @@
                             </td>
                         </tr>
                         <tr>
-                            <td>11 Nov 2025<br>14:28:15</td>
+                            <td>13 Nov 2025<br>14:28:15</td>
                             <td>ES3-001</td>
                             <td>Echelon III DJB</td>
-                            <td><span class="badge badge-success">Approve</span></td>
-                            <td>Approval</td>
-                            <td>SATKER: 412345</td>
+                            <td><span class="badge badge-info">Export</span></td>
+                            <td>Reports</td>
+                            <td>DIPA Induk Report - 610378</td>
                             <td><span class="badge badge-success">Success</span></td>
                             <td>192.168.10.35</td>
                             <td>
@@ -204,7 +202,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td>11 Nov 2025<br>14:15:42</td>
+                            <td>13 Nov 2025<br>14:15:42</td>
                             <td>ES4-002</td>
                             <td>Echelon IV DJB</td>
                             <td><span class="badge badge-info">View</span></td>
@@ -219,12 +217,12 @@
                             </td>
                         </tr>
                         <tr>
-                            <td>11 Nov 2025<br>13:58:30</td>
-                            <td>ES1-KL01</td>
-                            <td>Staf Eselon I KL</td>
-                            <td><span class="badge badge-info">Upload</span></td>
-                            <td>ADK Upload</td>
-                            <td>3 files - SATKER: 412347</td>
+                            <td>13 Nov 2025<br>13:58:30</td>
+                            <td>ADMIN01</td>
+                            <td>System Administrator</td>
+                            <td><span class="badge badge-primary">Create</span></td>
+                            <td>Manage Reference Data</td>
+                            <td>Common Code: NEW_CODE_001</td>
                             <td><span class="badge badge-success">Success</span></td>
                             <td>192.168.20.15</td>
                             <td>
@@ -234,13 +232,13 @@
                             </td>
                         </tr>
                         <tr>
-                            <td>11 Nov 2025<br>13:45:18</td>
-                            <td>ES1-KL02</td>
-                            <td>Staf Eselon I KL</td>
-                            <td><span class="badge badge-info">Upload</span></td>
-                            <td>ADK Upload</td>
-                            <td>5 files - SATKER: 412348</td>
-                            <td><span class="badge badge-danger">Failed</span></td>
+                            <td>13 Nov 2025<br>13:45:18</td>
+                            <td>ES4-001</td>
+                            <td>Echelon IV DJB</td>
+                            <td><span class="badge badge-warning">Update</span></td>
+                            <td>Manage Reference Data</td>
+                            <td>Fungsi: 01.01.01 - Updated</td>
+                            <td><span class="badge badge-success">Success</span></td>
                             <td>192.168.20.22</td>
                             <td>
                                 <button class="btn btn-outline" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="viewDetail(5)">
@@ -249,12 +247,12 @@
                             </td>
                         </tr>
                         <tr>
-                            <td>11 Nov 2025<br>13:30:05</td>
+                            <td>13 Nov 2025<br>13:30:05</td>
                             <td>ES4-001</td>
                             <td>Echelon IV DJB</td>
-                            <td><span class="badge badge-danger">Reject</span></td>
-                            <td>Approval</td>
-                            <td>SATKER: 412349</td>
+                            <td><span class="badge badge-danger">Delete</span></td>
+                            <td>Manage Reference Data</td>
+                            <td>Common Code: OLD_CODE_999</td>
                             <td><span class="badge badge-success">Success</span></td>
                             <td>192.168.10.28</td>
                             <td>
@@ -263,23 +261,23 @@
                                 </button>
                             </td>
                         </tr>
-                        <tr style="background-color: #fff3cd;">
-                            <td>11 Nov 2025<br>13:15:47</td>
-                            <td>UNKNOWN</td>
-                            <td>-</td>
-                            <td><span class="badge badge-danger">Failed Login</span></td>
-                            <td>Authentication</td>
-                            <td>Login attempt (3rd fail)</td>
-                            <td><span class="badge badge-danger">Failed</span></td>
-                            <td>203.89.15.42</td>
+                        <tr>
+                            <td>13 Nov 2025<br>13:15:47</td>
+                            <td>ES2-001</td>
+                            <td>Echelon II DJB</td>
+                            <td><span class="badge badge-info">View</span></td>
+                            <td>Reports</td>
+                            <td>Laporan Revisi - November 2025</td>
+                            <td><span class="badge badge-success">Success</span></td>
+                            <td>192.168.10.25</td>
                             <td>
-                                <button class="btn btn-warning" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="viewDetail(7)">
-                                    ⚠️ Suspicious
+                                <button class="btn btn-outline" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="viewDetail(7)">
+                                    👁️ Detail
                                 </button>
                             </td>
                         </tr>
                         <tr>
-                            <td>11 Nov 2025<br>13:00:12</td>
+                            <td>13 Nov 2025<br>13:00:12</td>
                             <td>ES4-002</td>
                             <td>Echelon IV DJB</td>
                             <td><span class="badge badge-info">Export</span></td>
@@ -293,6 +291,261 @@
                                 </button>
                             </td>
                         </tr>
+                        <tr>
+                            <td>13 Nov 2025<br>12:45:33</td>
+                            <td>ADMIN02</td>
+                            <td>System Admin</td>
+                            <td><span class="badge badge-success">Login</span></td>
+                            <td>Authentication</td>
+                            <td>User login successful</td>
+                            <td><span class="badge badge-success">Success</span></td>
+                            <td>192.168.10.50</td>
+                            <td>
+                                <button class="btn btn-outline" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="viewDetail(9)">
+                                    👁️ Detail
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>13 Nov 2025<br>12:30:18</td>
+                            <td>ES3-002</td>
+                            <td>Echelon III DJB</td>
+                            <td><span class="badge badge-info">Search</span></td>
+                            <td>Monitoring</td>
+                            <td>Search: SATKER 610378</td>
+                            <td><span class="badge badge-success">Success</span></td>
+                            <td>192.168.10.38</td>
+                            <td>
+                                <button class="btn btn-outline" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="viewDetail(10)">
+                                    👁️ Detail
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>13 Nov 2025<br>12:15:55</td>
+                            <td>ES4-003</td>
+                            <td>Echelon IV DJB</td>
+                            <td><span class="badge badge-primary">Create</span></td>
+                            <td>Manage Authority</td>
+                            <td>User Information: USER_NEW_001</td>
+                            <td><span class="badge badge-success">Success</span></td>
+                            <td>192.168.10.45</td>
+                            <td>
+                                <button class="btn btn-outline" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="viewDetail(11)">
+                                    👁️ Detail
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>13 Nov 2025<br>12:00:22</td>
+                            <td>ES1-KL01</td>
+                            <td>Staf Eselon I KL</td>
+                            <td><span class="badge badge-warning">Update</span></td>
+                            <td>Manage Reference Data</td>
+                            <td>Program/Kegiatan: 01.01.01.001</td>
+                            <td><span class="badge badge-success">Success</span></td>
+                            <td>192.168.20.15</td>
+                            <td>
+                                <button class="btn btn-outline" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="viewDetail(12)">
+                                    👁️ Detail
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>13 Nov 2025<br>11:45:10</td>
+                            <td>ES4-001</td>
+                            <td>Echelon IV DJB</td>
+                            <td><span class="badge badge-info">View</span></td>
+                            <td>Dashboard</td>
+                            <td>Dashboard Overview</td>
+                            <td><span class="badge badge-success">Success</span></td>
+                            <td>192.168.10.28</td>
+                            <td>
+                                <button class="btn btn-outline" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="viewDetail(13)">
+                                    👁️ Detail
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>13 Nov 2025<br>11:30:47</td>
+                            <td>ES2-002</td>
+                            <td>Echelon II DJB</td>
+                            <td><span class="badge badge-info">Export</span></td>
+                            <td>Reports</td>
+                            <td>DIPA Petikan Report - 667829</td>
+                            <td><span class="badge badge-success">Success</span></td>
+                            <td>192.168.10.30</td>
+                            <td>
+                                <button class="btn btn-outline" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="viewDetail(14)">
+                                    👁️ Detail
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>13 Nov 2025<br>11:15:25</td>
+                            <td>ADMIN01</td>
+                            <td>System Administrator</td>
+                            <td><span class="badge badge-warning">Update</span></td>
+                            <td>Manage Authority</td>
+                            <td>Authority Code: ROLE_DJA</td>
+                            <td><span class="badge badge-success">Success</span></td>
+                            <td>192.168.20.15</td>
+                            <td>
+                                <button class="btn btn-outline" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="viewDetail(15)">
+                                    👁️ Detail
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>13 Nov 2025<br>11:00:12</td>
+                            <td>ES4-002</td>
+                            <td>Echelon IV DJB</td>
+                            <td><span class="badge badge-danger">Delete</span></td>
+                            <td>Manage Reference Data</td>
+                            <td>Lokasi/KPPN: OLD_LOC_001</td>
+                            <td><span class="badge badge-success">Success</span></td>
+                            <td>192.168.10.42</td>
+                            <td>
+                                <button class="btn btn-outline" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="viewDetail(16)">
+                                    👁️ Detail
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>13 Nov 2025<br>10:45:38</td>
+                            <td>ES3-001</td>
+                            <td>Echelon III DJB</td>
+                            <td><span class="badge badge-info">View</span></td>
+                            <td>Monitor Upload</td>
+                            <td>Status ADK Upload</td>
+                            <td><span class="badge badge-success">Success</span></td>
+                            <td>192.168.10.35</td>
+                            <td>
+                                <button class="btn btn-outline" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="viewDetail(17)">
+                                    👁️ Detail
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>13 Nov 2025<br>10:30:15</td>
+                            <td>ES4-003</td>
+                            <td>Echelon IV DJB</td>
+                            <td><span class="badge badge-primary">Create</span></td>
+                            <td>Manage Basic Information</td>
+                            <td>Budgeting Period: 2026</td>
+                            <td><span class="badge badge-success">Success</span></td>
+                            <td>192.168.10.45</td>
+                            <td>
+                                <button class="btn btn-outline" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="viewDetail(18)">
+                                    👁️ Detail
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>13 Nov 2025<br>10:15:52</td>
+                            <td>ES1-KL02</td>
+                            <td>Staf Eselon I KL</td>
+                            <td><span class="badge badge-info">Export</span></td>
+                            <td>Reports</td>
+                            <td>Matriks Perubahan Report</td>
+                            <td><span class="badge badge-success">Success</span></td>
+                            <td>192.168.20.22</td>
+                            <td>
+                                <button class="btn btn-outline" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="viewDetail(19)">
+                                    👁️ Detail
+                                </button>
+                            </td>
+                        </tr>
+                        <tr style="background-color: #fff3cd;">
+                            <td>13 Nov 2025<br>10:00:30</td>
+                            <td>UNKNOWN</td>
+                            <td>-</td>
+                            <td><span class="badge badge-danger">Failed Login</span></td>
+                            <td>Authentication</td>
+                            <td>Login attempt (3rd fail)</td>
+                            <td><span class="badge badge-danger">Failed</span></td>
+                            <td>203.89.15.42</td>
+                            <td>
+                                <button class="btn btn-warning" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="viewDetail(20)">
+                                    ⚠️ Suspicious
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>13 Nov 2025<br>09:45:18</td>
+                            <td>ES4-001</td>
+                            <td>Echelon IV DJB</td>
+                            <td><span class="badge badge-secondary">Logout</span></td>
+                            <td>Authentication</td>
+                            <td>User logout</td>
+                            <td><span class="badge badge-success">Success</span></td>
+                            <td>192.168.10.28</td>
+                            <td>
+                                <button class="btn btn-outline" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="viewDetail(21)">
+                                    👁️ Detail
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>13 Nov 2025<br>09:30:45</td>
+                            <td>ES2-001</td>
+                            <td>Echelon II DJB</td>
+                            <td><span class="badge badge-info">View</span></td>
+                            <td>Monitoring</td>
+                            <td>Posting dan Create DIPA</td>
+                            <td><span class="badge badge-success">Success</span></td>
+                            <td>192.168.10.25</td>
+                            <td>
+                                <button class="btn btn-outline" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="viewDetail(22)">
+                                    👁️ Detail
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>13 Nov 2025<br>09:15:22</td>
+                            <td>ADMIN02</td>
+                            <td>System Admin</td>
+                            <td><span class="badge badge-warning">Update</span></td>
+                            <td>Manage Reference Data</td>
+                            <td>Penanda Tangan: SIGNEE_001</td>
+                            <td><span class="badge badge-success">Success</span></td>
+                            <td>192.168.10.50</td>
+                            <td>
+                                <button class="btn btn-outline" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="viewDetail(23)">
+                                    👁️ Detail
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>13 Nov 2025<br>09:00:10</td>
+                            <td>ES4-002</td>
+                            <td>Echelon IV DJB</td>
+                            <td><span class="badge badge-info">Search</span></td>
+                            <td>Manage Reference Data</td>
+                            <td>Search: KL/Unit</td>
+                            <td><span class="badge badge-success">Success</span></td>
+                            <td>192.168.10.42</td>
+                            <td>
+                                <button class="btn btn-outline" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="viewDetail(24)">
+                                    👁️ Detail
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>13 Nov 2025<br>08:45:33</td>
+                            <td>ES3-002</td>
+                            <td>Echelon III DJB</td>
+                            <td><span class="badge badge-info">Export</span></td>
+                            <td>Reports</td>
+                            <td>Monitoring PAGU Report</td>
+                            <td><span class="badge badge-success">Success</span></td>
+                            <td>192.168.10.38</td>
+                            <td>
+                                <button class="btn btn-outline" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="viewDetail(25)">
+                                    👁️ Detail
+                                </button>
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -300,7 +553,7 @@
             <!-- Pagination -->
             <div style="display: flex; justify-content: space-between; align-items: center; padding: 1rem 0; border-top: 1px solid var(--border-color);">
                 <div>
-                    Showing 1-8 of 1,847 records
+                    Showing 1-30 of 1,847 records
                 </div>
                 <div style="display: flex; gap: 0.5rem;">
                     <button class="btn btn-outline" style="padding: 0.5rem 1rem;">← Previous</button>
@@ -493,6 +746,31 @@
             alert('Exporting detail log...');
         }
 
+        // Update tanggal menjadi tanggal sekarang
+        function updateDatesToCurrent() {
+            const now = new Date();
+            const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            const day = now.getDate();
+            const month = months[now.getMonth()];
+            const year = now.getFullYear();
+            
+            // Generate waktu dengan interval mundur
+            const tableRows = document.querySelectorAll('#dataTable tr');
+            tableRows.forEach((row, index) => {
+                const timeCell = row.querySelector('td:first-child');
+                if (timeCell) {
+                    // Hitung waktu mundur berdasarkan index (setiap row mundur 15-30 menit)
+                    const minutesAgo = index * 15 + Math.floor(Math.random() * 15);
+                    const date = new Date(now.getTime() - minutesAgo * 60000);
+                    const hours = String(date.getHours()).padStart(2, '0');
+                    const mins = String(date.getMinutes()).padStart(2, '0');
+                    const secs = String(date.getSeconds()).padStart(2, '0');
+                    
+                    timeCell.innerHTML = `${day} ${month} ${year}<br>${hours}:${mins}:${secs}`;
+                }
+            });
+        }
+
         // Close modal when clicking outside
         window.onclick = function(event) {
             const modal = document.getElementById('detailModal');
@@ -500,6 +778,11 @@
                 modal.classList.remove('active');
             }
         }
+
+        // Update tanggal saat halaman dimuat
+        document.addEventListener('DOMContentLoaded', function() {
+            updateDatesToCurrent();
+        });
     </script>
 </body>
 </html>

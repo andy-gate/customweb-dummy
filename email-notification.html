@@ -22,9 +22,9 @@
 
             <!-- Filter dan Pencarian Section -->
             <div class="card">
-                <div style="display: flex; flex-wrap: wrap; gap: 1.5rem; align-items: flex-end; margin-bottom: 1.5rem;">
-                    <!-- Tanggal -->
-                    <div class="form-group" style="flex: 1; min-width: 200px;">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
+                    <!-- Baris 1: Tanggal (Kiri) -->
+                    <div class="form-group">
                         <label class="form-label" style="font-weight: 600; margin-bottom: 0.5rem;">Tanggal <span style="color: red;">*</span> :</label>
                         <div style="display: flex; gap: 0.5rem; align-items: center;">
                             <div style="position: relative; flex: 1;">
@@ -39,8 +39,8 @@
                         </div>
                     </div>
 
-                    <!-- Jenis -->
-                    <div class="form-group" style="flex: 1; min-width: 200px;">
+                    <!-- Baris 1: Jenis (Kanan) -->
+                    <div class="form-group">
                         <label class="form-label" style="font-weight: 600; margin-bottom: 0.5rem;">Jenis :</label>
                         <select class="form-control" id="jenis">
                             <option value="" selected>-- Seleksi --</option>
@@ -53,8 +53,8 @@
                         </select>
                     </div>
 
-                    <!-- Status -->
-                    <div class="form-group" style="flex: 1; min-width: 250px;">
+                    <!-- Baris 2: Status (Kiri) -->
+                    <div class="form-group">
                         <label class="form-label" style="font-weight: 600; margin-bottom: 0.5rem;">Status :</label>
                         <div style="display: flex; flex-wrap: wrap; gap: 1rem;">
                             <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
@@ -72,10 +72,10 @@
                         </div>
                     </div>
 
-                    <!-- Kondisi dan Kata Kunci -->
-                    <div class="form-group" style="flex: 1; min-width: 300px;">
+                    <!-- Baris 2: Kondisi (Kanan) -->
+                    <div class="form-group">
                         <label class="form-label" style="font-weight: 600; margin-bottom: 0.5rem;">Kondisi :</label>
-                        <div style="display: flex; flex-wrap: wrap; gap: 1rem; align-items: center;">
+                        <div style="display: flex; flex-wrap: wrap; gap: 1rem;">
                             <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
                                 <input type="radio" name="kondisi" value="dept">
                                 <span>Dept</span>
@@ -92,16 +92,20 @@
                                 <input type="radio" name="kondisi" value="semua" checked>
                                 <span>Semua</span>
                             </label>
-                            <span style="margin-left: 0.5rem; font-weight: 600;">•Kata kunci :</span>
-                            <input type="text" class="form-control" id="kataKunci" placeholder="Masukkan kata kunci..." style="flex: 1; min-width: 150px;">
                         </div>
                     </div>
+                </div>
 
-                    <!-- Tombol Cari -->
-                    <div class="form-group" style="flex: 0 0 auto;">
-                        <button class="btn btn-primary" onclick="searchData()" style="margin-top: 1.75rem;">
-                            Cari
-                        </button>
+                <!-- Kata Kunci dan Tombol Cari (Full Width) -->
+                <div style="margin-top: 1rem;">
+                    <div class="form-group">
+                        <label class="form-label" style="font-weight: 600; margin-bottom: 0.5rem;">Kata kunci :</label>
+                        <div style="display: flex; gap: 1rem; align-items: flex-end;">
+                            <input type="text" class="form-control" id="kataKunci" placeholder="Masukkan kata kunci..." style="flex: 1; max-width: 500px;">
+                            <button class="btn btn-primary" onclick="searchData()">
+                                Cari
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>

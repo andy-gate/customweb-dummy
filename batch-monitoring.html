@@ -33,7 +33,7 @@
                     </div>
                     <div style="display: flex; align-items: center; gap: 0.5rem;">
                         <label class="form-label" style="margin: 0; min-width: 80px;">Tanggal:</label>
-                        <input type="text" class="form-control" id="tanggalInput" value="25-12-2013" style="width: 120px;">
+                        <input type="text" class="form-control" id="tanggalInput" style="width: 120px;">
                     </div>
                     <div style="display: flex; align-items: center; gap: 0.5rem;">
                         <label class="form-label" style="margin: 0; min-width: 140px;">Refresh Interval(sec):</label>
@@ -97,14 +97,14 @@
 
         // Data batch monitoring
         const batchData = [
-            { batchName: 'XmlUploader2014', count: 2, status: 'Alive', cyde: 1, jumlah: 0, standby: 0, running: 0, completed: 0, fail: 0, hasControl: true },
-            { batchName: 'XmlUploader2015', count: 0, status: 'Dead', cyde: 1, jumlah: 0, standby: 0, running: 0, completed: 0, fail: 0, hasControl: true },
-            { batchName: 'XmlDownloader2014', count: 1, status: 'Alive', cyde: 3, jumlah: 0, standby: 0, running: 0, completed: 0, fail: 0, hasControl: true },
-            { batchName: 'XmlDownloader2015', count: 5, status: 'Alive', cyde: 3, jumlah: 3237, standby: 0, running: 0, completed: 3237, fail: 0, hasControl: true },
-            { batchName: 'XmlValidation2014', count: 2, status: 'Alive', cyde: 3, jumlah: 0, standby: 0, running: 0, completed: 0, fail: 0, hasControl: true },
-            { batchName: 'XmlValidation2015', count: 0, status: 'Dead', cyde: 3, jumlah: 0, standby: 0, running: 0, completed: 0, fail: 0, hasControl: true },
-            { batchName: 'PdfGenerator2014', count: 1, status: 'Alive', cyde: 1, jumlah: 0, standby: 0, running: 0, completed: 0, fail: 0, hasControl: true },
-            { batchName: 'EmailSender2014', count: 1, status: 'Alive', cyde: 3, jumlah: 0, standby: 0, running: 0, completed: 0, fail: 0, hasControl: true },
+            { batchName: 'XmlUploader2024', count: 2, status: 'Alive', cyde: 1, jumlah: 0, standby: 0, running: 0, completed: 0, fail: 0, hasControl: true },
+            { batchName: 'XmlUploader2025', count: 0, status: 'Dead', cyde: 1, jumlah: 0, standby: 0, running: 0, completed: 0, fail: 0, hasControl: true },
+            { batchName: 'XmlDownloader2024', count: 1, status: 'Alive', cyde: 3, jumlah: 0, standby: 0, running: 0, completed: 0, fail: 0, hasControl: true },
+            { batchName: 'XmlDownloader2025', count: 5, status: 'Alive', cyde: 3, jumlah: 3237, standby: 0, running: 0, completed: 3237, fail: 0, hasControl: true },
+            { batchName: 'XmlValidation2024', count: 2, status: 'Alive', cyde: 3, jumlah: 0, standby: 0, running: 0, completed: 0, fail: 0, hasControl: true },
+            { batchName: 'XmlValidation2025', count: 0, status: 'Dead', cyde: 3, jumlah: 0, standby: 0, running: 0, completed: 0, fail: 0, hasControl: true },
+            { batchName: 'PdfGenerator2024', count: 1, status: 'Alive', cyde: 1, jumlah: 0, standby: 0, running: 0, completed: 0, fail: 0, hasControl: true },
+            { batchName: 'EmailSender2024', count: 1, status: 'Alive', cyde: 3, jumlah: 0, standby: 0, running: 0, completed: 0, fail: 0, hasControl: true },
             { batchName: 'ReferenceInterface', count: '-', status: '-', cyde: '-', jumlah: 180, standby: 0, running: 0, completed: 180, fail: 0, hasControl: false },
             { batchName: 'Posting', count: '-', status: '-', cyde: '-', jumlah: 0, standby: 0, running: 0, completed: 0, fail: 0, hasControl: false },
             { batchName: 'Realisasi Collect', count: '-', status: '-', cyde: '-', jumlah: 3, standby: 0, running: 0, completed: 3, fail: 0, hasControl: false },
@@ -195,8 +195,23 @@
             }
         }
 
+        // Set tanggal sekarang
+        function setCurrentDate() {
+            const now = new Date();
+            const day = String(now.getDate()).padStart(2, '0');
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const year = now.getFullYear();
+            const dateString = `${day}-${month}-${year}`;
+            
+            const tanggalInput = document.getElementById('tanggalInput');
+            if (tanggalInput) {
+                tanggalInput.value = dateString;
+            }
+        }
+
         // Load initial data
         document.addEventListener('DOMContentLoaded', function() {
+            setCurrentDate();
             loadTableData();
         });
 

@@ -20,6 +20,38 @@
         <div class="container">
             <h2 style="margin-bottom: 1.5rem;">Copy Data ke Tahun Depan</h2>
 
+            <!-- Konfigurasi Copy Data -->
+            <div class="card" style="margin-bottom: 1.5rem;">
+                <h3 style="margin-bottom: 1rem; font-size: 1.1rem; font-weight: 600;">Konfigurasi Copy Data</h3>
+                <div style="display: flex; gap: 2rem; align-items: flex-end; flex-wrap: wrap;">
+                    <div class="form-group" style="flex: 1; min-width: 200px;">
+                        <label class="form-label" style="font-weight: 600; margin-bottom: 0.5rem;">Tahun Sumber:</label>
+                        <select class="form-control" id="tahunSumber" style="width: 100%;">
+                            <option value="">-- Pilih Tahun Sumber --</option>
+                            <option value="2024">2024</option>
+                            <option value="2025" selected>2025</option>
+                            <option value="2026">2026</option>
+                            <option value="2027">2027</option>
+                        </select>
+                    </div>
+                    <div class="form-group" style="flex: 1; min-width: 200px;">
+                        <label class="form-label" style="font-weight: 600; margin-bottom: 0.5rem;">Tahun Target:</label>
+                        <select class="form-control" id="tahunTarget" style="width: 100%;">
+                            <option value="">-- Pilih Tahun Target --</option>
+                            <option value="2024">2024</option>
+                            <option value="2025">2025</option>
+                            <option value="2026" selected>2026</option>
+                            <option value="2027">2027</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <button class="btn btn-primary" onclick="loadDataByYear()" style="padding: 0.5rem 1.5rem;">
+                            Copy Data
+                        </button>
+                    </div>
+                </div>
+            </div>
+
             <!-- Data Table Section -->
             <div class="card">
                 <div style="display: flex; justify-content: flex-end; gap: 0.5rem; margin-bottom: 1rem; padding: 0 1rem; padding-top: 1rem;">
@@ -268,6 +300,30 @@
             checkboxes.forEach(cb => {
                 cb.checked = checkbox.checked;
             });
+        }
+
+        function loadDataByYear() {
+            const tahunSumber = document.getElementById('tahunSumber').value;
+            const tahunTarget = document.getElementById('tahunTarget').value;
+
+            if (!tahunSumber || !tahunTarget) {
+                alert('Mohon pilih Tahun Sumber dan Tahun Target terlebih dahulu!');
+                return;
+            }
+
+            if (tahunSumber === tahunTarget) {
+                alert('Tahun Sumber dan Tahun Target tidak boleh sama!');
+                return;
+            }
+
+            // Di sini bisa ditambahkan logika untuk load data berdasarkan tahun
+            alert(`Memuat data dari tahun ${tahunSumber} ke tahun ${tahunTarget}...`);
+            // Contoh: fetch data dari server berdasarkan tahun sumber dan target
+            // fetch(`/api/copy-data?tahunSumber=${tahunSumber}&tahunTarget=${tahunTarget}`)
+            //     .then(response => response.json())
+            //     .then(data => {
+            //         // Update tabel dengan data baru
+            //     });
         }
     </script>
 

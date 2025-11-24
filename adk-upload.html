@@ -213,14 +213,34 @@
                                 </button>
                             </td>
                         </tr>
+                        <tr style="background-color: #fee2e2;">
+                            <td>4</td>
+                            <td>14:40:10</td>
+                            <td>412351</td>
+                            <td>Kantor Wilayah Yogyakarta</td>
+                            <td><span class="badge badge-info">Initial</span></td>
+                            <td><span class="badge badge-danger">❌ Failed</span></td>
+                            <td>
+                                <div style="width: 100%; background-color: var(--danger-color); border-radius: 4px; height: 20px; display: flex; align-items: center; justify-content: center; color: white; font-size: 0.75rem;">
+                                    Failed
+                                </div>
+                            </td>
+                            <td>2.5 MB</td>
+                            <td>
+                                <button class="btn btn-danger" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="viewDetailFailed('412351')">
+                                    ⚠️ Detail
+                                </button>
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
 
             <div style="margin-top: 1rem;">
-                <span class="badge badge-info">3 items in queue</span>
+                <span class="badge badge-info">4 items in queue</span>
                 <span class="badge badge-warning" style="margin-left: 0.5rem;">1 in progress</span>
                 <span class="badge badge-success" style="margin-left: 0.5rem;">1 ready to process</span>
+                <span class="badge badge-danger" style="margin-left: 0.5rem;">1 failed</span>
             </div>
         </div>
 
@@ -284,17 +304,114 @@
                                 <button class="btn btn-outline" style="padding: 0.25rem 0.75rem; font-size: 0.875rem;" onclick="viewDetail('412350')">📋 Detail</button>
                             </td>
                         </tr>
+                        <tr style="background-color: #fee2e2;">
+                            <td>10:20:15</td>
+                            <td>412352</td>
+                            <td>Kantor Wilayah Semarang</td>
+                            <td>2.1 MB</td>
+                            <td><span class="badge badge-info">Initial</span></td>
+                            <td>🔗 SAKTI API</td>
+                            <td><span class="badge badge-danger">❌ Failed</span></td>
+                            <td>
+                                <button class="btn btn-danger" style="padding: 0.25rem 0.75rem; font-size: 0.875rem;" onclick="viewDetailFailed('412352')">⚠️ Detail</button>
+                            </td>
+                        </tr>
+                        <tr style="background-color: #fee2e2;">
+                            <td>09:45:30</td>
+                            <td>412353</td>
+                            <td>Kantor Wilayah Palembang</td>
+                            <td>1.8 MB</td>
+                            <td><span class="badge badge-warning">Revision</span></td>
+                            <td>🔗 SAKTI API</td>
+                            <td><span class="badge badge-danger">❌ Failed</span></td>
+                            <td>
+                                <button class="btn btn-danger" style="padding: 0.25rem 0.75rem; font-size: 0.875rem;" onclick="viewDetailFailed('412353')">⚠️ Detail</button>
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
 
             <div style="margin-top: 1rem; padding: 1rem; background-color: var(--light-color); border-radius: 4px;">
                 <strong>📊 Summary Hari Ini:</strong>
-                <span style="margin-left: 1rem;">Total Diterima: <strong>47 ADK</strong></span>
+                <span style="margin-left: 1rem;">Total Diterima: <strong>50 ADK</strong></span>
                 <span style="margin-left: 1rem;">Processed: <strong>45</strong></span>
                 <span style="margin-left: 1rem;">In Queue: <strong>2</strong></span>
+                <span style="margin-left: 1rem; color: var(--danger-color);">Failed: <strong>3</strong></span>
             </div>
         </div>
+        </div>
+    </div>
+
+    <!-- Detail Failed Modal -->
+    <div id="detailFailedModal" class="modal">
+        <div class="modal-content" style="max-width: 800px; width: 90%;">
+            <div class="modal-header" style="background-color: #fee2e2; border-bottom: 2px solid var(--danger-color);">
+                <h3 style="color: var(--danger-color); margin: 0;">⚠️ Detail Penerimaan ADK Gagal</h3>
+                <button class="modal-close" onclick="closeFailedModal()" style="color: var(--danger-color);">&times;</button>
+            </div>
+
+            <div style="padding: 1.5rem;">
+                <!-- Info Section -->
+                <div style="margin-bottom: 1.5rem;">
+                    <h4 style="margin-bottom: 1rem; color: var(--text-primary);">📋 Informasi Penerimaan</h4>
+                    <div class="grid grid-2" style="gap: 1rem;">
+                        <div>
+                            <label style="font-weight: 600; color: var(--text-secondary); font-size: 0.875rem;">Kode SATKER</label>
+                            <div style="font-size: 1rem; margin-top: 0.25rem;" id="failedSatkerCode">-</div>
+                        </div>
+                        <div>
+                            <label style="font-weight: 600; color: var(--text-secondary); font-size: 0.875rem;">Nama SATKER</label>
+                            <div style="font-size: 1rem; margin-top: 0.25rem;" id="failedSatkerName">-</div>
+                        </div>
+                        <div>
+                            <label style="font-weight: 600; color: var(--text-secondary); font-size: 0.875rem;">Tipe Data</label>
+                            <div style="font-size: 1rem; margin-top: 0.25rem;" id="failedDataType">-</div>
+                        </div>
+                        <div>
+                            <label style="font-weight: 600; color: var(--text-secondary); font-size: 0.875rem;">Waktu Request</label>
+                            <div style="font-size: 1rem; margin-top: 0.25rem;" id="failedRequestTime">-</div>
+                        </div>
+                        <div>
+                            <label style="font-weight: 600; color: var(--text-secondary); font-size: 0.875rem;">File Size</label>
+                            <div style="font-size: 1rem; margin-top: 0.25rem;" id="failedFileSize">-</div>
+                        </div>
+                        <div>
+                            <label style="font-weight: 600; color: var(--text-secondary); font-size: 0.875rem;">Source</label>
+                            <div style="font-size: 1rem; margin-top: 0.25rem;">🔗 SAKTI API</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Error Details Section -->
+                <div style="margin-bottom: 1.5rem;">
+                    <h4 style="margin-bottom: 1rem; color: var(--danger-color);">❌ Detail Error</h4>
+                    <div style="background-color: #fee2e2; border: 1px solid var(--danger-color); border-radius: 4px; padding: 1rem;">
+                        <div style="margin-bottom: 0.75rem;">
+                            <label style="font-weight: 600; color: var(--text-secondary); font-size: 0.875rem;">Error Code</label>
+                            <div style="font-size: 1rem; margin-top: 0.25rem; font-family: monospace; color: var(--danger-color);" id="failedErrorCode">-</div>
+                        </div>
+                        <div style="margin-bottom: 0.75rem;">
+                            <label style="font-weight: 600; color: var(--text-secondary); font-size: 0.875rem;">Error Message</label>
+                            <div style="font-size: 1rem; margin-top: 0.25rem; color: var(--danger-color);" id="failedErrorMessage">-</div>
+                        </div>
+                        <div>
+                            <label style="font-weight: 600; color: var(--text-secondary); font-size: 0.875rem;">Keterangan</label>
+                            <div style="font-size: 0.875rem; margin-top: 0.25rem; color: var(--text-primary); line-height: 1.5;" id="failedErrorDetail">-</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div style="display: flex; gap: 1rem; justify-content: flex-end; margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--border-color);">
+                    <button class="btn btn-secondary" onclick="closeFailedModal()">
+                        Tutup
+                    </button>
+                    <button class="btn btn-primary" onclick="retryRequest()" style="background-color: var(--primary-color);">
+                        🔄 Request Ulang
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -384,6 +501,110 @@
 
         function viewDetail(satkerCode) {
             alert(`📋 Menampilkan detail penerimaan ADK untuk SATKER: ${satkerCode}\n\nInformasi:\n- Source: SAKTI API\n- Transfer Time: 3.2 seconds\n- File Integrity: Valid\n- Digital Stamp: Verified\n- Status: Processed & Submitted`);
+        }
+
+        // Sample failed data
+        const failedData = {
+            '412351': {
+                satkerCode: '412351',
+                satkerName: 'Kantor Wilayah Yogyakarta',
+                dataType: 'Initial',
+                requestTime: '14:40:10',
+                fileSize: '2.5 MB',
+                errorCode: 'ERR_SAKTI_001',
+                errorMessage: 'Connection Timeout',
+                errorDetail: 'Koneksi ke SAKTI API terputus saat transfer data. File tidak lengkap diterima. Silakan request ulang untuk mendapatkan data yang lengkap.'
+            },
+            '412352': {
+                satkerCode: '412352',
+                satkerName: 'Kantor Wilayah Semarang',
+                dataType: 'Initial',
+                requestTime: '10:20:15',
+                fileSize: '2.1 MB',
+                errorCode: 'ERR_SAKTI_002',
+                errorMessage: 'Invalid File Format',
+                errorDetail: 'Format file ADK yang diterima tidak valid atau corrupt. File mungkin rusak saat transfer. Silakan request ulang untuk mendapatkan file yang valid.'
+            },
+            '412353': {
+                satkerCode: '412353',
+                satkerName: 'Kantor Wilayah Palembang',
+                dataType: 'Revision',
+                requestTime: '09:45:30',
+                fileSize: '1.8 MB',
+                errorCode: 'ERR_SAKTI_003',
+                errorMessage: 'Authentication Failed',
+                errorDetail: 'Autentikasi ke SAKTI API gagal. Token mungkin expired atau tidak valid. Silakan request ulang setelah memastikan koneksi SAKTI aktif.'
+            }
+        };
+
+        let currentFailedSatker = null;
+
+        function viewDetailFailed(satkerCode) {
+            currentFailedSatker = satkerCode;
+            const data = failedData[satkerCode];
+            
+            if (!data) {
+                alert('Data tidak ditemukan');
+                return;
+            }
+
+            // Populate modal
+            document.getElementById('failedSatkerCode').textContent = data.satkerCode;
+            document.getElementById('failedSatkerName').textContent = data.satkerName;
+            document.getElementById('failedDataType').innerHTML = `<span class="badge badge-${data.dataType === 'Initial' ? 'info' : 'warning'}">${data.dataType}</span>`;
+            document.getElementById('failedRequestTime').textContent = data.requestTime;
+            document.getElementById('failedFileSize').textContent = data.fileSize;
+            document.getElementById('failedErrorCode').textContent = data.errorCode;
+            document.getElementById('failedErrorMessage').textContent = data.errorMessage;
+            document.getElementById('failedErrorDetail').textContent = data.errorDetail;
+
+            // Show modal
+            document.getElementById('detailFailedModal').classList.add('active');
+        }
+
+        function closeFailedModal() {
+            document.getElementById('detailFailedModal').classList.remove('active');
+            currentFailedSatker = null;
+        }
+
+        function retryRequest() {
+            if (!currentFailedSatker) {
+                alert('Tidak ada data yang dipilih untuk di-request ulang');
+                return;
+            }
+
+            const data = failedData[currentFailedSatker];
+            
+            if (confirm(`Request ulang data ADK untuk SATKER ${data.satkerCode} (${data.satkerName})?\n\nTipe: ${data.dataType}\n\nSistem akan mengirim request baru ke SAKTI API.`)) {
+                // Show loading
+                const retryBtn = event.target;
+                const originalText = retryBtn.innerHTML;
+                retryBtn.innerHTML = '⏳ Memproses...';
+                retryBtn.disabled = true;
+
+                // Simulate API request
+                setTimeout(() => {
+                    alert(`✅ Request ulang berhasil dikirim!\n\nSATKER: ${data.satkerCode}\nTipe: ${data.dataType}\n\nData akan segera diterima dan muncul di Queue Penerimaan.\n\nEstimasi waktu: 2-5 menit.`);
+                    
+                    // Reset button
+                    retryBtn.innerHTML = originalText;
+                    retryBtn.disabled = false;
+                    
+                    // Close modal
+                    closeFailedModal();
+                    
+                    // Refresh queue
+                    refreshQueue();
+                }, 2000);
+            }
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('detailFailedModal');
+            if (event.target === modal) {
+                closeFailedModal();
+            }
         }
 
         function viewAllHistory() {

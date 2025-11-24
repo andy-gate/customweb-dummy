@@ -88,31 +88,13 @@
                     <span class="badge badge-info">BAB 9</span>
                 </div>
 
-                <!-- Laporan Himpunan -->
-                <div class="report-item" onclick="openReport('himpunan')">
-                    <h4>4. Laporan Himpunan</h4>
-                    <p style="font-size: 0.875rem; color: var(--text-secondary);">
-                        7 Jenis laporan konsolidasi per Departemen (Fungsi, Program, Kegiatan, dll)
-                    </p>
-                    <span class="badge badge-info">BAB 10</span>
-                </div>
-
                 <!-- Laporan DHP -->
                 <div class="report-item" onclick="openReport('dhp')">
-                    <h4>5. Laporan DHP</h4>
+                    <h4>4. Laporan DHP</h4>
                     <p style="font-size: 0.875rem; color: var(--text-secondary);">
                         Daftar Hasil Penelaahan per Unit (special handling untuk Kementerian 999)
                     </p>
                     <span class="badge badge-info">BAB 11</span>
-                </div>
-
-                <!-- Laporan Keppres -->
-                <div class="report-item" onclick="openReport('keppres')">
-                    <h4>6. Laporan Keppres</h4>
-                    <p style="font-size: 0.875rem; color: var(--text-secondary);">
-                        Keputusan Presiden per Unit Eselon I dengan 4 lampiran (Pre-printed/Blank paper)
-                    </p>
-                    <span class="badge badge-info">BAB 12</span>
                 </div>
 
                 <!-- Monitoring PAGU -->
@@ -385,9 +367,7 @@
                 'rka-satker': 'Laporan RKA SATKER',
                 'lampiran-kerja': 'Lampiran Kertas Kerja',
                 'catatan-penelaahan': 'Catatan Penelaahan',
-                'himpunan': 'Laporan Himpunan',
                 'dhp': 'Laporan DHP (Daftar Hasil Penelaahan)',
-                'keppres': 'Laporan Keppres',
                 'pagu': 'Monitoring PAGU',
                 'revisi': 'Laporan Revisi',
                 'matriks': 'Matriks Perubahan',
@@ -409,7 +389,7 @@
                 document.getElementById('revision-params').style.display = 'none';
             }
 
-            if (reportType === 'dipa-induk' || reportType === 'dipa-petikan' || reportType === 'keppres') {
+            if (reportType === 'dipa-induk' || reportType === 'dipa-petikan') {
                 document.getElementById('paper-type').style.display = 'block';
             } else {
                 document.getElementById('paper-type').style.display = 'none';

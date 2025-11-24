@@ -45,16 +45,12 @@ function generateSidebar(activePage) {
                     <a href="rka-satker.html" class="tooltip-item">📄 RKA SATKER</a>
                     <a href="lampiran-kertas-kerja.html" class="tooltip-item">📎 Lampiran Kertas Kerja</a>
                     <a href="dhp.html" class="tooltip-item">📋 DHP</a>
-                    <a href="laporan-himpunan.html" class="tooltip-item">📚 Laporan Himpunan</a>
-                    <a href="laporan-keppres.html" class="tooltip-item">📜 Laporan Keppres</a>
                 </div>
             </div>
             <div class="submenu ${activePage === 'rkakl-reports' ? 'expanded' : ''}">
                 <a href="rka-satker.html" class="submenu-item">📄 RKA SATKER</a>
                 <a href="lampiran-kertas-kerja.html" class="submenu-item">📎 Lampiran Kertas Kerja</a>
                 <a href="dhp.html" class="submenu-item">📋 DHP</a>
-                <a href="laporan-himpunan.html" class="submenu-item">📚 Laporan Himpunan</a>
-                <a href="laporan-keppres.html" class="submenu-item">📜 Laporan Keppres</a>
             </div>
             
             <!-- DIPA Reports -->
@@ -99,30 +95,6 @@ function generateSidebar(activePage) {
                 <a href="laporan-revisi.html" class="submenu-item">🔄 Laporan Revisi</a>
             </div>
             
-            <!-- Monitoring Admin -->
-            <div class="nav-item-parent ${activePage === 'monitoring-admin' ? 'expanded' : ''}" onclick="toggleSubmenu(event)">
-                <div class="main-content">
-                    <span class="icon">⚙️</span>
-                    <span class="text">Monitoring Admin</span>
-                </div>
-                <span class="arrow">▶</span>
-                
-                <!-- Tooltip for collapsed sidebar -->
-                <div class="submenu-tooltip">
-                    <div class="tooltip-header">⚙️ Monitoring Admin</div>
-                    <a href="create-dipa-induk.html" class="tooltip-item">📝 Create DIPA Induk</a>
-                    <a href="create-dipa-petikan.html" class="tooltip-item">📝 Create DIPA Petikan</a>
-                    <a href="posting-interface.html" class="tooltip-item">🔄 Posting Interface</a>
-                    <a href="email-notification.html" class="tooltip-item">📧 Email Notification</a>
-                </div>
-            </div>
-            <div class="submenu ${activePage === 'monitoring-admin' ? 'expanded' : ''}">
-                <a href="create-dipa-induk.html" class="submenu-item">📝 Create DIPA Induk</a>
-                <a href="create-dipa-petikan.html" class="submenu-item">📝 Create DIPA Petikan</a>
-                <a href="posting-interface.html" class="submenu-item">🔄 Posting Interface</a>
-                <a href="email-notification.html" class="submenu-item">📧 Email Notification</a>
-            </div>
-            
             <!-- Manage Basic Information -->
             <div class="nav-item-parent ${activePage === 'manage-basic-info' ? 'expanded' : ''}" onclick="toggleSubmenu(event)">
                 <div class="main-content">
@@ -162,7 +134,6 @@ function generateSidebar(activePage) {
                 <!-- Tooltip for collapsed sidebar -->
                 <div class="submenu-tooltip">
                     <div class="tooltip-header">📚 Manage Reference Data</div>
-                    <a href="upload-bappenas-data.html" class="tooltip-item">📤 Upload BAPPENAS Data</a>
                     <div class="tooltip-item tooltip-subheader tooltip-parent" onclick="event.stopPropagation(); toggleNestedSubmenu(event, this)">📋 Atribut Anggaran ▶</div>
                     <div class="tooltip-nested" style="display: none;">
                         <a href="jenis-belanja-akun.html" class="tooltip-item tooltip-subitem">💰 Jenis Belanja/Akun</a>
@@ -178,11 +149,9 @@ function generateSidebar(activePage) {
                         <a href="penanggung-jawab-kegiatan.html" class="tooltip-item tooltip-subitem">👤 Penanggung Jawab Kegiatan</a>
                         <a href="penanda-tangan.html" class="tooltip-item tooltip-subitem">✍️ Penanda Tangan</a>
                     </div>
-                    <a href="xml-download.html" class="tooltip-item">📥 XML Download</a>
                 </div>
             </div>
             <div class="submenu ${activePage === 'manage-reference-data' ? 'expanded' : ''}">
-                <a href="upload-bappenas-data.html" class="submenu-item">📤 Upload BAPPENAS Data</a>
                 <div class="submenu-parent" onclick="toggleNestedSubmenu(event, this)">
                     <div class="submenu-subheader" style="cursor: pointer; display: flex; justify-content: space-between; align-items: center;">
                         <span>📋 Atribut Anggaran</span>
@@ -208,7 +177,6 @@ function generateSidebar(activePage) {
                     <a href="penanggung-jawab-kegiatan.html" class="submenu-item submenu-subitem">👤 Penanggung Jawab Kegiatan</a>
                     <a href="penanda-tangan.html" class="submenu-item submenu-subitem">✍️ Penanda Tangan</a>
                 </div>
-                <a href="xml-download.html" class="submenu-item">📥 XML Download</a>
             </div>
             
             <!-- Manage Authority/User/Menu -->
@@ -223,12 +191,6 @@ function generateSidebar(activePage) {
                 <div class="submenu-tooltip">
                     <div class="tooltip-header">👥 Manage Authority/User/Menu</div>
                     <a href="manage-common-code.html" class="tooltip-item">📋 Manage Common code</a>
-                    <div class="tooltip-item tooltip-subheader tooltip-parent" onclick="event.stopPropagation(); toggleNestedSubmenu(event, this)">📱 Manage Application ▶</div>
-                    <div class="tooltip-nested" style="display: none;">
-                        <a href="manage-program.html" class="tooltip-item tooltip-subitem">💻 Manage Program</a>
-                        <a href="manage-menu.html" class="tooltip-item tooltip-subitem">📋 Manage Menu</a>
-                        <a href="batch-monitoring.html" class="tooltip-item tooltip-subitem">📊 Batch Monitoring</a>
-                    </div>
                     <div class="tooltip-item tooltip-subheader tooltip-parent" onclick="event.stopPropagation(); toggleNestedSubmenu(event, this)">🔐 Manage Authority ▶</div>
                     <div class="tooltip-nested" style="display: none;">
                         <a href="manage-job-position.html" class="tooltip-item tooltip-subitem">💼 Manage Job position</a>
@@ -242,17 +204,6 @@ function generateSidebar(activePage) {
                 <a href="manage-common-code.html" class="submenu-item">📋 Manage Common code</a>
                 <div class="submenu-parent" onclick="toggleNestedSubmenu(event, this)">
                     <div class="submenu-subheader" style="cursor: pointer; display: flex; justify-content: space-between; align-items: center;">
-                        <span>📱 Manage Application</span>
-                        <span class="nested-arrow">▶</span>
-                    </div>
-                </div>
-                <div class="nested-submenu" style="display: none;">
-                    <a href="manage-program.html" class="submenu-item submenu-subitem">💻 Manage Program</a>
-                    <a href="manage-menu.html" class="submenu-item submenu-subitem">📋 Manage Menu</a>
-                    <a href="batch-monitoring.html" class="submenu-item submenu-subitem">📊 Batch Monitoring</a>
-                </div>
-                <div class="submenu-parent" onclick="toggleNestedSubmenu(event, this)">
-                    <div class="submenu-subheader" style="cursor: pointer; display: flex; justify-content: space-between; align-items: center;">
                         <span>🔐 Manage Authority</span>
                         <span class="nested-arrow">▶</span>
                     </div>
@@ -264,6 +215,11 @@ function generateSidebar(activePage) {
                     <a href="manage-user-information.html" class="submenu-item submenu-subitem">👤 Manage User information</a>
                 </div>
             </div>
+            
+            <a href="batch-monitoring.html" class="nav-item ${activePage === 'batch-monitoring' ? 'active' : ''}">
+                <span class="icon">📊</span>
+                <span class="text">Batch Monitoring</span>
+            </a>
             
             <a href="audit-trail.html" class="nav-item ${activePage === 'audit-trail' ? 'active' : ''}">
                 <span class="icon">🔎</span>
