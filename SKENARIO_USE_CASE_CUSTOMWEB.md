@@ -92,7 +92,7 @@
 
 **Aktor:** User (Admin, Staf Eselon I KL, Echelon IV DJA)
 
-**Tujuan:** Memantau berbagai aspek sistem (upload, validasi, posting, dll) secara real-time
+**Tujuan:** Memantau berbagai aspek sistem (status proses, posting, email notification, dll) secara real-time
 
 **Pra Kondisi:**
 - Pengguna sudah login ke sistem
@@ -102,146 +102,30 @@
 - Data monitoring berhasil ditampilkan sesuai filter
 - User dapat melihat status berbagai proses di sistem
 - Data monitoring dapat diekspor atau di-refresh
+- User dapat melihat informasi email notification dan storage usage
 
 **Skenario normal:**
 
 | Aktor | Sistem |
 |-------|--------|
-| 1. Mengklik menu "Monitoring" | 2. Menampilkan halaman monitoring dengan berbagai tab dan filter |
-| 3. Memilih tab monitoring (Upload, Validasi, Posting, dll) | 4. Menampilkan konten sesuai tab yang dipilih |
-| 5. Mengatur filter pencarian | 6. Menampilkan form filter yang sudah diisi |
-| 7. Mengklik tombol "Search" | 8. Mengambil data sesuai filter dari database |
-| 9. Melihat hasil monitoring | 10. Menampilkan data dalam bentuk grid/tabel sesuai tab yang dipilih |
-| 11. Mengklik tombol "Export" | 12. Mengekspor data monitoring ke file Excel |
-| 13. Mengklik tombol "Refresh" | 14. Memperbarui data monitoring dengan data terbaru |
+| 1. Mengklik menu "Monitoring" | 2. Menampilkan halaman monitoring dengan berbagai tab: Monitoring, Posting dan Create DIPA, Download ADK, Email Notification |
+| 3. Memilih tab "Monitoring" | 4. Menampilkan tabel monitoring dengan kolom status: Penerimaan ADK, Valid ADK, SPRA, Posting, Dipa Creation Induk, Dipa Creation Petikan, Kirim ADK ke SAKTI, Email Notifikasi |
+| 5. Melihat status proses dengan indikator V/X dan timestamp | 6. Menampilkan status V/X dengan format vertikal (V/X di atas, tanggal dan jam di bawah) |
+| 7. Mengklik V/X pada status cell | 8. Men-toggle timestamp pada status cell tersebut |
+| 9. Melihat tombol Retry pada status X di Posting/Kirim ADK ke SAKTI | 10. Menampilkan tombol Retry di bawah status X |
+| 11. Melihat tombol Resend pada status X di Email Notifikasi | 12. Menampilkan tombol Resend di bawah status X |
+| 13. Memilih tab "Posting dan Create DIPA" | 14. Menampilkan tabel data posting dan create DIPA |
+| 15. Memilih tab "Download ADK" | 16. Menampilkan tabel data ADK dengan kolom Tanggal Terima |
+| 17. Memilih tab "Email Notification" | 18. Menampilkan informasi penggunaan storage, status success/fail, dan log pengiriman email |
+| 19. Melihat info penggunaan storage | 20. Menampilkan Total Storage, Digunakan, Tersedia, Email Terkirim, Total Attachment, Rata-rata per Email |
+| 21. Melihat status email | 22. Menampilkan card Success dan Failed dengan jumlah dan persentase |
+| 22. Melihat log pengiriman email | 23. Menampilkan tabel log dengan kolom: No, Tanggal & Waktu, Penerima, Subject, Status, Ukuran, Aksi |
+| 23. Mengatur filter log email (Status, Tanggal, Pencarian) | 24. Menampilkan form filter yang sudah diisi |
+| 25. Mengklik tombol "Refresh" atau "Export Excel" | 26. Memperbarui data atau mengekspor log email ke Excel |
 
 ---
 
-## 5. CREATE DIPA INDUK
-
-**Aktor:** User (Admin, Echelon IV DJA)
-
-**Tujuan:** Membuat DIPA Induk untuk SATKER tertentu
-
-**Pra Kondisi:**
-- Pengguna sudah login ke sistem
-- Data RKAKL sudah ada dan tervalidasi untuk SATKER yang akan dibuat DIPA-nya
-- User memiliki akses untuk membuat DIPA
-
-**Pasca Kondisi:**
-- DIPA Induk berhasil dibuat dan tersimpan di database
-- DIPA Induk dapat di-preview dan dicetak
-- DIPA Induk siap digunakan untuk proses selanjutnya
-
-**Skenario normal:**
-
-| Aktor | Sistem |
-|-------|--------|
-| 1. Mengklik menu "Monitoring Admin" -> "Create DIPA Induk" | 2. Menampilkan halaman Create DIPA Induk dengan form input |
-| 3. Memilih Tahun Anggaran | 4. Menampilkan dropdown tahun anggaran |
-| 5. Memilih Kementerian/Lembaga | 6. Menampilkan dropdown kementerian |
-| 7. Memilih Unit dan SATKER | 8. Menampilkan dropdown unit dan SATKER sesuai pilihan sebelumnya |
-| 9. Mengisi data DIPA Induk (nomor DIPA, tanggal, dll) | 10. Menampilkan form yang sudah terisi |
-| 11. Mengklik tombol "Generate DIPA" | 12. Memproses pembuatan DIPA Induk berdasarkan data yang diinput |
-| 13. Melihat preview DIPA Induk | 14. Menampilkan preview DIPA Induk yang akan dibuat |
-| 15. Mengklik tombol "Simpan" | 16. Menyimpan DIPA Induk ke database dan menampilkan notifikasi sukses |
-| 17. Mengklik tombol "Print" | 18. Mencetak DIPA Induk yang sudah dibuat |
-
----
-
-## 6. CREATE DIPA PETIKAN
-
-**Aktor:** User (Admin, Echelon IV DJA)
-
-**Tujuan:** Membuat DIPA Petikan dari DIPA Induk untuk program/kegiatan tertentu
-
-**Pra Kondisi:**
-- Pengguna sudah login ke sistem
-- DIPA Induk sudah ada di sistem
-- Program/kegiatan sudah terdaftar di DIPA Induk
-
-**Pasca Kondisi:**
-- DIPA Petikan berhasil dibuat dan tersimpan di database
-- DIPA Petikan dapat di-preview dan dicetak
-- DIPA Petikan siap digunakan
-
-**Skenario normal:**
-
-| Aktor | Sistem |
-|-------|--------|
-| 1. Mengklik menu "Monitoring Admin" -> "Create DIPA Petikan" | 2. Menampilkan halaman Create DIPA Petikan dengan form input |
-| 3. Memilih DIPA Induk | 4. Menampilkan dropdown/list DIPA Induk yang tersedia |
-| 5. Memilih program/kegiatan yang akan dibuat petikannya | 6. Menampilkan list program/kegiatan dari DIPA Induk yang dipilih |
-| 7. Mengisi data DIPA Petikan | 8. Menampilkan form yang sudah terisi |
-| 9. Mengklik tombol "Generate DIPA Petikan" | 10. Memproses pembuatan DIPA Petikan berdasarkan DIPA Induk dan program/kegiatan yang dipilih |
-| 11. Melihat preview DIPA Petikan | 12. Menampilkan preview DIPA Petikan yang akan dibuat |
-| 13. Mengklik tombol "Simpan" | 14. Menyimpan DIPA Petikan ke database dan menampilkan notifikasi sukses |
-| 15. Mengklik tombol "Print" | 16. Mencetak DIPA Petikan yang sudah dibuat |
-
----
-
-## 7. POSTING INTERFACE
-
-**Aktor:** User (Admin, Echelon IV DJA)
-
-**Tujuan:** Melakukan posting data yang sudah tervalidasi ke sistem EBS
-
-**Pra Kondisi:**
-- Pengguna sudah login ke sistem
-- Data sudah tervalidasi dan siap untuk diposting
-- Koneksi ke sistem EBS sudah tersedia
-
-**Pasca Kondisi:**
-- Data berhasil diposting ke sistem EBS
-- Status posting tersimpan di database
-- Data yang sudah diposting tidak dapat diubah lagi
-
-**Skenario normal:**
-
-| Aktor | Sistem |
-|-------|--------|
-| 1. Mengklik menu "Monitoring Admin" -> "Posting Interface" | 2. Menampilkan halaman Posting Interface dengan daftar data yang siap diposting |
-| 3. Melihat daftar data yang siap diposting | 4. Menampilkan tabel dengan kolom: No, SATKER, Jenis Data, Tanggal Validasi, Status, Aksi |
-| 5. Memilih data yang akan diposting (checkbox) | 6. Menandai data yang dipilih |
-| 7. Mengklik tombol "Posting ke EBS" | 8. Memproses posting data ke sistem EBS |
-| 9. Melihat progress posting | 10. Menampilkan progress bar dan status posting untuk setiap data |
-| 11. Melihat hasil posting | 12. Menampilkan notifikasi sukses/gagal untuk setiap data yang diposting |
-| 13. Mengklik tombol "Refresh Status" | 14. Memperbarui status posting dari sistem EBS |
-
----
-
-## 8. EMAIL NOTIFICATION
-
-**Aktor:** User (Admin)
-
-**Tujuan:** Mengelola template email notifikasi yang digunakan sistem
-
-**Pra Kondisi:**
-- Pengguna sudah login ke sistem
-- User memiliki akses admin untuk mengelola notifikasi
-
-**Pasca Kondisi:**
-- Template notifikasi berhasil dibuat/diubah dan tersimpan di database
-- Template dapat digunakan untuk mengirim notifikasi
-- Template dapat diuji dengan test send
-
-**Skenario normal:**
-
-| Aktor | Sistem |
-|-------|--------|
-| 1. Mengklik menu "Monitoring Admin" -> "Email Notification" | 2. Menampilkan halaman Email Notification dengan daftar template notifikasi |
-| 3. Melihat daftar template notifikasi | 4. Menampilkan tabel dengan kolom: No, Jenis Notifikasi, Subject, Status, Aksi |
-| 5. Mengklik tombol "Tambah Template" | 6. Menampilkan form untuk membuat template notifikasi baru |
-| 7. Mengisi data template (jenis, subject, body email) | 8. Menampilkan form yang sudah terisi |
-| 9. Mengklik tombol "Simpan" | 10. Menyimpan template notifikasi ke database |
-| 11. Mengklik tombol "Edit" pada salah satu template | 12. Menampilkan form edit dengan data template yang sudah ada |
-| 13. Mengubah isi template | 14. Menampilkan form yang sudah diubah |
-| 15. Mengklik tombol "Simpan" | 16. Menyimpan perubahan template ke database |
-| 17. Mengklik tombol "Test Send" | 18. Mengirim email test dengan template yang dipilih |
-
----
-
-## 9. RKA SATKER
+## 5. RKA SATKER
 
 **Aktor:** User (Admin, Staf Eselon I KL, Echelon IV DJA)
 
@@ -268,7 +152,7 @@
 
 ---
 
-## 10. LAMPIRAN KERTAS KERJA
+## 6. LAMPIRAN KERTAS KERJA
 
 **Aktor:** User (Admin, Staf Eselon I KL, Echelon IV DJA)
 
@@ -295,7 +179,7 @@
 
 ---
 
-## 11. DHP
+## 7. DHP
 
 **Aktor:** User (Admin, Staf Eselon I KL, Echelon IV DJA)
 
@@ -322,61 +206,7 @@
 
 ---
 
-## 12. LAPORAN HIMPUNAN
-
-**Aktor:** User (Admin, Staf Eselon I KL, Echelon IV DJA)
-
-**Tujuan:** Mencetak atau mengekspor laporan Himpunan
-
-**Pra Kondisi:**
-- Pengguna sudah login ke sistem
-- Data RKAKL sudah ada di sistem untuk SATKER yang akan dicetak
-
-**Pasca Kondisi:**
-- Laporan Himpunan berhasil di-generate dalam format yang dipilih (Excel/PDF)
-- Laporan dapat dicetak atau disimpan
-
-**Skenario normal:**
-
-| Aktor | Sistem |
-|-------|--------|
-| 1. Mengklik menu "RKAKL Reports" -> "Laporan Himpunan" | 2. Menampilkan halaman Laporan Himpunan dengan filter pencarian |
-| 3. Mengatur filter (Tahun Anggaran, Kementerian, Unit, SATKER) | 4. Menampilkan form filter yang sudah diisi |
-| 5. Mengklik tombol "Search" | 6. Mengambil data Laporan Himpunan sesuai filter dari database |
-| 7. Melihat hasil pencarian | 8. Menampilkan data Laporan Himpunan dalam bentuk tabel |
-| 9. Mengklik tombol "Export Excel" | 10. Mengekspor data Laporan Himpunan ke file Excel |
-| 11. Mengklik tombol "Print" | 12. Mencetak laporan Laporan Himpunan |
-
----
-
-## 13. LAPORAN KEPPRES
-
-**Aktor:** User (Admin, Staf Eselon I KL, Echelon IV DJA)
-
-**Tujuan:** Mencetak atau mengekspor laporan Keppres
-
-**Pra Kondisi:**
-- Pengguna sudah login ke sistem
-- Data RKAKL sudah ada di sistem untuk SATKER yang akan dicetak
-
-**Pasca Kondisi:**
-- Laporan Keppres berhasil di-generate dalam format yang dipilih (Excel/PDF)
-- Laporan dapat dicetak atau disimpan
-
-**Skenario normal:**
-
-| Aktor | Sistem |
-|-------|--------|
-| 1. Mengklik menu "RKAKL Reports" -> "Laporan Keppres" | 2. Menampilkan halaman Laporan Keppres dengan filter pencarian |
-| 3. Mengatur filter (Tahun Anggaran, Kementerian, Unit, SATKER) | 4. Menampilkan form filter yang sudah diisi |
-| 5. Mengklik tombol "Search" | 6. Mengambil data Laporan Keppres sesuai filter dari database |
-| 7. Melihat hasil pencarian | 8. Menampilkan data Laporan Keppres dalam bentuk tabel |
-| 9. Mengklik tombol "Export Excel" | 10. Mengekspor data Laporan Keppres ke file Excel |
-| 11. Mengklik tombol "Print" | 12. Mencetak laporan Laporan Keppres |
-
----
-
-## 14. PRINTING DIPA INDUK
+## 8. PRINTING DIPA INDUK
 
 **Aktor:** User (Admin, Staf Eselon I KL, Echelon IV DJA)
 
@@ -404,7 +234,7 @@
 
 ---
 
-## 15. PRINTING DIPA PETIKAN
+## 9. PRINTING DIPA PETIKAN
 
 **Aktor:** User (Admin, Staf Eselon I KL, Echelon IV DJA)
 
@@ -432,7 +262,7 @@
 
 ---
 
-## 16. MONITORING PAGU
+## 10. MONITORING PAGU
 
 **Aktor:** User (Admin, Staf Eselon I KL, Echelon IV DJA)
 
@@ -460,7 +290,7 @@
 
 ---
 
-## 17. MATRIKS PERUBAHAN
+## 11. MATRIKS PERUBAHAN
 
 **Aktor:** User (Admin, Staf Eselon I KL, Echelon IV DJA)
 
@@ -488,7 +318,7 @@
 
 ---
 
-## 18. LAPORAN REVISI
+## 12. LAPORAN REVISI
 
 **Aktor:** User (Admin, Staf Eselon I KL, Echelon IV DJA)
 
@@ -516,7 +346,7 @@
 
 ---
 
-## 19. COPY DATA TAHUN DEPAN
+## 13. COPY DATA TAHUN DEPAN
 
 **Aktor:** User (Admin)
 
@@ -537,18 +367,22 @@
 
 | Aktor | Sistem |
 |-------|--------|
-| 1. Mengklik menu "Manage Basic Information" -> "Copy Data ke Tahun Depan" | 2. Menampilkan halaman Copy Data ke Tahun Depan dengan form input |
-| 3. Memilih Tahun Sumber | 4. Menampilkan dropdown tahun sumber |
-| 5. Memilih Tahun Tujuan | 6. Menampilkan dropdown tahun tujuan |
-| 7. Memilih jenis data yang akan di-copy (SATKER, Program, Kegiatan, dll) | 8. Menampilkan checkbox untuk memilih jenis data |
-| 9. Mengklik tombol "Preview" | 10. Menampilkan preview data yang akan di-copy |
-| 11. Mengklik tombol "Copy Data" | 12. Memproses copy data dari tahun sumber ke tahun tujuan |
+| 1. Mengklik menu "Manage Basic Information" -> "Copy Data ke Tahun Depan" | 2. Menampilkan halaman Copy Data ke Tahun Depan dengan konfigurasi copy data di bagian atas |
+| 3. Melihat konfigurasi copy data | 4. Menampilkan form konfigurasi dengan dropdown Tahun Sumber dan Tahun Target |
+| 5. Memilih Tahun Sumber dari dropdown | 6. Menampilkan dropdown tahun sumber dengan pilihan tahun (2024-2028) |
+| 6. Memilih Tahun Target dari dropdown | 7. Menampilkan dropdown tahun target dengan pilihan tahun (2024-2028) |
+| 7. Mengklik tombol "Load Data" | 8. Memvalidasi bahwa tahun sumber dan tahun target sudah dipilih dan tidak sama |
+| 8. Melihat hasil validasi | 9. Menampilkan notifikasi jika tahun sumber dan target belum dipilih atau sama |
+| 9. Melihat data yang dimuat | 10. Menampilkan data dari tahun sumber yang akan di-copy ke tahun target |
+| 10. Memilih jenis data yang akan di-copy (SATKER, Program, Kegiatan, dll) | 11. Menampilkan checkbox untuk memilih jenis data |
+| 11. Mengklik tombol "Preview" | 12. Menampilkan preview data yang akan di-copy |
+| 12. Mengklik tombol "Copy Data" | 13. Memproses copy data dari tahun sumber ke tahun tujuan |
 | 13. Melihat progress copy data | 14. Menampilkan progress bar dan status copy untuk setiap jenis data |
-| 15. Melihat hasil copy data | 16. Menampilkan notifikasi sukses/gagal dan summary data yang berhasil di-copy |
+| 14. Melihat hasil copy data | 15. Menampilkan notifikasi sukses/gagal dan summary data yang berhasil di-copy |
 
 ---
 
-## 20. MANAGE BUDGETING PERIOD
+## 14. MANAGE BUDGETING PERIOD
 
 **Aktor:** User (Admin)
 
@@ -580,7 +414,7 @@
 
 ---
 
-## 21. MANAGE BUDGET SATKER LIST
+## 15. MANAGE BUDGET SATKER LIST
 
 **Aktor:** User (Admin)
 
@@ -615,7 +449,7 @@
 
 ---
 
-## 22. MANAGING NOTIFICATION CONTENTS
+## 16. MANAGING NOTIFICATION CONTENTS
 
 **Aktor:** User (Admin)
 
@@ -647,7 +481,7 @@
 
 ---
 
-## 23. MANAGING DISCLAIMER
+## 17. MANAGING DISCLAIMER
 
 **Aktor:** User (Admin)
 
@@ -678,7 +512,7 @@
 
 ---
 
-## 24. MANAGING JENIS REVISI
+## 18. MANAGING JENIS REVISI
 
 **Aktor:** User (Admin)
 
@@ -707,39 +541,7 @@
 
 ---
 
-## 25. UPLOAD BAPPENAS DATA
-
-**Aktor:** User (Admin)
-
-**Tujuan:** Mengunggah data referensi dari BAPPENAS ke sistem
-
-**Pra Kondisi:**
-- Pengguna sudah login ke sistem
-- User memiliki akses admin
-- File Excel data BAPPENAS sudah disiapkan sesuai format
-
-**Pasca Kondisi:**
-- Data BAPPENAS berhasil di-upload dan tersimpan di database
-- Data yang error ditampilkan untuk diperbaiki
-- Data yang valid dapat digunakan sebagai referensi
-
-**Skenario normal:**
-
-| Aktor | Sistem |
-|-------|--------|
-| 1. Mengklik menu "Manage Reference Data" -> "Upload BAPPENAS Data" | 2. Menampilkan halaman Upload BAPPENAS Data dengan form upload |
-| 3. Memilih jenis data yang akan di-upload | 4. Menampilkan dropdown jenis data (Program, Kegiatan, Output, dll) |
-| 5. Memilih file Excel yang akan di-upload | 6. Menampilkan nama file yang dipilih |
-| 7. Mengklik tombol "Upload" | 8. Memproses upload file Excel |
-| 9. Melihat progress upload | 10. Menampilkan progress bar dan status upload |
-| 11. Melihat hasil validasi data | 12. Menampilkan hasil validasi data (sukses/error) |
-| 13. Melihat data yang berhasil di-upload | 14. Menampilkan tabel data yang berhasil di-upload |
-| 15. Melihat data yang error | 16. Menampilkan tabel data yang error beserta keterangan errornya |
-| 17. Mengklik tombol "Download Template" | 18. Mengunduh template Excel untuk upload data |
-
----
-
-## 26. JENIS BELANJA/AKUN
+## 19. JENIS BELANJA/AKUN
 
 **Aktor:** User (Admin)
 
@@ -776,7 +578,7 @@
 
 ---
 
-## 27. BEBAN/SUMBER DANA
+## 20. BEBAN/SUMBER DANA
 
 **Aktor:** User (Admin)
 
@@ -815,7 +617,7 @@
 
 ---
 
-## 28. FUNGSI
+## 21. FUNGSI
 
 **Aktor:** User (Admin)
 
@@ -852,7 +654,7 @@
 
 ---
 
-## 29. PROGRAM/KEGIATAN
+## 22. PROGRAM/KEGIATAN
 
 **Aktor:** User (Admin)
 
@@ -890,7 +692,7 @@
 
 ---
 
-## 30. ATRIBUT ANGGARAN LAIN-LAIN
+## 23. ATRIBUT ANGGARAN LAIN-LAIN
 
 **Aktor:** User (Admin)
 
@@ -928,7 +730,7 @@
 
 ---
 
-## 31. KL/UNIT
+## 24. KL/UNIT
 
 **Aktor:** User (Admin)
 
@@ -964,7 +766,7 @@
 
 ---
 
-## 32. LOKASI/KPPN
+## 25. LOKASI/KPPN
 
 **Aktor:** User (Admin)
 
@@ -1000,7 +802,7 @@
 
 ---
 
-## 33. PENANGGUNG JAWAB KEGIATAN
+## 26. PENANGGUNG JAWAB KEGIATAN
 
 **Aktor:** User (Admin)
 
@@ -1036,7 +838,7 @@
 
 ---
 
-## 34. PENANDA TANGAN
+## 27. PENANDA TANGAN
 
 **Aktor:** User (Admin)
 
@@ -1074,35 +876,7 @@
 
 ---
 
-## 35. XML DOWNLOAD
-
-**Aktor:** User (Admin, Staf Eselon I KL, Echelon IV DJA)
-
-**Tujuan:** Mengunduh data dalam format XML
-
-**Pra Kondisi:**
-- Pengguna sudah login ke sistem
-- Data yang akan di-download sudah ada di sistem
-
-**Pasca Kondisi:**
-- File XML berhasil di-generate dan diunduh
-- File XML dapat digunakan untuk keperluan integrasi atau backup
-
-**Skenario normal:**
-
-| Aktor | Sistem |
-|-------|--------|
-| 1. Mengklik menu "Manage Reference Data" -> "XML Download" | 2. Menampilkan halaman XML Download dengan tabel data table dan tombol Download |
-| 3. Melihat daftar data table yang tersedia | 4. Menampilkan tabel dengan kolom: No, Checkbox (Select All), Table (nama table seperti T_AKUN, T_BEBAN, T_BKPK, dll) |
-| 5. Mengklik checkbox "Select All" di header | 6. Memilih semua table yang tersedia |
-| 6. Memilih table tertentu dengan checkbox | 7. Menandai table yang dipilih untuk di-download |
-| 7. Melihat table yang sudah terpilih | 8. Menampilkan checkbox yang sudah tercentang |
-| 8. Mengklik tombol "Download" | 9. Memproses generate file XML untuk table yang dipilih dan mengunduh file tersebut |
-| 9. Melihat notifikasi download | 10. Menampilkan notifikasi sukses dan file XML terunduh |
-
----
-
-## 36. MANAGE COMMON CODE
+## 28. MANAGE COMMON CODE
 
 **Aktor:** User (Admin)
 
@@ -1133,74 +907,7 @@
 
 ---
 
-## 37. MANAGE PROGRAM
-
-**Aktor:** User (Admin)
-
-**Tujuan:** Mengelola program aplikasi di sistem
-
-**Pra Kondisi:**
-- Pengguna sudah login ke sistem
-- User memiliki akses admin
-
-**Pasca Kondisi:**
-- Program berhasil ditambah/diubah dan tersimpan di database
-- Program dapat digunakan untuk mengatur akses dan menu
-
-**Skenario normal:**
-
-| Aktor | Sistem |
-|-------|--------|
-| 1. Mengklik menu "Manage Authority/User/Menu" -> "Manage Application" -> "Manage Program" | 2. Menampilkan halaman Manage Program dengan daftar program |
-| 3. Melihat daftar program | 4. Menampilkan tabel dengan kolom: No, Kode Program, Nama Program, Keterangan, Status, Aksi |
-| 5. Mengatur filter pencarian | 6. Menampilkan form filter yang sudah diisi |
-| 7. Mengklik tombol "Search" | 8. Mengambil data sesuai filter dari database |
-| 9. Mengklik tombol "Tambah Program" | 10. Menampilkan form untuk menambah program baru |
-| 11. Mengisi data (Kode Program, Nama Program, Keterangan) | 12. Menampilkan form yang sudah terisi |
-| 13. Mengklik tombol "Simpan" | 14. Menyimpan program ke database |
-| 15. Mengklik tombol "Edit" pada salah satu program | 16. Menampilkan form edit dengan data program yang sudah ada |
-| 17. Mengubah data program | 18. Menampilkan form yang sudah diubah |
-| 19. Mengklik tombol "Simpan" | 20. Menyimpan perubahan program ke database |
-
----
-
-## 38. MANAGE MENU
-
-**Aktor:** User (Admin)
-
-**Tujuan:** Mengelola menu aplikasi di sistem
-
-**Pra Kondisi:**
-- Pengguna sudah login ke sistem
-- User memiliki akses admin
-
-**Pasca Kondisi:**
-- Menu berhasil ditambah/diubah dan tersimpan di database
-- Menu dapat digunakan untuk navigasi dan pengaturan akses
-
-**Skenario normal:**
-
-| Aktor | Sistem |
-|-------|--------|
-| 1. Mengklik menu "Manage Authority/User/Menu" -> "Manage Application" -> "Manage Menu" | 2. Menampilkan halaman Manage Menu dengan daftar menu, pagination, dan search |
-| 3. Melihat daftar menu | 4. Menampilkan tabel dengan kolom: Checkbox, Nomor Menu, Nama Menu, Nama Program, Deskripsi Menu, Urutan Menu, Menu Induk, Aksi (Edit) |
-| 4. Melihat informasi total data dan jumlah per halaman | 5. Menampilkan "Total X | Jumlah per halaman" dengan dropdown pilihan (10, 30, 50, 100) |
-| 5. Mengisi field "Nama Menu" untuk pencarian | 6. Menampilkan field search yang sudah diisi |
-| 6. Melihat hasil pencarian real-time | 7. Memfilter data tabel secara real-time berdasarkan input search |
-| 7. Mengklik tombol "Tambah" | 8. Menampilkan modal form untuk menambah menu baru |
-| 8. Mengisi data (Nomor Menu*, Nama Menu*, Nama Program* dengan autocomplete, Tahun Menu*, Urutan Menu*, Nomor Menu Induk*, Jenis Menu* dropdown, Deskripsi Menu) | 9. Menampilkan form yang sudah terisi dengan autocomplete untuk Nama Program |
-| 9. Mengetik di field "Nama Program" | 10. Menampilkan dropdown autocomplete dengan daftar program yang sesuai dengan input |
-| 10. Memilih program dari autocomplete | 11. Mengisi field Nama Program dengan program yang dipilih |
-| 11. Mengklik tombol "Simpan" | 12. Memvalidasi form dan menyimpan menu ke database, menampilkan notifikasi sukses |
-| 12. Mengklik tombol "Edit" pada salah satu baris menu | 13. Menampilkan modal form edit dengan data menu yang sudah terisi |
-| 13. Mengubah data menu | 14. Menampilkan form yang sudah diubah |
-| 14. Mengklik tombol "Simpan" | 15. Menyimpan perubahan menu ke database dan menampilkan notifikasi sukses |
-| 15. Memilih beberapa menu dengan checkbox | 16. Menandai menu yang dipilih |
-| 16. Mengklik tombol "Hapus" | 17. Menampilkan konfirmasi dan menghapus menu yang dipilih |
-
----
-
-## 39. BATCH MONITORING
+## 29. BATCH MONITORING
 
 **Aktor:** User (Admin)
 
@@ -1220,20 +927,22 @@
 
 | Aktor | Sistem |
 |-------|--------|
-| 1. Mengklik menu "Manage Authority/User/Menu" -> "Manage Application" -> "Batch Monitoring" | 2. Menampilkan halaman Batch Monitoring dengan konfigurasi dan tabel batch job |
-| 3. Melihat konfigurasi monitoring (Server, Auto Refresh, Tanggal, Refresh Interval) | 4. Menampilkan form konfigurasi dengan nilai default |
-| 5. Mengisi Server IP (opsional) | 6. Menampilkan field server yang sudah diisi |
-| 7. Mengaktifkan checkbox "Auto Refresh" | 8. Mengaktifkan auto refresh sesuai interval yang ditentukan |
-| 8. Mengatur Refresh Interval (dalam detik) | 9. Menampilkan field interval yang sudah diisi |
-| 10. Mengklik tombol "Cari" | 11. Mengambil data batch job dari server dan menampilkan di tabel |
-| 12. Melihat daftar batch job | 13. Menampilkan tabel dengan kolom: Batch Name, Count, Status (Alive/Dead), Cyde(sec), Control (tombol G/K), Jumlah, Standby, Running, Completed, Fail |
-| 14. Mengklik tombol "G" (Green/Start) pada batch tertentu | 15. Memulai batch job yang dipilih dan menampilkan notifikasi sukses |
-| 16. Mengklik tombol "K" (Red/Stop) pada batch tertentu | 17. Menghentikan batch job yang sedang berjalan dan menampilkan notifikasi sukses |
-| 18. Melihat status real-time batch (jika auto refresh aktif) | 19. Memperbarui status batch secara otomatis sesuai interval yang ditentukan |
+| 1. Mengklik menu "Batch Monitoring" | 2. Menampilkan halaman Batch Monitoring dengan konfigurasi dan tabel batch job |
+| 3. Melihat konfigurasi monitoring (Server, Auto Refresh, Tanggal, Refresh Interval) | 4. Menampilkan form konfigurasi dengan nilai default, tanggal otomatis terisi dengan tanggal sekarang |
+| 5. Melihat tanggal otomatis terisi | 6. Menampilkan tanggal sekarang dalam format DD-MM-YYYY |
+| 7. Mengisi Server IP (opsional) | 8. Menampilkan field server yang sudah diisi |
+| 9. Mengaktifkan checkbox "Auto Refresh" | 10. Mengaktifkan auto refresh sesuai interval yang ditentukan |
+| 10. Mengatur Refresh Interval (dalam detik) | 11. Menampilkan field interval yang sudah diisi |
+| 12. Mengklik tombol "Cari" | 13. Mengambil data batch job dari server dan menampilkan di tabel |
+| 14. Melihat daftar batch job | 15. Menampilkan tabel dengan kolom: Batch Name (dengan tahun 2024 atau 2025), Count, Status (Alive/Dead), Cyde(sec), Control (tombol G/K), Jumlah, Standby, Running, Completed, Fail |
+| 16. Melihat batch name dengan tahun 2024 atau 2025 | 17. Menampilkan batch name seperti XmlUploader2024, XmlUploader2025, XmlDownloader2024, XmlDownloader2025, dll |
+| 18. Mengklik tombol "G" (Green/Start) pada batch tertentu | 19. Memulai batch job yang dipilih dan menampilkan notifikasi sukses |
+| 20. Mengklik tombol "K" (Red/Stop) pada batch tertentu | 21. Menghentikan batch job yang sedang berjalan dan menampilkan notifikasi sukses |
+| 22. Melihat status real-time batch (jika auto refresh aktif) | 23. Memperbarui status batch secara otomatis sesuai interval yang ditentukan |
 
 ---
 
-## 40. MANAGE JOB POSITION
+## 30. MANAGE JOB POSITION
 
 **Aktor:** User (Admin)
 
@@ -1269,7 +978,7 @@
 
 ---
 
-## 41. MANAGE AUTHORITY CODE
+## 31. MANAGE AUTHORITY CODE
 
 **Aktor:** User (Admin)
 
@@ -1303,7 +1012,7 @@
 
 ---
 
-## 42. MANAGE AUTHORITY OVER MENU
+## 32. MANAGE AUTHORITY OVER MENU
 
 **Aktor:** User (Admin)
 
@@ -1338,7 +1047,7 @@
 
 ---
 
-## 43. MANAGE USER INFORMATION
+## 33. MANAGE USER INFORMATION
 
 **Aktor:** User (Admin)
 
@@ -1378,7 +1087,7 @@
 
 ---
 
-## 44. AUDIT TRAIL
+## 34. AUDIT TRAIL
 
 **Aktor:** User (Admin)
 
@@ -1393,18 +1102,23 @@
 - Data audit trail berhasil ditampilkan sesuai filter
 - User dapat melihat detail aktivitas dan perubahan data
 - Laporan audit trail dapat dicetak atau diekspor
+- Data audit trail menampilkan aktivitas View, Export, Create, Update, Delete, Login, Logout, Search
 
 **Skenario normal:**
 
 | Aktor | Sistem |
 |-------|--------|
-| 1. Mengklik menu "Audit Trail" | 2. Menampilkan halaman Audit Trail dengan filter pencarian |
-| 3. Mengatur filter (Tanggal, User, Aksi, Modul) | 4. Menampilkan form filter yang sudah diisi |
-| 5. Mengklik tombol "Search" | 6. Mengambil data audit trail sesuai filter dari database |
-| 7. Melihat hasil pencarian | 8. Menampilkan tabel audit trail dengan kolom: No, Tanggal/Waktu, User, Modul, Aksi, Detail, IP Address |
-| 9. Mengklik tombol "Detail" pada salah satu record | 10. Menampilkan detail lengkap audit trail (data sebelum dan sesudah perubahan) |
-| 11. Mengklik tombol "Export Excel" | 12. Mengekspor data audit trail ke file Excel |
-| 13. Mengklik tombol "Print" | 14. Mencetak laporan audit trail |
+| 1. Mengklik menu "Audit Trail" | 2. Menampilkan halaman Audit Trail dengan filter pencarian dan quick filter |
+| 3. Melihat quick filter by activity type | 4. Menampilkan tombol filter: All Activities, Login/Logout, Delete, Update, View, Export, Create, Reports |
+| 5. Mengatur filter (User ID, Action Type, Tanggal Dari/Sampai, Module, Status, IP Address) | 6. Menampilkan form filter yang sudah diisi dengan dropdown Action Type (Login, Logout, Reject, Delete, Update, View, Export, Create, Search) |
+| 7. Melihat dropdown Module | 8. Menampilkan dropdown Module (Monitor Upload, Online Review, Dashboard, Reports, Monitoring, Manage Reference Data, Manage Authority) |
+| 9. Mengklik tombol "Search" | 10. Mengambil data audit trail sesuai filter dari database |
+| 10. Melihat hasil pencarian | 11. Menampilkan tabel audit trail dengan kolom: Timestamp, User ID, User Name, Action Type, Module, Target, Status, IP Address, Aksi |
+| 11. Melihat action type yang ditampilkan | 12. Menampilkan action type: View, Export, Create, Update, Delete, Search, Login, Logout (tanpa Upload, Approve, Lock, Unlock) |
+| 12. Melihat timestamp otomatis terupdate | 13. Menampilkan tanggal dan waktu otomatis terisi dengan tanggal sekarang |
+| 13. Mengklik tombol "Detail" pada salah satu record | 14. Menampilkan detail lengkap audit trail (data sebelum dan sesudah perubahan) |
+| 14. Mengklik tombol "Export Excel" | 15. Mengekspor data audit trail ke file Excel |
+| 15. Mengklik tombol "Print Report" | 16. Mencetak laporan audit trail |
 
 ---
 
